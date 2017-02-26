@@ -10,4 +10,8 @@ class CompanyService
   public function getCompanyAll() {
     return Company::all();
   }
+
+  public function getCompanyDropdown() {
+    return Company::pluck('name', 'company_id');
+  }
 }

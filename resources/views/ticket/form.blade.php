@@ -1,6 +1,12 @@
+<?php use App\Models\Enums\TicketStat; ?>
+
 @extends("template")
 
 @section('content')
+    <h1 class="page-title">
+      {{ucfirst($action)}} Ticket
+    </h1>
+
   <div class="portlet light bordered">
     <div class="portlet-body form">
       <div class="tabbable">
@@ -21,23 +27,41 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Name</label>
+                      <label class="control-label col-md-3">Ticket Id</label>
                       <div class="col-md-9">
                         {{Form::text('name', $ticket->name, ['class'=>'form-control'])}}
-                        <span class="help-block"> This is inline help </span>
                       </div>
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="form-group has-error">
-                      <label class="control-label col-md-3">Code</label>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Status</label>
                       <div class="col-md-9">
-                        {{Form::text('code', $ticket->code, ['class'=>'form-control'])}}
+                        {{Form::select('stat', TicketStat::$values, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Company</label>
+                      <div class="col-md-9">
+                        {{Form::select('stat', $companies, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Requester</label>
+                      <div class="col-md-9">
+                        {{Form::select('stat', TicketStat::$values, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
               <div class="form-actions">
                 <div class="row">
                   <div class="col-md-6">
@@ -62,11 +86,11 @@
               </tr>
               </thead>
               <tbody>
-              
+
               </tbody>
             </table>
           </div>
-        
+
         </div>
       </div>
     </div>

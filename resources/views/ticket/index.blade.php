@@ -1,8 +1,19 @@
 <?php use App\Models\Enums\TicketStat; ?>
 
-@extends("template", [ "title"=>"Tickets" ])
+@extends("template")
 
 @section("content")
+  <div class="row">
+    <div class="col-md-6">
+      <h1 class="page-title">
+        Tickets
+      </h1>
+    </div>
+    <div class="col-md-6 text-right">
+      <button type="button" class="btn blue" onclick="location.href='{{url('ticket/save')}}'">Create</button>
+    </div>
+  </div>
+
   <div class="portlet light bordered">
     <div class="portlet-body">
       <form action="" method="post">

@@ -8,7 +8,7 @@ abstract class TicketStat {
   
   static $values = [
     ''=>'',
-    self::Open=>'Active',
+    self::Open=>'Open',
     self::Acknowledged=>'Acknowledged',
     self::Completed=>'Completed',
     self::Paid=>'Paid',

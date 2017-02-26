@@ -33,5 +33,17 @@ Route::post('ticket/save', 'TicketController@save');
 Route::get('ticket/save/{id}', 'TicketController@save');
 Route::post('ticket/save/{id}', 'TicketController@save');
 
+Route::get('staff', 'StaffController@index');
+Route::get('staff/save', 'StaffController@save');
+Route::post('staff/save', 'StaffController@save');
+Route::get('staff/save/{id}', 'StaffController@save');
+Route::post('staff/save/{id}', 'StaffController@save');
+
+Route::get('skill', 'SkillController@index');
+Route::get('skill/save', 'SkillController@save');
+Route::post('skill/save', 'SkillController@save');
+Route::get('skill/save/{id}', 'SkillController@save');
+Route::post('skill/save/{id}', 'SkillController@save');
+
 Route::get('sale', 'SaleController@index');
 Route::get('test', 'SiteController@test');

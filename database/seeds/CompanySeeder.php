@@ -12,5 +12,12 @@ class CompanySeeder extends Seeder
         'updated_by'=>'admin',
         'updated_on'=>date('Y-m-d H:i:s')
       ]);
+
+      DB::table('company')->insert([
+        'company_id'=>2,
+        'name'=>'Zendesk',
+        'updated_by'=>'admin',
+        'updated_on'=>date('Y-m-d H:i:s')
+      ]);
     }
 }

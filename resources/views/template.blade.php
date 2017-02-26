@@ -493,6 +493,7 @@ License: You must have a valid license purchased only from themeforest(the above
         ['link' => url("/"), 'text'=>'Dashboard'],
         ['link' => url("company"), 'text'=>'Companies'],
         ['link' => url("staff"), 'text'=>'Staffs'],
+        ['link' => url("skill"), 'text'=>'Skills'],
         ['link' => url("ticket"), 'text'=>'Tickets'],
         ['link' => url("outlet"), 'text'=>'Outlets'],
         ['link' => url("user"), 'text'=>'Users'],
@@ -518,13 +519,6 @@ License: You must have a valid license purchased only from themeforest(the above
   <div class="page-content-wrapper">
     <!-- BEGIN CONTENT BODY -->
     <div class="page-content">
-      <!-- BEGIN PAGE HEADER-->
-      @if(isset($title))
-        <h1 class="page-title">
-          {{$title}}
-        </h1>
-      @endif
-  
       @yield('content')
     </div>
     <!-- END CONTENT BODY -->
@@ -1162,6 +1156,7 @@ License: You must have a valid license purchased only from themeforest(the above
   <script src="{{asset('assets/metronic/layouts/global/scripts/quick-nav.min.js')}}" type="text/javascript"></script>
   <!-- END THEME LAYOUT SCRIPTS -->
   <script src="{{asset('assets/metronic/global/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('js/vue.js')}}" type="text/javascript"></script>
 
   @section('script')
     
