@@ -1,8 +1,19 @@
-<?php use App\Models\Enums\CompanyStat; ?>
+<?php use App\Models\Enums\StaffStat; ?>
 
-@extends("template", [ "title"=>"Companies" ])
+@extends("template")
 
 @section("content")
+  <div class="row">
+    <div class="col-md-6">
+      <h1 class="page-title">
+        Staffs
+      </h1>
+    </div>
+    <div class="col-md-6 text-right">
+      <button type="button" class="btn blue" onclick="location.href='{{url('staff/save')}}'">Create</button>
+    </div>
+  </div>
+
   <div class="portlet light bordered">
     <div class="portlet-body">
       @if(Session::has('search_result'))

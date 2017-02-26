@@ -1,11 +1,13 @@
 <?php use App\Models\Enums\TicketStat; ?>
+<?php use App\Models\Enums\TicketUrgency; ?>
+<?php use App\Models\Enums\TicketPriority; ?>
 
 @extends("template")
 
 @section('content')
-    <h1 class="page-title">
-      {{ucfirst($action)}} Ticket
-    </h1>
+  <h1 class="page-title">
+    {{ucfirst($action)}} Ticket
+  </h1>
 
   <div class="portlet light bordered">
     <div class="portlet-body form">
@@ -53,9 +55,109 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
+                      <label class="control-label col-md-3">Urgency</label>
+                      <div class="col-md-9">
+                        {{Form::select('stat', TicketUrgency::$values, $ticket->urgency, ['class'=>'form-control', 'placeholder'=>''])}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Office</label>
+                      <div class="col-md-9">
+                        {{Form::select('stat', $companies, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Priority</label>
+                      <div class="col-md-9">
+                        {{Form::select('stat', TicketPriority::$values, $ticket->priority, ['class'=>'form-control', 'placeholder'=>''])}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
                       <label class="control-label col-md-3">Requester</label>
                       <div class="col-md-9">
-                        {{Form::select('stat', TicketStat::$values, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('stat', $companies, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Requested On</label>
+                      <div class="col-md-9">
+                        {{Form::text('requested_on', $ticket->requested_on, ['class'=>'form-control', 'placeholder'=>''])}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="control-label col-md-2">Preferred Date Time</label>
+                      <div class="col-md-10">
+                        <table class="table table-hover table-bordered">
+                          <thead>
+                          <tr>
+                            <th width="210px">Date</th>
+                            <th>Time</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          @foreach($ticket->preferred_datetime as $p)
+                            <tr>
+                              <td>
+                                {{ViewHelper::formatDate($p->date_from)}}
+                                to {{ViewHelper::formatDate($p->date_to)}}
+                              </td>
+                              <td>
+                                {{ViewHelper::formatTime($p->time_from)}}
+                                to {{ViewHelper::formatTime($p->time_to)}}
+                              </td>
+                            </tr>
+                          @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="control-label col-md-2">Staff Assignment</label>
+                      <div class="col-md-10">
+                        <table class="table table-hover table-bordered">
+                          <thead>
+                          <tr>
+                            <th>Staff</th>
+                            <th width="210px">Date</th>
+                            <th>Time</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          @foreach($ticket->staff_assignment as $a)
+                            <tr>
+                              <td>{{$a->staff_id}}</td>
+                              <td>
+                                {{ViewHelper::formatDate($a->date_from)}}
+                                to {{ViewHelper::formatDate($a->date_to)}}
+                              </td>
+                              <td>
+                                {{ViewHelper::formatTime($a->time_from)}}
+                                to {{ViewHelper::formatTime($a->time_to)}}
+                              </td>
+                            </tr>
+                          @endforeach
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>

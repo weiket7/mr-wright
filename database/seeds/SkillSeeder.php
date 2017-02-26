@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Enums\UserType;
 use Illuminate\Database\Seeder;
 
 class SkillSeeder extends Seeder

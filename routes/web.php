@@ -19,19 +19,23 @@ Route::post('product/save', 'ProductController@save');
 Route::get('product/save/{id}', 'ProductController@save');
 Route::post('product/save/{id}', 'ProductController@save');
 
-
 Route::get('company', 'CompanyController@index');
 Route::get('company/save', 'CompanyController@save');
 Route::post('company/save', 'CompanyController@save');
 Route::get('company/save/{id}', 'CompanyController@save');
 Route::post('company/save/{id}', 'CompanyController@save');
 
-
 Route::get('ticket', 'TicketController@index');
 Route::get('ticket/save', 'TicketController@save');
 Route::post('ticket/save', 'TicketController@save');
 Route::get('ticket/save/{id}', 'TicketController@save');
 Route::post('ticket/save/{id}', 'TicketController@save');
+
+Route::get('quotation', 'QuotationController@index');
+Route::get('quotation/save', 'QuotationController@save');
+Route::post('quotation/save', 'QuotationController@save');
+Route::get('quotation/save/{id}', 'QuotationController@save');
+Route::post('quotation/save/{id}', 'QuotationController@save');
 
 Route::get('staff', 'StaffController@index');
 Route::get('staff/save', 'StaffController@save');

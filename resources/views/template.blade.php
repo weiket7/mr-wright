@@ -492,10 +492,13 @@ License: You must have a valid license purchased only from themeforest(the above
       <?php $menu = [
         ['link' => url("/"), 'text'=>'Dashboard'],
         ['link' => url("company"), 'text'=>'Companies'],
+        ['link' => url("office"), 'text'=>'Offices'],
+        ['link' => url("requester"), 'text'=>'Requesters'],
         ['link' => url("staff"), 'text'=>'Staffs'],
         ['link' => url("skill"), 'text'=>'Skills'],
         ['link' => url("ticket"), 'text'=>'Tickets'],
-        ['link' => url("outlet"), 'text'=>'Outlets'],
+        ['link' => url("quotation"), 'text'=>'Quotations'],
+        ['link' => url("invoice"), 'text'=>'Invoices'],
         ['link' => url("user"), 'text'=>'Users'],
       ];?>
   
