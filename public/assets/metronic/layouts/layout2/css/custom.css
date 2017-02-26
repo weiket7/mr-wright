@@ -1,0 +1,7 @@
+.portlet.light>.portlet-title {
+  padding: 10px 0 0 0;
+}
+
+.page-container-bg-solid .page-title, .page-container-bg-solid .page-title small {
+  color: #333;
+}
