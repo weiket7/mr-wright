@@ -5,7 +5,7 @@
 @extends("template")
 
 @section('content')
-  <h1 class="page-title">
+  <h1 class="page-title" xmlns:v-on="http://www.w3.org/1999/xhtml">
     {{ucfirst($action)}} Ticket
   </h1>
 
@@ -42,11 +42,11 @@
                       <label class="control-label col-md-3">Ticket Id</label>
                       <div class="col-md-9">
                         <div class="form-control-static">
-                        @if($action == 'update')
-                          {{ $ticket->ticket_id }}
-                        @else
-                          -
-                        @endif
+                          @if($action == 'update')
+                            {{ $ticket->ticket_id }}
+                          @else
+                            -
+                          @endif
                         </div>
                       </div>
                     </div>
@@ -56,11 +56,11 @@
                       <label class="control-label col-md-3">Status</label>
                       <div class="col-md-9">
                         <div class="form-control-static">
-                        @if($action == 'create')
-                          {{ TicketStat::$values[TicketStat::Open] }}
-                        @else
-                          {{ TicketStat::$values[$ticket->stat] }}
-                        @endif
+                          @if($action == 'create')
+                            {{ TicketStat::$values[TicketStat::Open] }}
+                          @else
+                            {{ TicketStat::$values[$ticket->stat] }}
+                          @endif
                         </div>
                       </div>
                     </div>
@@ -143,30 +143,32 @@
                   </div>
                 </div>
                 @if($action == 'update')
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="control-label col-md-3">Opened By</label>
-                      <div class="col-md-9">
-                        <div class="form-control-static">{{ $ticket->opened_by }}</div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Opened By</label>
+                        <div class="col-md-9">
+                          <div class="form-control-static">{{ $ticket->opened_by }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Opened On</label>
+                        <div class="col-md-9">
+                          <div class="form-control-static">{{ ViewHelper::getNowFormatted() }}</div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="control-label col-md-3">Opened On</label>
-                      <div class="col-md-9">
-                        <div class="form-control-static">{{ ViewHelper::getNowFormatted() }}</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 @endif
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="control-label col-md-2">Images</label>
                       <div class="col-md-10">
+                        <input type="hidden" v-bind:value="imagesCount">
+
                         <table class="table table-hover table-bordered">
                           <thead>
                           <tr>
@@ -176,12 +178,13 @@
                           </tr>
                           </thead>
                           <tbody>
-                          <tr v-for="image in images">
+                          <tr v-for="(image, index) in images">
                             <td>
-                              <input type="file">
+                              <div v-bind:id="'preview-image' + index"></div>
+                              <input type="file" v-bind:name="'image' + index" v-on:change="previewImage(index,$event)">
                             </td>
-                            <td><textarea class="form-control" placeholder="Issue"></textarea></td>
-                            <td><textarea class="form-control" placeholder="Expected"></textarea></td>
+                            <td><textarea v-bind:name="'issue' + index" class="form-control" placeholder="Issue"></textarea></td>
+                            <td><textarea v-bind:name="'expected' + index"  class="form-control" placeholder="Expected"></textarea></td>
                           </tr>
                           </tbody>
                           <tfoot>
@@ -307,31 +310,29 @@
         images: []
       },
       computed: {
-        images_json: function() {
-          return JSON.stringify(this.images);
+        imagesCount: function() {
+          return this.images.length;
         }
       },
       methods: {
         addImage: function() {
           this.images.push({image:'', 'issue':'', 'expected':''});
+        },
+        previewImage: function(index,e) {
+
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            var img = $('<img/>', {
+              width:250,
+              height:200,
+              src: e.target.result
+            });
+            $('#preview-image'+index).html(img);
+          }
+          var file = e.target.files[0];
+          reader.readAsDataURL(file);
         }
       }
-    });
-
-    function previewImage(input, targetId) {
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-          $('#blah').attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-
-    $("#imgInp").change(function(){
-      readURL(this);
     });
   </script>
 @endsection
