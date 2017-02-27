@@ -10,13 +10,19 @@ class TicketTable extends Migration
   {
     Schema::create('ticket', function(Blueprint $t) {
       $t->increments('ticket_id');
-      $t->string('name', 50);
+      $t->char('stat', 1);
+      $t->string('title', 100);
       $t->integer('company_id');
       $t->integer('office_id');
-      $t->integer('requester_id');
-      $t->char('urgency');
-      $t->char('priority');
-
+      $t->integer('category_id');
+      $t->string('category_name', 30);
+      $t->char('urgency', 1);
+      $t->string('requester_desc', 250);
+      $t->string('operator_desc', 250);
+      
+      $t->string('opened_by', 20);
+      $t->dateTime('opened_on');
+      $t->string('requested_by', 20);
       $t->dateTime('requested_on');
       $t->string('updated_by', 20);
       $t->dateTime('updated_on');

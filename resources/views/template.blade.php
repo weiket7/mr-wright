@@ -34,6 +34,13 @@ License: You must have a valid license purchased only from themeforest(the above
   <link href="{{asset('assets/metronic/global/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('assets/metronic/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}" rel="stylesheet" type="text/css" />
   <!-- END GLOBAL MANDATORY STYLES -->
+  <!-- BEGIN PAGE LEVEL PLUGINS -->
+  <link href="{{asset('assets/metronic/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('assets/metronic/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('assets/metronic/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('assets/metronic/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('assets/metronic/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
+  <!-- END PAGE LEVEL PLUGINS -->
   <!-- BEGIN THEME GLOBAL STYLES -->
   <link href="{{asset('assets/metronic/global/css/components.min.css')}}" rel="stylesheet" id="style_components" type="text/css" />
   <link href="{{asset('assets/metronic/global/css/plugins.min.css')}}" rel="stylesheet" type="text/css" />
@@ -1149,6 +1156,13 @@ License: You must have a valid license purchased only from themeforest(the above
   <script src="{{asset('assets/metronic/global/plugins/jquery.blockui.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}" type="text/javascript"></script>
   <!-- END CORE PLUGINS -->
+  <!-- BEGIN PAGE LEVEL PLUGINS -->
+  <script src="{{asset('assets/metronic/global/plugins/moment.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('assets/metronic/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('assets/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('assets/metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('assets/metronic/global/plugins/bootstrap-toastr/toastr.min.js')}}" type="text/javascript"></script>
+  <!-- END PAGE LEVEL PLUGINS -->
   <!-- BEGIN THEME GLOBAL SCRIPTS -->
   <script src="{{asset('assets/metronic/global/scripts/app.min.js')}}" type="text/javascript"></script>
   <!-- END THEME GLOBAL SCRIPTS -->
@@ -1161,8 +1175,21 @@ License: You must have a valid license purchased only from themeforest(the above
   <script src="{{asset('assets/metronic/global/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('js/vue.js')}}" type="text/javascript"></script>
 
+  <script>
+    $(document).ready(function() {
+      toastr.options.positionClass = "toast-top-center";
+      toastr.options.preventDuplicates = true;
+
+      $(".date-picker").datepicker({
+        format: "dd-mm-yyyy",
+        orientation: "bottom",
+        autoclose: true
+      });
+    });
+  </script>
+
   @section('script')
-    
+
   @show
 </body>
 

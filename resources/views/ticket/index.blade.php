@@ -64,7 +64,7 @@
           @foreach($tickets as $ticket)
             <tr>
               <td>{{TicketStat::$values[$ticket->stat]}}</td>
-              <td width="450px"><a href="{{url("ticket/save/".$ticket->ticket_id)}}">{{ $ticket->name }}</a></td>
+              <td width="450px"><a href="{{url("ticket/save/".$ticket->ticket_id)}}">{{ $ticket->title }}</a></td>
             </tr>
           @endforeach
           </tbody>

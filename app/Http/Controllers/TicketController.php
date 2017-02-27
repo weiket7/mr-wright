@@ -26,9 +26,14 @@ class TicketController extends Controller
   }
   
   public function save(Request $request, $ticket_id = null) {
+    if($request->isMethod("post")) {
+      $input = $request->all();
+      $this->ticket_service->saveTicket($ticket_id, $input);
+    }
     $data['action'] = $ticket_id == null ? 'create' : 'update';
     $data['ticket'] = $this->ticket_service->getTicket($ticket_id);
     $data['companies'] = $this->company_service->getCompanyDropdown();
+    $data['categories'] = $this->ticket_service->getCategoryDropdown();
     return view('ticket/form', $data);
   }
   

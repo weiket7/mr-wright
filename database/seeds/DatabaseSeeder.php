@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
       $this->call(TicketImageSeeder::class);
       $this->call(TicketPreferredDateTimeSeeder::class);
       $this->call(StaffAssignmentSeeder::class);
+      $this->call(CategoryForTicketSeeder::class);
 
     }
 }

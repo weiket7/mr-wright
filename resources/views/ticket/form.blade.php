@@ -9,16 +9,16 @@
     {{ucfirst($action)}} Ticket
   </h1>
 
-  <div class="portlet light bordered">
+  <div class="portlet light bordered" id="app">
     <div class="portlet-body form">
       <div class="tabbable">
         <ul class="nav nav-tabs">
           <li class="active">
             <a href="#tab-general" data-toggle="tab">
-              General </a>
+              Ticket </a>
           </li>
           <li>
-            <a href="#tab-myTab" data-toggle="tab">Tab</a>
+            <a href="#tab-myTab" data-toggle="tab">Quotation</a>
           </li>
         </ul>
         <div class="tab-content no-space">
@@ -27,19 +27,11 @@
               {!! csrf_field() !!}
               <div class="form-body">
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Ticket Id</label>
+                      <label class="control-label col-md-2">Title</label>
                       <div class="col-md-9">
-                        {{Form::text('name', $ticket->name, ['class'=>'form-control'])}}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="control-label col-md-3">Status</label>
-                      <div class="col-md-9">
-                        {{Form::select('stat', TicketStat::$values, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::text('title', $ticket->title, ['class'=>'form-control'])}}
                       </div>
                     </div>
                   </div>
@@ -47,9 +39,15 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label col-md-3">Category</label>
+                      <label class="control-label col-md-3">Ticket Id</label>
                       <div class="col-md-9">
-                        {{Form::text('name', $ticket->name, ['class'=>'form-control'])}}
+                        <div class="form-control-static">
+                        @if($action == 'update')
+                          {{ $ticket->ticket_id }}
+                        @else
+                          -
+                        @endif
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -57,7 +55,13 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Status</label>
                       <div class="col-md-9">
-                        {{Form::select('stat', TicketStat::$values, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                        <div class="form-control-static">
+                        @if($action == 'create')
+                          {{ TicketStat::$values[TicketStat::Open] }}
+                        @else
+                          {{ TicketStat::$values[$ticket->stat] }}
+                        @endif
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -67,15 +71,15 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Company</label>
                       <div class="col-md-9">
-                        {{Form::select('stat', $companies, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('company_id', $companies, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Urgency</label>
+                      <label class="control-label col-md-3">Category</label>
                       <div class="col-md-9">
-                        {{Form::select('stat', TicketUrgency::$values, $ticket->urgency, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('category_id', $categories, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -85,15 +89,15 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Office</label>
                       <div class="col-md-9">
-                        {{Form::select('stat', $companies, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('office_id', $companies, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Priority</label>
+                      <label class="control-label col-md-3">Urgency</label>
                       <div class="col-md-9">
-                        {{Form::select('stat', TicketPriority::$values, $ticket->priority, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('urgency', TicketUrgency::$values, $ticket->urgency, ['class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -101,9 +105,9 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Requester</label>
+                      <label class="control-label col-md-3">Requested By</label>
                       <div class="col-md-9">
-                        {{Form::select('stat', $companies, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('requested_by', $companies, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -111,11 +115,53 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Requested On</label>
                       <div class="col-md-9">
-                        {{Form::text('requested_on', $ticket->requested_on, ['class'=>'form-control', 'placeholder'=>''])}}
+                        @if($action == 'create')
+                          {{Form::text('requested_on', '', ['class'=>'form-control date-picker', 'placeholder'=>''])}}
+                        @else
+                          <div class="form-control-static">{{ ViewHelper::formatDate($ticket->requested_on) }}</div>
+                        @endif
                       </div>
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Requester Description</label>
+                      <div class="col-md-9">
+                        {{Form::textarea('requester_desc', $ticket->requester_desc, ['class'=>'form-control', 'rows'=>5])}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Operator Description</label>
+                      <div class="col-md-9">
+                        {{Form::textarea('operator_desc', $ticket->operator_desc, ['class'=>'form-control', 'rows'=>5])}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                @if($action == 'update')
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Opened By</label>
+                      <div class="col-md-9">
+                        <div class="form-control-static">{{ $ticket->opened_by }}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Opened On</label>
+                      <div class="col-md-9">
+                        <div class="form-control-static">{{ ViewHelper::getNowFormatted() }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                @endif
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
@@ -125,22 +171,28 @@
                           <thead>
                           <tr>
                             <th>Image</th>
-                            <th>Problem</th>
-                            <th>Description</th>
+                            <th>Issue</th>
+                            <th>Expected</th>
                           </tr>
                           </thead>
                           <tbody>
-                          @foreach($ticket->images as $i)
-                            <tr>
-                              <td>
-                                <img src="{{asset('images/'.$i->image)}}" class="ticket-image"><br>
-                                <input type="file">
-                              </td>
-                              <td><textarea class="form-control"></textarea></td>
-                              <td><textarea class="form-control"></textarea></td>
-                            </tr>
-                          @endforeach
+                          <tr v-for="image in images">
+                            <td>
+                              <input type="file">
+                            </td>
+                            <td><textarea class="form-control" placeholder="Issue"></textarea></td>
+                            <td><textarea class="form-control" placeholder="Expected"></textarea></td>
+                          </tr>
                           </tbody>
+                          <tfoot>
+                          <tr>
+                            <td colspan="3">
+                              <div class="text-center">
+                                <button type="button" class="btn blue" @click='addImage'>Add</button>
+                              </div>
+                            </td>
+                          </tr>
+                          </tfoot>
                         </table>
                       </div>
                     </div>
@@ -245,4 +297,41 @@
       </div>
     </div>
   </div>
+@endsection
+
+@section('script')
+  <script>
+    var vm = new Vue({
+      el: "#app",
+      data: {
+        images: []
+      },
+      computed: {
+        images_json: function() {
+          return JSON.stringify(this.images);
+        }
+      },
+      methods: {
+        addImage: function() {
+          this.images.push({image:'', 'issue':'', 'expected':''});
+        }
+      }
+    });
+
+    function previewImage(input, targetId) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('#blah').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    $("#imgInp").change(function(){
+      readURL(this);
+    });
+  </script>
 @endsection

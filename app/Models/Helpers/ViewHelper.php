@@ -5,6 +5,14 @@ class ViewHelper {
     return date('d M Y, h:i a', strtotime($date));
   }
 
+  public static function getNowSql() {
+    return date('Y-m-d H:i:s');
+  }
+  public static function getNowFormatted() {
+    return date('d M Y, h:i a');
+  }
+
+
   public static function formatDate($date, $birthday = false) {
     if ($date == '') {
       return '';
