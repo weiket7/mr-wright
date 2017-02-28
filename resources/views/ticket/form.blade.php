@@ -18,7 +18,7 @@
               Ticket </a>
           </li>
           <li>
-            <a href="#tab-myTab" data-toggle="tab">Quotation</a>
+            <a href="#tab-quotation" data-toggle="tab">Quotation</a>
           </li>
         </ul>
         <div class="tab-content no-space">
@@ -30,23 +30,20 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="control-label col-md-2">Title</label>
-                      <div class="col-md-9">
+                      <div class="col-md-10">
                         {{Form::text('title', $ticket->title, ['class'=>'form-control'])}}
                       </div>
                     </div>
                   </div>
                 </div>
+                @if($action == 'update')
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Ticket Id</label>
+                      <label class="control-label col-md-3">Ticket Code</label>
                       <div class="col-md-9">
                         <div class="form-control-static">
-                          @if($action == 'update')
-                            {{ $ticket->ticket_id }}
-                          @else
-                            -
-                          @endif
+                          {{ $ticket->ticket_code }}
                         </div>
                       </div>
                     </div>
@@ -56,16 +53,13 @@
                       <label class="control-label col-md-3">Status</label>
                       <div class="col-md-9">
                         <div class="form-control-static">
-                          @if($action == 'create')
-                            {{ TicketStat::$values[TicketStat::Open] }}
-                          @else
-                            {{ TicketStat::$values[$ticket->stat] }}
-                          @endif
+                          {{ TicketStat::$values[$ticket->stat] }}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                @endif
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -115,11 +109,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Requested On</label>
                       <div class="col-md-9">
-                        @if($action == 'create')
-                          {{Form::text('requested_on', '', ['class'=>'form-control date-picker', 'placeholder'=>''])}}
-                        @else
-                          <div class="form-control-static">{{ ViewHelper::formatDate($ticket->requested_on) }}</div>
-                        @endif
+                        {{Form::text('requested_on', ViewHelper::formatDate($ticket->requested_on), ['class'=>'form-control date-picker', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -272,8 +262,12 @@
                   <div class="col-md-6">
                     <div class="row">
                       <div class="col-md-offset-3 col-md-9">
-                        <button type="submit" class="btn green">Submit</button>
-                        <button type="button" class="btn default">Cancel</button>
+                        <button type="submit" class="btn green">
+                          {{ ucfirst($action) }}
+                        </button>
+                        <button type="button" class="btn blue" onclick="quotationTab()">
+                          Create Quotation
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -282,18 +276,8 @@
               </div>
             </form>
           </div>
-          <div class="tab-pane fade" id="tab-myTab">
-            <table class="table table-bordered">
-              <thead>
-              <tr>
-                <td width="100">Name</td>
-                <td>Discounted Price</td>
-              </tr>
-              </thead>
-              <tbody>
-
-              </tbody>
-            </table>
+          <div class="tab-pane fade" id="tab-quotation">
+            @include('ticket/quotation')
           </div>
 
         </div>
@@ -304,6 +288,11 @@
 
 @section('script')
   <script>
+    function quotationTab() {
+      location.href += '#tab-quotation';
+      $('a[href="#tab-quotation"]').tab('show');
+    }
+
     var vm = new Vue({
       el: "#app",
       data: {
@@ -319,7 +308,6 @@
           this.images.push({image:'', 'issue':'', 'expected':''});
         },
         previewImage: function(index,e) {
-
           var reader = new FileReader();
           reader.onload = function (e) {
             var img = $('<img/>', {

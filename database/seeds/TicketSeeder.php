@@ -12,7 +12,7 @@ class TicketSeeder extends Seeder
   {
     DB::table('ticket')->insert([
       'ticket_id'=>1,
-      'stat'=>TicketStat::Open,
+      'stat'=>TicketStat::Opened,
       'title'=>'Fix tap in pantry',
       'company_id'=>1,
       'office_id'=>1,

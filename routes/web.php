@@ -11,6 +11,8 @@
 |
 */
 
+use App\Models\Services\WorkingHourService;
+
 Route::get('/', 'SiteController@index');
 
 Route::get('product', 'ProductController@index');
@@ -50,4 +52,17 @@ Route::get('skill/save/{id}', 'SkillController@save');
 Route::post('skill/save/{id}', 'SkillController@save');
 
 Route::get('sale', 'SaleController@index');
-Route::get('test', 'SiteController@test');
+Route::get('test', function() {
+  $working_hour_service = new WorkingHourService();
+  $res = $working_hour_service->splitTimeRangeIntoInterval('07:00:00', '09:00:00', 15);
+  $expected = ['07:00', '07:15', '07:30', '07:45', '08:00', '08:15', '08:30', '08:45'];
+  echo 'expected'; var_dump($expected);
+  echo 'res'; var_dump($res);
+
+  echo date('H:i', 1488266100);
+  echo '<br>';
+  echo date("H:i", 1488267000);
+  echo '<br>';
+
+  echo date("Y-m-d H:i:s", 1488267900);
+});

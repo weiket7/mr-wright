@@ -10,6 +10,7 @@ class TicketTable extends Migration
   {
     Schema::create('ticket', function(Blueprint $t) {
       $t->increments('ticket_id');
+      $t->string('ticket_code', 30);
       $t->char('stat', 1);
       $t->string('title', 100);
       $t->integer('company_id');
