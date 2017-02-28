@@ -3,14 +3,12 @@
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
-class WorkingHourBlockedSeeder extends Seeder
+class WorkingDateBlockedSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('working_hour_blocked')->insert([
+        DB::table('working_date_blocked')->insert([
           'date'=>Carbon::parse('next monday'),
-          'time_from'=>'16:00',
-          'time_to'=>'19:00',
           'updated_by'=>'admin',
           'updated_on'=>Carbon::now()
         ]);

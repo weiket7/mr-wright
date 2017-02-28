@@ -42,12 +42,12 @@ class WorkingHourService
   //'2017-03-01'=>['12:00-15:00', '17:00-19:00']
 
   public function getAvailableSlots() {
-    $working_day_hour = $this->getAvailableWorkingDayHour();
+    $working_day_hour = $this->getAvailableWorkingDayTimes();
   }
 
-  public function splitTimeRangeIntoInterval($from_time, $to_time, $interval) {
-    $s = strtotime("-$interval minutes", strtotime($from_time));
-    $e = strtotime("-$interval minutes", strtotime($to_time));
+  public function splitTimeRangeIntoInterval($time_start, $time_end, $interval) {
+    $s = strtotime("-$interval minutes", strtotime($time_start));
+    $e = strtotime("-$interval minutes", strtotime($time_end));
 
     $arr = [];
     while($s != $e) {
@@ -62,13 +62,44 @@ class WorkingHourService
     return $res;
   }
 
-  public function getAvailableWorkingDayHour() {
-    return DB::table('working_day_hour')->get();
+  public function getAvailableWorkingSlots() {
+    $arr = $this->getAvailableWorkingDayTimes();
+
+    $res = [];
+    foreach($arr as $day => $periods) {
+      foreach($periods as $p) {
+        $intervals = $this->splitTimeRangeIntoInterval($p['time_start'], $p['time_end'], 15);
+        foreach($intervals as $i) {
+          $res[$day][] = $i;
+        }
+      }
+    }
+
+    $blocked_working_days = $this->getBlockedWorkingDays();
+    foreach($blocked_working_days as $b) {
+      unset($res[$b]);
+    }
+    return $res;
   }
 
-  public function getBlockedWorkingDay() {
-    //TODO from current date and onwards
-    return DB::table('working_day_blocked')->get();
+  public function getAvailableWorkingDayTimes() {
+    $arr = DB::table('working_day_time')->get();
+    $res = [];
+    foreach($arr as $a) {
+      $res[$a->day][] = ['time_start'=>$a->time_start, 'time_end'=>$a->time_end];
+    }
+    return $res;
+  }
+
+  public function getBlockedWorkingDays() {
+    //TODO >= current date
+    $arr = DB::table('working_date_blocked')->pluck('date');
+
+    $res = [];
+    foreach($arr as $a) {
+      $res[] = (int)date('N', strtotime($a));
+    }
+    return $res;
   }
 
   public function getAssignedWorkingHour() {

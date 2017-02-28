@@ -59,10 +59,17 @@ Route::get('test', function() {
   echo 'expected'; var_dump($expected);
   echo 'res'; var_dump($res);
 
-  echo date('H:i', 1488266100);
-  echo '<br>';
-  echo date("H:i", 1488267000);
-  echo '<br>';
+  $res = $working_hour_service->getAvailableWorkingDayTimes();
+  echo 'res'; var_dump($res);
 
-  echo date("Y-m-d H:i:s", 1488267900);
+  $res = $working_hour_service->getAvailableWorkingSlots();
+  echo 'res'; var_dump($res);
+
+  $res = $working_hour_service->getBlockedWorkingDays();
+  echo 'res'; var_dump($res);
+
+  echo '<h1>final</h1>';
+  $res = $working_hour_service->getAvailableWorkingSlots();
+  var_dump($res);
+
 });

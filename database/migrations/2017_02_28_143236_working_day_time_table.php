@@ -4,15 +4,15 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class WorkingDayHourTable extends Migration
+class WorkingDayTimeTable extends Migration
 {
     public function up()
     {
-        Schema::create('working_day_hour', function(Blueprint $t) {
-            $t->increments('working_day_hour_id');
+        Schema::create('working_day_time', function(Blueprint $t) {
+            $t->increments('working_day_time_id');
             $t->smallInteger('day');
-            $t->time('time_from');
-            $t->time('time_to');
+            $t->time('time_start');
+            $t->time('time_end');
             $t->string('updated_by', 20);
             $t->dateTime('updated_on');
         });
@@ -20,6 +20,6 @@ class WorkingDayHourTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('working_day_hour');
+        Schema::dropIfExists('working_day_time');
     }
 }

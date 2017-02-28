@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
       $this->call(TicketPreferredDateTimeSeeder::class);
       $this->call(StaffAssignmentSeeder::class);
       $this->call(CategoryForTicketSeeder::class);
-      $this->call(WorkingDayHourSeeder::class);
-      $this->call(WorkingDayBlockedSeeder::class);
-      $this->call(WorkingHourBlockedSeeder::class);
+      $this->call(WorkingDayTimeSeeder::class);
+      $this->call(WorkingDateBlockedSeeder::class);
+      $this->call(WorkingDateTimeBlockedSeeder::class);
 
     }
 }

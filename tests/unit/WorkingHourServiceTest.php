@@ -11,7 +11,7 @@ class WorkingHourServiceTest extends \Codeception\TestCase\Test
 
   public function testGetAvailableWorkingHours() {
     $working_hour_service = new WorkingHourService();
-    $hours = $working_hour_service->getAvailableWorkingDayHour();
+    $hours = $working_hour_service->getAvailableWorkingDayTimes();
     $this->assertEquals(6, count($hours));
   }
 
