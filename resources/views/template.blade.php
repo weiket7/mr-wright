@@ -1174,6 +1174,8 @@ License: You must have a valid license purchased only from themeforest(the above
   <!-- END THEME LAYOUT SCRIPTS -->
   <script src="{{asset('assets/metronic/global/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('js/vue.js')}}" type="text/javascript"></script>
+  <script src="{{asset('js/axios.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('js/lodash.min.js')}}" type="text/javascript"></script>
 
   <script>
     $(document).ready(function() {

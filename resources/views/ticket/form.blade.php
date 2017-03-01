@@ -157,7 +157,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-2">Images</label>
                       <div class="col-md-10">
-                        <input type="hidden" v-bind:value="imagesCount">
+                        <input type="hidden" v-bind:value="images_count">
 
                         <table class="table table-hover table-bordered">
                           <thead>
@@ -296,14 +296,44 @@
     var vm = new Vue({
       el: "#app",
       data: {
-        images: []
+        images: [],
+        selected_skills: [],
+        calendar_columns: [],
+        calendar_cells: []
       },
       computed: {
-        imagesCount: function() {
+        images_count: function() {
           return this.images.length;
         }
       },
+      watch: {
+        selected_skills: function(n, o) {
+          this.getStaffCalendar();
+          console.log(n + ' ' + o);
+        }
+      },
       methods: {
+        getStaffCalendar: _.debounce(
+          function () {
+            var vm = this
+            axios.get('{{url('api/getStaffCalendar')}}')
+            .then(function (response) {
+              vm.calendar_columns = response.data.columns;
+              vm.calendar_cells = response.data.cells;
+              console.log('columns = ' + response.data.columns);
+              console.log('cells = ' + response.data.cells);
+              //console.log('Tom = ' + response.data.cells.Tom);
+              //console.log('Tom.10:30 = ' + response.data.cells.Tom['10:30']);
+              //console.log('Tom.10:30.text = ' + response.data.cells.Tom['10:30'].text);
+            })
+            .catch(function (error) {
+              alert('ERROR!');
+            })
+          },
+          // This is the number of milliseconds we wait for the
+          // user to stop typing.
+          300
+        ),
         addImage: function() {
           this.images.push({image:'', 'issue':'', 'expected':''});
         },
@@ -316,11 +346,15 @@
               src: e.target.result
             });
             $('#preview-image'+index).html(img);
-          }
+          };
           var file = e.target.files[0];
           reader.readAsDataURL(file);
         }
       }
     });
   </script>
+
+  @section('script-quotation')
+
+  @show
 @endsection

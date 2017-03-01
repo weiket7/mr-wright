@@ -34,6 +34,8 @@ class TicketController extends Controller
     $data['ticket'] = $this->ticket_service->getTicket($ticket_id);
     $data['companies'] = $this->company_service->getCompanyDropdown();
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
+    $data['skills'] = ['Plumbing', 'Electrical']; //TODO
+
     return view('ticket/form', $data);
   }
   

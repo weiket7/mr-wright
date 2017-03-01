@@ -63,13 +63,32 @@
             <button type="button" class="btn green-meadow">28 Feb 2017</button>
             <button type="button" class="btn btn-default">29 Feb 2017 <i class="fa fa-angle-right"></i></button>
             <br><br>
+            <div class="mt-checkbox-list">
+              @foreach($skills as $skill)
+              <label class="mt-checkbox mt-checkbox-outline">
+                {{ $skill }}
+                <input type="checkbox" value="{{$skill}}" v-model="selected_skills"/>
+                <span></span>
+              </label>
+              @endforeach
+            </div>
+
+            @{{selected_skills}}<br>
+            @{{ calendar_columns }}<br>
+            @{{ calendar_cells }}
+
             <table class="table table-hover table-bordered">
               <thead>
               <tr>
-                <th width="200px">Name</th>
-                <th>Slot</th>
+                <th></th>
+                <th v-for="value in calendar_columns">@{{ value }}</th>
               </tr>
               </thead>
+              <tbody>
+                <tr>
+                  <td></td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>

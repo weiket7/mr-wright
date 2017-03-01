@@ -51,7 +51,7 @@ Route::post('skill/save', 'SkillController@save');
 Route::get('skill/save/{id}', 'SkillController@save');
 Route::post('skill/save/{id}', 'SkillController@save');
 
-Route::get('sale', 'SaleController@index');
+Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
 Route::get('test', function() {
   $working_hour_service = new WorkingHourService();
   $res = $working_hour_service->splitTimeRangeIntoInterval('07:00:00', '09:00:00', 15);
