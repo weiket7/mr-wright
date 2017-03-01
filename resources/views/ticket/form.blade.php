@@ -299,7 +299,8 @@
         images: [],
         selected_skills: [],
         calendar_columns: [],
-        calendar_cells: []
+        calendar_rows: [],
+        calendar_intervals: [],
       },
       computed: {
         images_count: function() {
@@ -316,15 +317,16 @@
         getStaffCalendar: _.debounce(
           function () {
             var vm = this
-            axios.get('{{url('api/getStaffCalendar')}}')
+            axios.get('{{url('api/getStaffCalendar')}}?selected_skills='+this.selected_skills)
             .then(function (response) {
               vm.calendar_columns = response.data.columns;
-              vm.calendar_cells = response.data.cells;
+              vm.calendar_rows = response.data.rows;
+              vm.calendar_intervals = response.data.intervals;
               console.log('columns = ' + response.data.columns);
-              console.log('cells = ' + response.data.cells);
-              //console.log('Tom = ' + response.data.cells.Tom);
-              //console.log('Tom.10:30 = ' + response.data.cells.Tom['10:30']);
-              //console.log('Tom.10:30.text = ' + response.data.cells.Tom['10:30'].text);
+              console.log('rows = ' + response.data.rows);
+              //console.log('Tom = ' + response.data.rows.Tom);
+              //console.log('Tom.10:30 = ' + response.data.rows.Tom['10:30']);
+              //console.log('Tom.10:30.text = ' + response.data.rows.Tom['10:30'].text);
             })
             .catch(function (error) {
               alert('ERROR!');

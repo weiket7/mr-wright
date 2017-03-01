@@ -75,18 +75,21 @@
 
             @{{selected_skills}}<br>
             @{{ calendar_columns }}<br>
-            @{{ calendar_cells }}
+            @{{ calendar_rows }}
 
             <table class="table table-hover table-bordered">
               <thead>
               <tr>
                 <th></th>
-                <th v-for="value in calendar_columns">@{{ value }}</th>
+                <th v-for="name in calendar_columns">@{{ name }}</th>
               </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td></td>
+                <tr v-for="interval in calendar_intervals">
+                  <td>@{{ interval }}</td>
+                  <td v-for="v in calendar_rows[interval]">
+                    @{{ v.text }}
+                  </td>
                 </tr>
               </tbody>
             </table>

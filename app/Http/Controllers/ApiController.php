@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Models\Services\SkillService;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ApiController extends Controller
 {
@@ -16,16 +18,20 @@ class ApiController extends Controller
   }*/
 
   public function getStaffCalendar(Request $request) {
-    //$skills = $this->skill_service->getSkillAll();
+    Log::info($request->get('selected_skills'));
     $selected_skills = $request->get('selected_skills');
-    //get staff with skills
-    //get staff slots
+
+    //get staff with selected skills
+    //get their calendar
+
     return [
-        'columns' => ['Tom', 'Jerry'],
-        'cells' => [
-          'Tom'=>['10:00'=>['text'=>'AAA', 'background'=>'blue'], '10:30'=>['text'=>'AAA', 'background'=>'blue']],
-          'Sam'=>['10:00'=>['text'=>'AAA', 'background'=>'blue'], '10:30'=>['text'=>'AAA', 'background'=>'blue']],
-        ]
-      ];
+      'columns' => ['Tom', 'Jerry'],
+      'rows' => [
+        '10:30'=>[['text'=>'AAA', 'background'=>'blue'], ['text'=>'AAA', 'background'=>'blue']],
+        '11:00'=>[['text'=>'BBBB', 'background'=>'blue'], ['text'=>'DDD', 'background'=>'blue']],
+        '11:30'=>[['text'=>'EE', 'background'=>'blue'], ['text'=>'F', 'background'=>'blue']],
+      ],
+      'intervals' => ['10:30', '11:00', '11:30']
+    ];
   }
 }
