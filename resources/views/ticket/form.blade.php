@@ -240,12 +240,11 @@
                             <tr>
                               <td>{{$a->staff_id}}</td>
                               <td>
-                                {{ViewHelper::formatDate($a->date_from)}}
-                                to {{ViewHelper::formatDate($a->date_to)}}
+                                {{ViewHelper::formatDate($a->date)}}
                               </td>
                               <td>
-                                {{ViewHelper::formatTime($a->time_from)}}
-                                to {{ViewHelper::formatTime($a->time_to)}}
+                                {{ViewHelper::formatTime($a->time_start)}}
+                                to {{ViewHelper::formatTime($a->time_end)}}
                               </td>
                             </tr>
                           @endforeach

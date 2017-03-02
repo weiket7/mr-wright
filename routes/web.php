@@ -12,6 +12,7 @@
 */
 
 use App\Models\Services\WorkingHourService;
+use Carbon\Carbon;
 
 Route::get('/', 'SiteController@index');
 
@@ -54,22 +55,22 @@ Route::post('skill/save/{id}', 'SkillController@save');
 Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
 Route::get('test', function() {
   $working_hour_service = new WorkingHourService();
-  $res = $working_hour_service->splitTimeRangeIntoInterval('07:00:00', '09:00:00', 15);
-  $expected = ['07:00', '07:15', '07:30', '07:45', '08:00', '08:15', '08:30', '08:45'];
-  echo 'expected'; var_dump($expected);
+  $today = Carbon::now()->format("Y-m-d");
+  $next_monday = Carbon::parse('next monday')->format("Y-m-d");
+  echo 'next mon'; var_dump($next_monday);
+
+  $res = $working_hour_service->getWorkingIntervalsByDate($today);
+  echo 'res'; var_dump($res);
+  $res = $working_hour_service->isDateBlocked($today);
+  echo 'res'; var_dump($res);
+  $res = $working_hour_service->getBlockedWorkingIntervalsByDate($today);
   echo 'res'; var_dump($res);
 
-  $res = $working_hour_service->getWorkingDayTimesByDate();
+  $res = $working_hour_service->getWorkingIntervalsByDate($next_monday);
   echo 'res'; var_dump($res);
-
-  $res = $working_hour_service->getAvailableWorkingSlots();
+  $res = $working_hour_service->isDateBlocked($next_monday);
   echo 'res'; var_dump($res);
-
-  $res = $working_hour_service->getBlockedWorkingDateByDate();
+  $res = $working_hour_service->getBlockedWorkingIntervalsByDate($next_monday);
   echo 'res'; var_dump($res);
-
-  echo '<h1>final</h1>';
-  $res = $working_hour_service->getAvailableWorkingSlots();
-  var_dump($res);
 
 });
