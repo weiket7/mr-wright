@@ -43,18 +43,20 @@ class WorkingHourService
 
   public function getWorkingIntervalsByDate($date) {
     $day = $this->getDayFromDate($date);
-
+    //var_dump($day);
     $arr = DB::table('working_day_time')->where('day', $day)->select('time_start', 'time_end')->get();
+    //var_dump($arr);
 
-    $intervals = [];
-    foreach($arr as $day => $a) {
+    $res = [];
+    foreach($arr as $a) {
       $intervals = $this->splitTimeRangeIntoInterval($a->time_start, $a->time_end, self::INTERVAL);
       foreach($intervals as $i) {
-        $intervals[] = $i;
+        $res[] = $i;
       }
     }
+    //var_dump($intervals);
 
-    return $intervals;
+    return $res;
   }
   
   public function getBlockedWorkingIntervalsByDate($date) {

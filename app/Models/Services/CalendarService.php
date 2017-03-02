@@ -26,7 +26,7 @@ class CalendarService
     $staff_intervals = [];
     foreach($staff_ids as $staff_id) {
       foreach($intervals as $i) {
-        $staff_intervals[$staff_id][$i] = ['text'=>'', 'ticket_id'=>0];
+        $staff_intervals[$staff_id][$i] = ['text'=>'A', 'background'=>''];
       }
     }
 

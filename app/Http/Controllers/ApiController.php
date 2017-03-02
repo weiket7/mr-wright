@@ -23,30 +23,35 @@ class ApiController extends Controller
 
   public function getStaffCalendar(Request $request) {
     Log::info($request->get('selected_skills'));
-    //$selected_skills = $request->get('selected_skills');
-    $selected_skills = ['Mechanical', 'Electrical'];
+    $selected_skills = explode(",", $request->get('selected_skills'));
+    //$selected_skills = ['Mechanical', 'Electrical'];
     $date = '2017-03-07';
     $staffs = $this->calendar_service->getStaffWithSkills($selected_skills);
     $calendar = $this->calendar_service->getStaffCalendarWithSkills($date, $selected_skills);
     //"1":{"10:00":{"text":"","ticket_id":0},"10:15":{"text":"","ticket_id":0},"10:30":{"text":"","ticket_id":0},"10:45":{"text":"","ticket_id":0}
-    //return $calendar;
-
+    //var_dump($calendar);
     $intervals = $this->working_hour_service->getWorkingIntervalsByDate($date);
+
 
     $columns = [];
     $rows = [];
-    foreach($staffs as $staff) {
-      $columns[] = $staff->name;
-
-      foreach($intervals as $i) {
+    //var_dump($staffs);
+    foreach($intervals as $i) {
+      foreach($staffs as $staff) {
         $rows[$i][] = $calendar[$staff->staff_id][$i];
       }
     }
+    foreach($staffs as $staff) {
+      $columns[] = $staff->name;
+    }
 
-    return [
+    $res = [
       'columns' => $columns,
-      'rows' => $rows
+      'rows' => $rows,
+      'intervals' => $intervals
     ];
+    //var_dump($res['rows']);
+    return $res;
 
     //vaR_dump($calendar); exit;
 

@@ -73,9 +73,10 @@
               @endforeach
             </div>
 
-            @{{selected_skills}}<br>
+            {{--@{{selected_skills}}<br>
             @{{ calendar_columns }}<br>
-            @{{ calendar_rows }}
+            @{{ calendar_intervals }}<br>
+            @{{ calendar_rows }}--}}
 
             <table class="table table-hover table-bordered">
               <thead>
@@ -86,7 +87,7 @@
               </thead>
               <tbody>
                 <tr v-for="interval in calendar_intervals">
-                  <td>@{{ interval }}</td>
+                  <td width="100px">@{{ interval }}</td>
                   <td v-for="v in calendar_rows[interval]">
                     @{{ v.text }}
                   </td>
