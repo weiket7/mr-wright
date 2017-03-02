@@ -59,13 +59,13 @@ Route::get('test', function() {
   echo 'expected'; var_dump($expected);
   echo 'res'; var_dump($res);
 
-  $res = $working_hour_service->getAvailableWorkingDayTimes();
+  $res = $working_hour_service->getWorkingDayTimesByDate();
   echo 'res'; var_dump($res);
 
   $res = $working_hour_service->getAvailableWorkingSlots();
   echo 'res'; var_dump($res);
 
-  $res = $working_hour_service->getBlockedWorkingDays();
+  $res = $working_hour_service->getBlockedWorkingDateByDate();
   echo 'res'; var_dump($res);
 
   echo '<h1>final</h1>';
