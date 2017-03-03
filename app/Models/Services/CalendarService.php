@@ -42,7 +42,12 @@ class CalendarService
       }
     }
 
-    return $staff_intervals;
+    return [
+      'intervals'=>$intervals,
+      'staff_intervals'=>$staff_intervals,
+      'staffs'=>$staffs,
+
+    ];
   }
 
   private function arrayContains($haystack, $needle) {
@@ -74,6 +79,7 @@ class CalendarService
       ->join('staff', 'ss.staff_id', '=', 'staff.staff_id')
       ->whereIn('skill.name', $skills)->select('staff.staff_id', 'staff.name')->distinct()->get();
     //var_dump($staffs);
-    return $staffs->keyBy('staff_id');
+    //return $staffs->keyBy('staff_id');
+    return $staffs;
   }
 }

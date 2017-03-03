@@ -9,3 +9,29 @@
 .ticket-image {
   max-height: 250px;
 }
+
+/*multiselect options alignment in form-horizontal*/
+.multiselect-container>li:not(.multiselect-filter):not(.multiselect-group) {
+  padding-left: 10px;
+}
+.multiselect-container>li.multiselect-group>a {
+  padding: 8px 0;
+}
+.multiselect-container>li.multiselect-group label {
+  padding: 3px 20px 3px 7px
+}
+.multiselect-container>li>a>label>b {
+  padding-left: 3px;
+}
+
+.mt-checkbox-inline, .mt-radio-inline {
+  padding: 0;
+}
+.mt-checkbox, .mt-radio {
+  margin-bottom: 0;
+  padding-left: 25px;
+}
+
+.no-margin-btm {
+  margin-bottom: 0;
+}

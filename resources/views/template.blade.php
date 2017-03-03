@@ -40,6 +40,9 @@ License: You must have a valid license purchased only from themeforest(the above
   <link href="{{asset('assets/metronic/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('assets/metronic/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('assets/metronic/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('assets/metronic/global/plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('assets/metronic/global/plugins/select2/css/select2-bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('assets/metronic/global/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css')}}" rel="stylesheet" type="text/css" />
   <!-- END PAGE LEVEL PLUGINS -->
   <!-- BEGIN THEME GLOBAL STYLES -->
   <link href="{{asset('assets/metronic/global/css/components.min.css')}}" rel="stylesheet" id="style_components" type="text/css" />
@@ -50,11 +53,7 @@ License: You must have a valid license purchased only from themeforest(the above
   <link href="{{asset('assets/metronic/layouts/layout2/css/themes/blue.min.css')}}" rel="stylesheet" type="text/css" id="style_color" />
   <link href="{{asset('assets/metronic/layouts/layout2/css/custom.css')}}" rel="stylesheet" type="text/css" />
   <!-- END THEME LAYOUT STYLES -->
-  
-  
-  <link href="{{asset('assets/metronic/global/plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
-  <link href="{{asset('assets/metronic/global/plugins/select2/css/select2-bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
-  
+
   <link rel="shortcut icon" href="favicon.ico" /> </head>
 <!-- END HEAD -->
 
@@ -1162,6 +1161,8 @@ License: You must have a valid license purchased only from themeforest(the above
   <script src="{{asset('assets/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/global/plugins/bootstrap-toastr/toastr.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('assets/metronic/global/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('assets/metronic/global/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js')}}" type="text/javascript"></script>
   <!-- END PAGE LEVEL PLUGINS -->
   <!-- BEGIN THEME GLOBAL SCRIPTS -->
   <script src="{{asset('assets/metronic/global/scripts/app.min.js')}}" type="text/javascript"></script>
@@ -1172,7 +1173,6 @@ License: You must have a valid license purchased only from themeforest(the above
   <script src="{{asset('assets/metronic/layouts/global/scripts/quick-sidebar.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/layouts/global/scripts/quick-nav.min.js')}}" type="text/javascript"></script>
   <!-- END THEME LAYOUT SCRIPTS -->
-  <script src="{{asset('assets/metronic/global/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('js/vue.js')}}" type="text/javascript"></script>
   <script src="{{asset('js/axios.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('js/lodash.min.js')}}" type="text/javascript"></script>

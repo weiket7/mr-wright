@@ -4,6 +4,10 @@
 
 @extends("template")
 
+@section('css')
+  <link href="../assets/global/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+@endsection
+
 @section('content')
   <h1 class="page-title" xmlns:v-on="http://www.w3.org/1999/xhtml">
     {{ucfirst($action)}} Ticket
@@ -11,6 +15,7 @@
 
   <div class="portlet light bordered" id="app">
     <div class="portlet-body form">
+
       <div class="tabbable">
         <ul class="nav nav-tabs">
           <li class="active">
@@ -23,42 +28,40 @@
         </ul>
         <div class="tab-content no-space">
           <div class="tab-pane fade active in" id="tab-general">
+
             <form action="" method="post" class="form-horizontal">
+
               {!! csrf_field() !!}
               <div class="form-body">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <label class="control-label col-md-2">Title</label>
-                      <div class="col-md-10">
-                        {{Form::text('title', $ticket->title, ['class'=>'form-control'])}}
-                      </div>
-                    </div>
+                <div class="form-group">
+                  <label class="control-label col-md-2">Title</label>
+                  <div class="col-md-10">
+                    {{Form::text('title', $ticket->title, ['class'=>'form-control'])}}
                   </div>
                 </div>
                 @if($action == 'update')
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="control-label col-md-3">Ticket Code</label>
-                      <div class="col-md-9">
-                        <div class="form-control-static">
-                          {{ $ticket->ticket_code }}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Ticket Code</label>
+                        <div class="col-md-9">
+                          <div class="form-control-static">
+                            {{ $ticket->ticket_code }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Status</label>
+                        <div class="col-md-9">
+                          <div class="form-control-static">
+                            {{ TicketStat::$values[$ticket->stat] }}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="control-label col-md-3">Status</label>
-                      <div class="col-md-9">
-                        <div class="form-control-static">
-                          {{ TicketStat::$values[$ticket->stat] }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 @endif
                 <div class="row">
                   <div class="col-md-6">
@@ -152,108 +155,72 @@
                     </div>
                   </div>
                 @endif
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <label class="control-label col-md-2">Images</label>
-                      <div class="col-md-10">
-                        <input type="hidden" v-bind:value="images_count">
 
-                        <table class="table table-hover table-bordered">
-                          <thead>
-                          <tr>
-                            <th>Image</th>
-                            <th>Issue</th>
-                            <th>Expected</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          <tr v-for="(image, index) in images">
-                            <td>
-                              <div v-bind:id="'preview-image' + index"></div>
-                              <input type="file" v-bind:name="'image' + index" v-on:change="previewImage(index,$event)">
-                            </td>
-                            <td><textarea v-bind:name="'issue' + index" class="form-control" placeholder="Issue"></textarea></td>
-                            <td><textarea v-bind:name="'expected' + index"  class="form-control" placeholder="Expected"></textarea></td>
-                          </tr>
-                          </tbody>
-                          <tfoot>
-                          <tr>
-                            <td colspan="3">
-                              <div class="text-center">
-                                <button type="button" class="btn blue" @click='addImage'>Add</button>
-                              </div>
-                            </td>
-                          </tr>
-                          </tfoot>
-                        </table>
-                      </div>
-                    </div>
+                <div class="form-group">
+                  <label class="control-label col-md-2">Images</label>
+                  <div class="col-md-10">
+                    <input type="hidden" v-bind:value="images_count">
+
+                    <table class="table table-hover table-bordered">
+                      <thead>
+                      <tr>
+                        <th>Image</th>
+                        <th>Issue</th>
+                        <th>Expected</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr v-for="(image, index) in images">
+                        <td>
+                          <div v-bind:id="'preview-image' + index"></div>
+                          <input type="file" v-bind:name="'image' + index" v-on:change="previewImage(index,$event)">
+                        </td>
+                        <td><textarea v-bind:name="'issue' + index" class="form-control" placeholder="Issue"></textarea></td>
+                        <td><textarea v-bind:name="'expected' + index"  class="form-control" placeholder="Expected"></textarea></td>
+                      </tr>
+                      </tbody>
+                      <tfoot>
+                      <tr>
+                        <td colspan="3">
+                          <div class="text-center">
+                            <button type="button" class="btn blue" @click='addImage'>Add</button>
+                          </div>
+                        </td>
+                      </tr>
+                      </tfoot>
+                    </table>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <label class="control-label col-md-2">Preferred Date Time</label>
-                      <div class="col-md-10">
-                        <table class="table table-hover table-bordered">
-                          <thead>
-                          <tr>
-                            <th width="210px">Date</th>
-                            <th>Time</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          @foreach($ticket->preferred_datetimes as $p)
-                            <tr>
-                              <td>
-                                {{ViewHelper::formatDate($p->date_from)}}
-                                to {{ViewHelper::formatDate($p->date_to)}}
-                              </td>
-                              <td>
-                                {{ViewHelper::formatTime($p->time_from)}}
-                                to {{ViewHelper::formatTime($p->time_to)}}
-                              </td>
-                            </tr>
-                          @endforeach
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-2">Preferred Date Time</label>
+                  <div class="col-md-10">
+                    <table class="table table-hover table-bordered">
+                      <thead>
+                      <tr>
+                        <th width="210px">Date</th>
+                        <th>Time</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      @foreach($ticket->preferred_datetimes as $p)
+                        <tr>
+                          <td>
+                            {{ViewHelper::formatDate($p->date_from)}}
+                            to {{ViewHelper::formatDate($p->date_to)}}
+                          </td>
+                          <td>
+                            {{ViewHelper::formatTime($p->time_from)}}
+                            to {{ViewHelper::formatTime($p->time_to)}}
+                          </td>
+                        </tr>
+                      @endforeach
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <label class="control-label col-md-2">Staff Assignment</label>
-                      <div class="col-md-10">
-                        <table class="table table-hover table-bordered">
-                          <thead>
-                          <tr>
-                            <th>Staff</th>
-                            <th width="210px">Date</th>
-                            <th>Time</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          @foreach($ticket->staff_assignments as $a)
-                            <tr>
-                              <td>{{$a->staff_id}}</td>
-                              <td>
-                                {{ViewHelper::formatDate($a->date)}}
-                              </td>
-                              <td>
-                                {{ViewHelper::formatTime($a->time_start)}}
-                                to {{ViewHelper::formatTime($a->time_end)}}
-                              </td>
-                            </tr>
-                          @endforeach
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
+                @include('ticket/quotation')
               </div>
 
               <div class="form-actions">
@@ -287,6 +254,34 @@
 
 @section('script')
   <script>
+    $.fn.select2.defaults.set("theme", "bootstrap");
+
+    $(document).ready(function() {
+      $("#staffs").select2({
+        allowClear: true,
+        placeholder: "Select"
+      });
+      //initStaffsSelect2([]);
+    });
+
+    var getStaffCalendar = _.debounce(
+      function (a) {
+        axios.get('{{url('api/getStaffCalendar')}}?selected_staffs='+selected_staffs)
+        .then(function (response) {
+          vm.calendar_columns = response.data.columns;
+          vm.calendar_rows = response.data.rows;
+          vm.calendar_intervals = response.data.intervals;
+          vm.staffs_with_skills = response.data.staffs;
+        })
+        .catch(function (error) {
+          alert('ERROR!');
+        })
+      },
+      // This is the number of milliseconds we wait for the
+      // user to stop typing.
+      300
+    );
+
     function quotationTab() {
       location.href += '#tab-quotation';
       $('a[href="#tab-quotation"]').tab('show');
@@ -300,6 +295,8 @@
         calendar_columns: [],
         calendar_rows: [],
         calendar_intervals: [],
+        selected_staffs: [],
+        staffs: [{name: 'AA', staff_id: 1}, {name:'BB', staff_id: 2}],
       },
       computed: {
         images_count: function() {
@@ -308,24 +305,49 @@
       },
       watch: {
         selected_skills: function(n, o) {
-          this.getStaffCalendar();
-          console.log(n + ' ' + o);
+          this.getStaffWithSkills();
+          console.log('selected_skills');
         }
       },
       methods: {
+        getStaffWithSkills: _.debounce(
+          function () {
+            var vm = this
+            axios.get('{{url('api/getStaffWithSkills')}}?selected_skills='+this.selected_skills)
+            .then(function (response) {
+              //https://github.com/select2/select2/issues/2830
+              var staffs = response.data;
+              var $select = $('#staffs');
+              var options = $select.data('select2').options.options;
+              vm.staffs = response.data;
+              console.log(JSON.stringify(response.data));
+
+              $("#staffs").select2({
+                allowClear: true,
+                placeholder: "Select"
+              });
+
+              $select.on("select2:selecting", function(e) {
+                vm.getStaffCalendar();
+                //alert('he');
+              });
+            })
+            .catch(function (error) {
+              alert('ERROR!');
+            })
+          },
+          300
+        ),
         getStaffCalendar: _.debounce(
           function () {
+            console.log("WOOHOO");
             var vm = this
             axios.get('{{url('api/getStaffCalendar')}}?selected_skills='+this.selected_skills)
             .then(function (response) {
               vm.calendar_columns = response.data.columns;
               vm.calendar_rows = response.data.rows;
               vm.calendar_intervals = response.data.intervals;
-              console.log('columns = ' + response.data.columns);
-              console.log('rows = ' + response.data.rows);
-              //console.log('Tom = ' + response.data.rows.Tom);
-              //console.log('Tom.10:30 = ' + response.data.rows.Tom['10:30']);
-              //console.log('Tom.10:30.text = ' + response.data.rows.Tom['10:30'].text);
+              vm.staffs_with_skills = response.data.staffs;
             })
             .catch(function (error) {
               alert('ERROR!');
@@ -354,8 +376,4 @@
       }
     });
   </script>
-
-  @section('script-quotation')
-
-  @show
 @endsection

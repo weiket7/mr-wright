@@ -53,6 +53,8 @@ Route::get('skill/save/{id}', 'SkillController@save');
 Route::post('skill/save/{id}', 'SkillController@save');
 
 Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
+Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
+
 Route::get('test', function() {
   $working_hour_service = new WorkingHourService();
   $today = Carbon::now()->format("Y-m-d");
