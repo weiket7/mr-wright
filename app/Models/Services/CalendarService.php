@@ -14,13 +14,14 @@ class CalendarService
     $this->working_hour_service = $working_hour_service;
   }
 
-  public function getStaffCalendarWithSkills($date, $skills) {
+  public function getStaffCalendar($date, $staff_ids) {
     $intervals = $this->working_hour_service->getWorkingIntervalsByDate($date);
     $is_date_blocked = $this->working_hour_service->isDateBlocked($date);
     $blocked_intervals = $this->working_hour_service->getBlockedWorkingIntervalsByDate($date);
 
-    $staffs = $this->getStaffWithSkills($skills);
-    $staff_ids = $staffs->pluck('staff_id');
+    $staffs = DB::table('staff')->whereIn('staff_id', $staff_ids)->select('name', 'staff_id')->get();
+    //$staff_ids = $staffs->pluck('staff_id');
+
     $staff_assignments = $this->getStaffAssignments($date, $staff_ids);
 
     $staff_intervals = [];

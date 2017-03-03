@@ -61,7 +61,7 @@
       <label class="control-label col-md-2">Staffs</label>
       <div class="col-md-10">
         <select id="staffs" class="form-control select2-multiple" multiple="multiple">
-          <option v-for="staff in staffs" v-bind:value="staff.staff_id">@{{ staff.name }}</option>
+          <option v-for="staff in staffs" v-bind:value="staff.staff_id" selected="selected">@{{ staff.name }}</option>
         </select>
       </div>
     </div>
@@ -74,32 +74,13 @@
         <button type="button" class="btn green-meadow">28 Feb 2017</button>
         <button type="button" class="btn btn-default">29 Feb 2017 <i class="fa fa-angle-right"></i></button>
 
-        {{--@{{selected_skills}}<br>
-        @{{ calendar_columns }}<br>
-        @{{ calendar_intervals }}<br>
-        @{{ calendar_rows }}--}}
       </div>
     </div>
 
     <div class="form-group">
       <label for="" class="control-label col-md-2"></label>
       <div class="col-md-10">
-        <table class="table table-hover table-bordered">
-          <thead>
-          <tr>
-            <th></th>
-            <th v-for="name in calendar_columns">@{{ name }}</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="interval in calendar_intervals">
-            <td width="100px">@{{ interval }}</td>
-            <td v-for="v in calendar_rows[interval]">
-              @{{ v.text }}
-            </td>
-          </tr>
-          </tbody>
-        </table>
+        <div id="calendar"></div>
       </div>
     </div>
 

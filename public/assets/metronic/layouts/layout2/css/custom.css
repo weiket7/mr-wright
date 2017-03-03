@@ -10,7 +10,8 @@
   max-height: 250px;
 }
 
-/*multiselect options alignment in form-horizontal*/
+/*fix multiselect options alignment in form-horizontal*/
+/*still got issue, background of hover has padding-left*/
 .multiselect-container>li:not(.multiselect-filter):not(.multiselect-group) {
   padding-left: 10px;
 }

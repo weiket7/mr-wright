@@ -261,26 +261,16 @@
         allowClear: true,
         placeholder: "Select"
       });
-      //initStaffsSelect2([]);
-    });
 
-    var getStaffCalendar = _.debounce(
-      function (a) {
-        axios.get('{{url('api/getStaffCalendar')}}?selected_staffs='+selected_staffs)
-        .then(function (response) {
-          vm.calendar_columns = response.data.columns;
-          vm.calendar_rows = response.data.rows;
-          vm.calendar_intervals = response.data.intervals;
-          vm.staffs_with_skills = response.data.staffs;
-        })
-        .catch(function (error) {
-          alert('ERROR!');
-        })
-      },
-      // This is the number of milliseconds we wait for the
-      // user to stop typing.
-      300
-    );
+      $("#staffs").on("select2:select select2:unselect", function(e) {
+        var data = $("#staffs").select2('data');
+        var selected_staffs = [];
+        for(var i=0; i<data.length; i++) {
+          selected_staffs.push(data[i].id);
+        }
+        vm.getStaffCalendar(selected_staffs);
+      });
+    });
 
     function quotationTab() {
       location.href += '#tab-quotation';
@@ -296,7 +286,8 @@
         calendar_rows: [],
         calendar_intervals: [],
         selected_staffs: [],
-        staffs: [{name: 'AA', staff_id: 1}, {name:'BB', staff_id: 2}],
+        staffs: [],
+        calendar: '',
       },
       computed: {
         images_count: function() {
@@ -305,58 +296,62 @@
       },
       watch: {
         selected_skills: function(n, o) {
+          //console.log("new="+n+'  old='+o);
           this.getStaffWithSkills();
-          console.log('selected_skills');
+          //console.log('selected_skills');
         }
       },
       methods: {
-        getStaffWithSkills: _.debounce(
-          function () {
-            var vm = this
-            axios.get('{{url('api/getStaffWithSkills')}}?selected_skills='+this.selected_skills)
-            .then(function (response) {
-              //https://github.com/select2/select2/issues/2830
-              var staffs = response.data;
-              var $select = $('#staffs');
-              var options = $select.data('select2').options.options;
-              vm.staffs = response.data;
-              console.log(JSON.stringify(response.data));
+        getStaffWithSkills: function () {
+          var vm = this
+          axios.get('{{url('api/getStaffWithSkills')}}?selected_skills='+this.selected_skills)
+          .then(function (response) {
+            //https://github.com/select2/select2/issues/2830
+            vm.staffs = response.data;
+            var selected_staffs = [];
+            for(var i=0; i<vm.staffs.length; i++) {
+              selected_staffs.push(vm.staffs[i].staff_id);
+            }
+            //console.log(JSON.stringify(selected_staffs));
 
-              $("#staffs").select2({
-                allowClear: true,
-                placeholder: "Select"
-              });
+            var $select = $('#staffs');
+            var options = $select.data('select2').options;
+            $select.select2(options);
+            vm.getStaffCalendar(selected_staffs);
+          })
+          .catch(function (error) {
+            alert('ERROR!');
+          })
+        },
+        getStaffCalendar: function(selected_staffs) {
+          console.log('selected_staffs='+selected_staffs);
+          axios.get('{{url('api/getStaffCalendar')}}?selected_staffs='+selected_staffs)
+          .then(function (response) {
+            var html = '<table class="table table-hover table-bordered"><thead><tr><th width="80px"></th>';
 
-              $select.on("select2:selecting", function(e) {
-                vm.getStaffCalendar();
-                //alert('he');
-              });
-            })
-            .catch(function (error) {
-              alert('ERROR!');
-            })
-          },
-          300
-        ),
-        getStaffCalendar: _.debounce(
-          function () {
-            console.log("WOOHOO");
-            var vm = this
-            axios.get('{{url('api/getStaffCalendar')}}?selected_skills='+this.selected_skills)
-            .then(function (response) {
-              vm.calendar_columns = response.data.columns;
-              vm.calendar_rows = response.data.rows;
-              vm.calendar_intervals = response.data.intervals;
-              vm.staffs_with_skills = response.data.staffs;
-            })
-            .catch(function (error) {
-              alert('ERROR!');
-            })
-          },
-          // This is the number of milliseconds we wait for the
-          // user to stop typing.
-          300
-        ),
+            var columns = response.data.columns;
+            for(var i = 0; i<columns.length; i++) {
+              html += "<th>" + columns[i] + "</th>";
+            }
+            html+= "</tr><tbody>";
+
+            var rows = response.data.rows;
+            var intervals = response.data.intervals;
+            for(var j = 0; j<intervals.length; j++) {
+              var time = intervals[j];
+              html += "<tr><td>"+time+"</td>";
+              //console.log(rows[time]);
+
+              for(var k=0; k<rows[time].length; k++) {
+                html += "<td>"+rows[time][k].text+"</td>";
+              }
+            }
+            $('#calendar').html(html);
+          })
+          .catch(function (error) {
+            alert('ERROR!');
+          })
+        },
         addImage: function() {
           this.images.push({image:'', 'issue':'', 'expected':''});
         },
