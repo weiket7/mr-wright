@@ -161,7 +161,7 @@
                   <div class="col-md-10">
                     <input type="hidden" v-bind:value="images_count">
 
-                    <table class="table table-hover table-bordered">
+                    <table class="table table-hover table-bordered no-margin-btm">
                       <thead>
                       <tr>
                         <th>Image</th>
@@ -188,34 +188,6 @@
                         </td>
                       </tr>
                       </tfoot>
-                    </table>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="control-label col-md-2">Preferred Date Time</label>
-                  <div class="col-md-10">
-                    <table class="table table-hover table-bordered">
-                      <thead>
-                      <tr>
-                        <th width="210px">Date</th>
-                        <th>Time</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      @foreach($ticket->preferred_datetimes as $p)
-                        <tr>
-                          <td>
-                            {{ViewHelper::formatDate($p->date_from)}}
-                            to {{ViewHelper::formatDate($p->date_to)}}
-                          </td>
-                          <td>
-                            {{ViewHelper::formatTime($p->time_from)}}
-                            to {{ViewHelper::formatTime($p->time_to)}}
-                          </td>
-                        </tr>
-                      @endforeach
-                      </tbody>
                     </table>
                   </div>
                 </div>
@@ -282,12 +254,12 @@
       data: {
         images: [],
         selected_skills: [],
-        calendar_columns: [],
+        /*calendar_columns: [],
         calendar_rows: [],
         calendar_intervals: [],
-        selected_staffs: [],
-        staffs: [],
-        calendar: '',
+        selected_staffs: [],*/
+        //staffs: [],
+        //calendar: '',
       },
       computed: {
         images_count: function() {
@@ -307,16 +279,27 @@
           axios.get('{{url('api/getStaffWithSkills')}}?selected_skills='+this.selected_skills)
           .then(function (response) {
             //https://github.com/select2/select2/issues/2830
-            vm.staffs = response.data;
-            var selected_staffs = [];
-            for(var i=0; i<vm.staffs.length; i++) {
-              selected_staffs.push(vm.staffs[i].staff_id);
-            }
-            //console.log(JSON.stringify(selected_staffs));
-
+            var staffs = response.data;
             var $select = $('#staffs');
             var options = $select.data('select2').options;
+
+            $select.html('');
+            var res = [];
+            for (var i = 0; i < staffs.length; i++) {
+              res.push({
+                "id": staffs[i].staff_id,
+                "text": staffs[i].name
+              });
+              $select.append('<option value=' + staffs[i].staff_id + ' selected>' + staffs[i].name + '</option>');
+            }
+            options.data = res;
+
             $select.select2(options);
+
+            var selected_staffs = [];
+            for(var j=0; j<staffs.length; j++) {
+              selected_staffs.push(staffs[j].staff_id);
+            }
             vm.getStaffCalendar(selected_staffs);
           })
           .catch(function (error) {
@@ -324,10 +307,10 @@
           })
         },
         getStaffCalendar: function(selected_staffs) {
-          console.log('selected_staffs='+selected_staffs);
+          //console.log('selected_staffs='+selected_staffs);
           axios.get('{{url('api/getStaffCalendar')}}?selected_staffs='+selected_staffs)
           .then(function (response) {
-            var html = '<table class="table table-hover table-bordered"><thead><tr><th width="80px"></th>';
+            var html = '<table class="table table-hover table-bordered no-margin-btm"><thead><tr><th width="80px"></th>';
 
             var columns = response.data.columns;
             for(var i = 0; i<columns.length; i++) {
