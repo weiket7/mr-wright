@@ -4,6 +4,7 @@ abstract class TicketStat {
   const Opened = 'O';
   const Quoted = 'Q';
   const Accepted = 'A';
+  const Declined = 'D';
   const Completed = 'C';
   const Invoiced = 'I';
   const Paid = 'P';
@@ -13,6 +14,7 @@ abstract class TicketStat {
     self::Opened=>'Opened',
     self::Quoted=>'Quoted',
     self::Accepted=>'Accepted',
+    self::Declined=>'Declined',
     self::Completed=>'Completed',
     self::Invoiced=>'Invoiced',
     self::Paid=>'Paid',

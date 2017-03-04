@@ -49,6 +49,7 @@ class CalendarService
       'intervals'=>$intervals,
       'staff_intervals'=>$staff_intervals,
       'staffs'=>$staffs,
+      'is_date_blocked'=>$is_date_blocked
     ];
     //var_dump($intervals); exit;
     return $res;

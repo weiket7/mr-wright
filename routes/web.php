@@ -34,6 +34,11 @@ Route::post('ticket/save', 'TicketController@save');
 Route::get('ticket/save/{id}', 'TicketController@save');
 Route::post('ticket/save/{id}', 'TicketController@save');
 
+Route::get('ticket/accept/{id}', 'TicketController@accept');
+Route::post('ticket/accept/{id}', 'TicketController@accept');
+Route::get('ticket/decline/{id}', 'TicketController@decline');
+Route::post('ticket/decline/{id}', 'TicketController@decline');
+
 Route::get('quotation', 'QuotationController@index');
 Route::get('quotation/save', 'QuotationController@save');
 Route::post('quotation/save', 'QuotationController@save');

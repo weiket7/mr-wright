@@ -7,6 +7,7 @@ use App\Models\Services\CompanyService;
 use App\Models\Services\TicketService;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use App\Models\Helpers\BackendHelper;
 
 class TicketController extends Controller
 {
@@ -28,15 +29,28 @@ class TicketController extends Controller
   public function save(Request $request, $ticket_id = null) {
     if($request->isMethod("post")) {
       $input = $request->all();
-      $this->ticket_service->saveTicket($ticket_id, $input);
+      $submit = $input['submit'];
+      if (BackendHelper::stringContains($submit, "quotation")) {
+        $this->ticket_service->sendQuotation($ticket_id);
+      } elseif (BackendHelper::stringContains($submit, "ticket")) {
+        $this->ticket_service->saveTicket($ticket_id, $input);
+      } elseif (BackendHelper::stringContains($submit, "complete")) {
+      $this->ticket_service->completeTicket($ticket_id);
+      }
     }
     $data['action'] = $ticket_id == null ? 'create' : 'update';
     $data['ticket'] = $this->ticket_service->getTicket($ticket_id);
     $data['companies'] = $this->company_service->getCompanyDropdown();
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
-    $data['skills'] = ['Mechanical', 'Plumbing', 'Electrical']; //TODO
+    $data['skills'] = $this->ticket_service->getSkills(); 
 
     return view('ticket/form', $data);
+  }
+
+  public function accept(Request $request, $ticket_id = null) {
+    //TODO user must log in and ticket must belong to him
+    $this->ticket_service->acceptTicket($ticket_id);
+
   }
   
 }

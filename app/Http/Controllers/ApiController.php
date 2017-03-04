@@ -35,7 +35,6 @@ class ApiController extends Controller
     $intervals = $res['intervals'];
     $staff_intervals = $res['staff_intervals'];
 
-
     $columns = [];
     $rows = [];
     //var_dump($intervals); exit;
@@ -53,6 +52,7 @@ class ApiController extends Controller
       'rows' => $rows,
       'intervals' => $intervals,
       'staffs' => $staffs,
+      'is_date_blocked'=>$res['is_date_blocked']
     ];
     return $res;
 

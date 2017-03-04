@@ -18,11 +18,20 @@ class TicketTable extends Migration
       $t->integer('category_id');
       $t->string('category_name', 30);
       $t->char('urgency', 1);
+      $t->decimal('quoted_price', 12, 2);
+      $t->decimal('agreed_price', 12, 2);
       $t->string('requester_desc', 250);
       $t->string('operator_desc', 250);
-      
+      $t->string('quotation_desc', 250);
+
       $t->string('opened_by', 20);
       $t->dateTime('opened_on');
+      $t->string('quoted_by', 20);
+      $t->dateTime('quoted_on');
+      $t->string('accepted_by', 20);
+      $t->dateTime('accepted_on');
+      $t->string('completed_by', 20);
+      $t->dateTime('completed_on');
       $t->string('requested_by', 20);
       $t->dateTime('requested_on');
       $t->string('updated_by', 20);

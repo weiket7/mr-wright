@@ -18,15 +18,13 @@
             <a href="#tab-general" data-toggle="tab">
               Ticket </a>
           </li>
-          <li>
+          <!--<li>
             <a href="#tab-quotation" data-toggle="tab">Quotation</a>
-          </li>
+          </li>-->
         </ul>
         <div class="tab-content no-space">
           <div class="tab-pane fade active in" id="tab-general">
-
             <form action="" method="post" class="form-horizontal">
-
               {!! csrf_field() !!}
               <div class="form-body">
                 <div class="form-group">
@@ -35,7 +33,7 @@
                     {{Form::text('title', $ticket->title, ['class'=>'form-control'])}}
                   </div>
                 </div>
-                @if($action == 'update')
+                @if($action !== 'create')
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
@@ -58,13 +56,35 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Opened By</label>
+                        <div class="col-md-9">
+                          <div class="form-control-static">{{ $ticket->opened_by }} on {{ ViewHelper::getNowFormatted() }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      @if($ticket->stat == TicketStat::Quoted)
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Quoted By</label>
+                        <div class="col-md-9">
+                          <div class="form-control-static">{{ $ticket->quotation->quoted_by }} on {{ ViewHelper::formatDate($ticket->quotation->quoted_on) }}</div>
+                        </div>
+                      </div>
+                      @endif
+                    </div>
+                  </div>
                 @endif
+
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                       <label class="control-label col-md-3">Company</label>
                       <div class="col-md-9">
-                        {{Form::select('company_id', $companies, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('company_id', $companies, $ticket->company_id, ['class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -72,7 +92,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Category</label>
                       <div class="col-md-9">
-                        {{Form::select('category_id', $categories, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('category_id', $categories, $ticket->category_id, ['class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -82,7 +102,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Office</label>
                       <div class="col-md-9">
-                        {{Form::select('office_id', $companies, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('office_id', $companies, $ticket->office_id, ['class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -100,7 +120,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Requested By</label>
                       <div class="col-md-9">
-                        {{Form::select('requested_by', $companies, $ticket->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('requested_by', $companies, $ticket->requested_by, ['class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -108,7 +128,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Requested On</label>
                       <div class="col-md-9">
-                        {{Form::text('requested_on', ViewHelper::formatDate($ticket->requested_on), ['class'=>'form-control date-picker', 'placeholder'=>''])}}
+                        {{Form::text('requested_on', ViewHelper::formatDate($ticket->requested_on), ['class'=>'form-control datepicker', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -131,27 +151,6 @@
                     </div>
                   </div>
                 </div>
-                @if($action == 'update')
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="control-label col-md-3">Opened By</label>
-                        <div class="col-md-9">
-                          <div class="form-control-static">{{ $ticket->opened_by }}</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="control-label col-md-3">Opened On</label>
-                        <div class="col-md-9">
-                          <div class="form-control-static">{{ ViewHelper::getNowFormatted() }}</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                @endif
-
                 <div class="form-group">
                   <label class="control-label col-md-2">Images</label>
                   <div class="col-md-10">
@@ -188,7 +187,95 @@
                   </div>
                 </div>
 
-                @include('ticket/quotation')
+
+                {!! csrf_field() !!}
+                <div class="form-group">
+                  <label class="control-label col-md-2">Quoted Price</label>
+                  <div class="col-md-10">
+                    {{Form::text('quoted_price', $ticket->quotation->quoted_price, ['class'=>'form-control'])}}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-2">Preferred Slots</label>
+                  <div class="col-md-10">
+                    <table class="table table-hover table-bordered no-margin-btm">
+                      <thead>
+                      <tr>
+                        <th width="210px">Date</th>
+                        <th>Time</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      @foreach($ticket->preferred_datetimes as $p)
+                        <tr>
+                          <td>
+                            {{ViewHelper::formatDate($p->date_from)}}
+                            to {{ViewHelper::formatDate($p->date_to)}}
+                          </td>
+                          <td>
+                            {{ViewHelper::formatTime($p->time_from)}}
+                            to {{ViewHelper::formatTime($p->time_to)}}
+                          </td>
+                        </tr>
+                      @endforeach
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-2">Skills</label>
+                  <div class="col-md-10">
+                    <div class="mt-checkbox-inline">
+                      @foreach($skills as $skill)
+                        <label class="mt-checkbox mt-checkbox-outline">
+                          <input type="checkbox" value="{{$skill}}" name="skills"/> {{ $skill }}
+                          <span></span>
+                        </label>
+                      @endforeach
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-2">Staffs</label>
+                  <div class="col-md-10">
+                    <select id="staffs" class="form-control select2-multiple" multiple="multiple">
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-2">Date</label>
+                  <div class="col-md-10">
+                    <div class="input-group" style="max-width:300px">
+                      <span class="input-group-btn">
+                          <button class="btn red" type="button" @click="previousDate">Previous</button>
+                      </span>
+                      <input type="text" id="date" name="date" v-model="currentDateFormatted" class="form-control datepicker datepicker-width">
+                      <span class="input-group-btn">
+                          <button class="btn red" type="button" @click="nextDate">Next</button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="" class="control-label col-md-2" id="assignments">Calendar</label>
+                  <div class="col-md-10">
+                    <div id="calendar"></div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-2">Quotation Description</label>
+                  <div class="col-md-10">
+                    {{Form::textarea('quotation_desc', $ticket->quotation->quotation_desc, ['class'=>'form-control', 'rows'=>5])}}
+                  </div>
+                </div>
+
+
               </div>
 
               <div class="form-actions">
@@ -196,12 +283,27 @@
                   <div class="col-md-6">
                     <div class="row">
                       <div class="col-md-offset-3 col-md-9">
-                        <button type="submit" class="btn green">
-                          {{ ucfirst($action) }}
-                        </button>
-                        <button type="button" class="btn blue" onclick="quotationTab()">
-                          Create Quotation
-                        </button>
+                        @if(in_array($ticket->stat, [null, TicketStat::Opened]))
+                          <button type="submit" name="submit" class="btn green" value="{{ ucfirst($action) }} Ticket">
+                            {{ ucfirst($action) }} Ticket
+                          </button>
+                        @endif
+                        @if($ticket->stat == TicketStat::Opened)
+                          <button type="submit" name="submit" class="btn blue" value="Send Quotation">
+                            Send Quotation
+                          </button>
+                        @endif
+                          @if($ticket->stat == TicketStat::Accepted)
+                            <button type="submit" name="submit" class="btn blue" value="Complete">
+                              Complete
+                            </button>
+                          @endif
+                        @if($ticket->stat == TicketStat::Quoted)
+                          <div class="alert alert-info">
+                            Quotation has been sent. Waiting for customer's response.
+                          </div>
+                        @endif
+
                       </div>
                     </div>
                   </div>
@@ -210,9 +312,8 @@
               </div>
             </form>
           </div>
-          <div class="tab-pane fade" id="tab-quotation">
-            @include('ticket/quotation')
-          </div>
+          <!--<div class="tab-pane fade" id="tab-quotation">
+          </div>-->
 
         </div>
       </div>
@@ -239,16 +340,17 @@
         var selected_staffs = getSelectedMultiSelect2ById('staffs');
         populateCalendar(selected_staffs);
       });
-  
-  
+
+
       $("input[name='skills']").click(function() {
         var selected_skills = getSelectedCheckboxesByName('skills');
         getStaffWithSkills(selected_skills);
       });
 
       $("#date").on('changeDate', function() {
+        getStaffsAndPopulateCalendar();
+      });
 
-      })
     });
 
     function quotationTab() {
@@ -262,8 +364,6 @@
       var time = $(cell).attr('data-time');
       var name = $(cell).attr('data-name');
 
-      var a = $(cell).hasClass('calendar-selected');
-      console.log(a);
       if ($(cell).hasClass('calendar-selected')) {
         $(cell).removeClass('calendar-selected');
         removeFromObject(selectedCells, name, time);
@@ -278,66 +378,79 @@
 
     function getStaffWithSkills(skills) {
       axios.get('{{url('api/getStaffWithSkills')}}?skills='+skills)
-        .then(function (response) {
-          //https://github.com/select2/select2/issues/2830
-          var staffs = response.data;
-          
-          var $select = $('#staffs');
-          var options = $select.data('select2').options;
-          $select.html('');
+      .then(function (response) {
+        //https://github.com/select2/select2/issues/2830
+        var staffs = response.data;
 
-          var res = [];
-          for (var i = 0; i < staffs.length; i++) {
-            res.push({
-              "id": staffs[i].staff_id,
-              "text": staffs[i].name
-            });
-            $select.append('<option value=' + staffs[i].staff_id + ' selected>' + staffs[i].name + '</option>');
-          }
-          options.data = res;
-      
-          $select.select2(options);
-      
-          var selected_staffs = [];
-          for(var j=0; j<staffs.length; j++) {
-            selected_staffs.push(staffs[j].staff_id);
-          }
-          populateCalendar(selected_staffs);
-        })
-        .catch(function (error) {
-          alert('getStaffWithSkills error='+error);
-        })
+        var $select = $('#staffs');
+        var options = $select.data('select2').options;
+        $select.html('');
+
+        var res = [];
+        for (var i = 0; i < staffs.length; i++) {
+          res.push({
+            "id": staffs[i].staff_id,
+            "text": staffs[i].name
+          });
+          $select.append('<option value=' + staffs[i].staff_id + ' selected>' + staffs[i].name + '</option>');
+        }
+        options.data = res;
+
+        $select.select2(options);
+
+        var selected_staffs = [];
+        for(var j=0; j<staffs.length; j++) {
+          selected_staffs.push(staffs[j].staff_id);
+        }
+        populateCalendar(selected_staffs);
+      })
+      .catch(function (error) {
+        console.log('getStaffWithSkills error='+error);
+      })
     }
-    
+
+    function getStaffsAndPopulateCalendar() {
+      var selected_staffs = getSelectedMultiSelect2ById('staffs');
+      if (selected_staffs.length === 0) {
+        toastr.error('Select skills and staffs first');
+      }
+      populateCalendar(selected_staffs);
+    }
+
     function populateCalendar(staffs) {
       //console.log('selected_staffs='+selected_staffs);
       axios.get('{{url('api/getStaffCalendar')}}?staffs='+staffs+'&date='+vm.currentDate.format('YYYY-MM-DD'))
-        .then(function (response) {
-          var html = '<table class="table table-bordered no-margin-btm"><thead><tr><th width="80px"></th>';
-      
-          var columns = response.data.columns;
-          for(var i = 0; i<columns.length; i++) {
-            html += "<th>" + columns[i] + "</th>";
+      .then(function (response) {
+        if (response.data.is_date_blocked) {
+          $('#calendar').html("<label class='control-label'>Date is blocked</label>");
+          return;
+        }
+
+        var html = '<table class="table table-bordered no-margin-btm"><thead><tr><th width="80px"></th>';
+
+        var columns = response.data.columns;
+        for(var i = 0; i<columns.length; i++) {
+          html += "<th>" + columns[i] + "</th>";
+        }
+        html+= "</tr><tbody>";
+
+        var rows = response.data.rows;
+        var intervals = response.data.intervals;
+
+        for(var j = 0; j<intervals.length; j++) {
+          var time = intervals[j];
+          html += "<tr><td>"+time+"</td>";
+          //console.log(rows[time]);
+
+          for(var k=0; k<rows[time].length; k++) {
+            html += "<td onclick='selectSlot(this)' data-time="+time+" data-name="+columns[k]+">"+rows[time][k].text+"</td>";
           }
-          html+= "</tr><tbody>";
-      
-          var rows = response.data.rows;
-          var intervals = response.data.intervals;
-            
-          for(var j = 0; j<intervals.length; j++) {
-            var time = intervals[j];
-            html += "<tr><td>"+time+"</td>";
-            //console.log(rows[time]);
-        
-            for(var k=0; k<rows[time].length; k++) {
-              html += "<td onclick='selectSlot(this)' data-time="+time+" data-name="+columns[k]+">"+rows[time][k].text+"</td>";
-            }
-          }
-          $('#calendar').html(html);
-        })
-        .catch(function (error) {
-          alert('populateCalendar error');
-        })
+        }
+        $('#calendar').html(html);
+      })
+      .catch(function (error) {
+        console.log('populateCalendar error');
+      })
     }
 
     var vm = new Vue({

@@ -25,7 +25,11 @@ class TicketService
     return CategoryForTicket::pluck('name', 'category_for_ticket_id');
   }
 
-  public function saveTicket($ticket_id, $input, $operator_username = 'admin') //TODO
+  public function getSkills() {
+    return DB::table('skill')->pluck('name', 'skill_id');
+  }
+
+  public function saveTicket($ticket_id, $input, $operator = 'admin') //TODO
   {
     $ticket = Ticket::findOrNew($ticket_id);
     $ticket->title = $input['title'];
@@ -35,13 +39,41 @@ class TicketService
     $ticket->office_id = $input['office_id'];
     $ticket->requester_desc = $input['requester_desc'];
     $ticket->operator_desc = $input['operator_desc'];
-    $ticket->requested_by = $input['requested_by'];
-    $ticket->requested_on = Carbon::createFromFormat('d-m-Y', $input['requested_on']);
+      $ticket->requested_by = $input['requested_by'];
+    $ticket->requested_on = Carbon::createFromFormat('d M Y', $input['requested_on']);
     if ($ticket_id == null) {
-      $ticket->stat = TicketStat::Open;
-      $ticket->opened_by = $operator_username;
+      $ticket->stat = TicketStat::Opened;
+      $ticket->opened_by = $operator;
       $ticket->opened_on = Carbon::now();
     }
+    return $ticket->save();
+  }
+
+  public function sendQuotation($ticket_id, $operator = 'admin')
+  {
+    $ticket = Ticket::findOrFail($ticket_id);
+    $ticket->stat = TicketStat::Quoted;
+    $ticket->quoted_by = $operator;
+    $ticket->quoted_on = Carbon::now();
+    return $ticket->save();
+  }
+
+  public function acceptTicket($ticket_id, $operator = 'admin')
+  {
+    $ticket = Ticket::findOrFail($ticket_id);
+    $ticket->stat = TicketStat::Accepted;
+    $ticket->agreed_price = $ticket->quoted_price;
+    $ticket->accepted_by = $operator;
+    $ticket->accepted_on = Carbon::now();
+    return $ticket->save();
+  }
+
+  public function completeTicket($ticket_id, $operator = 'admin')
+  {
+    $ticket = Ticket::findOrFail($ticket_id);
+    $ticket->stat = TicketStat::Completed;
+    $ticket->completed_by = $operator;
+    $ticket->completed_on = Carbon::now();
     return $ticket->save();
   }
 }

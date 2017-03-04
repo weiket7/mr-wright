@@ -1,6 +1,6 @@
-<?php
+<?php namespace App\Models\Helpers;
 
-class ViewHelper
+class BackendHelper
 {
   public static function getIdFromArr($arr, $id_name) {
     $data = [];
@@ -10,5 +10,12 @@ class ViewHelper
       }
     }
     return $data;
+  }
+
+  public static function stringContains($target, $value) {
+    if (stripos($target, $value) !== false) {
+      return true;
+    }
+    return false;
   }
 }
