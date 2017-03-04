@@ -15,6 +15,7 @@ use App\Models\Services\WorkingHourService;
 use Carbon\Carbon;
 
 Route::get('/', 'SiteController@index');
+Route::get('site/mail', 'SiteController@mail');
 
 Route::get('product', 'ProductController@index');
 Route::get('product/save', 'ProductController@save');

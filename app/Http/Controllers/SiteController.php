@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Quotation;
+use App\Models\User;
+use Mail;
+
 class SiteController extends Controller
 {
   public function index()
@@ -9,6 +13,12 @@ class SiteController extends Controller
     //$product = DB::collection('product')->get();
     //var_dump($product); exit;
     return view("index");
+  }
+
+  public function mail() {
+    //https://laracasts.com/series/laravel-from-scratch-2017/episodes/27
+    Mail::to($user = User::first())->send(new Quotation());
+
   }
 }
   
