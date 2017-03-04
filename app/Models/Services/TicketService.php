@@ -44,6 +44,7 @@ class TicketService
       $ticket->opened_by = $operator;
       $ticket->opened_on = Carbon::now();
     }
+    $this->updateTicketIssues($ticket_id, $input);
     return $ticket->save();
   }
 
@@ -73,5 +74,11 @@ class TicketService
     $ticket->completed_by = $operator;
     $ticket->completed_on = Carbon::now();
     return $ticket->save();
+  }
+
+  private function updateTicketIssues($ticket_id, $input)
+  {
+    DB::table('ticket_issue')->where('ticket_id', $ticket_id)->delete();
+      
   }
 }

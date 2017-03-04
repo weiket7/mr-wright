@@ -168,7 +168,8 @@
                       <tr v-for="(issue, index) in issues">
                         <td>
                           <div v-bind:id="'preview-image' + index">
-                            </div>
+                            <img :src="'{{asset('images')}}/'+ issue.image " v-if="issue.image" />
+                          </div>
                           <input type="file" v-bind:name="'image' + index" v-on:change="previewImage(index,$event)">
                         </td>
                         <td>
@@ -189,12 +190,10 @@
                   </div>
                 </div>
 
-
-                {!! csrf_field() !!}
                 <div class="form-group">
                   <label class="control-label col-md-2">Quoted Price</label>
                   <div class="col-md-10">
-                    {{Form::text('quoted_price', $ticket->quoted_price, ['class'=>'form-control'])}}
+                    {{Form::text('quoted_price', ViewHelper::formatNumber($ticket->quoted_price), ['class'=>'form-control'])}}
                   </div>
                 </div>
 
@@ -485,7 +484,7 @@
           $('#date').datepicker("setDate", this.currentDate.startOf('day').toDate());
         },
         addImage: function() {
-          this.images.push({image:'', 'issue':'', 'expected':''});
+          this.issues.push({image:'', 'issue_desc':'', 'expected_desc':''});
         },
         previewImage: function(index,e) {
           var reader = new FileReader();
