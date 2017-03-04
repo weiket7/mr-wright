@@ -18,7 +18,9 @@ class CalendarService
     $intervals = $this->working_hour_service->getWorkingIntervalsByDate($date);
     $is_date_blocked = $this->working_hour_service->isDateBlocked($date);
     $blocked_intervals = $this->working_hour_service->getBlockedWorkingIntervalsByDate($date);
+    //var_dump($intervals); exit;
 
+    
     $staffs = DB::table('staff')->whereIn('staff_id', $staff_ids)->select('name', 'staff_id')->get();
     //$staff_ids = $staffs->pluck('staff_id');
 
@@ -35,20 +37,21 @@ class CalendarService
       if(isset($staff_assignments[$staff_id])) {
         $assignments = $staff_assignments[$staff_id];
         foreach ($assignments as $a) {
-          $intervals = $this->working_hour_service->splitTimeRangeIntoInterval($a->time_start, $a->time_end, 15);
-          foreach ($intervals as $i) {
+          $assignment_intervals = $this->working_hour_service->splitTimeRangeIntoInterval($a->time_start, $a->time_end, 15);
+          foreach ($assignment_intervals as $i) {
             $staff_intervals[$staff_id][$i]['ticket_id'] = $a->ticket_id;
           }
         }
       }
     }
 
-    return [
+    $res = [
       'intervals'=>$intervals,
       'staff_intervals'=>$staff_intervals,
       'staffs'=>$staffs,
-
     ];
+    //var_dump($intervals); exit;
+    return $res;
   }
 
   private function arrayContains($haystack, $needle) {

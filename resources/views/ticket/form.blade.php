@@ -4,10 +4,6 @@
 
 @extends("template")
 
-@section('css')
-  <link href="../assets/global/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
-@endsection
-
 @section('content')
   <h1 class="page-title" xmlns:v-on="http://www.w3.org/1999/xhtml">
     {{ucfirst($action)}} Ticket
@@ -226,21 +222,31 @@
 
 @section('script')
   <script>
-    $.fn.select2.defaults.set("theme", "bootstrap");
 
     $(document).ready(function() {
+      //http://stackoverflow.com/questions/29618382/disable-dropdown-opening-on-select2-clear
       $("#staffs").select2({
         allowClear: true,
         placeholder: "Select"
+      }).on('select2:unselecting', function() { //unselect prevent open dropdown
+        $(this).data('unselecting', true);
+      }).on('select2:opening', function(e) {
+        if ($(this).data('unselecting')) {
+          $(this).removeData('unselecting');
+          e.preventDefault();
+        }
       });
+  
 
       $("#staffs").on("select2:select select2:unselect", function(e) {
-        var data = $("#staffs").select2('data');
-        var selected_staffs = [];
-        for(var i=0; i<data.length; i++) {
-          selected_staffs.push(data[i].id);
-        }
-        vm.getStaffCalendar(selected_staffs);
+        var selected_staffs = getSelectedMultiSelect2ById('staffs');
+        populateCalendar(selected_staffs);
+      });
+  
+  
+      $("input[name='skills']").click(function() {
+        var selected_skills = getSelectedCheckboxesByName('skills');
+        getStaffWithSkills(selected_skills);
       });
     });
 
@@ -248,93 +254,102 @@
       location.href += '#tab-quotation';
       $('a[href="#tab-quotation"]').tab('show');
     }
+    
+    var selectedCells = {};
+
+    function selectSlot(cell) {
+      $(cell).addClass('calendar-selected');
+      var time = $(cell).attr('data-time');
+      var name = $(cell).attr('data-name');
+      
+      //TODO check if exist
+
+      if (typeof selectedCells[name] === "undefined") {
+        selectedCells[name] = [time];
+      } else {
+        selectedCells[name].push(time);
+      }
+      
+      //TODO sort times
+      $("#assignments").text(JSON.stringify(selectedCells));
+    }
+
+    function getStaffWithSkills(skills) {
+      axios.get('{{url('api/getStaffWithSkills')}}?selected_skills='+skills)
+        .then(function (response) {
+          //https://github.com/select2/select2/issues/2830
+          var staffs = response.data;
+          
+          var $select = $('#staffs');
+          var options = $select.data('select2').options;
+          $select.html('');
+
+          var res = [];
+          for (var i = 0; i < staffs.length; i++) {
+            res.push({
+              "id": staffs[i].staff_id,
+              "text": staffs[i].name
+            });
+            $select.append('<option value=' + staffs[i].staff_id + ' selected>' + staffs[i].name + '</option>');
+          }
+          options.data = res;
+      
+          $select.select2(options);
+      
+          var selected_staffs = [];
+          for(var j=0; j<staffs.length; j++) {
+            selected_staffs.push(staffs[j].staff_id);
+          }
+          populateCalendar(selected_staffs);
+        })
+        .catch(function (error) {
+          alert('getStaffWithSkills error');
+        })
+    }
+    
+    function populateCalendar(selected_staffs) {
+      //console.log('selected_staffs='+selected_staffs);
+      axios.get('{{url('api/getStaffCalendar')}}?selected_staffs='+selected_staffs)
+        .then(function (response) {
+          var html = '<table class="table table-bordered no-margin-btm"><thead><tr><th width="80px"></th>';
+      
+          var columns = response.data.columns;
+          for(var i = 0; i<columns.length; i++) {
+            html += "<th>" + columns[i] + "</th>";
+          }
+          html+= "</tr><tbody>";
+      
+          var rows = response.data.rows;
+          var intervals = response.data.intervals;
+            
+          for(var j = 0; j<intervals.length; j++) {
+            var time = intervals[j];
+            html += "<tr><td>"+time+"</td>";
+            //console.log(rows[time]);
+        
+            for(var k=0; k<rows[time].length; k++) {
+              html += "<td onclick='selectSlot(this)' data-time="+time+" data-name="+columns[k]+">"+rows[time][k].text+"</td>";
+            }
+          }
+          $('#calendar').html(html);
+        })
+        .catch(function (error) {
+          alert('populateCalendar error');
+        })
+    }
 
     var vm = new Vue({
       el: "#app",
       data: {
         images: [],
-        selected_skills: [],
-        /*calendar_columns: [],
-        calendar_rows: [],
-        calendar_intervals: [],
-        selected_staffs: [],*/
-        //staffs: [],
-        //calendar: '',
+        currentDate: []
       },
       computed: {
         images_count: function() {
           return this.images.length;
         }
       },
-      watch: {
-        selected_skills: function(n, o) {
-          //console.log("new="+n+'  old='+o);
-          this.getStaffWithSkills();
-          //console.log('selected_skills');
-        }
-      },
       methods: {
-        getStaffWithSkills: function () {
-          var vm = this
-          axios.get('{{url('api/getStaffWithSkills')}}?selected_skills='+this.selected_skills)
-          .then(function (response) {
-            //https://github.com/select2/select2/issues/2830
-            var staffs = response.data;
-            var $select = $('#staffs');
-            var options = $select.data('select2').options;
-
-            $select.html('');
-            var res = [];
-            for (var i = 0; i < staffs.length; i++) {
-              res.push({
-                "id": staffs[i].staff_id,
-                "text": staffs[i].name
-              });
-              $select.append('<option value=' + staffs[i].staff_id + ' selected>' + staffs[i].name + '</option>');
-            }
-            options.data = res;
-
-            $select.select2(options);
-
-            var selected_staffs = [];
-            for(var j=0; j<staffs.length; j++) {
-              selected_staffs.push(staffs[j].staff_id);
-            }
-            vm.getStaffCalendar(selected_staffs);
-          })
-          .catch(function (error) {
-            alert('ERROR!');
-          })
-        },
-        getStaffCalendar: function(selected_staffs) {
-          //console.log('selected_staffs='+selected_staffs);
-          axios.get('{{url('api/getStaffCalendar')}}?selected_staffs='+selected_staffs)
-          .then(function (response) {
-            var html = '<table class="table table-hover table-bordered no-margin-btm"><thead><tr><th width="80px"></th>';
-
-            var columns = response.data.columns;
-            for(var i = 0; i<columns.length; i++) {
-              html += "<th>" + columns[i] + "</th>";
-            }
-            html+= "</tr><tbody>";
-
-            var rows = response.data.rows;
-            var intervals = response.data.intervals;
-            for(var j = 0; j<intervals.length; j++) {
-              var time = intervals[j];
-              html += "<tr><td>"+time+"</td>";
-              //console.log(rows[time]);
-
-              for(var k=0; k<rows[time].length; k++) {
-                html += "<td>"+rows[time][k].text+"</td>";
-              }
-            }
-            $('#calendar').html(html);
-          })
-          .catch(function (error) {
-            alert('ERROR!');
-          })
-        },
         addImage: function() {
           this.images.push({image:'', 'issue':'', 'expected':''});
         },

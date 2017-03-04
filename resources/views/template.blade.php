@@ -42,7 +42,6 @@ License: You must have a valid license purchased only from themeforest(the above
   <link href="{{asset('assets/metronic/global/plugins/bootstrap-toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('assets/metronic/global/plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('assets/metronic/global/plugins/select2/css/select2-bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
-  <link href="{{asset('assets/metronic/global/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css')}}" rel="stylesheet" type="text/css" />
   <!-- END PAGE LEVEL PLUGINS -->
   <!-- BEGIN THEME GLOBAL STYLES -->
   <link href="{{asset('assets/metronic/global/css/components.min.css')}}" rel="stylesheet" id="style_components" type="text/css" />
@@ -1162,7 +1161,6 @@ License: You must have a valid license purchased only from themeforest(the above
   <script src="{{asset('assets/metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/global/plugins/bootstrap-toastr/toastr.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/global/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
-  <script src="{{asset('assets/metronic/global/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js')}}" type="text/javascript"></script>
   <!-- END PAGE LEVEL PLUGINS -->
   <!-- BEGIN THEME GLOBAL SCRIPTS -->
   <script src="{{asset('assets/metronic/global/scripts/app.min.js')}}" type="text/javascript"></script>
@@ -1174,6 +1172,7 @@ License: You must have a valid license purchased only from themeforest(the above
   <script src="{{asset('assets/metronic/layouts/global/scripts/quick-nav.min.js')}}" type="text/javascript"></script>
   <!-- END THEME LAYOUT SCRIPTS -->
   <script src="{{asset('js/vue.js')}}" type="text/javascript"></script>
+  <script src="{{asset('js/common.js')}}" type="text/javascript"></script>
   <script src="{{asset('js/axios.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('js/lodash.min.js')}}" type="text/javascript"></script>
 
@@ -1181,6 +1180,9 @@ License: You must have a valid license purchased only from themeforest(the above
     $(document).ready(function() {
       toastr.options.positionClass = "toast-top-center";
       toastr.options.preventDuplicates = true;
+  
+      $.fn.select2.defaults.set("theme", "bootstrap");
+
 
       $(".date-picker").datepicker({
         format: "dd-mm-yyyy",

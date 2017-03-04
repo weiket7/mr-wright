@@ -36,3 +36,7 @@
 .no-margin-btm {
   margin-bottom: 0;
 }
+
+.calendar-selected {
+  background-color: #0c91e5;
+}

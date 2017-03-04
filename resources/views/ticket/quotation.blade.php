@@ -41,7 +41,7 @@
       <div class="mt-checkbox-inline">
         @foreach($skills as $skill)
           <label class="mt-checkbox mt-checkbox-outline">
-            <input type="checkbox" value="{{$skill}}" v-model="selected_skills"/> {{ $skill }}
+            <input type="checkbox" value="{{$skill}}" name="skills"/> {{ $skill }}
             <span></span>
           </label>
         @endforeach
@@ -69,7 +69,9 @@
   </div>
 
   <div class="form-group">
-    <label for="" class="control-label col-md-2"></label>
+    <label for="" class="control-label col-md-2" id="assignments">
+      
+    </label>
     <div class="col-md-10">
       <div id="calendar"></div>
     </div>
