@@ -10,6 +10,8 @@ class TicketIssueSeeder extends Seeder
       'ticket_issue_id'=>1,
       'ticket_id'=>1,
       'image'=>'lightbulb.jpg',
+      'issue_desc'=>'',
+      'expected_desc'=>'',
       'updated_by'=>'admin',
       'updated_on'=>date('Y-m-d H:i:s')
     ]);
@@ -18,7 +20,8 @@ class TicketIssueSeeder extends Seeder
       'ticket_issue_id'=>2,
       'ticket_id'=>1,
       'image'=>'plumbing.jpg',
-      'updated_by'=>'admin',
+      'issue_desc'=>'No water',
+      'expected_desc'=>'Replace with lever tap handle',
       'updated_on'=>date('Y-m-d H:i:s')
     ]);
   }

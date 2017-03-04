@@ -28,6 +28,18 @@ Route::post('company/save', 'CompanyController@save');
 Route::get('company/save/{id}', 'CompanyController@save');
 Route::post('company/save/{id}', 'CompanyController@save');
 
+Route::get('requester', 'RequesterController@index');
+Route::get('requester/save', 'RequesterController@save');
+Route::post('requester/save', 'RequesterController@save');
+Route::get('requester/save/{id}', 'RequesterController@save');
+Route::post('requester/save/{id}', 'RequesterController@save');
+
+Route::get('operator', 'OperatorController@index');
+Route::get('operator/save', 'OperatorController@save');
+Route::post('operator/save', 'OperatorController@save');
+Route::get('operator/save/{id}', 'OperatorController@save');
+Route::post('operator/save/{id}', 'OperatorController@save');
+
 Route::get('ticket', 'TicketController@index');
 Route::get('ticket/save', 'TicketController@save');
 Route::post('ticket/save', 'TicketController@save');
@@ -81,3 +93,7 @@ Route::get('test', function() {
   echo 'res'; var_dump($res);
 
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

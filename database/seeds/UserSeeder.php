@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Enums\UserType;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -11,9 +12,12 @@ class UserSeeder extends Seeder
       'user_id'=>1,
       'username'=>'admin',
       'name'=>'Admin',
+      'email'=>'admin@mrwright.sg',
+      'password'=>Hash::make(123456),
       'type'=>UserType::Requester,
       'updated_by'=>'admin',
-      'updated_on'=>date('Y-m-d H:i:s')
+      'updated_on'=>Carbon::now(),
+      'created_on'=>Carbon::now()
     ]);
   }
 }

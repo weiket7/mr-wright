@@ -71,7 +71,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3">Quoted By</label>
                         <div class="col-md-9">
-                          <div class="form-control-static">{{ $ticket->quotation->quoted_by }} on {{ ViewHelper::formatDate($ticket->quotation->quoted_on) }}</div>
+                          <div class="form-control-static">{{ $ticket->quoted_by }} on {{ ViewHelper::formatDate($ticket->quoted_on) }}</div>
                         </div>
                       </div>
                       @endif
@@ -152,26 +152,28 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label col-md-2">Images</label>
+                  <label class="control-label col-md-2">Issues</label>
                   <div class="col-md-10">
-                    <input type="hidden" v-bind:value="images_count">
+                    <input type="hidden" v-bind:value="issues_count">
 
                     <table class="table table-hover table-bordered no-margin-btm">
                       <thead>
                       <tr>
-                        <th>Image</th>
+                        <th width="255px">Image</th>
                         <th>Issue</th>
                         <th>Expected</th>
                       </tr>
                       </thead>
                       <tbody>
-                      <tr v-for="(image, index) in images">
+                      <tr v-for="(issue, index) in issues">
                         <td>
-                          <div v-bind:id="'preview-image' + index"></div>
+                          <div v-bind:id="'preview-image' + index">
+                            </div>
                           <input type="file" v-bind:name="'image' + index" v-on:change="previewImage(index,$event)">
                         </td>
-                        <td><textarea v-bind:name="'issue' + index" class="form-control" placeholder="Issue"></textarea></td>
-                        <td><textarea v-bind:name="'expected' + index"  class="form-control" placeholder="Expected"></textarea></td>
+                        <td>
+                          <textarea v-bind:name="'issue' + index" class="form-control" placeholder="Issue">@{{ issue.issue_desc }}</textarea></td>
+                        <td><textarea v-bind:name="'expected' + index"  class="form-control" placeholder="Expected">@{{ issue.expected_desc }}</textarea></td>
                       </tr>
                       </tbody>
                       <tfoot>
@@ -192,7 +194,7 @@
                 <div class="form-group">
                   <label class="control-label col-md-2">Quoted Price</label>
                   <div class="col-md-10">
-                    {{Form::text('quoted_price', $ticket->quotation->quoted_price, ['class'=>'form-control'])}}
+                    {{Form::text('quoted_price', $ticket->quoted_price, ['class'=>'form-control'])}}
                   </div>
                 </div>
 
@@ -271,7 +273,7 @@
                 <div class="form-group">
                   <label class="control-label col-md-2">Quotation Description</label>
                   <div class="col-md-10">
-                    {{Form::textarea('quotation_desc', $ticket->quotation->quotation_desc, ['class'=>'form-control', 'rows'=>5])}}
+                    {{Form::textarea('quotation_desc', $ticket->quotation_desc, ['class'=>'form-control', 'rows'=>5])}}
                   </div>
                 </div>
 
@@ -456,13 +458,13 @@
     var vm = new Vue({
       el: "#app",
       data: {
-        images: [],
+        issues: {!! $ticket->issues !!},
         currentDate: moment(),
         currentDateFormatted: moment().format('DD MMM YYYY')
       },
       computed: {
-        images_count: function() {
-          return this.images.length;
+        issues_count: function() {
+          return this.issues.length;
         },
         yesterday: function() {
           return moment().add(-1, "days");

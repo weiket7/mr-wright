@@ -16,8 +16,6 @@ class TicketService
     $ticket->issues = DB::table('ticket_issue')->where('ticket_id', $ticket_id)->get();
     $ticket->staff_assignments = DB::table('staff_assignment')->where('ticket_id', $ticket_id)->get();
     $ticket->preferred_datetimes = DB::table('ticket_preferred_datetime')->where('ticket_id', $ticket_id)->get();
-    $ticket->quotation = Quotation::firstOrNew(['ticket_id'=>$ticket_id]);
-    //var_dump($ticket->quotation); exit;
     return $ticket;
   }
 

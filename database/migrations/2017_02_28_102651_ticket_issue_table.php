@@ -12,6 +12,8 @@ class TicketIssueTable extends Migration
       $t->increments('ticket_issue_id');
       $t->integer('ticket_id');
       $t->string('image', 50);
+      $t->string('issue_desc', 50);
+      $t->string('expected_desc', 50);
       $t->string('updated_by', 20);
       $t->dateTime('updated_on');
     });

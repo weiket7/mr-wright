@@ -504,7 +504,7 @@ License: You must have a valid license purchased only from themeforest(the above
         ['link' => url("ticket"), 'text'=>'Tickets'],
         ['link' => url("quotation"), 'text'=>'Quotations'],
         ['link' => url("invoice"), 'text'=>'Invoices'],
-        ['link' => url("user"), 'text'=>'Users'],
+        ['link' => url("operator"), 'text'=>'Operators'],
       ];?>
   
       <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
@@ -1182,7 +1182,6 @@ License: You must have a valid license purchased only from themeforest(the above
       toastr.options.preventDuplicates = true;
   
       $.fn.select2.defaults.set("theme", "bootstrap");
-
 
       $(".datepicker").datepicker({
         format: "dd M yyyy",

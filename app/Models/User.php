@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -8,6 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+    protected $table = 'user';
+    const CREATED_AT = 'created_on';
+    const UPDATED_AT = 'updated_on';
+    protected $primaryKey = 'user_id';
 
     /**
      * The attributes that are mass assignable.
