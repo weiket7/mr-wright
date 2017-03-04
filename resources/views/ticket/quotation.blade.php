@@ -61,17 +61,20 @@
     <label class="control-label col-md-2">Date</label>
     <div class="col-md-10">
 
-      <button type="button" class="btn btn-default"><i class="fa fa-angle-left"></i> 27 Feb 2017</button>
-      <button type="button" class="btn green-meadow">28 Feb 2017</button>
-      <button type="button" class="btn btn-default">29 Feb 2017 <i class="fa fa-angle-right"></i></button>
-
+      <div class="input-group" style="max-width:300px">
+        <span class="input-group-btn">
+            <button class="btn red" type="button" @click="previousDate">Previous</button>
+        </span>
+        <input type="text" id="date" name="date" v-model="currentDateFormatted" class="form-control datepicker datepicker-width">
+        <span class="input-group-btn">
+            <button class="btn red" type="button" @click="nextDate">Next</button>
+        </span>
+      </div>
     </div>
   </div>
 
   <div class="form-group">
-    <label for="" class="control-label col-md-2" id="assignments">
-      
-    </label>
+    <label for="" class="control-label col-md-2" id="assignments">Calendar</label>
     <div class="col-md-10">
       <div id="calendar"></div>
     </div>

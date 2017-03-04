@@ -235,10 +235,7 @@
           $(this).removeData('unselecting');
           e.preventDefault();
         }
-      });
-  
-
-      $("#staffs").on("select2:select select2:unselect", function(e) {
+      }).on("select2:select select2:unselect", function(e) {
         var selected_staffs = getSelectedMultiSelect2ById('staffs');
         populateCalendar(selected_staffs);
       });
@@ -248,6 +245,10 @@
         var selected_skills = getSelectedCheckboxesByName('skills');
         getStaffWithSkills(selected_skills);
       });
+
+      $("#date").on('changeDate', function() {
+
+      })
     });
 
     function quotationTab() {
@@ -258,24 +259,25 @@
     var selectedCells = {};
 
     function selectSlot(cell) {
-      $(cell).addClass('calendar-selected');
       var time = $(cell).attr('data-time');
       var name = $(cell).attr('data-name');
-      
-      //TODO check if exist
 
-      if (typeof selectedCells[name] === "undefined") {
-        selectedCells[name] = [time];
+      var a = $(cell).hasClass('calendar-selected');
+      console.log(a);
+      if ($(cell).hasClass('calendar-selected')) {
+        $(cell).removeClass('calendar-selected');
+        removeFromObject(selectedCells, name, time);
       } else {
-        selectedCells[name].push(time);
+        pushToObject(selectedCells, name, time);
+        $(cell).addClass('calendar-selected');
       }
-      
+
       //TODO sort times
       $("#assignments").text(JSON.stringify(selectedCells));
     }
 
     function getStaffWithSkills(skills) {
-      axios.get('{{url('api/getStaffWithSkills')}}?selected_skills='+skills)
+      axios.get('{{url('api/getStaffWithSkills')}}?skills='+skills)
         .then(function (response) {
           //https://github.com/select2/select2/issues/2830
           var staffs = response.data;
@@ -303,13 +305,13 @@
           populateCalendar(selected_staffs);
         })
         .catch(function (error) {
-          alert('getStaffWithSkills error');
+          alert('getStaffWithSkills error='+error);
         })
     }
     
-    function populateCalendar(selected_staffs) {
+    function populateCalendar(staffs) {
       //console.log('selected_staffs='+selected_staffs);
-      axios.get('{{url('api/getStaffCalendar')}}?selected_staffs='+selected_staffs)
+      axios.get('{{url('api/getStaffCalendar')}}?staffs='+staffs+'&date='+vm.currentDate.format('YYYY-MM-DD'))
         .then(function (response) {
           var html = '<table class="table table-bordered no-margin-btm"><thead><tr><th width="80px"></th>';
       
@@ -342,14 +344,31 @@
       el: "#app",
       data: {
         images: [],
-        currentDate: []
+        currentDate: moment(),
+        currentDateFormatted: moment().format('DD MMM YYYY')
       },
       computed: {
         images_count: function() {
           return this.images.length;
+        },
+        yesterday: function() {
+          return moment().add(-1, "days");
+        },
+        tomorrow: function() {
+          return moment().add(1, "days");
         }
       },
       methods: {
+        previousDate: function() {
+          this.currentDate = this.currentDate.add(-1, "days");
+          this.currentDateFormatted = this.currentDate.format('DD MMM YYYY');
+          $('#date').datepicker("setDate", this.currentDate.startOf('day').toDate());
+        },
+        nextDate: function() {
+          this.currentDate = this.currentDate.add(1, "days");
+          this.currentDateFormatted = this.currentDate.format('DD MMM YYYY');
+          $('#date').datepicker("setDate", this.currentDate.startOf('day').toDate());
+        },
         addImage: function() {
           this.images.push({image:'', 'issue':'', 'expected':''});
         },
@@ -365,6 +384,11 @@
           };
           var file = e.target.files[0];
           reader.readAsDataURL(file);
+        }
+      },
+      filters: {
+        formatDate: function (value) {
+          return value.format('DD MMM YYYY');
         }
       }
     });

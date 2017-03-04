@@ -1184,8 +1184,8 @@ License: You must have a valid license purchased only from themeforest(the above
       $.fn.select2.defaults.set("theme", "bootstrap");
 
 
-      $(".date-picker").datepicker({
-        format: "dd-mm-yyyy",
+      $(".datepicker").datepicker({
+        format: "dd M yyyy",
         orientation: "bottom",
         autoclose: true
       });

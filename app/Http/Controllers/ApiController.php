@@ -21,18 +21,16 @@ class ApiController extends Controller
     $this->working_hour_service = $working_hour_service;
   }
 
-  public function getStaffWithSkills(Request $request)
-  {
-    Log::info($request->get('selected_skills'));
-    $selected_skills = explode(",", $request->get('selected_skills'));
-    return $this->calendar_service->getStaffWithSkills($selected_skills);
+  public function getStaffWithSkills(Request $request) {
+    //Log::info($request->get('skills'));
+    $skills = explode(",", $request->get('skills'));
+    return $this->calendar_service->getStaffWithSkills($skills);
   }
 
   public function getStaffCalendar(Request $request) {
-    Log::info($request->get('selected_staffs'));
-    $selected_staffs = explode(",", $request->get('selected_staffs'));
-    $date = '2017-03-07';
-    $res = $this->calendar_service->getStaffCalendar($date, $selected_staffs);
+    $staffs = explode(",", $request->get('staffs'));
+    $date = $request->get('date');
+    $res = $this->calendar_service->getStaffCalendar($date, $staffs);
     $staffs = $res['staffs'];
     $intervals = $res['intervals'];
     $staff_intervals = $res['staff_intervals'];
