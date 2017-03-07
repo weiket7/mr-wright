@@ -18,7 +18,7 @@ class CalendarService
     $intervals = $this->working_hour_service->getWorkingIntervalsByDate($date);
     $blocked_intervals = $this->working_hour_service->getBlockedWorkingIntervalsByDate($date);
 
-    $staffs = DB::table('staff')->whereIn('staff_id', $staff_ids)->select('name', 'staff_id')->get();
+    $staffs = DB::table('staff')->whereIn('staff_id', $staff_ids)->select('name', 'staff_id')->get()->keyBy('staff_id');
 
     $staff_intervals = [];
     foreach($staff_ids as $staff_id) {

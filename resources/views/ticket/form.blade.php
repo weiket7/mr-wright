@@ -389,37 +389,6 @@
       $("#div-staff_assignments").text(JSON.stringify(selectedCells));
     }
 
-    function pushToCalendarObject(obj, staff_id, date, time) {
-      if (typeof obj[staff_id] === "undefined") {
-        obj[staff_id] = {};
-      }
-
-      if(typeof obj[staff_id][date] === "undefined") {
-        obj[staff_id][date] = [];
-      }
-
-      var exist = arrayContains(obj[staff_id][date], time);
-      if (! exist) {
-        obj[staff_id][date].push(time);
-      }
-    }
-
-    function removeFromCalendarObject(obj, staff_id, date, time) {
-      if (typeof obj[staff_id] === "undefined") {
-        return;
-      }
-
-      if(typeof obj[staff_id][date] === "undefined") {
-        return;
-      }
-
-      for(var i=0; i<obj[staff_id][date].length; i++) {
-        if (obj[staff_id][date][i] === time) {
-          obj[staff_id][date].splice(i, 1);
-        }
-      }
-    }
-
     function getStaffWithSkills(skills) {
       axios.get('{{url('api/getStaffWithSkills')}}?skills='+skills)
       .then(function (response) {
@@ -462,7 +431,7 @@
     }
 
     function populateCalendar(staffs) {
-      var date = vm.currentDate.format('YYYY-MM-DD');
+      var date = vm.currentDate.format('YYYY-MM-DD'); //TODO dependency
       axios.get('{{url('api/getStaffCalendar')}}?staffs='+staffs+'&date='+date)
       .then(function (response) {
         if (response.data.is_date_blocked === true) {
@@ -477,8 +446,10 @@
         var html = '<table class="table table-bordered no-margin-btm"><thead><tr><th width="80px"></th>';
 
         var columns = response.data.columns;
-        for(var i = 0; i<columns.length; i++) {
-          html += "<th>" + columns[i].name + "</th>";
+        for (var staff_id in columns) {
+          if (columns.hasOwnProperty(staff_id)) {
+            html += "<th>" + columns[staff_id].name + "</th>";
+          }
         }
         html+= "</tr><tbody>";
 
@@ -488,21 +459,30 @@
         for(var j = 0; j<intervals.length; j++) {
           var time = intervals[j];
           html += "<tr><td>"+time+"</td>";
-          //console.log(rows[time]);
+          //console.log(JSON.stringify(rows[time]));
 
-          for(var k=0; k<rows[time].length; k++) {
-            var text = rows[time][k].text;
-            var background = "";
-            if (text !== "") {
-              background = "calendar-assigned";
+          var cols = rows[time];
+          for (var staff_id in cols) {
+            if (cols.hasOwnProperty(staff_id)) {
+              var text = cols[staff_id].text;
+              //console.log('text='+text);
+              var background = "";
+              if (text !== "") {
+                background = "calendar-assigned";
+              } else if (typeof selectedCells[staff_id] !== "undefined" && typeof selectedCells[staff_id][date] !== "undefined"){
+                if (arrayContains(selectedCells[staff_id][date], time) === true) {
+                  background = "calendar-selected";
+                }
+              }
+              html += "<td onclick='selectSlot(this)' class='"+background+"' data-date='"+date+"' data-time='"+time+"' data-staff_id='"+columns[staff_id].staff_id+"'>"+text+"</td>";
             }
-            html += "<td onclick='selectSlot(this)' class='"+background+"' data-date='"+date+"' data-time='"+time+"' data-staff_id='"+columns[k].staff_id+"'>"+text+"</td>";
           }
+
         }
         $('#div-calendar').html(html);
       })
       .catch(function (error) {
-        console.log('populateCalendar error');
+        console.log('populateCalendar error='+error);
       })
     }
 
@@ -572,5 +552,37 @@
         }
       }
     });
+
+    function pushToCalendarObject(obj, staff_id, date, time) {
+      if (typeof obj[staff_id] === "undefined") {
+        obj[staff_id] = {};
+      }
+
+      if(typeof obj[staff_id][date] === "undefined") {
+        obj[staff_id][date] = [];
+      }
+
+      var exist = arrayContains(obj[staff_id][date], time);
+      if (! exist) {
+        obj[staff_id][date].push(time);
+      }
+    }
+
+    function removeFromCalendarObject(obj, staff_id, date, time) {
+      if (typeof obj[staff_id] === "undefined") {
+        return;
+      }
+
+      if(typeof obj[staff_id][date] === "undefined") {
+        return;
+      }
+
+      for(var i=0; i<obj[staff_id][date].length; i++) {
+        if (obj[staff_id][date][i] === time) {
+          obj[staff_id][date].splice(i, 1);
+        }
+      }
+    }
+
   </script>
 @endsection
