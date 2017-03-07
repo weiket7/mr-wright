@@ -18,7 +18,7 @@
   max-height: 250px;
 }
 .row-delete {
-  background-color: #e9edef!important;
+  background-color: #95A5A6!important;
 }
 .no-margin-btm {
   margin-bottom: 0;
@@ -26,7 +26,7 @@
 .calendar-selected {
   background-color: #0c91e5!important;
 }
-.calendar-assigned {
+.calendar-assigned-other-ticket {
   background-color: #F7CA18!important;
   color: #FFF!important;
 }

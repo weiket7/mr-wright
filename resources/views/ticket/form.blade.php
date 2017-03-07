@@ -238,9 +238,10 @@
                   <label class="control-label col-md-2">Skills</label>
                   <div class="col-md-10">
                     <div class="mt-checkbox-inline">
-                      @foreach($skills as $skill)
+                      @foreach($skills as $skill_id => $name)
                         <label class="mt-checkbox mt-checkbox-outline">
-                          <input type="checkbox" value="{{$skill}}" name="skills"/> {{ $skill }}
+                          <?php $checked = in_array($skill_id, $ticket->skills) ? "checked" : ""; ?>
+                          <input type="checkbox" value="{{$skill_id}}" name="skills" {{$checked}}> {{ $name }}
                           <span></span>
                         </label>
                       @endforeach
@@ -274,8 +275,7 @@
                 <div class="form-group">
                   <label for="" class="control-label col-md-2">Calendar</label>
                   <div class="col-md-10">
-                    <input type='text' name="staff_assignments" id="staff_assignments" value="{{ json_encode($ticket->staff_assignments) }}"/>
-                    <div id="div-staff_assignments"></div>
+                    <input type='hidden' name="staff_assignments" id="staff_assignments" value="{{ json_encode($ticket->staff_assignments) }}"/>
                     <div id="div-calendar"></div>
                   </div>
                 </div>
@@ -354,18 +354,24 @@
 
 
       $("input[name='skills']").click(function() {
-        populateStaffWithSkills();
+        populateStaffsAndCalendar();
       });
 
       $("#date").on('changeDate', function() {
         getValuesAndPopulateCalendar();
       });
 
+      populateStaffsAndCalendar();
+
     });
 
     var selected_cells = {!! json_encode($ticket->staff_assignments) !!};
 
     function selectSlot(cell) {
+      if ($(cell).hasClass('calendar-assigned-other-ticket')) {
+        return;
+      }
+
       var date = $(cell).attr('data-date');
       var time = $(cell).attr('data-time');
       var staff_id = $(cell).attr('data-staff_id');
@@ -374,19 +380,25 @@
         removeFromCalendarObject(selected_cells, staff_id, date, time);
         $(cell).removeClass('calendar-assigned-current-ticket');
         $(cell).addClass('calendar-assigned-remove');
+      } else if ($(cell).hasClass('calendar-assigned-remove')) {
+        pushToCalendarObject(selected_cells, staff_id, date, time);
+        $(cell).removeClass('calendar-assigned-remove');
+        $(cell).addClass('calendar-assigned-current-ticket');
+      } else if ($(cell).hasClass('calendar-selected')) {
+        removeFromCalendarObject(selected_cells, staff_id, date, time);
+        $(cell).removeClass('calendar-selected');
       } else {
         pushToCalendarObject(selected_cells, staff_id, date, time);
         $(cell).addClass('calendar-selected');
       }
 
       $("#staff_assignments").val(JSON.stringify(selected_cells));
-      $("#div-staff_assignments").text(JSON.stringify(selected_cells)); //TODO remove
     }
 
-    function populateStaffWithSkills() {
-      var skills = getSelectedCheckboxesByName('skills');
+    function populateStaffsAndCalendar() {
+      var skill_ids = getSelectedCheckboxesByName('skills');
 
-      axios.get('{{url('api/getStaffWithSkills')}}?skills='+skills)
+      axios.get('{{url('api/getStaffWithSkills')}}?skill_ids='+skill_ids)
       .then(function (response) {
         //change select2 options
         //https://github.com/select2/select2/issues/2830
@@ -416,6 +428,9 @@
 
     function getValuesAndPopulateCalendar() {
       var staff_ids = getSelectedMultiSelect2ById('staffs');
+      if(staff_ids.length == 0) {
+        return;
+      }
       var date = vm.currentDate.format('YYYY-MM-DD');
       if (staffs.length === 0) {
         toastr.error('Select skills and staffs first');
@@ -444,7 +459,7 @@
 
         var cells = response.data.cells;
         var intervals = response.data.intervals;
-        var current_ticket_id = {{ $ticket->ticket_id }};
+        var current_ticket_id = {{ $ticket->ticket_id > 0 ? $ticket->ticket_id : 0 }};
 
         for(var j = 0; j<intervals.length; j++) {
           var time = intervals[j];
@@ -460,12 +475,13 @@
               if (current_ticket_id === ticket_id) {
                 background = "calendar-assigned-current-ticket";
               } else if (text !== "") {
-                background = "calendar-assigned";
+                background = "calendar-assigned-other-ticket";
               } else if (typeof selected_cells[staff_id] !== "undefined" && typeof selected_cells[staff_id][date] !== "undefined"){
                 if (arrayContains(selected_cells[staff_id][date], time) === true) {
                   background = "calendar-selected";
                 }
               }
+
               html += "<td onclick='selectSlot(this)' class='"+background+"' data-date='"+date+"' data-time='"+time+"' data-staff_id='"+staffs[staff_id].staff_id+"'>"+text+"</td>";
             }
           }

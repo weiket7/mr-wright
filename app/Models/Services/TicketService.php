@@ -22,6 +22,7 @@ class TicketService
     $ticket = Ticket::findOrNew($ticket_id);
     $ticket->issues = DB::table('ticket_issue')->where('ticket_id', $ticket_id)->orderBy('ticket_issue_id')->get();
     $ticket->staff_assignments = $this->getStaffAssignments($ticket_id);
+    $ticket->skills = $this->getTicketSkills($ticket_id);
     $ticket->preferred_datetimes = DB::table('ticket_preferred_datetime')->where('ticket_id', $ticket_id)->get();
     return $ticket;
   }
@@ -40,6 +41,15 @@ class TicketService
       }
     }
     return (object)$res;
+  }
+
+  private function getTicketSkills($ticket_id) {
+    $data = DB::table('ticket_skill')->where('ticket_id', $ticket_id)->pluck('skill_id');
+    $res = [];
+    foreach($data as $d) {
+      $res[] = $d;
+    }
+    return $res;
   }
 
   public function getCategoryDropdown() {

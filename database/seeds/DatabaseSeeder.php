@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
       $this->call(StaffSkillSeeder::class);
       $this->call(TicketIssueSeeder::class);
       $this->call(TicketPreferredDateTimeSeeder::class);
+      $this->call(TicketSkillSeeder::class);
       $this->call(StaffAssignmentSeeder::class);
       $this->call(CategoryForTicketSeeder::class);
       $this->call(WorkingDayTimeSeeder::class);

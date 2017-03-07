@@ -23,8 +23,8 @@ class ApiController extends Controller
 
   public function getStaffWithSkills(Request $request) {
     //Log::info($request->get('skills'));
-    $skills = explode(",", $request->get('skills'));
-    return $this->calendar_service->getStaffWithSkills($skills);
+    $skill_ids = explode(",", $request->get('skill_ids'));
+    return $this->calendar_service->getStaffWithSkills($skill_ids);
   }
 
   public function getStaffCalendar(Request $request) {

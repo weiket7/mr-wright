@@ -63,12 +63,12 @@ class CalendarService
     return $res;
   }
 
-  public function getStaffWithSkills($skills)
+  public function getStaffWithSkills($skill_ids)
   {
     $staffs = DB::table('skill')
       ->join('staff_skill as ss', 'ss.skill_id', '=', 'skill.skill_id')
       ->join('staff', 'ss.staff_id', '=', 'staff.staff_id')
-      ->whereIn('skill.name', $skills)->select('staff.staff_id', 'staff.name')->distinct()->get();
+      ->whereIn('skill.skill_id', $skill_ids)->select('staff.staff_id', 'staff.name')->distinct()->get();
     return $staffs;
   }
 }

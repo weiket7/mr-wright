@@ -7,7 +7,6 @@ class TicketIssueSeeder extends Seeder
   public function run()
   {
     DB::table('ticket_issue')->insert([
-      'ticket_issue_id'=>1,
       'ticket_id'=>1,
       'image'=>'lightbulb.jpg',
       'issue_desc'=>'',
@@ -17,7 +16,6 @@ class TicketIssueSeeder extends Seeder
     ]);
     
     DB::table('ticket_issue')->insert([
-      'ticket_issue_id'=>2,
       'ticket_id'=>1,
       'image'=>'plumbing.jpg',
       'issue_desc'=>'No water',
