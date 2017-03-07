@@ -21,6 +21,7 @@ class WorkingHourService
       }
     }
 
+    sort($res);
     return $res;
   }
   

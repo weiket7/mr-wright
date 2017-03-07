@@ -39,34 +39,9 @@ class ApiController extends Controller
       return ['is_non_working_day'=>true];
     }
 
-    $staffs = explode(",", $request->get('staffs'));
-    $res = $this->calendar_service->getStaffCalendar($date, $staffs);
-    $staffs = $res['staffs'];
-    $intervals = $res['intervals'];
-    $staff_intervals = $res['staff_intervals'];
+    $staff_ids = explode(",", $request->get('staff_ids'));
+    $res = $this->calendar_service->getStaffCalendar($date, $staff_ids);
 
-    $cells = [];
-    foreach($intervals as $i) {
-      foreach($staffs as $staff) {
-        $cells[$i][$staff->staff_id] = $staff_intervals[$staff->staff_id][$i];
-      }
-    }
-
-    $res = [
-      'cells' => $cells,
-      'intervals' => $intervals,
-      'staffs' => $staffs,
-    ];
     return $res;
-
-    /*return [
-      'columns' => ['Tom', 'Jerry'],
-      'rows' => [
-        '10:30'=>[['text'=>'AAA', 'background'=>'blue'], ['text'=>'AAA', 'background'=>'blue']],
-        '11:00'=>[['text'=>'BBBB', 'background'=>'blue'], ['text'=>'DDD', 'background'=>'blue']],
-        '11:30'=>[['text'=>'EE', 'background'=>'blue'], ['text'=>'F', 'background'=>'blue']],
-      ],
-      'intervals' => ['10:30', '11:00', '11:30']
-    ];*/
   }
 }

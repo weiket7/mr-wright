@@ -14,16 +14,16 @@ class CalendarService
     $this->working_hour_service = $working_hour_service;
   }
 
-  public function getStaffCalendar($date, $staff_ids) {
+  public function getStaffCalendar($date, array $staff_ids) {
     $intervals = $this->working_hour_service->getWorkingIntervalsByDate($date);
     $blocked_intervals = $this->working_hour_service->getBlockedWorkingIntervalsByDate($date);
 
     $staffs = DB::table('staff')->whereIn('staff_id', $staff_ids)->select('name', 'staff_id')->get()->keyBy('staff_id');
 
-    $staff_intervals = [];
+    $cells = [];
     foreach($staff_ids as $staff_id) {
       foreach($intervals as $i) {
-        $staff_intervals[$staff_id][$i] = ['ticket_id'=>'', 'text'=>'', 'background'=>''];
+        $cells[$i][$staff_id] = ['ticket_id'=>'', 'text'=>'', 'background'=>''];
       }
     }
 
@@ -35,8 +35,8 @@ class CalendarService
         foreach ($assignments as $a) {
           $assignment_intervals = $this->working_hour_service->splitTimeRangeIntoInterval($a->time_start, $a->time_end);
           foreach ($assignment_intervals as $i) {
-            $staff_intervals[$staff_id][$i]['ticket_id'] = $a->ticket_id;
-            $staff_intervals[$staff_id][$i]['text'] = $a->ticket_id;
+            $cells[$i][$staff_id]['ticket_id'] = $a->ticket_id;
+            $cells[$i][$staff_id]['text'] = $a->ticket_id;
           }
         }
       }
@@ -44,7 +44,7 @@ class CalendarService
 
     $res = [
       'intervals'=>$intervals,
-      'staff_intervals'=>$staff_intervals,
+      'cells'=>$cells,
       'staffs'=>$staffs,
     ];
     return $res;

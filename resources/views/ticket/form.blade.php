@@ -274,7 +274,7 @@
                 <div class="form-group">
                   <label for="" class="control-label col-md-2">Calendar</label>
                   <div class="col-md-10">
-                    <input type='text' name="staff_assignments" id="staff_assignments">
+                    <input type='text' name="staff_assignments" id="staff_assignments" value="{{ json_encode($ticket->staff_assignments) }}"/>
                     <div id="div-staff_assignments"></div>
                     <div id="div-calendar"></div>
                   </div>
@@ -363,23 +363,24 @@
 
     });
 
-    var selected_cells = {};
+    var selected_cells = {!! json_encode($ticket->staff_assignments) !!};
 
     function selectSlot(cell) {
       var date = $(cell).attr('data-date');
       var time = $(cell).attr('data-time');
       var staff_id = $(cell).attr('data-staff_id');
-
-      if ($(cell).hasClass('calendar-selected')) {
-        $(cell).removeClass('calendar-selected');
+      //console.log('date=' + date + ' time=' + time + ' staff_id=' + staff_id);
+      if ($(cell).hasClass('calendar-assigned-current-ticket')) {
         removeFromCalendarObject(selected_cells, staff_id, date, time);
+        $(cell).removeClass('calendar-assigned-current-ticket');
+        $(cell).addClass('calendar-assigned-remove');
       } else {
         pushToCalendarObject(selected_cells, staff_id, date, time);
         $(cell).addClass('calendar-selected');
       }
 
       $("#staff_assignments").val(JSON.stringify(selected_cells));
-      $("#div-staff_assignments").text(JSON.stringify(selected_cells));
+      $("#div-staff_assignments").text(JSON.stringify(selected_cells)); //TODO remove
     }
 
     function populateStaffWithSkills() {
@@ -414,13 +415,13 @@
     }
 
     function getValuesAndPopulateCalendar() {
-      var staffs = getSelectedMultiSelect2ById('staffs');
+      var staff_ids = getSelectedMultiSelect2ById('staffs');
       var date = vm.currentDate.format('YYYY-MM-DD');
       if (staffs.length === 0) {
         toastr.error('Select skills and staffs first');
       }
 
-      axios.get('{{url('api/getStaffCalendar')}}?staffs='+staffs+'&date='+date)
+      axios.get('{{url('api/getStaffCalendar')}}?staff_ids='+staff_ids+'&date='+date)
       .then(function (response) {
         if (response.data.is_date_blocked === true) {
           $('#div-calendar').html("<div class='alert alert-info no-margin-btm'>Blocked</div>");

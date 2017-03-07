@@ -21,9 +21,25 @@ class TicketService
   public function getTicket($ticket_id) {
     $ticket = Ticket::findOrNew($ticket_id);
     $ticket->issues = DB::table('ticket_issue')->where('ticket_id', $ticket_id)->orderBy('ticket_issue_id')->get();
-    $ticket->staff_assignments = DB::table('staff_assignment')->where('ticket_id', $ticket_id)->get();
+    $ticket->staff_assignments = $this->getStaffAssignments($ticket_id);
     $ticket->preferred_datetimes = DB::table('ticket_preferred_datetime')->where('ticket_id', $ticket_id)->get();
     return $ticket;
+  }
+
+  private function getStaffAssignments($ticket_id) {
+    $data = DB::table('staff_assignment')->where('ticket_id', $ticket_id)->get();
+    $res = [];
+    foreach($data as $d) {
+      $intervals = $this->working_hour_service->splitTimeRangeIntoInterval($d->time_start, $d->time_end);
+      if (isset($res[$d->staff_id][$d->date])) {
+        foreach($intervals as $i) {
+          array_push($res[$d->staff_id][$d->date], $i);
+        }
+      } else {
+        $res[$d->staff_id][$d->date] = $intervals;
+      }
+    }
+    return (object)$res;
   }
 
   public function getCategoryDropdown() {
@@ -124,10 +140,9 @@ class TicketService
     } */
     //Staff 1, 7 March works 11am-12pm and 1pm-3pm, 8 March works 10am-12pm
     //Staff 2, 8 March works 11am-12pm
+    DB::table('staff_assignment')->where('ticket_id', $ticket_id)->delete();
+
     $staff_assignments = json_decode($input['staff_assignments'], true);
-    if (count($staff_assignments) == 0) {
-      return;
-    }
     foreach($staff_assignments as $staff_id => $date_assignments) {
       foreach($date_assignments as $date => $assignments) {
         $periods = $this->working_hour_service->mergeIntervalsIntoTimeRange($assignments);
