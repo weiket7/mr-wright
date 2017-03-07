@@ -23,8 +23,9 @@ class CompanyController extends Controller
   }
   
   public function save(Request $request, $company_id) {
-    $data['company'] = Company::find($company_id);
-    return view("company/form", $data);
+    $data['action'] = $company_id == null ? 'create' : 'update';
+    $data['company'] = Company::findOrNew($company_id);
+    return view('company/form', $data);
   }
   
 }

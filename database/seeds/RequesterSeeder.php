@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Enums\PreferredContact;
+use App\Models\Enums\RequesterStat;
 use Illuminate\Database\Seeder;
 
 class RequesterSeeder extends Seeder
@@ -8,9 +9,8 @@ class RequesterSeeder extends Seeder
   public function run()
   {
     DB::table('requester')->insert([
-      'requester_id'=>1,
+      'stat'=>RequesterStat::Active,
       'company_id'=>1,
-      'username'=>'admin',
       'name'=>'Admin',
       'mobile'=>'91234567',
       'email'=>'admin@unity-pharmacy.com',

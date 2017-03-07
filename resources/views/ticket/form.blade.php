@@ -5,7 +5,7 @@
 @extends("template")
 
 @section('content')
-  <h1 class="page-title" xmlns:v-on="http://www.w3.org/1999/xhtml">
+  <h1 class="page-title">
     {{ucfirst($action)}} Ticket
   </h1>
 
@@ -24,7 +24,7 @@
         </ul>
         <div class="tab-content no-space">
           <div class="tab-pane fade active in" id="tab-general">
-            <form action="" method="post" class="form-horizontal">
+            <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
               {!! csrf_field() !!}
               <div class="form-body">
                 <div class="form-group">
@@ -154,21 +154,30 @@
                 <div class="form-group">
                   <label class="control-label col-md-2">Issues</label>
                   <div class="col-md-10">
-                    <input type="hidden" v-bind:value="issues_count">
+                    <input type="hidden" name="issues_count" v-bind:value="issues_count">
 
-                    <table class="table table-hover table-bordered no-margin-btm">
+                    <table class="table table-bordered no-margin-btm">
                       <thead>
                       <tr>
+                        <th width="57px"></th>
                         <th width="255px">Image</th>
                         <th>Issue</th>
                         <th>Expected</th>
                       </tr>
                       </thead>
                       <tbody>
-                      <tr v-for="(issue, index) in issues">
+                      <tr v-for="(issue, index) in issues" v-bind:class="'row-'+issue.stat">
+                        <td>
+                          <button type="button" class="btn btn-icon-only blue" @click="deleteIssue(index)">
+                            <i v-if="issue.stat" class="fa fa-undo"></i>
+                            <i v-else="" class="fa fa-times"></i>
+                            <input type="hidden" v-bind:name="'issue_stat'+index" v-bind:value="issue.stat" v-if="issue.stat">
+                            <input type="hidden" v-bind:name="'issue_id'+index" v-bind:value="issue.ticket_issue_id">
+                          </button>
+                        </td>
                         <td>
                           <div v-bind:id="'preview-image' + index">
-                            <img :src="'{{asset('images')}}/'+ issue.image " v-if="issue.image" />
+                            <img :src="'{{asset('images/tickets')}}/'+ issue.image " v-if="issue.image" class="ticket-image"/>
                           </div>
                           <input type="file" v-bind:name="'image' + index" v-on:change="previewImage(index,$event)">
                         </td>
@@ -181,7 +190,7 @@
                       <tr>
                         <td colspan="3">
                           <div class="text-center">
-                            <button type="button" class="btn blue" @click='addImage'>Add</button>
+                            <button type="button" class="btn blue" @click='addIssue'>Add</button>
                           </div>
                         </td>
                       </tr>
@@ -458,6 +467,7 @@
       el: "#app",
       data: {
         issues: {!! $ticket->issues !!},
+        issues_delete: [],
         currentDate: moment(),
         currentDateFormatted: moment().format('DD MMM YYYY')
       },
@@ -483,8 +493,21 @@
           this.currentDateFormatted = this.currentDate.format('DD MMM YYYY');
           $('#date').datepicker("setDate", this.currentDate.startOf('day').toDate());
         },
-        addImage: function() {
-          this.issues.push({image:'', 'issue_desc':'', 'expected_desc':''});
+        addIssue: function() {
+          this.issues.push({image:'', 'issue_desc':'', 'expected_desc':'', 'stat':'add'});
+        },
+        deleteIssue: function(index) {
+          var issue = this.issues[index];
+          if (issue.stat === 'add') {
+            this.issues.splice(index, 1);
+          }
+
+          if (issue.stat == 'delete') {
+            issue.stat = '';
+          } else {
+            Vue.set(issue, 'stat', 'delete');
+            this.issues_delete.push(issue.ticket_issue_id);
+          }
         },
         previewImage: function(index,e) {
           var reader = new FileReader();

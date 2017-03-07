@@ -74,6 +74,13 @@ Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
 Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
 
 Route::get('test', function() {
+  $ticket_issue = [
+    'ticket_id'=>1,
+    'issue_desc' => 2,
+    'expected_desc' => 3,
+  ];
+  DB::table('ticket_issue')->update($ticket_issue);
+
   $working_hour_service = new WorkingHourService();
   $today = Carbon::now()->format("Y-m-d");
   $next_monday = Carbon::parse('next monday')->format("Y-m-d");

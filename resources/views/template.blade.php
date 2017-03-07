@@ -1180,7 +1180,7 @@ License: You must have a valid license purchased only from themeforest(the above
     $(document).ready(function() {
       toastr.options.positionClass = "toast-top-center";
       toastr.options.preventDuplicates = true;
-  
+
       $.fn.select2.defaults.set("theme", "bootstrap");
 
       $(".datepicker").datepicker({
@@ -1188,6 +1188,10 @@ License: You must have a valid license purchased only from themeforest(the above
         orientation: "bottom",
         autoclose: true
       });
+
+      @if(Session::has('msg'))
+        toastr.info("{{Session::get('msg')}}");
+      @endif
     });
   </script>
 

@@ -6,23 +6,24 @@ use Illuminate\Database\Migrations\Migration;
 
 class OfficeTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        //
-    }
+  public function up()
+  {
+    Schema::create('office', function(Blueprint $t) {
+      $t->increments('office_id');
+      $t->string('name', 50);
+      $t->integer('requester_count');
+      $t->string('addr', 200);
+      $t->string('postal', 20);
+      $t->string('country', 50);
+      $t->string('state', 50);
+      $t->string('city', 50);
+      $t->string('updated_by', 20);
+      $t->dateTime('updated_on');
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        //
-    }
+  public function down()
+  {
+    Schema::dropIfExists('office');
+  }
 }

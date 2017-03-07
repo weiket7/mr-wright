@@ -27,18 +27,19 @@ class TicketController extends Controller
   }
   
   public function save(Request $request, $ticket_id = null) {
+    $data['action'] = $ticket_id == null ? 'create' : 'update';
     if($request->isMethod("post")) {
       $input = $request->all();
       $submit = $input['submit'];
-      if (BackendHelper::stringContains($submit, "quotation")) {
-        $this->ticket_service->sendQuotation($ticket_id);
-      } elseif (BackendHelper::stringContains($submit, "ticket")) {
+      if (BackendHelper::stringContains($submit, "ticket")) {
         $this->ticket_service->saveTicket($ticket_id, $input);
+      } elseif (BackendHelper::stringContains($submit, "quotation")) {
+        $this->ticket_service->sendQuotation($ticket_id);
       } elseif (BackendHelper::stringContains($submit, "complete")) {
       $this->ticket_service->completeTicket($ticket_id);
       }
+      return redirect()->back()->with('msg', 'Ticket ' . $data['action'] . "d");
     }
-    $data['action'] = $ticket_id == null ? 'create' : 'update';
     $data['ticket'] = $this->ticket_service->getTicket($ticket_id);
     $data['companies'] = $this->company_service->getCompanyDropdown();
     $data['categories'] = $this->ticket_service->getCategoryDropdown();

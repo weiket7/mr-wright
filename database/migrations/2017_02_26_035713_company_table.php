@@ -10,7 +10,19 @@ class CompanyTable extends Migration
     {
       Schema::create('company', function(Blueprint $t) {
         $t->increments('company_id');
+        $t->string('code', 20);
+        $t->char('stat', 1);
         $t->string('name', 50);
+        $t->string('registered_name', 100);
+        $t->string('logo', 50);
+        $t->integer('office_count');
+        $t->string('business_registration_no', 30);
+        $t->string('addr', 200);
+        $t->string('country', 50);
+        $t->string('state', 50);
+        $t->string('city', 50);
+        $t->string('postal', 20);
+        $t->string('industry', 30);
         $t->string('updated_by', 20);
         $t->dateTime('updated_on');
       });

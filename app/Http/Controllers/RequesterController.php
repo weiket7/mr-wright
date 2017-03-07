@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App;
 use App\Models\Enums\UserType;
-use App\Models\User;
+use App\Models\Requester;
 use Illuminate\Http\Request;
 
 class RequesterController extends Controller
 {
   public function index()
   {
-    $data['products'] = User::where('user_type', UserType::Requester)->all();
-    return view("product/index", $data);
+    $data['requesters'] = Requester::all();
+    return view("requester/index", $data);
   }
 
-  public function save(Request $request, $product_id) {
-    $data['action'] = $product_id == null ? 'create' : 'update';
-    $data['product'] = Product::findOrNew($product_id);
-    return view('product/form', $data);
+  public function save(Request $request, $requester_id) {
+    $data['action'] = $requester_id == null ? 'create' : 'update';
+    $data['requester'] = Requester::findOrNew($requester_id);
+    return view('requester/form', $data);
   }
 
 }
