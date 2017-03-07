@@ -11,7 +11,7 @@ class WorkingHourServiceTest extends \Codeception\TestCase\Test
 
   public function testSplitTimeRangeIntoInterval() {
     $working_hour_service = new WorkingHourService();
-    $res = $working_hour_service->splitTimeRangeIntoInterval('07:00:00', '09:00:00', 15);
+    $res = $working_hour_service->splitTimeRangeIntoInterval('07:00:00', '09:00:00');
     $expected = ['07:00', '07:15', '07:30', '07:45', '08:00', '08:15', '08:30', '08:45'];
     sort($expected);
     sort($res);

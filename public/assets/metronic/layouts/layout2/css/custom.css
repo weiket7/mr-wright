@@ -24,7 +24,11 @@
   margin-bottom: 0;
 }
 .calendar-selected {
-  background-color: #0c91e5;
+  background-color: #0c91e5!important;
+}
+.calendar-assigned {
+  background-color: #26C281!important;
+  color: #FFF!important;
 }
 
 /*fix multiselect options alignment in form-horizontal*/

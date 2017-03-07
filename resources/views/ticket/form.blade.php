@@ -275,6 +275,7 @@
                   <label for="" class="control-label col-md-2">Calendar</label>
                   <div class="col-md-10">
                     <input type='text' name="staff_assignments" id="staff_assignments">
+                    <div id="div-staff_assignments"></div>
                     <div id="div-calendar"></div>
                   </div>
                 </div>
@@ -372,18 +373,51 @@
     var selectedCells = {};
 
     function selectSlot(cell) {
+      var date = $(cell).attr('data-date');
       var time = $(cell).attr('data-time');
       var staff_id = $(cell).attr('data-staff_id');
 
       if ($(cell).hasClass('calendar-selected')) {
         $(cell).removeClass('calendar-selected');
-        removeFromObject(selectedCells, staff_id, time);
+        removeFromCalendarObject(selectedCells, staff_id, date, time);
       } else {
-        pushToObject(selectedCells, staff_id, time);
+        pushToCalendarObject(selectedCells, staff_id, date, time);
         $(cell).addClass('calendar-selected');
       }
 
       $("#staff_assignments").val(JSON.stringify(selectedCells));
+      $("#div-staff_assignments").text(JSON.stringify(selectedCells));
+    }
+
+    function pushToCalendarObject(obj, staff_id, date, time) {
+      if (typeof obj[staff_id] === "undefined") {
+        obj[staff_id] = {};
+      }
+
+      if(typeof obj[staff_id][date] === "undefined") {
+        obj[staff_id][date] = [];
+      }
+
+      var exist = arrayContains(obj[staff_id][date], time);
+      if (! exist) {
+        obj[staff_id][date].push(time);
+      }
+    }
+
+    function removeFromCalendarObject(obj, staff_id, date, time) {
+      if (typeof obj[staff_id] === "undefined") {
+        return;
+      }
+
+      if(typeof obj[staff_id][date] === "undefined") {
+        return;
+      }
+
+      for(var i=0; i<obj[staff_id][date].length; i++) {
+        if (obj[staff_id][date][i] === time) {
+          obj[staff_id][date].splice(i, 1);
+        }
+      }
     }
 
     function getStaffWithSkills(skills) {
@@ -428,8 +462,8 @@
     }
 
     function populateCalendar(staffs) {
-      //console.log('selected_staffs='+selected_staffs);
-      axios.get('{{url('api/getStaffCalendar')}}?staffs='+staffs+'&date='+vm.currentDate.format('YYYY-MM-DD'))
+      var date = vm.currentDate.format('YYYY-MM-DD');
+      axios.get('{{url('api/getStaffCalendar')}}?staffs='+staffs+'&date='+date)
       .then(function (response) {
         if (response.data.is_date_blocked === true) {
           $('#div-calendar').html("<div class='alert alert-info no-margin-btm'>Blocked</div>");
@@ -457,7 +491,12 @@
           //console.log(rows[time]);
 
           for(var k=0; k<rows[time].length; k++) {
-            html += "<td onclick='selectSlot(this)' data-time="+time+" data-staff_id="+columns[k].staff_id+">"+rows[time][k].text+"</td>";
+            var text = rows[time][k].text;
+            var background = "";
+            if (text !== "") {
+              background = "calendar-assigned";
+            }
+            html += "<td onclick='selectSlot(this)' class='"+background+"' data-date='"+date+"' data-time='"+time+"' data-staff_id='"+columns[k].staff_id+"'>"+text+"</td>";
           }
         }
         $('#div-calendar').html(html);

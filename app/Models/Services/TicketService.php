@@ -50,8 +50,8 @@ class TicketService
       $ticket->opened_by = $operator;
       $ticket->opened_on = Carbon::now();
     }
-    $this->updateTicketIssues($ticket_id, $input);
-    $this->updateStaffAssignments($ticket_id, $input);
+    $this->updateTicketIssues($ticket_id, $input, $operator);
+    $this->updateStaffAssignments($ticket_id, $input, $operator);
     return $ticket->save();
   }
 
@@ -83,7 +83,7 @@ class TicketService
     return $ticket->save();
   }
 
-  private function updateTicketIssues($ticket_id, $input) {
+  private function updateTicketIssues($ticket_id, $input, $operator) {
     $issues_count = $input['issues_count'];
     for($i=0; $i<$issues_count; $i++) {
       if (isset($input['issue_stat'.$i]) && $input['issue_stat'.$i] == 'delete') {
@@ -112,18 +112,35 @@ class TicketService
 
   }
 
-  private function updateStaffAssignments($ticket_id, $input) {
-    foreach(json_decode($input['staff_assignments'], true) as $staff_id => $assignments) {
-      $periods = $this->working_hour_service->mergeIntervalsIntoTimeRange($assignments);
-      foreach($periods as $p) {
-        $staff_assignment = [
-          'ticket_id'=>$ticket_id,
-          'staff_id'=>$staff_id,
-          'time_start'=>$p['time_start'],
-          'time_end'=>$p['time_end'],
-        ];
-        DB::table('staff_assignment')->insert($staff_assignment);
+  private function updateStaffAssignments($ticket_id, $input, $operator) {
+    /* {
+    "1":{
+      "2017-03-07":["11:00", "11:15","11:30","11:45", "13:00", "13:15", "13:30", "13:45". "14:00", "14:15", "14:30", "14:45"],
+      "2017-03-08":["10:15","10:30","10:45","11:00", "11:15","11:30","11:45"]
+    },
+    "2":{
+      "2017-03-08":["11:00", "11:15","11:30","11:45"]
+    } */
+    //Staff 1, 7 March works 11am-12pm and 1pm-3pm, 8 March works 10am-12pm
+    //Staff 2, 8 March works 11am-12pm
+    $staff_assignments = json_decode($input['staff_assignments'], true);
+    foreach($staff_assignments as $staff_id => $date_assignments) {
+      foreach($date_assignments as $date => $assignments) {
+        $periods = $this->working_hour_service->mergeIntervalsIntoTimeRange($assignments);
+        foreach($periods as $p) {
+          $staff_assignment = [
+            'ticket_id'=>$ticket_id,
+            'date'=>$date,
+            'staff_id'=>$staff_id,
+            'time_start'=>$p['time_start'],
+            'time_end'=>$p['time_end'],
+            'updated_by'=>$operator,
+            'updated_on'=>Carbon::now(),
+          ];
+          DB::table('staff_assignment')->insert($staff_assignment);
+        }
       }
+
     }
   }
 }

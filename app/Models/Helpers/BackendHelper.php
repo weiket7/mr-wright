@@ -33,4 +33,13 @@ class BackendHelper
     $image->move($destination_path, $file_name);
     return $file_name;
   }
+
+  private function arrayContains($haystack, $needle) {
+    //http://nickology.com/2012/07/03/php-faster-array-lookup-than-using-in_array/
+    if (isset($haystack[$needle]))
+    {
+      return true;
+    }
+    return false;
+  }
 }

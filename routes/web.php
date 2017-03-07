@@ -79,9 +79,12 @@ Route::get('test', function() {
   $res = json_decode($json, true);
   var_dump($res);
 
-  $a = ['1'=>['10:15', '10:30'], '2'=>['10:15', '10:30']];
+  $a = [
+    1=>['2017-03-07'=>['10:15', '10:30', '10:45'], '2017-03-08'=>['10:15', '10:30', '10:45']],
+    2=>['2017-03-07'=>['10:15', '10:30', '10:45'], '2017-03-08'=>['10:15', '10:30', '10:45']]
+  ];
   var_dump($a);
-  $res = json_encode($json);
+  $res = json_encode($a);
   echo 'encode=' . $res;
 
   $working_hour_service = new WorkingHourService();

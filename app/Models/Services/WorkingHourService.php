@@ -43,18 +43,15 @@ class WorkingHourService
 
   public function getWorkingIntervalsByDate($date) {
     $day = $this->getDayFromDate($date);
-    //var_dump($day);
     $arr = DB::table('working_day_time')->where('day', $day)->select('time_start', 'time_end')->get();
-    //var_dump($arr);
 
     $res = [];
     foreach($arr as $a) {
-      $intervals = $this->splitTimeRangeIntoInterval($a->time_start, $a->time_end, self::INTERVAL);
+      $intervals = $this->splitTimeRangeIntoInterval($a->time_start, $a->time_end);
       foreach($intervals as $i) {
         $res[] = $i;
       }
     }
-    //var_dump($intervals);
 
     return $res;
   }
@@ -64,7 +61,7 @@ class WorkingHourService
 
     $blocked_intervals = [];
     foreach($blocked_working_date_times as $b) {
-      $blocked_intervals[] = $this->splitTimeRangeIntoInterval($b->time_start, $b->time_end, self::INTERVAL);
+      $blocked_intervals[] = $this->splitTimeRangeIntoInterval($b->time_start, $b->time_end);
     }
     return $blocked_intervals;
   }
@@ -73,15 +70,13 @@ class WorkingHourService
     return DB::table('working_date_blocked')->where('date', $date)->count() > 0;
   }
   
-  public function splitTimeRangeIntoInterval($time_start, $time_end, $interval) {
-    //time_start=10:00, time_start=11:00
-    $s = strtotime("-$interval minutes", strtotime($time_start));
-    $e = strtotime("-$interval minutes", strtotime($time_end));
-    //time_start=09:45, time_start=10:45
+  public function splitTimeRangeIntoInterval($time_start, $time_end) {
+    $s = strtotime("-" . self::INTERVAL . " minutes", strtotime($time_start));
+    $e = strtotime("-" . self::INTERVAL . " minutes", strtotime($time_end));
 
     $arr = [];
     while($s != $e) {
-      $s = strtotime("+$interval minutes", $s);
+      $s = strtotime("+" . self::INTERVAL . " minutes", $s);
       $arr[] = $s;
     }
 
@@ -128,40 +123,5 @@ class WorkingHourService
     $day = $this->getDayFromDate($date);
     return DB::table('working_day_time')->where('day', $day)->count() == 0;
   }
-  
-  /*
-   *
-  public function getWorkingDayTimes() {
-    $arr = DB::table('working_day_time')->get();
-    $res = [];
-    foreach($arr as $a) {
-      $res[$a->day][] = ['time_start'=>$a->time_start, 'time_end'=>$a->time_end];
-    }
-    return $res;
-  }
-  
-  public function getBlockedWorkingDateTimes() {
-    //TODO >= current date
-    $arr = DB::table('working_date_time_blocked')->select('date', 'time_start', 'time_end');
     
-    $res = [];
-    foreach($arr as $a) {
-      $res[$a->day][] = ['date'=>$a->date, 'time_start'=>$a->time_start, 'time_end'=>$a->time_end];
-    }
-    return $res;
-  }
-
-  public function getBlockedWorkingDates() {
-    //TODO >= current date
-    $arr = DB::table('working_date_blocked')->pluck('date');
-
-    $res = [];
-    foreach($arr as $a) {
-      $res[] = (int)date('N', strtotime($a));
-    }
-    return $res;
-  }
-  
-   */
-  
 }

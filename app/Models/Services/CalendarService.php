@@ -33,9 +33,9 @@ class CalendarService
       if(isset($staff_assignments[$staff_id])) {
         $assignments = $staff_assignments[$staff_id];
         foreach ($assignments as $a) {
-          $assignment_intervals = $this->working_hour_service->splitTimeRangeIntoInterval($a->time_start, $a->time_end, 15);
+          $assignment_intervals = $this->working_hour_service->splitTimeRangeIntoInterval($a->time_start, $a->time_end);
           foreach ($assignment_intervals as $i) {
-            $staff_intervals[$staff_id][$i]['ticket_id'] = $a->ticket_id;
+            $staff_intervals[$staff_id][$i]['text'] = $a->ticket_id;
           }
         }
       }
@@ -46,17 +46,7 @@ class CalendarService
       'staff_intervals'=>$staff_intervals,
       'staffs'=>$staffs,
     ];
-    //var_dump($intervals); exit;
     return $res;
-  }
-
-  private function arrayContains($haystack, $needle) {
-    //http://nickology.com/2012/07/03/php-faster-array-lookup-than-using-in_array/
-    if (isset($haystack[$needle]))
-    {
-      return true;
-    }
-    return false;
   }
 
   public function getStaffAssignments($date, $staff_ids) {
@@ -78,8 +68,6 @@ class CalendarService
       ->join('staff_skill as ss', 'ss.skill_id', '=', 'skill.skill_id')
       ->join('staff', 'ss.staff_id', '=', 'staff.staff_id')
       ->whereIn('skill.name', $skills)->select('staff.staff_id', 'staff.name')->distinct()->get();
-    //var_dump($staffs);
-    //return $staffs->keyBy('staff_id');
     return $staffs;
   }
 }

@@ -14,7 +14,7 @@ class StaffAssignmentSeeder extends Seeder
       'time_start'=>'13:00:00',
       'time_end'=>'15:00:00',
       'updated_by'=>'admin',
-      'updated_on'=>date('Y-m-d H:i:s')
+      'updated_on'=>Carbon::now(),
     ]);
 
     DB::table('staff_assignment')->insert([
@@ -24,7 +24,7 @@ class StaffAssignmentSeeder extends Seeder
       'time_start'=>'15:00:00',
       'time_end'=>'18:00:00',
       'updated_by'=>'admin',
-      'updated_on'=>date('Y-m-d H:i:s')
+      'updated_on'=>Carbon::now(),
     ]);
 
     DB::table('staff_assignment')->insert([
@@ -34,7 +34,7 @@ class StaffAssignmentSeeder extends Seeder
       'time_start'=>'13:00:00',
       'time_end'=>'15:00:00',
       'updated_by'=>'admin',
-      'updated_on'=>date('Y-m-d H:i:s')
+      'updated_on'=>Carbon::now(),
     ]);
   }
 }
