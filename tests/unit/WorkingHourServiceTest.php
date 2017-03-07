@@ -9,12 +9,6 @@ class WorkingHourServiceTest extends \Codeception\TestCase\Test
 {
   protected $tester;
 
-  public function testGetAvailableWorkingHours() {
-    $working_hour_service = new WorkingHourService();
-    $hours = $working_hour_service->getWorkingIntervalsByDate();
-    $this->assertEquals(6, count($hours));
-  }
-
   public function testSplitTimeRangeIntoInterval() {
     $working_hour_service = new WorkingHourService();
     $res = $working_hour_service->splitTimeRangeIntoInterval('07:00:00', '09:00:00', 15);
@@ -22,6 +16,18 @@ class WorkingHourServiceTest extends \Codeception\TestCase\Test
     sort($expected);
     sort($res);
     $this->assertEquals($expected, $res);
+  }
+
+  public function testMergeIntervalsIntoTimeRange() {
+    $working_hour_service = new WorkingHourService();
+    $intervals = ['10:30', '10:45', '11:00', '12:00', '12:15'];
+    $res = $working_hour_service->mergeIntervalsIntoTimeRange($intervals);
+    $this->assertEquals($res[0], ['time_start'=>'10:30', 'time_end'=>'11:15']);
+    $this->assertEquals($res[1], ['time_start'=>'12:00', 'time_end'=>'12:30']);
+
+    $intervals = ['10:15'];
+    $res = $working_hour_service->mergeIntervalsIntoTimeRange($intervals);
+    $this->assertEquals($res[0], ['time_start'=>'10:15', 'time_end'=>'10:30']);
   }
 
   public function testAssertArray() {

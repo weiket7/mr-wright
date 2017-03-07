@@ -13,6 +13,11 @@ use Log;
 
 class TicketService
 {
+  public function __construct(WorkingHourService $working_hour_service)
+  {
+    $this->working_hour_service = $working_hour_service;
+  }
+
   public function getTicket($ticket_id) {
     $ticket = Ticket::findOrNew($ticket_id);
     $ticket->issues = DB::table('ticket_issue')->where('ticket_id', $ticket_id)->orderBy('ticket_issue_id')->get();
@@ -29,8 +34,7 @@ class TicketService
     return DB::table('skill')->pluck('name', 'skill_id');
   }
 
-  public function saveTicket($ticket_id, $input, $operator = 'admin') //TODO
-  {
+  public function saveTicket($ticket_id, $input, $operator = 'admin') {
     $ticket = Ticket::findOrNew($ticket_id);
     $ticket->title = $input['title'];
     $ticket->category_id = $input['category_id'];
@@ -47,6 +51,7 @@ class TicketService
       $ticket->opened_on = Carbon::now();
     }
     $this->updateTicketIssues($ticket_id, $input);
+    $this->updateStaffAssignments($ticket_id, $input);
     return $ticket->save();
   }
 
@@ -82,33 +87,43 @@ class TicketService
     $issues_count = $input['issues_count'];
     for($i=0; $i<$issues_count; $i++) {
       if (isset($input['issue_stat'.$i]) && $input['issue_stat'.$i] == 'delete') {
-        Log::info('Ticket issue delete ticket_issue_id='.$input['issue_id'.$i]);
         DB::table('ticket_issue')->where('ticket_issue_id', $input['issue_id'.$i])->delete();
         continue;
       }
 
       $ticket_issue = [
-        'ticket_id'=>$ticket_id,
         'issue_desc' => $input['issue'.$i],
         'expected_desc' => $input['expected'.$i],
       ];
-
       if (isset($input['issue_stat'.$i]) && $input['issue_stat'.$i] == 'add') {
+        $ticket_issue['ticket_id'] = $ticket_id;
         $ticket_issue_id = DB::table('ticket_issue')->insertGetId($ticket_issue);
-        //Log::info('Ticket issue add ticket_issue_id='.$input['issue_id'.$i]);
       } else {
         $ticket_issue_id = $input['issue_id'.$i];
         DB::table('ticket_issue')->where('ticket_issue_id', $ticket_issue_id)->update($ticket_issue);
-        //Log::info('Ticket issue update ticket_issue_id='.$ticket_issue_id);
       }
 
       $image = isset($input['image' . $i]) ? $input['image' . $i] : null;
       if ($image) {
         $image_name = BackendHelper::uploadFile('images/tickets', $ticket_id.'_'.$ticket_issue_id, $image);
-        //Log::info('ticket_issue_id='.$ticket_issue_id.' image='.$image_name);
         DB::table('ticket_issue')->where('ticket_issue_id', $ticket_issue_id)->update(['image'=>$image_name]);
       }
     }
 
+  }
+
+  private function updateStaffAssignments($ticket_id, $input) {
+    foreach(json_decode($input['staff_assignments'], true) as $staff_id => $assignments) {
+      $periods = $this->working_hour_service->mergeIntervalsIntoTimeRange($assignments);
+      foreach($periods as $p) {
+        $staff_assignment = [
+          'ticket_id'=>$ticket_id,
+          'staff_id'=>$staff_id,
+          'time_start'=>$p['time_start'],
+          'time_end'=>$p['time_end'],
+        ];
+        DB::table('staff_assignment')->insert($staff_assignment);
+      }
+    }
   }
 }

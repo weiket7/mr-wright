@@ -272,9 +272,10 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="" class="control-label col-md-2" id="assignments">Calendar</label>
+                  <label for="" class="control-label col-md-2">Calendar</label>
                   <div class="col-md-10">
-                    <div id="calendar"></div>
+                    <input type='text' name="staff_assignments" id="staff_assignments">
+                    <div id="div-calendar"></div>
                   </div>
                 </div>
 
@@ -372,18 +373,17 @@
 
     function selectSlot(cell) {
       var time = $(cell).attr('data-time');
-      var name = $(cell).attr('data-name');
+      var staff_id = $(cell).attr('data-staff_id');
 
       if ($(cell).hasClass('calendar-selected')) {
         $(cell).removeClass('calendar-selected');
-        removeFromObject(selectedCells, name, time);
+        removeFromObject(selectedCells, staff_id, time);
       } else {
-        pushToObject(selectedCells, name, time);
+        pushToObject(selectedCells, staff_id, time);
         $(cell).addClass('calendar-selected');
       }
 
-      //TODO sort times
-      $("#assignments").text(JSON.stringify(selectedCells));
+      $("#staff_assignments").val(JSON.stringify(selectedCells));
     }
 
     function getStaffWithSkills(skills) {
@@ -431,8 +431,12 @@
       //console.log('selected_staffs='+selected_staffs);
       axios.get('{{url('api/getStaffCalendar')}}?staffs='+staffs+'&date='+vm.currentDate.format('YYYY-MM-DD'))
       .then(function (response) {
-        if (response.data.is_date_blocked) {
-          $('#calendar').html("<label class='control-label'>Date is blocked</label>");
+        if (response.data.is_date_blocked === true) {
+          $('#div-calendar').html("<div class='alert alert-info no-margin-btm'>Blocked</div>");
+          return;
+        }
+        if (response.data.is_non_working_day === true) {
+          $('#div-calendar').html("<div class='alert alert-info no-margin-btm'>Non working day</div>");
           return;
         }
 
@@ -440,7 +444,7 @@
 
         var columns = response.data.columns;
         for(var i = 0; i<columns.length; i++) {
-          html += "<th>" + columns[i] + "</th>";
+          html += "<th>" + columns[i].name + "</th>";
         }
         html+= "</tr><tbody>";
 
@@ -453,10 +457,10 @@
           //console.log(rows[time]);
 
           for(var k=0; k<rows[time].length; k++) {
-            html += "<td onclick='selectSlot(this)' data-time="+time+" data-name="+columns[k]+">"+rows[time][k].text+"</td>";
+            html += "<td onclick='selectSlot(this)' data-time="+time+" data-staff_id="+columns[k].staff_id+">"+rows[time][k].text+"</td>";
           }
         }
-        $('#calendar').html(html);
+        $('#div-calendar').html(html);
       })
       .catch(function (error) {
         console.log('populateCalendar error');

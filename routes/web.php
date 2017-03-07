@@ -74,14 +74,22 @@ Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
 Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
 
 Route::get('test', function() {
-  $ticket_issue = [
-    'ticket_id'=>1,
-    'issue_desc' => 2,
-    'expected_desc' => 3,
-  ];
-  DB::table('ticket_issue')->update($ticket_issue);
+  $json = '{"1":["10:15","10:30"],"2":["10:15","10:30"]}';
+  echo $json;
+  $res = json_decode($json, true);
+  var_dump($res);
+
+  $a = ['1'=>['10:15', '10:30'], '2'=>['10:15', '10:30']];
+  var_dump($a);
+  $res = json_encode($json);
+  echo 'encode=' . $res;
 
   $working_hour_service = new WorkingHourService();
+
+  /*$data = ['10:30', '10:45', '11:00', '12:00', '12:15'];
+  $res = $working_hour_service->mergeIntervalsIntoTimeRange($data);
+  var_dump($res);
+
   $today = Carbon::now()->format("Y-m-d");
   $next_monday = Carbon::parse('next monday')->format("Y-m-d");
   echo 'next mon'; var_dump($next_monday);
@@ -98,7 +106,7 @@ Route::get('test', function() {
   $res = $working_hour_service->isDateBlocked($next_monday);
   echo 'res'; var_dump($res);
   $res = $working_hour_service->getBlockedWorkingIntervalsByDate($next_monday);
-  echo 'res'; var_dump($res);
+  echo 'res'; var_dump($res);*/
 
 });
 

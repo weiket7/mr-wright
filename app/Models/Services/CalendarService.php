@@ -16,15 +16,9 @@ class CalendarService
 
   public function getStaffCalendar($date, $staff_ids) {
     $intervals = $this->working_hour_service->getWorkingIntervalsByDate($date);
-    $is_date_blocked = $this->working_hour_service->isDateBlocked($date);
     $blocked_intervals = $this->working_hour_service->getBlockedWorkingIntervalsByDate($date);
-    //var_dump($intervals); exit;
 
-    
     $staffs = DB::table('staff')->whereIn('staff_id', $staff_ids)->select('name', 'staff_id')->get();
-    //$staff_ids = $staffs->pluck('staff_id');
-
-    $staff_assignments = $this->getStaffAssignments($date, $staff_ids);
 
     $staff_intervals = [];
     foreach($staff_ids as $staff_id) {
@@ -32,6 +26,8 @@ class CalendarService
         $staff_intervals[$staff_id][$i] = ['text'=>'', 'background'=>''];
       }
     }
+
+    $staff_assignments = $this->getStaffAssignments($date, $staff_ids);
 
     foreach($staff_ids as $staff_id) {
       if(isset($staff_assignments[$staff_id])) {
@@ -49,7 +45,6 @@ class CalendarService
       'intervals'=>$intervals,
       'staff_intervals'=>$staff_intervals,
       'staffs'=>$staffs,
-      'is_date_blocked'=>$is_date_blocked
     ];
     //var_dump($intervals); exit;
     return $res;

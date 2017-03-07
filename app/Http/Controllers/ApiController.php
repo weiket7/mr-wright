@@ -28,8 +28,18 @@ class ApiController extends Controller
   }
 
   public function getStaffCalendar(Request $request) {
-    $staffs = explode(",", $request->get('staffs'));
     $date = $request->get('date');
+    $is_date_blocked = $this->working_hour_service->isDateBlocked($date);
+    if ($is_date_blocked) {
+      return ['is_date_blocked'=>true];
+    }
+  
+    $is_non_working_day = $this->working_hour_service->isNonWorkingDay($date);
+    if ($is_non_working_day) {
+      return ['is_non_working_day'=>true];
+    }
+
+    $staffs = explode(",", $request->get('staffs'));
     $res = $this->calendar_service->getStaffCalendar($date, $staffs);
     $staffs = $res['staffs'];
     $intervals = $res['intervals'];
@@ -43,16 +53,12 @@ class ApiController extends Controller
         $rows[$i][] = $staff_intervals[$staff->staff_id][$i];
       }
     }
-    foreach($res['staffs'] as $staff) {
-      $columns[] = $staff->name;
-    }
 
     $res = [
-      'columns' => $columns,
+      'columns' => $staffs,
       'rows' => $rows,
       'intervals' => $intervals,
       'staffs' => $staffs,
-      'is_date_blocked'=>$res['is_date_blocked']
     ];
     return $res;
 
