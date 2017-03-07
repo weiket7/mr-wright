@@ -50,8 +50,7 @@ class TicketService
       $ticket->opened_by = $operator;
       $ticket->opened_on = Carbon::now();
     }
-    $this->updateTicketIssues($ticket_id, $input, $operator);
-    $this->updateStaffAssignments($ticket_id, $input, $operator);
+
     return $ticket->save();
   }
 
@@ -83,7 +82,7 @@ class TicketService
     return $ticket->save();
   }
 
-  private function updateTicketIssues($ticket_id, $input, $operator) {
+  public function saveTicketIssues($ticket_id, $input, $operator = 'admin') {
     $issues_count = $input['issues_count'];
     for($i=0; $i<$issues_count; $i++) {
       if (isset($input['issue_stat'.$i]) && $input['issue_stat'.$i] == 'delete') {
@@ -94,6 +93,8 @@ class TicketService
       $ticket_issue = [
         'issue_desc' => $input['issue'.$i],
         'expected_desc' => $input['expected'.$i],
+        'updated_by'=>$operator,
+        'updated_on'=>Carbon::now()
       ];
       if (isset($input['issue_stat'.$i]) && $input['issue_stat'.$i] == 'add') {
         $ticket_issue['ticket_id'] = $ticket_id;
@@ -112,7 +113,7 @@ class TicketService
 
   }
 
-  private function updateStaffAssignments($ticket_id, $input, $operator) {
+  public function saveStaffAssignments($ticket_id, $input, $operator = 'admin') {
     /* {
     "1":{
       "2017-03-07":["11:00", "11:15","11:30","11:45", "13:00", "13:15", "13:30", "13:45". "14:00", "14:15", "14:30", "14:45"],
@@ -124,6 +125,9 @@ class TicketService
     //Staff 1, 7 March works 11am-12pm and 1pm-3pm, 8 March works 10am-12pm
     //Staff 2, 8 March works 11am-12pm
     $staff_assignments = json_decode($input['staff_assignments'], true);
+    if (count($staff_assignments) == 0) {
+      return;
+    }
     foreach($staff_assignments as $staff_id => $date_assignments) {
       foreach($date_assignments as $date => $assignments) {
         $periods = $this->working_hour_service->mergeIntervalsIntoTimeRange($assignments);

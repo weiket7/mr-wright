@@ -45,18 +45,15 @@ class ApiController extends Controller
     $intervals = $res['intervals'];
     $staff_intervals = $res['staff_intervals'];
 
-    $columns = [];
-    $rows = [];
+    $cells = [];
     foreach($intervals as $i) {
       foreach($staffs as $staff) {
-        $rows[$i][$staff->staff_id] = $staff_intervals[$staff->staff_id][$i];
+        $cells[$i][$staff->staff_id] = $staff_intervals[$staff->staff_id][$i];
       }
     }
-    //var_dump($rows); exit;
 
     $res = [
-      'columns' => $staffs,
-      'rows' => $rows,
+      'cells' => $cells,
       'intervals' => $intervals,
       'staffs' => $staffs,
     ];

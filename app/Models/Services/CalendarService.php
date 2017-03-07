@@ -23,7 +23,7 @@ class CalendarService
     $staff_intervals = [];
     foreach($staff_ids as $staff_id) {
       foreach($intervals as $i) {
-        $staff_intervals[$staff_id][$i] = ['text'=>'', 'background'=>''];
+        $staff_intervals[$staff_id][$i] = ['ticket_id'=>'', 'text'=>'', 'background'=>''];
       }
     }
 
@@ -35,6 +35,7 @@ class CalendarService
         foreach ($assignments as $a) {
           $assignment_intervals = $this->working_hour_service->splitTimeRangeIntoInterval($a->time_start, $a->time_end);
           foreach ($assignment_intervals as $i) {
+            $staff_intervals[$staff_id][$i]['ticket_id'] = $a->ticket_id;
             $staff_intervals[$staff_id][$i]['text'] = $a->ticket_id;
           }
         }

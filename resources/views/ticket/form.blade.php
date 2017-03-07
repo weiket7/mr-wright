@@ -335,13 +335,13 @@
 
 @section('script')
   <script>
-
     $(document).ready(function() {
-      //http://stackoverflow.com/questions/29618382/disable-dropdown-opening-on-select2-clear
       $("#staffs").select2({
         allowClear: true,
         placeholder: "Select"
-      }).on('select2:unselecting', function() { //unselect prevent open dropdown
+      }).on('select2:unselecting', function() {
+        //unselect prevent open dropdown
+        //http://stackoverflow.com/questions/29618382/disable-dropdown-opening-on-select2-clear
         $(this).data('unselecting', true);
       }).on('select2:opening', function(e) {
         if ($(this).data('unselecting')) {
@@ -349,28 +349,21 @@
           e.preventDefault();
         }
       }).on("select2:select select2:unselect", function(e) {
-        var selected_staffs = getSelectedMultiSelect2ById('staffs');
-        populateCalendar(selected_staffs);
+        getValuesAndPopulateCalendar();
       });
 
 
       $("input[name='skills']").click(function() {
-        var selected_skills = getSelectedCheckboxesByName('skills');
-        getStaffWithSkills(selected_skills);
+        populateStaffWithSkills();
       });
 
       $("#date").on('changeDate', function() {
-        getStaffsAndPopulateCalendar();
+        getValuesAndPopulateCalendar();
       });
 
     });
 
-    function quotationTab() {
-      location.href += '#tab-quotation';
-      $('a[href="#tab-quotation"]').tab('show');
-    }
-    
-    var selectedCells = {};
+    var selected_cells = {};
 
     function selectSlot(cell) {
       var date = $(cell).attr('data-date');
@@ -379,19 +372,22 @@
 
       if ($(cell).hasClass('calendar-selected')) {
         $(cell).removeClass('calendar-selected');
-        removeFromCalendarObject(selectedCells, staff_id, date, time);
+        removeFromCalendarObject(selected_cells, staff_id, date, time);
       } else {
-        pushToCalendarObject(selectedCells, staff_id, date, time);
+        pushToCalendarObject(selected_cells, staff_id, date, time);
         $(cell).addClass('calendar-selected');
       }
 
-      $("#staff_assignments").val(JSON.stringify(selectedCells));
-      $("#div-staff_assignments").text(JSON.stringify(selectedCells));
+      $("#staff_assignments").val(JSON.stringify(selected_cells));
+      $("#div-staff_assignments").text(JSON.stringify(selected_cells));
     }
 
-    function getStaffWithSkills(skills) {
+    function populateStaffWithSkills() {
+      var skills = getSelectedCheckboxesByName('skills');
+
       axios.get('{{url('api/getStaffWithSkills')}}?skills='+skills)
       .then(function (response) {
+        //change select2 options
         //https://github.com/select2/select2/issues/2830
         var staffs = response.data;
 
@@ -408,30 +404,22 @@
           $select.append('<option value=' + staffs[i].staff_id + ' selected>' + staffs[i].name + '</option>');
         }
         options.data = res;
-
         $select.select2(options);
 
-        var selected_staffs = [];
-        for(var j=0; j<staffs.length; j++) {
-          selected_staffs.push(staffs[j].staff_id);
-        }
-        populateCalendar(selected_staffs);
+        getValuesAndPopulateCalendar();
       })
       .catch(function (error) {
-        console.log('getStaffWithSkills error='+error);
+        console.log('populateStaffWithSkills error='+error);
       })
     }
 
-    function getStaffsAndPopulateCalendar() {
-      var selected_staffs = getSelectedMultiSelect2ById('staffs');
-      if (selected_staffs.length === 0) {
+    function getValuesAndPopulateCalendar() {
+      var staffs = getSelectedMultiSelect2ById('staffs');
+      var date = vm.currentDate.format('YYYY-MM-DD');
+      if (staffs.length === 0) {
         toastr.error('Select skills and staffs first');
       }
-      populateCalendar(selected_staffs);
-    }
 
-    function populateCalendar(staffs) {
-      var date = vm.currentDate.format('YYYY-MM-DD'); //TODO dependency
       axios.get('{{url('api/getStaffCalendar')}}?staffs='+staffs+'&date='+date)
       .then(function (response) {
         if (response.data.is_date_blocked === true) {
@@ -443,41 +431,43 @@
           return;
         }
 
-        var html = '<table class="table table-bordered no-margin-btm"><thead><tr><th width="80px"></th>';
+        var html = '<table class="table table-bordered no-margin-btm"><thead><tr><th width="60px"></th>';
 
-        var columns = response.data.columns;
-        for (var staff_id in columns) {
-          if (columns.hasOwnProperty(staff_id)) {
-            html += "<th>" + columns[staff_id].name + "</th>";
+        var staffs = response.data.staffs;
+        for (var staff_id in staffs) {
+          if (staffs.hasOwnProperty(staff_id)) {
+            html += "<th>" + staffs[staff_id].name + "</th>";
           }
         }
         html+= "</tr><tbody>";
 
-        var rows = response.data.rows;
+        var cells = response.data.cells;
         var intervals = response.data.intervals;
+        var current_ticket_id = {{ $ticket->ticket_id }};
 
         for(var j = 0; j<intervals.length; j++) {
           var time = intervals[j];
           html += "<tr><td>"+time+"</td>";
-          //console.log(JSON.stringify(rows[time]));
 
-          var cols = rows[time];
+          var cols = cells[time];
           for (var staff_id in cols) {
             if (cols.hasOwnProperty(staff_id)) {
               var text = cols[staff_id].text;
+              var ticket_id = cols[staff_id].ticket_id;
               //console.log('text='+text);
               var background = "";
-              if (text !== "") {
+              if (current_ticket_id === ticket_id) {
+                background = "calendar-assigned-current-ticket";
+              } else if (text !== "") {
                 background = "calendar-assigned";
-              } else if (typeof selectedCells[staff_id] !== "undefined" && typeof selectedCells[staff_id][date] !== "undefined"){
-                if (arrayContains(selectedCells[staff_id][date], time) === true) {
+              } else if (typeof selected_cells[staff_id] !== "undefined" && typeof selected_cells[staff_id][date] !== "undefined"){
+                if (arrayContains(selected_cells[staff_id][date], time) === true) {
                   background = "calendar-selected";
                 }
               }
-              html += "<td onclick='selectSlot(this)' class='"+background+"' data-date='"+date+"' data-time='"+time+"' data-staff_id='"+columns[staff_id].staff_id+"'>"+text+"</td>";
+              html += "<td onclick='selectSlot(this)' class='"+background+"' data-date='"+date+"' data-time='"+time+"' data-staff_id='"+staffs[staff_id].staff_id+"'>"+text+"</td>";
             }
           }
-
         }
         $('#div-calendar').html(html);
       })

@@ -33,8 +33,12 @@ class TicketController extends Controller
       $submit = $input['submit'];
       if (BackendHelper::stringContains($submit, "ticket")) {
         $this->ticket_service->saveTicket($ticket_id, $input);
+        $this->ticket_service->saveStaffAssignments($ticket_id, $input);
+        $this->ticket_service->saveTicketIssues($ticket_id, $input);
+
       } elseif (BackendHelper::stringContains($submit, "quotation")) {
         $this->ticket_service->sendQuotation($ticket_id);
+
       } elseif (BackendHelper::stringContains($submit, "complete")) {
       $this->ticket_service->completeTicket($ticket_id);
       }

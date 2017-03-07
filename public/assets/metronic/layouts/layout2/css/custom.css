@@ -27,7 +27,15 @@
   background-color: #0c91e5!important;
 }
 .calendar-assigned {
+  background-color: #F7CA18!important;
+  color: #FFF!important;
+}
+.calendar-assigned-current-ticket {
   background-color: #26C281!important;
+  color: #FFF!important;
+}
+.calendar-assigned-remove {
+  background-color: #D91E18!important;
   color: #FFF!important;
 }
 
