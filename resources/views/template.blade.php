@@ -1180,6 +1180,9 @@ License: You must have a valid license purchased only from themeforest(the above
     $(document).ready(function() {
       toastr.options.positionClass = "toast-top-center";
       toastr.options.preventDuplicates = true;
+      //https://github.com/CodeSeven/toastr/issues/166
+      toastr.options.timeOut = 0;
+      toastr.options.extendedTimeOut = 0;
 
       $.fn.select2.defaults.set("theme", "bootstrap");
 
@@ -1191,6 +1194,14 @@ License: You must have a valid license purchased only from themeforest(the above
 
       @if(Session::has('msg'))
         toastr.info("{{Session::get('msg')}}");
+      @endif
+  
+      @if ($errors->any())
+        var error = '';
+        @foreach ($errors->all() as $error)
+          error += '{{$error}}';
+        @endforeach
+        toastr.error(error);
       @endif
     });
   </script>

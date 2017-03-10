@@ -1,6 +1,7 @@
 <?php namespace App\Models\Enums;
 
 abstract class TicketStat {
+  const Drafted = 'O';
   const Opened = 'O';
   const Quoted = 'Q';
   const Accepted = 'A';
@@ -11,6 +12,7 @@ abstract class TicketStat {
   
   static $values = [
     ''=>'',
+    self::Drafted=>'Drafted',
     self::Opened=>'Opened',
     self::Quoted=>'Quoted',
     self::Accepted=>'Accepted',

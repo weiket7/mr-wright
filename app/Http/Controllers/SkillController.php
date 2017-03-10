@@ -16,8 +16,20 @@ class SkillController extends Controller
   }
 
   public function save(Request $request, $skill_id) {
-    $data['action'] = $skill_id == null ? 'create' : 'update';
-    $data['skill'] = $skill_id == null ? new Skill() : Skill::find($skill_id);
+    $action = $skill_id == null ? 'create' : 'update';
+    $skill = $skill_id == null ? new Skill() : Skill::find($skill_id);
+  
+    if($request->isMethod('post')) {
+      $input = $request->all();
+      if (!$skill->saveSkill($input)) {
+        return redirect()->back()->withErrors($skill->getValidation())->withInput($input);
+      }
+      return redirect('skill/save/' . $skill->skill_id)->with('msg', 'Skill ' . $action . "d");
+    }
+      
+    $data['action'] = $action;
+    $data['skill'] = $skill;
+    
     return view('skill/form', $data);
   }
 
