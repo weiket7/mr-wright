@@ -4,7 +4,7 @@
 
 @section('content')
   <h1 class="page-title">
-    {{ucfirst($action)}} Office
+    {{ucfirst($action)}} Product
   </h1>
 
   <div class="portlet light bordered">
@@ -17,7 +17,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Name</label>
                 <div class="col-md-9">
-                  {{Form::text('name', $office->name, ['class'=>'form-control'])}}
+                  {{Form::text('name', $product->name, ['class'=>'form-control'])}}
                 </div>
               </div>
             </div>

@@ -14,10 +14,12 @@ class Template extends Eloquent
 
   private $rules = [
     'name'=>'required',
+    'stat'=>'required',
   ];
 
   private $messages = [
     'name.required'=>'Name is required',
+    'stat.required'=>'Status is required',
   ];
 
   public function saveTemplate($input) {
@@ -27,6 +29,7 @@ class Template extends Eloquent
     }
   
     $this->name = $input['name'];
+    $this->stat = $input['stat'];
     $this->save();
     return true;
   }

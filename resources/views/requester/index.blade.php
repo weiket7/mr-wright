@@ -16,7 +16,7 @@
           <tbody>
           <tr>
             <td>
-              {!! Form::select('stat', RequesterStat::$values, '', ['class'=>'form-control', 'id'=>'stat']) !!}
+              {!! Form::select('stat', RequesterStat::$values, '', ['class'=>'form-control', 'id'=>'stat', 'placeholder'=>'']) !!}
             </td>
             <td>{!! Form::text('name', '', ['class'=>'form-control', 'id'=>'name']) !!}</td>
           </tr>
@@ -35,17 +35,11 @@
 
   <div class="portlet light bordered">
     <div class="portlet-body">
-      @if(Session::has('search_result'))
-        <div class="alert alert-success ">
-          {{ Session::get('search_result') }}
-        </div>
-      @endif
-
       <div class="table-responsive">
         <table class="table table-bordered table-hover">
           <thead>
           <tr>
-            <th width="50px">Status</th>
+            <th width="60px">Status</th>
             <th>Name</th>
           </tr>
           </thead>
@@ -53,7 +47,7 @@
           @foreach($requesters as $requester)
             <tr>
               <td>{{RequesterStat::$values[$requester->stat]}}</td>
-              <td width="450px"><a href="{{url("requester/save/".$requester->requester_id)}}">{{ $requester->name }}</a></td>
+              <td><a href="{{url("requester/save/".$requester->requester_id)}}">{{ $requester->name }}</a></td>
             </tr>
           @endforeach
           </tbody>

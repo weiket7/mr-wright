@@ -11,10 +11,12 @@ class RequesterSeeder extends Seeder
     DB::table('requester')->insert([
       'stat'=>RequesterStat::Active,
       'company_id'=>1,
+      'office_id'=>1,
       'name'=>'Admin',
+      'designation'=>'Secretary',
       'mobile'=>'91234567',
       'email'=>'admin@unity-pharmacy.com',
-      'office'=>'6123456',
+      'work'=>'6123456',
       'preferred_contact'=>PreferredContact::Mobile,
       'updated_by'=>'admin',
       'updated_on'=>date('Y-m-d H:i:s')
