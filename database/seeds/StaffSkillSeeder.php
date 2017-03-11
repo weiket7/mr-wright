@@ -19,13 +19,6 @@ class StaffSkillSeeder extends Seeder
       'updated_by'=>'admin',
       'updated_on'=>date('Y-m-d H:i:s')
     ]);
-
-    DB::table('staff_skill')->insert([
-      'staff_id'=>2,
-      'skill_id'=>1,
-      'updated_by'=>'admin',
-      'updated_on'=>date('Y-m-d H:i:s')
-    ]);
   
     DB::table('staff_skill')->insert([
       'staff_id'=>3,

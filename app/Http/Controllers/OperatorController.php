@@ -14,10 +14,21 @@ class OperatorController extends Controller
     return view("operator/index", $data);
   }
 
-  public function save(Request $request, $product_id) {
-    $data['action'] = $product_id == null ? 'create' : 'update';
-    $data['product'] = Product::findOrNew($product_id);
-    return view('product/form', $data);
+  public function save(Request $request, $operator_id = null) {
+    $action = $operator_id == null ? 'create' : 'update';
+    $operator = $operator_id == null ? new Operator() : Operator::find($operator_id);
+
+    if($request->isMethod('post')) {
+      $input = $request->all();
+      if (!$operator->saveOperator($input)) {
+        return redirect()->back()->withErrors($operator->getValidation())->withInput($input);
+      }
+      return redirect('operator/save/' . $operator->operator_id)->with('msg', 'Operator ' . $action . "d");
+    }
+
+    $data['action'] = $action;
+    $data['operator'] = $operator;
+    return view('operator/form', $data);
   }
 
 }

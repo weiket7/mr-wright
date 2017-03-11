@@ -88,7 +88,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Preferred Mode of Contact</label>
+                <label class="control-label col-md-3">Preferred Contact</label>
                 <div class="col-md-9">
                   {{Form::select('preferred_contact', PreferredContact::$values, $requester->preferred_contact, ['class'=>'form-control', 'placeholder'=>''])}}
                 </div>

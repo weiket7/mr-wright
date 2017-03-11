@@ -15,6 +15,7 @@ class UserTable extends Migration
             $t->string('email', 100);
             $t->string('name', 50);
             $t->char('type', 1);
+            $t->char('stat', 1);
             $t->string('remember_token', 100);
             $t->string('updated_by', 20);
             $t->dateTime('updated_on');

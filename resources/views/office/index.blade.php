@@ -1,6 +1,6 @@
 <?php use App\Models\Enums\OfficeStat; ?>
 
-@extends("template", [ "title"=>"Companies" ])
+@extends("template")
 
 @section("content")
   <div class="row">
@@ -48,7 +48,7 @@
         <table class="table table-bordered table-hover">
           <thead>
           <tr>
-            <th width="60px">Status</th>
+            <th width="70px">Status</th>
             <th>Name</th>
           </tr>
           </thead>

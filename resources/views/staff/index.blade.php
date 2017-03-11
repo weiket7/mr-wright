@@ -26,7 +26,7 @@
         <table class="table table-bordered table-hover">
           <thead>
           <tr>
-            <th width="50px">Status</th>
+            <th width="70px">Status</th>
             <th>Name</th>
           </tr>
           </thead>
@@ -34,7 +34,7 @@
           @foreach($staffs as $staff)
             <tr>
               <td>{{StaffStat::$values[$staff->stat]}}</td>
-              <td width="450px"><a href="{{url("staff/save/".$staff->staff_id)}}">{{ $staff->name }}</a></td>
+              <td><a href="{{url("staff/save/".$staff->staff_id)}}">{{ $staff->name }}</a></td>
             </tr>
           @endforeach
           </tbody>

@@ -1,8 +1,10 @@
+<?php use App\Models\Enums\UserStat; ?>
+
 @extends("template")
 
 @section('content')
   <h1 class="page-title">
-    {{ucfirst($action)}} Staff
+    {{ucfirst($action)}} Operator
   </h1>
 
   <div class="portlet light bordered">
@@ -15,7 +17,15 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Name</label>
                 <div class="col-md-9">
-                  {{Form::text('name', $staff->name, ['class'=>'form-control'])}}
+                  {{Form::text('name', $operator->name, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Status</label>
+                <div class="col-md-9">
+                  {{Form::select('stat', UserStat::$values, $operator->stat, ['class'=>'form-control', 'placeholder'=>''])}}
                 </div>
               </div>
             </div>
@@ -23,23 +33,32 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Skill</label>
+                <label class="control-label col-md-3">Username</label>
                 <div class="col-md-9">
-                  <table class="table table-bordered no-margin-btm">
-                    @foreach($staff->skills as $s)
-                      <tr>
-                        <td>{{ $s->name }}</td>
-                      </tr>
-                    @endforeach
-                  </table>
+                  {{Form::text('username', $operator->username, ['class'=>'form-control'])}}
                 </div>
               </div>
             </div>
             <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Password</label>
+                <div class="col-md-9">
+                  {{Form::text('password', '', ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Email</label>
+                <div class="col-md-9">
+                  {{Form::text('email', $operator->email, ['class'=>'form-control'])}}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
         <div class="form-actions">
           <div class="row">
             <div class="col-md-6">

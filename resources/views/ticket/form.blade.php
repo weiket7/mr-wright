@@ -447,7 +447,7 @@
           return;
         }
 
-        var html = '<table class="table table-bordered no-margin-btm"><thead><tr><th width="60px"></th>';
+        var html = '<table class="table table-bordered no-margin-btm"><thead><tr><th width="70px"></th>';
 
         var staffs = response.data.staffs;
         for (var staff_id in staffs) {

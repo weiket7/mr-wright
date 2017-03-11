@@ -15,7 +15,7 @@ class TemplateTable extends Migration
       $t->dateTime('updated_on');
     });
   }
-  
+
   public function down()
   {
     Schema::dropIfExists('template');
