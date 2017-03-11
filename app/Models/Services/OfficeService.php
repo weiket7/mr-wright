@@ -8,16 +8,7 @@ use DB;
 
 class OfficeService
 {
-  public function getOfficeAll() {
-    return Office::all();
-  }
-
   public function getOfficeDropdown() {
     return Office::pluck('name', 'company_id');
-  }
-
-  public function getOffice($company_id) {
-    $company = Office::findOrNew($company_id);
-    return $company;
   }
 }

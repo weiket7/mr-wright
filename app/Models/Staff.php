@@ -29,6 +29,12 @@ class Staff extends Eloquent
     return true;
   }
 
+  public function getSkills($staff_id) {
+    return DB::table('skill as sk')
+      ->join('staff_skill as ss', 'ss.skill_id', '=', 'sk.skill_id')
+      ->join('staff as st', 'ss.staff_id', '=', 'st.staff_id')
+      ->where('ss.staff_id', $staff_id)->select('sk.skill_id', 'sk.name')->get();
+  }
 
   public function getValidation() {
     return $this->validation;

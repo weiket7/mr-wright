@@ -15,24 +15,6 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Code</label>
-                <div class="col-md-9">
-                  {{Form::text('code', $company->code, ['class'=>'form-control'])}}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">Status</label>
-                <div class="col-md-9">
-                  {{Form::select('stat', CompanyStat::$values, $company->stat, ['class'=>'form-control', 'placeholder'=>''])}}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
                 <label class="control-label col-md-3">Name</label>
                 <div class="col-md-9">
                   {{Form::text('name', $company->name, ['class'=>'form-control'])}}
@@ -41,9 +23,27 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Registered Name</label>
+                <label class="control-label col-md-3">Code</label>
                 <div class="col-md-9">
                   {{Form::text('code', $company->code, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Registered Name</label>
+                <div class="col-md-9">
+                  {{Form::text('registered_name', $company->registered_name, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Status</label>
+                <div class="col-md-9">
+                  {{Form::select('stat', CompanyStat::$values, $company->stat, ['class'=>'form-control', 'placeholder'=>''])}}
                 </div>
               </div>
             </div>
@@ -97,7 +97,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Industry</label>
                 <div class="col-md-9">
-                  {{Form::text('code', $company->code, ['class'=>'form-control'])}}
+                  {{Form::text('industry', $company->industry, ['class'=>'form-control'])}}
                 </div>
               </div>
             </div>
@@ -120,7 +120,7 @@
                 <label class="control-label col-md-3">Office</label>
                 <div class="col-md-9">
                   <table class="table table-bordered no-margin-btm">
-                    @foreach($company->offices as $o)
+                    @foreach($offices as $o)
                       <tr>
                         <td>{{ $o->name }}</td>
                       </tr>

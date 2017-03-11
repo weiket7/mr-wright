@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App;
-use App\Models\Quotation;
+use App\Models\Services\QuotationService;
 use Illuminate\Http\Request;
 
 class QuotationController extends Controller
 {
+  public function __construct(QuotationService $quotation_service)
+  {
+    $this->quotation_service = $quotation_service;
+  }
+
   public function index()
   {
-    $data['quotations'] = Quotation::all();
+    $data['tickets'] = [];
     return view("quotation/index", $data);
   }
 

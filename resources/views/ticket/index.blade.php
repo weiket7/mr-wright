@@ -27,7 +27,7 @@
           <tbody>
           <tr>
             <td>
-              {!! Form::select('stat', TicketStat::$values, '', ['class'=>'form-control', 'id'=>'stat']) !!}
+              {!! Form::select('stat', TicketStat::$values, '', ['class'=>'form-control', 'id'=>'stat', 'placeholder'=>'']) !!}
             </td>
             <td>{!! Form::text('name', '', ['class'=>'form-control', 'id'=>'name']) !!}</td>
           </tr>
@@ -56,7 +56,7 @@
         <table class="table table-bordered table-hover">
           <thead>
           <tr>
-            <th width="50px">Status</th>
+            <th width="70px">Status</th>
             <th>Name</th>
           </tr>
           </thead>
@@ -64,7 +64,7 @@
           @foreach($tickets as $ticket)
             <tr>
               <td>{{TicketStat::$values[$ticket->stat]}}</td>
-              <td width="450px"><a href="{{url("ticket/save/".$ticket->ticket_id)}}">{{ $ticket->title }}</a></td>
+              <td><a href="{{url("ticket/save/".$ticket->ticket_id)}}">{{ $ticket->title }}</a></td>
             </tr>
           @endforeach
           </tbody>

@@ -23,8 +23,20 @@ class CompanyController extends Controller
   }
   
   public function save(Request $request, $company_id = null) {
-    $data['action'] = $company_id == null ? 'create' : 'update';
-    $data['company'] = $this->company_service->getCompany($company_id);
+    $action = $company_id == null ? 'create' : 'update';
+    $company = $company_id == null ? new Company() : Company::find($company_id);
+
+    if($request->isMethod('post')) {
+      $input = $request->all();
+      if (!$company->saveCompany($input)) {
+        return redirect()->back()->withErrors($company->getValidation())->withInput($input);
+      }
+      return redirect('company/save/' . $company->company_id)->with('msg', 'Company ' . $action . "d");
+    }
+
+    $data['action'] = $action;
+    $data['company'] = $company;
+    $data['offices'] = $company->getOffices($company_id);
     return view('company/form', $data);
   }
   

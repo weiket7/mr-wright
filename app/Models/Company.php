@@ -23,12 +23,26 @@ class Company extends Eloquent
     if ( $this->validation->fails() ) {
       return false;
     }
-    
+
     $this->name = $input['name'];
+    $this->code = $input['code'];
+    $this->registered_name = $input['registered_name'];
+    $this->stat = $input['stat'];
+    $this->addr = $input['addr'];
+    $this->country = $input['country'];
+    $this->state = $input['state'];
+    $this->city = $input['city'];
+    $this->postal = $input['postal'];
+    $this->industry = $input['industry'];
     $this->save();
     return true;
   }
-  
+
+  public function getOffices($company_id) {
+    return DB::table('office')
+      ->where('company_id', $company_id)
+      ->select('office_id', 'name')->get();
+  }
   
   public function getValidation() {
     return $this->validation;

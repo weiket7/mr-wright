@@ -24,7 +24,7 @@ class StaffController extends Controller
 
   public function save(Request $request, $staff_id = null) {
     $action = $staff_id == null ? 'create' : 'update';
-    $staff = $this->staff_service->getStaff($staff_id);
+    $staff = $staff_id == null ? new Staff() : Staff::find($staff_id);
 
     if($request->isMethod('post')) {
       $input = $request->all();
@@ -36,6 +36,8 @@ class StaffController extends Controller
 
     $data['action'] = $action;
     $data['staff'] = $staff;
+    $data['skills'] = $staff->getSkills($staff_id);
+
     return view('staff/form', $data);
   }
 

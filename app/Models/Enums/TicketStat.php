@@ -1,7 +1,7 @@
 <?php namespace App\Models\Enums;
 
 abstract class TicketStat {
-  const Drafted = 'O';
+  const Drafted = 'R';
   const Opened = 'O';
   const Quoted = 'Q';
   const Accepted = 'A';

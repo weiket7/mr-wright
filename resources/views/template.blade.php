@@ -1,5 +1,6 @@
+<?php use App\Models\Menu; ?>
 
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <!--
 Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.7
 Version: 4.7.1
@@ -494,27 +495,27 @@ License: You must have a valid license purchased only from themeforest(the above
       <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
       <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
       <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-      <?php $menu = [
-        ['link' => url("/"), 'text'=>'Dashboard'],
-        ['link' => url("company"), 'text'=>'Companies'],
-        ['link' => url("office"), 'text'=>'Offices'],
-        ['link' => url("requester"), 'text'=>'Requesters'],
-        ['link' => url("staff"), 'text'=>'Staffs'],
-        ['link' => url("skill"), 'text'=>'Skills'],
-        ['link' => url("ticket"), 'text'=>'Tickets'],
-        ['link' => url("quotation"), 'text'=>'Quotations'],
-        ['link' => url("invoice"), 'text'=>'Invoices'],
-        ['link' => url("operator"), 'text'=>'Operators'],
-      ];?>
-  
+
       <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+        <?php $menu = Menu::getMenu(); ?>
         @foreach($menu as $m)
           <li class="nav-item">
-            <a href="{{$m['link']}}" class="nav-link nav-toggle">
+            <?php $link = isset($m['link']) ? url($m['link']) : "javascript:;"; ?>
+            <a href="{{ $link }}" class="nav-link nav-toggle">
               <i class="icon-diamond"></i>
-              <span class="title">{{$m['text']}}</span>
-              <span class="arrow"></span>
+              <span class="title">{{$m['name']}}</span>
             </a>
+            @if(! isset($m['link']))
+            <ul class="sub-menu">
+              @foreach($m['sub'] as $s)
+                <li class="nav-item">
+                  <a href="{{url($s['link'])}}" class="nav-link">
+                    <span class="title">{{$s['name']}}</span>
+                  </a>
+                </li>
+              @endforeach
+            </ul>
+            @endif
           </li>
         @endforeach
       </ul>

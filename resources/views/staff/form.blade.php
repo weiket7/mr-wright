@@ -26,7 +26,7 @@
                 <label class="control-label col-md-3">Skill</label>
                 <div class="col-md-9">
                   <table class="table table-bordered no-margin-btm">
-                    @foreach($staff->skills as $s)
+                    @foreach($skills as $s)
                       <tr>
                         <td>{{ $s->name }}</td>
                       </tr>
