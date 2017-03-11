@@ -7,7 +7,6 @@ abstract class TicketUrgency {
   const Low = 'L';
 
   static $values = [
-    ''=>'',
     self::High=>'High',
     self::Medium=>'Medium',
     self::Low=>'Low',

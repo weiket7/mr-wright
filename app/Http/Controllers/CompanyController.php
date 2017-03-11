@@ -22,9 +22,9 @@ class CompanyController extends Controller
     return view("company/index", $data);
   }
   
-  public function save(Request $request, $company_id) {
+  public function save(Request $request, $company_id = null) {
     $data['action'] = $company_id == null ? 'create' : 'update';
-    $data['company'] = Company::findOrNew($company_id);
+    $data['company'] = $this->company_service->getCompany($company_id);
     return view('company/form', $data);
   }
   

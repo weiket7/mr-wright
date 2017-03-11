@@ -5,7 +5,6 @@ abstract class StaffStat {
   const Inactive = 'I';
 
   static $values = [
-    ''=>'',
     self::Active=>'Active',
     self::Inactive=>'Inactive',
   ];

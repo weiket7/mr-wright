@@ -10,8 +10,9 @@ class OfficeTable extends Migration
   {
     Schema::create('office', function(Blueprint $t) {
       $t->increments('office_id');
+      $t->integer('company_id');
+      $t->char('stat', 1);
       $t->string('name', 50);
-      $t->integer('requester_count');
       $t->string('addr', 200);
       $t->string('postal', 20);
       $t->string('country', 50);

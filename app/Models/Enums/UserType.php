@@ -5,7 +5,6 @@ abstract class UserType {
   const Operator = 'O';
 
   static $values = [
-    ''=>'',
     self::Requester=>'Requester',
     self::Operator=>'Operator',
   ];

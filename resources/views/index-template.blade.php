@@ -1,8 +1,17 @@
 <?php use App\Models\Enums\CompanyStat; ?>
 
-@extends("template", [ "title"=>"Companies" ])
+@extends("template")
 
 @section("content")
+  <div class="row">
+    <div class="col-md-6">
+      <h1 class="page-title">Tickets</h1>
+    </div>
+    <div class="col-md-6 text-right">
+      <button type="button" class="btn blue" onclick="location.href='{{url('ticket/save')}}'">Create</button>
+    </div>
+  </div>
+
   <div class="portlet light bordered">
     <div class="portlet-body">
       <form action="" method="post">
@@ -16,7 +25,7 @@
           <tbody>
           <tr>
             <td>
-              {!! Form::select('stat', CompanyStat::$values, '', ['class'=>'form-control', 'id'=>'stat']) !!}
+              {!! Form::select('stat', CompanyStat::$values, '', ['class'=>'form-control', 'id'=>'stat', 'placeholder'=>'']) !!}
             </td>
             <td>{!! Form::text('name', '', ['class'=>'form-control', 'id'=>'name']) !!}</td>
           </tr>

@@ -114,7 +114,26 @@
             <div class="col-md-6">
             </div>
           </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Office</label>
+                <div class="col-md-9">
+                  <table class="table table-bordered no-margin-btm">
+                    @foreach($company->offices as $o)
+                      <tr>
+                        <td>{{ $o->name }}</td>
+                      </tr>
+                    @endforeach
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+            </div>
+          </div>
         </div>
+
         <div class="form-actions">
           <div class="row">
             <div class="col-md-6">

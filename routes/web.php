@@ -29,6 +29,12 @@ Route::post('company/save', 'CompanyController@save');
 Route::get('company/save/{id}', 'CompanyController@save');
 Route::post('company/save/{id}', 'CompanyController@save');
 
+Route::get('office', 'OfficeController@index');
+Route::get('office/save', 'OfficeController@save');
+Route::post('office/save', 'OfficeController@save');
+Route::get('office/save/{id}', 'OfficeController@save');
+Route::post('office/save/{id}', 'OfficeController@save');
+
 Route::get('requester', 'RequesterController@index');
 Route::get('requester/save', 'RequesterController@save');
 Route::post('requester/save', 'RequesterController@save');

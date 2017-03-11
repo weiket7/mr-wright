@@ -1,3 +1,5 @@
+<?php use App\Models\Enums\ProductStat; ?>
+
 @extends("template")
 
 @section('content')
@@ -30,9 +32,9 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group has-error">
-                      <label class="control-label col-md-3">Code</label>
+                      <label class="control-label col-md-3">Status</label>
                       <div class="col-md-9">
-                        {{Form::text('code', $product->code, ['class'=>'form-control'])}}
+                        {{Form::select('stat', ProductStat::$values, $product->stat, ['class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>

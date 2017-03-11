@@ -11,7 +11,6 @@ abstract class TicketStat {
   const Paid = 'P';
   
   static $values = [
-    ''=>'',
     self::Drafted=>'Drafted',
     self::Opened=>'Opened',
     self::Quoted=>'Quoted',
