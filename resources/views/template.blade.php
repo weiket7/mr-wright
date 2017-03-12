@@ -496,7 +496,7 @@ License: You must have a valid license purchased only from themeforest(the above
       <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
       <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
 
-      <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+      <ul class="page-sidebar-menu page-header-fixed page-sidebar-menu-hover-submenu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
         <?php $menu = Menu::getMenu(); ?>
         @foreach($menu as $m)
           <li class="nav-item">

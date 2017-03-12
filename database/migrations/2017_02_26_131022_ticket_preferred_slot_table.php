@@ -4,12 +4,12 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TicketPreferredDatetimeTable extends Migration
+class TicketPreferredSlotTable extends Migration
 {
     public function up()
     {
-        Schema::create('ticket_preferred_datetime', function(Blueprint $t) {
-            $t->increments('ticket_preferred_datetime_id');
+        Schema::create('ticket_preferred_slot', function(Blueprint $t) {
+            $t->increments('ticket_preferred_slot_id');
             $t->integer('ticket_id');
             $t->date('date_from');
             $t->date('date_to');
@@ -22,6 +22,6 @@ class TicketPreferredDatetimeTable extends Migration
     
     public function down()
     {
-        Schema::dropIfExists('ticket_preferred_datetime');
+        Schema::dropIfExists('ticket_preferred_slot');
     }
 }

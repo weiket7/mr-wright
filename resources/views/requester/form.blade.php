@@ -8,7 +8,7 @@
     {{ucfirst($action)}} Requester
   </h1>
 
-  <div class="portlet light bordered">
+  <div class="portlet light bordered" id="app">
     <div class="portlet-body form">
       <form action="" method="post" class="form-horizontal">
         {!! csrf_field() !!}
@@ -36,7 +36,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Company</label>
                 <div class="col-md-9">
-                  {{Form::select('company_id', $companies, $requester->company_id, ['class'=>'form-control', 'placeholder'=>''])}}
+                  {{Form::select('company_id', $companies, $requester->company_id, ['id'=>'company_id', 'class'=>'form-control', 'placeholder'=>''])}}
                 </div>
               </div>
             </div>
@@ -44,7 +44,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Office</label>
                 <div class="col-md-9">
-                  {{Form::select('office_id', $offices, $requester->office_id, ['class'=>'form-control', 'placeholder'=>''])}}
+                  {{Form::select('office_id', $offices, $requester->office_id, ['id'=>'office_id', 'class'=>'form-control', 'placeholder'=>''])}}
                 </div>
               </div>
             </div>
@@ -119,4 +119,29 @@
       </form>
     </div>
   </div>
+@endsection
+
+@section('script')
+  <script>
+    $(document).ready(function() {
+      $("#company_id").change(function() {
+        var company_id = $(this).val();
+        axios.get('{{url('api/getOfficeByCompany')}}?company_id='+company_id)
+        .then(function (response) {
+          var offices = response.data;
+          var html = '<option></option>';
+          for (var office_id in offices) {
+            if (offices.hasOwnProperty(office_id)) {
+              html += "<option value="+office_id+">" + offices[office_id] + "</option>";
+            }
+          }
+          $("#office_id").html(html);
+        })
+        .catch(function (error) {
+          console.log('company_id error='+error);
+        })
+      });
+    });
+  </script>
+
 @endsection

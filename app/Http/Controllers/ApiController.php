@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Models\Services\CalendarService;
+use App\Models\Services\CompanyService;
 use App\Models\Services\SkillService;
 use App\Models\Services\WorkingHourService;
 use DB;
@@ -14,11 +15,13 @@ class ApiController extends Controller
 {
   protected $calendar_service;
   protected $working_hour_service;
+  protected $company_service;
 
-  public function __construct(CalendarService $calendar_service, WorkingHourService $working_hour_service)
+  public function __construct(CalendarService $calendar_service, WorkingHourService $working_hour_service, CompanyService $company_service)
   {
     $this->calendar_service = $calendar_service;
     $this->working_hour_service = $working_hour_service;
+    $this->company_service = $company_service;
   }
 
   public function getStaffWithSkills(Request $request) {
@@ -43,5 +46,15 @@ class ApiController extends Controller
     $res = $this->calendar_service->getStaffCalendar($date, $staff_ids);
 
     return $res;
+  }
+
+  public function getOfficeByCompany(Request $request) {
+    $company_id = $request->get('company_id');
+    return $this->company_service->getOfficeByCompany($company_id);
+  }
+
+  public function getRequesterByOffice(Request $request) {
+    $office_id = $request->get('office_id');
+    return $this->company_service->getRequesterByOffice($office_id);
   }
 }

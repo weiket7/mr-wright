@@ -18,9 +18,9 @@
             <a href="#tab-general" data-toggle="tab">
               Ticket </a>
           </li>
-          <!--<li>
-            <a href="#tab-quotation" data-toggle="tab">Quotation</a>
-          </li>-->
+          <li>
+            <a href="#tab-history" data-toggle="tab">History</a>
+          </li>
         </ul>
         <div class="tab-content no-space">
           <div class="tab-pane fade active in" id="tab-general">
@@ -84,7 +84,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Company</label>
                       <div class="col-md-9">
-                        {{Form::select('company_id', $companies, $ticket->company_id, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('company_id', $companies, $ticket->company_id, ['id'=>'company_id', 'class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -102,7 +102,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Office</label>
                       <div class="col-md-9">
-                        {{Form::select('office_id', $companies, $ticket->office_id, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('office_id', $companies, $ticket->office_id, ['id'=>'office_id', 'class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -110,7 +110,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Urgency</label>
                       <div class="col-md-9">
-                        {{Form::select('urgency', TicketUrgency::$values, $ticket->urgency, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('urgency', TicketUrgency::$values, $ticket->urgency, ['id'=>'requester_id', 'class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -120,7 +120,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Requested By</label>
                       <div class="col-md-9">
-                        {{Form::select('requested_by', $companies, $ticket->requested_by, ['class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('requested_by', $companies, $ticket->requested_by, ['id'=>'requested_by', 'class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -188,7 +188,7 @@
                       </tbody>
                       <tfoot>
                       <tr>
-                        <td colspan="3">
+                        <td colspan="4">
                           <div class="text-center">
                             <button type="button" class="btn blue" @click='addIssue'>Add</button>
                           </div>
@@ -217,19 +217,26 @@
                       </tr>
                       </thead>
                       <tbody>
-                      @foreach($ticket->preferred_datetimes as $p)
-                        <tr>
+                        <tr v-for="(slot, index) in preferred_slots">
                           <td>
-                            {{ViewHelper::formatDate($p->date_from)}}
-                            to {{ViewHelper::formatDate($p->date_to)}}
+                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.date_from | formatDate" class="form-control">
+                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.date_to" class="form-control">
                           </td>
                           <td>
-                            {{ViewHelper::formatTime($p->time_from)}}
-                            to {{ViewHelper::formatTime($p->time_to)}}
+                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.time_from" class="form-control">
+                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.time_to" class="form-control">
                           </td>
                         </tr>
-                      @endforeach
                       </tbody>
+                      <tfoot>
+                      <tr>
+                        <td colspan="2">
+                          <div class="text-center">
+                            <button type="button" class="btn blue" @click='addPreferredSlot'>Add</button>
+                          </div>
+                        </td>
+                      </tr>
+                      </tfoot>
                     </table>
                   </div>
                 </div>
@@ -324,8 +331,8 @@
               </div>
             </form>
           </div>
-          <!--<div class="tab-pane fade" id="tab-quotation">
-          </div>-->
+          <div class="tab-pane fade" id="tab-history">
+          </div>
 
         </div>
       </div>
@@ -359,6 +366,42 @@
 
       $("#date").on('changeDate', function() {
         getValuesAndPopulateCalendar();
+      });
+
+      $("#company_id").change(function() {
+        var company_id = $(this).val();
+        axios.get('{{url('api/getOfficeByCompany')}}?company_id='+company_id)
+        .then(function (response) {
+          var offices = response.data;
+          var html = '<option></option>';
+          for (var office_id in offices) {
+            if (offices.hasOwnProperty(office_id)) {
+              html += "<option value="+office_id+">" + offices[office_id] + "</option>";
+            }
+          }
+          $("#office_id").html(html);
+        })
+        .catch(function (error) {
+          console.log('company_id change error='+error);
+        })
+      });
+
+      $("#office_id").change(function() {
+        var office_id = $(this).val();
+        axios.get('{{url('api/getRequesterByOffice')}}?office_id='+office_id)
+        .then(function (response) {
+          var requesters = response.data;
+          var html = '<option></option>';
+          for (var requester_id in requesters) {
+            if (requesters.hasOwnProperty(requester_id)) {
+              html += "<option value="+requester_id+">" + requesters[requester_id] + "</option>";
+            }
+          }
+          $("#requested_by").html(html);
+        })
+        .catch(function (error) {
+          console.log('office_id change error='+error);
+        })
       });
 
       populateStaffsAndCalendar();
@@ -497,6 +540,7 @@
       el: "#app",
       data: {
         issues: {!! $ticket->issues !!},
+        preferred_slots: {!! $ticket->preferred_slots !!},
         issues_delete: [],
         currentDate: moment(),
         currentDateFormatted: moment().format('DD MMM YYYY')

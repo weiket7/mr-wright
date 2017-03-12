@@ -78,6 +78,8 @@ Route::post('skill/save/{id}', 'SkillController@save');
 
 Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
 Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
+Route::get('api/getOfficeByCompany', 'ApiController@getOfficeByCompany');
+Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
 
 Route::get('test', function() {
   $json = '{"1":["10:15","10:30"],"2":["10:15","10:30"]}';

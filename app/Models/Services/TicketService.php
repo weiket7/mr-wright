@@ -23,7 +23,7 @@ class TicketService
     $ticket->issues = DB::table('ticket_issue')->where('ticket_id', $ticket_id)->orderBy('ticket_issue_id')->get();
     $ticket->staff_assignments = $this->getStaffAssignments($ticket_id);
     $ticket->skills = $this->getTicketSkills($ticket_id);
-    $ticket->preferred_datetimes = DB::table('ticket_preferred_datetime')->where('ticket_id', $ticket_id)->get();
+    $ticket->preferred_slots = DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)->get();
     return $ticket;
   }
 

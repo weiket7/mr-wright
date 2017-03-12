@@ -3,12 +3,11 @@
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
-class TicketPreferredDateTimeSeeder extends Seeder
+class TicketPreferredSlotSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('ticket_preferred_datetime')->insert([
-          'ticket_preferred_datetime_id'=>1,
+        DB::table('ticket_preferred_slot')->insert([
           'ticket_id'=>1,
           'date_from'=>Carbon::now()->addDay(2),
           'date_to'=>Carbon::now()->addDay(2),
@@ -17,9 +16,8 @@ class TicketPreferredDateTimeSeeder extends Seeder
           'updated_by'=>'admin',
           'updated_on'=>date('Y-m-d H:i:s')
         ]);
-
-        DB::table('ticket_preferred_datetime')->insert([
-          'ticket_preferred_datetime_id'=>2,
+        
+        DB::table('ticket_preferred_slot')->insert([
           'ticket_id'=>1,
           'date_from'=>Carbon::now()->addDay(3),
           'date_to'=>Carbon::now()->addDay(3),
