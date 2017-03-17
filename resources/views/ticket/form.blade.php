@@ -154,7 +154,7 @@
                 <div class="form-group">
                   <label class="control-label col-md-2">Issues</label>
                   <div class="col-md-10">
-                    <input type="hidden" name="issues_count" v-bind:value="issues_count">
+                    <input type="hidden" name="issues_count" v-bind:value="issues.length">
 
                     <table class="table table-bordered no-margin-btm">
                       <thead>
@@ -171,9 +171,9 @@
                           <button type="button" class="btn btn-icon-only blue" @click="deleteIssue(index)">
                             <i v-if="issue.stat" class="fa fa-undo"></i>
                             <i v-else="" class="fa fa-times"></i>
-                            <input type="hidden" v-bind:name="'issue_stat'+index" v-bind:value="issue.stat" v-if="issue.stat">
-                            <input type="hidden" v-bind:name="'issue_id'+index" v-bind:value="issue.ticket_issue_id">
                           </button>
+                          <input type="hidden" v-bind:name="'issue_stat'+index" v-bind:value="issue.stat" v-if="issue.stat">
+                          <input type="hidden" v-bind:name="'issue_id'+index" v-bind:value="issue.ticket_issue_id">
                         </td>
                         <td>
                           <div v-bind:id="'preview-image' + index">
@@ -209,28 +209,38 @@
                 <div class="form-group">
                   <label class="control-label col-md-2">Preferred Slots</label>
                   <div class="col-md-10">
-                    <table class="table table-hover table-bordered no-margin-btm">
+                    <input type="hidden" name="preferred_slots_count" v-bind:value="preferred_slots.length">
+  
+                    <table class="table table-bordered no-margin-btm">
                       <thead>
                       <tr>
+                        <th width="57px"></th>
                         <th width="210px">Date</th>
                         <th>Time</th>
                       </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="(slot, index) in preferred_slots">
+                        <tr v-for="(slot, index) in preferred_slots" v-bind:class="'row-'+slot.stat">
                           <td>
-                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.date_from | formatDate" class="form-control">
-                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.date_to" class="form-control">
+                            <button type="button" class="btn btn-icon-only blue" @click="deletePreferredSlot(index)">
+                              <i v-if="slot.stat" class="fa fa-undo"></i>
+                              <i v-else="" class="fa fa-times"></i>
+                            </button>
+                            <input type="hidden" v-bind:name="'preferred_slot_stat'+index" v-bind:value="slot.stat" v-if="slot.stat">
+                            <input type="hidden" v-bind:name="'preferred_slot_id'+index" v-bind:value="slot.ticket_preferred_slot_id">
                           </td>
                           <td>
-                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.time_from" class="form-control">
-                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.time_to" class="form-control">
+                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.date | formatDate" class="form-control datepicker">
+                          </td>
+                          <td>
+                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.time_start | formatTime" class="form-control" placeholder="HH:MM">
+                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.time_end | formatTime" class="form-control" placeholder="HH:MM">
                           </td>
                         </tr>
                       </tbody>
                       <tfoot>
                       <tr>
-                        <td colspan="2">
+                        <td colspan="3">
                           <div class="text-center">
                             <button type="button" class="btn blue" @click='addPreferredSlot'>Add</button>
                           </div>
@@ -542,13 +552,11 @@
         issues: {!! $ticket->issues !!},
         preferred_slots: {!! $ticket->preferred_slots !!},
         issues_delete: [],
+        preferred_slots_delete: [],
         currentDate: moment(),
         currentDateFormatted: moment().format('DD MMM YYYY')
       },
       computed: {
-        issues_count: function() {
-          return this.issues.length;
-        },
         yesterday: function() {
           return moment().add(-1, "days");
         },
@@ -568,7 +576,7 @@
           $('#date').datepicker("setDate", this.currentDate.startOf('day').toDate());
         },
         addIssue: function() {
-          this.issues.push({image:'', 'issue_desc':'', 'expected_desc':'', 'stat':'add'});
+          this.issues.push({image:'', issue_desc:'', expected_desc:'', stat:'add'});
         },
         deleteIssue: function(index) {
           var issue = this.issues[index];
@@ -581,6 +589,27 @@
           } else {
             Vue.set(issue, 'stat', 'delete');
             this.issues_delete.push(issue.ticket_issue_id);
+          }
+        },
+        addPreferredSlot: function() {
+          this.preferred_slots.push({date: this.currentDate.format('YYYY-MM-DD'), time_start: '', time_end: '', stat:'add'});
+    
+          setTimeout(function(){
+            initDatepicker();
+          }, 500);
+    
+        },
+        deletePreferredSlot: function(index) {
+          var slot = this.preferred_slots[index];
+          if (slot.stat === 'add') {
+            this.preferred_slots.splice(index, 1);
+          }
+  
+          if (slot.stat == 'delete') {
+            slot.stat = '';
+          } else {
+            Vue.set(slot, 'stat', 'delete');
+            this.preferred_slots_delete.push(slot.ticket_issue_id);
           }
         },
         previewImage: function(index,e) {
@@ -599,7 +628,19 @@
       },
       filters: {
         formatDate: function (value) {
+          if (value instanceof moment === false) {
+            value = moment(value, "YYYY-MM-DD");
+          }
           return value.format('DD MMM YYYY');
+        },
+        formatTime: function(value) {
+          if (typeof value === "undefined" || value === "") {
+            return '';
+          }
+          if (value instanceof moment === false) {
+            value = moment(value, "HH:mm:ss");
+          }
+          return value.format('HH:mm');
         }
       }
     });

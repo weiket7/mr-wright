@@ -11,10 +11,9 @@ class TicketPreferredSlotTable extends Migration
         Schema::create('ticket_preferred_slot', function(Blueprint $t) {
             $t->increments('ticket_preferred_slot_id');
             $t->integer('ticket_id');
-            $t->date('date_from');
-            $t->date('date_to');
-            $t->time('time_from');
-            $t->time('time_to');
+            $t->date('date');
+            $t->time('time_start');
+            $t->time('time_end');
             $t->string('updated_by', 20);
             $t->dateTime('updated_on');
         });

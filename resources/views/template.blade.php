@@ -1106,40 +1106,6 @@ License: You must have a valid license purchased only from themeforest(the above
     </div>
   </div>
   <!-- END FOOTER -->
-  <!-- BEGIN QUICK NAV -->
-  <nav class="quick-nav">
-    <a class="quick-nav-trigger" href="#0">
-      <span aria-hidden="true"></span>
-    </a>
-    <ul>
-      <li>
-        <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" target="_blank" class="active">
-          <span>Purchase Metronic</span>
-          <i class="icon-basket"></i>
-        </a>
-      </li>
-      <li>
-        <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/reviews/4021469?ref=keenthemes" target="_blank">
-          <span>Customer Reviews</span>
-          <i class="icon-users"></i>
-        </a>
-      </li>
-      <li>
-        <a href="http://keenthemes.com/showcast/" target="_blank">
-          <span>Showcase</span>
-          <i class="icon-user"></i>
-        </a>
-      </li>
-      <li>
-        <a href="http://keenthemes.com/metronic-theme/changelog/" target="_blank">
-          <span>Changelog</span>
-          <i class="icon-graph"></i>
-        </a>
-      </li>
-    </ul>
-    <span aria-hidden="true" class="quick-nav-bg"></span>
-  </nav>
-  <div class="quick-nav-overlay"></div>
 </div>
   <!-- END QUICK NAV -->
   <!--[if lt IE 9]>
@@ -1187,11 +1153,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
       $.fn.select2.defaults.set("theme", "bootstrap");
 
-      $(".datepicker").datepicker({
-        format: "dd M yyyy",
-        orientation: "bottom",
-        autoclose: true
-      });
+     initDatepicker();
 
       @if(Session::has('msg'))
         toastr.info("{{Session::get('msg')}}");
@@ -1205,6 +1167,14 @@ License: You must have a valid license purchased only from themeforest(the above
         toastr.error(error);
       @endif
     });
+    
+    function initDatepicker() {
+      $(".datepicker").datepicker({
+        format: "dd M yyyy",
+        orientation: "bottom",
+        autoclose: true
+      });
+    }
   </script>
 
   @section('script')
