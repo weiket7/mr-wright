@@ -82,6 +82,11 @@ Route::get('api/getOfficeByCompany', 'ApiController@getOfficeByCompany');
 Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
 
 Route::get('test', function() {
+  
+  $start_of_month = Carbon::now()->startOfMonth();
+  echo       $month = $start_of_month->month;
+  
+  
   $json = '{"1":["10:15","10:30"],"2":["10:15","10:30"]}';
   echo $json;
   $res = json_decode($json, true);

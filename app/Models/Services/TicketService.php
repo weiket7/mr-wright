@@ -3,6 +3,7 @@
 namespace App\Models\Services;
 
 use App\Models\CategoryForTicket;
+use App\Models\Company;
 use App\Models\Enums\TicketStat;
 use App\Models\Helpers\BackendHelper;
 use App\Models\Quotation;
@@ -72,12 +73,37 @@ class TicketService
       $ticket->requested_by = $input['requested_by'];
     $ticket->requested_on = Carbon::createFromFormat('d M Y', $input['requested_on']);
     if ($ticket_id == null) {
+      $ticket->ticket_code = $this->getNextTicketCode($ticket->company_id);
       $ticket->stat = TicketStat::Opened;
       $ticket->opened_by = $operator;
       $ticket->opened_on = Carbon::now();
     }
 
     return $ticket->save();
+  }
+  
+  public function getNextTicketCode($company_id) {
+    $start_of_month = Carbon::now()->startOfMonth();
+    $start_of_next_month = $start_of_month->addMonth(1);
+    
+    $year = $now->year;
+    $month = $now->month;
+    
+    $latest_ticket_code = DB::table('ticket')
+      ->where('company_id', $company_id)
+      ->where('opened_on', '>=', $start_of_month)
+      ->where('opened_on', '<', $start_of_next_month)
+      ->pluck('ticket_code');
+    
+    if ($latest_ticket_code == null) {
+      $company_code = Company::find($company_id)->pluck('company_code');
+      $month = $start_of_month->form;
+      return $company_code.'_'.$month.$now->format('y').'_'.'_001';
+    }
+    
+    $arr = explode(',' , $latest_ticket_code);
+    $number = $arr[2];
+    return $arr[0].'_'.$arr[1].'_'.($number+1);
   }
 
   public function sendQuotation($ticket_id, $operator = 'admin')
