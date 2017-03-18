@@ -10,8 +10,10 @@ class TicketSeeder extends Seeder
 {
   public function run()
   {
+    $now = Carbon::now();
+    $month_year = $now->format('m').$now->format('y');
     DB::table('ticket')->insert([
-      'ticket_id'=>1,
+      'ticket_code'=>'UP_'.$month_year.'_001',
       'stat'=>TicketStat::Opened,
       'title'=>'Fix tap in pantry',
       'company_id'=>1,

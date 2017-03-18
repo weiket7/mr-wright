@@ -28,7 +28,7 @@ class ViewHelper {
     if ($time == '') {
       return '';
     }
-    return date('g:i a', strtotime($time));
+    return date('g:ia', strtotime($time));
   }
 
   public static function formatDateDay($date) {

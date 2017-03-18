@@ -1162,7 +1162,7 @@ License: You must have a valid license purchased only from themeforest(the above
       @if ($errors->any())
         var error = '';
         @foreach ($errors->all() as $error)
-          error += '{{$error}}';
+          error += '{{$error}}<br>';
         @endforeach
         toastr.error(error);
       @endif

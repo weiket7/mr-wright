@@ -92,5 +92,17 @@ class WorkingHourService
     $day = $this->getDayFromDate($date);
     return DB::table('working_day_time')->where('day', $day)->count() == 0;
   }
-    
+
+  public function getWorkingDayTime() {
+    return DB::table('working_day_time')->get();
+  }
+
+  public function getBlockedDate() {
+    return DB::table('working_date_blocked')->orderBy('date', 'desc')->get();
+  }
+
+  public function getBlockedDateTime() {
+    return DB::table('working_date_time_blocked')->orderBy('date', 'desc')->get();
+  }
+
 }

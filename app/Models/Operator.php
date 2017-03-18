@@ -2,6 +2,7 @@
 
 use CommonHelper;
 use Eloquent, DB, Validator, Input;
+use Hash;
 
 class Operator extends Eloquent
 {
@@ -29,7 +30,9 @@ class Operator extends Eloquent
     $this->name = $input['name'];
     $this->stat = $input['stat'];
     $this->username = $input['username'];
-    $this->password = $input['password'];
+    if ($input['password']) {
+      $this->password = Hash::make($input['password']);
+    }
     $this->email = $input['email'];
     $this->save();
     return true;

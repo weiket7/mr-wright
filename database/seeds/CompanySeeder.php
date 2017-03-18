@@ -8,6 +8,7 @@ class CompanySeeder extends Seeder
     public function run()
     {
       DB::table('company')->insert([
+        'code'=>'UP',
         'stat'=>CompanyStat::Active,
         'name'=>'Unity Pharmacy',
         'registered_name'=>'Unity Pharmacy Pte Ltd',
@@ -16,6 +17,7 @@ class CompanySeeder extends Seeder
       ]);
 
       DB::table('company')->insert([
+        'code'=>'ZD',
         'stat'=>CompanyStat::Active,
         'name'=>'Zendesk',
         'registered_name'=>'Zendesk Pte Ltd',

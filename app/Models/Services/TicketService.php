@@ -6,14 +6,16 @@ use App\Models\CategoryForTicket;
 use App\Models\Company;
 use App\Models\Enums\TicketStat;
 use App\Models\Helpers\BackendHelper;
-use App\Models\Quotation;
 use App\Models\Ticket;
 use Carbon\Carbon;
 use DB;
 use Log;
+use Validator;
 
 class TicketService
 {
+  protected $validation;
+
   public function __construct(WorkingHourService $working_hour_service)
   {
     $this->working_hour_service = $working_hour_service;
@@ -61,7 +63,24 @@ class TicketService
     return DB::table('skill')->pluck('name', 'skill_id');
   }
 
+  private $rules = [
+    'title'=>'required',
+    'company_id'=>'required',
+    'requested_on'=>'required',
+  ];
+
+  private $messages = [
+    'title.required'=>'Title is required',
+    'company_id.required'=>'Company is required',
+    'requested_on.required'=>'Requested On is required',
+  ];
+
   public function saveTicket($ticket_id, $input, $operator = 'admin') {
+    $this->validation = Validator::make($input, $this->rules, $this->messages );
+    if ( $this->validation->fails() ) {
+      return false;
+    }
+
     $ticket = Ticket::findOrNew($ticket_id);
     $ticket->title = $input['title'];
     $ticket->category_id = $input['category_id'];
@@ -70,7 +89,8 @@ class TicketService
     $ticket->office_id = $input['office_id'];
     $ticket->requester_desc = $input['requester_desc'];
     $ticket->operator_desc = $input['operator_desc'];
-      $ticket->requested_by = $input['requested_by'];
+    $ticket->requested_by = $input['requested_by'];
+
     $ticket->requested_on = Carbon::createFromFormat('d M Y', $input['requested_on']);
     if ($ticket_id == null) {
       $ticket->ticket_code = $this->getNextTicketCode($ticket->company_id);
@@ -84,26 +104,25 @@ class TicketService
   
   public function getNextTicketCode($company_id) {
     $start_of_month = Carbon::now()->startOfMonth();
-    $start_of_next_month = $start_of_month->addMonth(1);
-    
-    $year = $now->year;
-    $month = $now->month;
-    
+    $start_of_next_month = Carbon::now()->startOfMonth()->addMonth(1);
+    Log::info($start_of_month);
+    Log::info($start_of_next_month);
+
     $latest_ticket_code = DB::table('ticket')
       ->where('company_id', $company_id)
       ->where('opened_on', '>=', $start_of_month)
       ->where('opened_on', '<', $start_of_next_month)
-      ->pluck('ticket_code');
-    
+      ->value('ticket_code');
+
     if ($latest_ticket_code == null) {
-      $company_code = Company::find($company_id)->pluck('company_code');
-      $month = $start_of_month->form;
-      return $company_code.'_'.$month.$now->format('y').'_'.'_001';
+      $company_code = Company::find($company_id)->value ('code');
+      $month_year = $start_of_month->format('m').$start_of_month->format('y');
+      return $company_code.'_'.$month_year.'_001';
     }
-    
-    $arr = explode(',' , $latest_ticket_code);
+
+    $arr = explode('_' , $latest_ticket_code);
     $number = $arr[2];
-    return $arr[0].'_'.$arr[1].'_'.($number+1);
+    return $arr[0].'_'.$arr[1].'_'.str_pad($number+1, 3, '0', STR_PAD_LEFT);
   }
 
   public function sendQuotation($ticket_id, $operator = 'admin')
@@ -166,16 +185,6 @@ class TicketService
   }
 
   public function saveStaffAssignments($ticket_id, $input, $operator = 'admin') {
-    /* {
-    "1":{
-      "2017-03-07":["11:00", "11:15","11:30","11:45", "13:00", "13:15", "13:30", "13:45". "14:00", "14:15", "14:30", "14:45"],
-      "2017-03-08":["10:15","10:30","10:45","11:00", "11:15","11:30","11:45"]
-    },
-    "2":{
-      "2017-03-08":["11:00", "11:15","11:30","11:45"]
-    } */
-    //Staff 1, 7 March works 11am-12pm and 1pm-3pm, 8 March works 10am-12pm
-    //Staff 2, 8 March works 11am-12pm
     DB::table('staff_assignment')->where('ticket_id', $ticket_id)->delete();
 
     $staff_assignments = json_decode($input['staff_assignments'], true);
@@ -197,5 +206,9 @@ class TicketService
       }
 
     }
+  }
+
+  public function getValidation() {
+    return $this->validation;
   }
 }

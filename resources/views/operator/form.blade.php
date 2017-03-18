@@ -43,7 +43,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Password</label>
                 <div class="col-md-9">
-                  {{Form::text('password', '', ['class'=>'form-control'])}}
+                  {{Form::password('password', ['class'=>'form-control'])}}
                 </div>
               </div>
             </div>

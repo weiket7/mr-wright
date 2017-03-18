@@ -11,6 +11,7 @@
 |
 */
 
+use App\Models\Services\TicketService;
 use App\Models\Services\WorkingHourService;
 use Carbon\Carbon;
 
@@ -76,13 +77,22 @@ Route::post('skill/save', 'SkillController@save');
 Route::get('skill/save/{id}', 'SkillController@save');
 Route::post('skill/save/{id}', 'SkillController@save');
 
+Route::get('working-day-time', 'WorkingHourController@workingDaytime');
+Route::get('blocked-date', 'WorkingHourController@blockedDate');
+Route::get('blocked-date-time', 'WorkingHourController@blockedDateTime');
+
 Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
 Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
 Route::get('api/getOfficeByCompany', 'ApiController@getOfficeByCompany');
 Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
 
 Route::get('test', function() {
-  
+
+  $working_hour_service = new WorkingHourService();
+  $ticket_service = new TicketService($working_hour_service);
+  $res = $ticket_service->getNextTicketCode(1);
+  var_dump($res); 
+
   $start_of_month = Carbon::now()->startOfMonth();
   echo       $month = $start_of_month->month;
   
