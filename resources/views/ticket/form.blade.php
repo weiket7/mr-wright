@@ -56,27 +56,6 @@
                       </div>
                     </div>
                   </div>
-
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="control-label col-md-3">Opened By</label>
-                        <div class="col-md-9">
-                          <div class="form-control-static">{{ $ticket->opened_by }} on {{ ViewHelper::getNowFormatted() }}</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      @if($ticket->stat == TicketStat::Quoted)
-                      <div class="form-group">
-                        <label class="control-label col-md-3">Quoted By</label>
-                        <div class="col-md-9">
-                          <div class="form-control-static">{{ $ticket->quoted_by }} on {{ ViewHelper::formatDate($ticket->quoted_on) }}</div>
-                        </div>
-                      </div>
-                      @endif
-                    </div>
-                  </div>
                 @endif
 
                 <div class="row">
@@ -210,7 +189,7 @@
                   <label class="control-label col-md-2">Preferred Slots</label>
                   <div class="col-md-10">
                     <input type="hidden" name="preferred_slots_count" v-bind:value="preferred_slots.length">
-  
+
                     <table class="table table-bordered no-margin-btm">
                       <thead>
                       <tr>
@@ -230,11 +209,11 @@
                             <input type="hidden" v-bind:name="'preferred_slot_id'+index" v-bind:value="slot.ticket_preferred_slot_id">
                           </td>
                           <td>
-                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.date | formatDate" class="form-control datepicker">
+                            <input type="text" v-bind:name="'preferred_slot_date'+index" v-bind:value="slot.date | formatDate" class="form-control datepicker">
                           </td>
                           <td>
-                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.time_start | formatTime" class="form-control" placeholder="HH:MM">
-                            <input type="text" v-bind:name="'preferred_slot'+index" v-bind:value="slot.time_end | formatTime" class="form-control" placeholder="HH:MM">
+                            <input type="text" v-bind:name="'preferred_slot_time_start'+index" v-bind:value="slot.time_start | formatTime" class="form-control" placeholder="HH:MM">
+                            <input type="text" v-bind:name="'preferred_slot_time_end'+index" v-bind:value="slot.time_end | formatTime" class="form-control" placeholder="HH:MM">
                           </td>
                         </tr>
                       </tbody>
@@ -312,9 +291,14 @@
                   <div class="col-md-6">
                     <div class="row">
                       <div class="col-md-offset-3 col-md-9">
-                        @if(in_array($ticket->stat, [null, TicketStat::Opened]))
+                        @if(in_array($ticket->stat, [null, TicketStat::Opened, TicketStat::Drafted]))
                           <button type="submit" name="submit" class="btn green" value="{{ ucfirst($action) }} Ticket">
                             {{ ucfirst($action) }} Ticket
+                          </button>
+                        @endif
+                        @if($ticket->stat == TicketStat::Drafted)
+                          <button type="submit" name="submit" class="btn blue" value="Open Ticket">
+                            Open Ticket
                           </button>
                         @endif
                         @if($ticket->stat == TicketStat::Opened)
@@ -322,11 +306,11 @@
                             Send Quotation
                           </button>
                         @endif
-                          @if($ticket->stat == TicketStat::Accepted)
-                            <button type="submit" name="submit" class="btn blue" value="Complete">
-                              Complete
-                            </button>
-                          @endif
+                        @if($ticket->stat == TicketStat::Accepted)
+                          <button type="submit" name="submit" class="btn blue" value="Complete">
+                            Complete
+                          </button>
+                        @endif
                         @if($ticket->stat == TicketStat::Quoted)
                           <div class="alert alert-info">
                             Quotation has been sent. Waiting for customer's response.
@@ -342,6 +326,29 @@
             </form>
           </div>
           <div class="tab-pane fade" id="tab-history">
+            <ul class="list-group">
+            <?php $history = [];
+              if ($ticket->paid_by)
+                $history[] = "Paid by ".$ticket->paid_by." on " . ViewHelper::formatDateTime($ticket->paid_on);
+            if ($ticket->invoiced_by)
+                $history[] = "Invoiced by ".$ticket->invoiced_by." on " . ViewHelper::formatDateTime($ticket->invoiced_on);
+            if ($ticket->completed_by)
+                $history[] = "Completed by ".$ticket->completed_by." on " . ViewHelper::formatDateTime($ticket->completed_on);
+            if ($ticket->declined_by)
+                $history[] = "Declined by ".$ticket->declined_by." on " . ViewHelper::formatDateTime($ticket->declined_on);
+            if ($ticket->accepted_by)
+                $history[] = "Accepted by ".$ticket->accepted_by." on " . ViewHelper::formatDateTime($ticket->accepted_on);
+            if ($ticket->quoted_by)
+                $history[] = "Quoted by ".$ticket->quoted_by." on " . ViewHelper::formatDateTime($ticket->quoted_on);
+            if ($ticket->opened_by)
+                $history[] = "Opened by ".$ticket->opened_by." on " . ViewHelper::formatDateTime($ticket->opened_on);
+            if ($ticket->drafted_by)
+                $history[] = "Drafted by ".$ticket->drafted_by." on " . ViewHelper::formatDateTime($ticket->drafted_on);
+            ?>
+            @foreach($history as $h)
+            <li class="list-group-item"> {{ $h }} </li>
+            @endforeach
+            </ul>
           </div>
 
         </div>
@@ -521,10 +528,10 @@
           var cols = cells[time];
           for (var staff_id in cols) {
             if (cols.hasOwnProperty(staff_id)) {
-              var text = cols[staff_id].text;
+              var text = cols[staff_id].ticket_code;
+
               var ticket_id = cols[staff_id].ticket_id;
-              //console.log('text='+text);
-              var background = "";
+              var background = "calendar-empty";
               if (current_ticket_id === ticket_id) {
                 background = "calendar-assigned-current-ticket";
               } else if (text !== "") {
@@ -535,6 +542,12 @@
                 }
               }
 
+              if (current_ticket_id !== ticket_id && text !== "") {
+                text = "<a href='{{url('ticket/save/')}}/"+ticket_id+"'>"+text+"</a>";
+              } else if (text == "") {
+                text = staffs[staff_id].name
+              }
+
               html += "<td onclick='selectSlot(this)' class='"+background+"' data-date='"+date+"' data-time='"+time+"' data-staff_id='"+staffs[staff_id].staff_id+"'>"+text+"</td>";
             }
           }
@@ -542,7 +555,7 @@
         $('#div-calendar').html(html);
       })
       .catch(function (error) {
-        console.log('populateCalendar error='+error);
+        console.log('populateCalendar error='+JSON.stringify(error));
       })
     }
 

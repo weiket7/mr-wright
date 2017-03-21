@@ -8,6 +8,7 @@ use App\Models\Services\TicketService;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Models\Helpers\BackendHelper;
+use Log;
 
 class TicketController extends Controller
 {
@@ -23,6 +24,7 @@ class TicketController extends Controller
   public function index()
   {
     $data['tickets'] = Ticket::all();
+    $data['categories'] = $this->ticket_service->getCategoryDropdown();
     return view("ticket/index", $data);
   }
   
@@ -31,19 +33,27 @@ class TicketController extends Controller
     if($request->isMethod("post")) {
       $input = $request->all();
       $submit = $input['submit'];
-      if (BackendHelper::stringContains($submit, "ticket")) {
-        if (!$this->ticket_service->saveTicket($ticket_id, $input)) {
+      $result = "";
+      if (BackendHelper::stringContains($submit, "open ticket")) {
+        $this->ticket_service->openTicket($ticket_id);
+        $result = "Ticket opened";
+      } elseif (BackendHelper::stringContains($submit, "ticket")) {
+        $ticket_id = $this->ticket_service->saveTicket($ticket_id, $input);
+        if ($ticket_id === false) {
           return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
         }
-        $this->ticket_service->saveStaffAssignments($ticket_id, $input);
-        $this->ticket_service->saveTicketIssues($ticket_id, $input);
+        $result = "Ticket " . $data['action'] . "d";
       } elseif (BackendHelper::stringContains($submit, "quotation")) {
         $this->ticket_service->sendQuotation($ticket_id);
-
+        $result = "Quotation sent";
+      } elseif (BackendHelper::stringContains($submit, "quotation")) {
+        $this->ticket_service->sendQuotation($ticket_id);
+        $result = "Quotation sent";
       } elseif (BackendHelper::stringContains($submit, "complete")) {
-      $this->ticket_service->completeTicket($ticket_id);
+        $this->ticket_service->completeTicket($ticket_id);
+        $result = "Ticket completed";
       }
-      return redirect()->back()->with('msg', 'Ticket ' . $data['action'] . "d");
+      return redirect('ticket/save/'.$ticket_id)->with('msg', $result);
     }
     $data['ticket'] = $this->ticket_service->getTicket($ticket_id);
     $data['companies'] = $this->company_service->getCompanyDropdown();

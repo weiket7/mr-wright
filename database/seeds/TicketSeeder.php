@@ -24,9 +24,33 @@ class TicketSeeder extends Seeder
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
 
-      'opened_by'=>'jessica',
+      'drafted_by'=>'Misty',
+      'drafted_on'=>Carbon::now(),
+      'opened_by'=>'Jessica',
       'opened_on'=>Carbon::now(),
-      'requested_by'=>'sally',
+      'requested_by'=>'Sally',
+      'requested_on'=>Carbon::now()->addDay(-3),
+      'updated_by'=>'admin',
+      'updated_on'=>Carbon::now()
+    ]);
+
+    DB::table('ticket')->insert([
+      'ticket_code'=>'UP_'.$month_year.'_002',
+      'stat'=>TicketStat::Opened,
+      'title'=>'Fix tap in pantry',
+      'company_id'=>1,
+      'office_id'=>1,
+      'category_id'=>3,
+      'category_name'=>'Plumbing',
+      'urgency'=> TicketUrgency::High,
+      'requester_desc'=>'Inform Sally at reception when done',
+      'operator_desc'=>'IMPT: Remember to clean up after completion',
+
+      'drafted_by'=>'Misty',
+      'drafted_on'=>Carbon::now(),
+      'opened_by'=>'Jessica',
+      'opened_on'=>Carbon::now(),
+      'requested_by'=>'Sally',
       'requested_on'=>Carbon::now()->addDay(-3),
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now()

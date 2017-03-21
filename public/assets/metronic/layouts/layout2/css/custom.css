@@ -38,6 +38,9 @@
   background-color: #D91E18!important;
   color: #FFF!important;
 }
+.calendar-empty {
+  color: #BFCAD1!important /*grey-salt*/
+}
 
 /*fix multiselect options alignment in form-horizontal*/
 /*still got issue, background of hover has padding-left*/

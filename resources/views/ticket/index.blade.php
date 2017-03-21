@@ -22,6 +22,8 @@
           <tr>
             <th>Status</th>
             <th>Name</th>
+            <th>Category</th>
+            <th>Requested By</th>
           </tr>
           </thead>
           <tbody>
@@ -30,6 +32,8 @@
               {!! Form::select('stat', TicketStat::$values, '', ['class'=>'form-control', 'id'=>'stat', 'placeholder'=>'']) !!}
             </td>
             <td>{!! Form::text('name', '', ['class'=>'form-control', 'id'=>'name']) !!}</td>
+            <td></td>
+            <td></td>
           </tr>
           </tbody>
         </table>
@@ -56,15 +60,21 @@
         <table class="table table-bordered table-hover">
           <thead>
           <tr>
-            <th width="70px">Status</th>
+            <th width="80px">Status</th>
             <th>Name</th>
+            <th>Category</th>
+            <th>Requested By</th>
+            <th>Company</th>
           </tr>
           </thead>
           <tbody>
           @foreach($tickets as $ticket)
             <tr>
-              <td>{{TicketStat::$values[$ticket->stat]}}</td>
+              <td>{{  TicketStat::$values[$ticket->stat]  }}</td>
               <td><a href="{{url("ticket/save/".$ticket->ticket_id)}}">{{ $ticket->title }}</a></td>
+              <td>{{ isset($categories[$ticket->category_id]) ? $categories[$ticket->category_id] : '' }}</td>
+              <td>{{ $ticket->requested_by }} on {{ ViewHelper::formatDate($ticket->requested_on) }}</td>
+              <td>{{ $ticket->company_display_name }}</td>
             </tr>
           @endforeach
           </tbody>

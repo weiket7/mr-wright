@@ -26,7 +26,8 @@ class TicketService
     $ticket->issues = DB::table('ticket_issue')->where('ticket_id', $ticket_id)->orderBy('ticket_issue_id')->get();
     $ticket->staff_assignments = $this->getStaffAssignments($ticket_id);
     $ticket->skills = $this->getTicketSkills($ticket_id);
-    $ticket->preferred_slots = DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)->get();
+    $ticket->preferred_slots = DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)
+      ->select('ticket_preferred_slot_id', 'date', 'time_start', 'time_end')->get();
     return $ticket;
   }
 
@@ -86,20 +87,28 @@ class TicketService
     $ticket->category_id = $input['category_id'];
     $ticket->urgency = $input['urgency'];
     $ticket->company_id = $input['company_id'];
+    $ticket->company_name = Company::find($input['company_id'])->value('name');
     $ticket->office_id = $input['office_id'];
     $ticket->requester_desc = $input['requester_desc'];
     $ticket->operator_desc = $input['operator_desc'];
+    $ticket->quotation_desc = $input['quotation_desc'];
     $ticket->requested_by = $input['requested_by'];
 
     $ticket->requested_on = Carbon::createFromFormat('d M Y', $input['requested_on']);
     if ($ticket_id == null) {
       $ticket->ticket_code = $this->getNextTicketCode($ticket->company_id);
-      $ticket->stat = TicketStat::Opened;
+      $ticket->stat = TicketStat::Drafted;
       $ticket->opened_by = $operator;
       $ticket->opened_on = Carbon::now();
     }
 
-    return $ticket->save();
+    $ticket->save();
+
+    $this->saveStaffAssignments($ticket_id, $input);
+    $this->saveTicketIssues($ticket_id, $input);
+    $this->savePreferredSlots($ticket_id, $input);
+
+    return $ticket->ticket_id;
   }
   
   public function getNextTicketCode($company_id) {
@@ -131,6 +140,15 @@ class TicketService
     $ticket->stat = TicketStat::Quoted;
     $ticket->quoted_by = $operator;
     $ticket->quoted_on = Carbon::now();
+    return $ticket->save();
+  }
+
+  public function openTicket($ticket_id, $operator = 'admin')
+  {
+    $ticket = Ticket::findOrFail($ticket_id);
+    $ticket->stat = TicketStat::Opened;
+    $ticket->opened_by = $operator;
+    $ticket->opened_on = Carbon::now();
     return $ticket->save();
   }
 
@@ -204,7 +222,32 @@ class TicketService
           DB::table('staff_assignment')->insert($staff_assignment);
         }
       }
+    }
+  }
 
+  private function savePreferredSlots($ticket_id, $input, $operator = 'admin')
+  {
+    $preferred_slots_count = $input['preferred_slots_count'];
+    for($i=0; $i<$preferred_slots_count; $i++) {
+      if (isset($input['preferred_slot_stat'.$i]) && $input['preferred_slot_stat'.$i] == 'delete') {
+        DB::table('ticket_preferred_slot')->where('ticket_preferred_slot_id', $input['preferred_slot_id'.$i])->delete();
+        continue;
+      }
+
+      $preferred_slot = [
+        'date' => Carbon::createFromFormat('d M Y', $input['preferred_slot_date'.$i]),
+        'time_start' => $input['preferred_slot_time_start'.$i],
+        'time_end' => $input['preferred_slot_time_end'.$i],
+        'updated_by'=>$operator,
+        'updated_on'=>Carbon::now()
+      ];
+      if (isset($input['preferred_slot_stat'.$i]) && $input['preferred_slot_stat'.$i] == 'add') {
+        $preferred_slot['ticket_id'] = $ticket_id;
+        DB::table('ticket_preferred_slot')->insert($preferred_slot);
+      } else {
+        $preferred_slot_id = $input['preferred_slot_id'.$i];
+        DB::table('ticket_preferred_slot')->where('ticket_preferred_slot_id', $preferred_slot_id)->update($preferred_slot);
+      }
     }
   }
 

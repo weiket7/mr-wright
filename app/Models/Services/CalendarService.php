@@ -23,7 +23,7 @@ class CalendarService
     $cells = [];
     foreach($staff_ids as $staff_id) {
       foreach($intervals as $i) {
-        $cells[$i][$staff_id] = ['ticket_id'=>'', 'text'=>'', 'background'=>''];
+        $cells[$i][$staff_id] = ['ticket_id'=>'', 'ticket_code'=>'', 'background'=>''];
       }
     }
 
@@ -36,7 +36,7 @@ class CalendarService
           $assignment_intervals = $this->working_hour_service->splitTimeRangeIntoInterval($a->time_start, $a->time_end);
           foreach ($assignment_intervals as $i) {
             $cells[$i][$staff_id]['ticket_id'] = $a->ticket_id;
-            $cells[$i][$staff_id]['text'] = $a->ticket_id;
+            $cells[$i][$staff_id]['ticket_code'] = $a->ticket_code;
           }
         }
       }
@@ -54,7 +54,7 @@ class CalendarService
     $data = DB::table('staff_assignment')
       ->where('date', $date)
       ->whereIn('staff_id', $staff_ids)
-      ->select('staff_id', 'ticket_id', 'time_start', 'time_end')->get();
+      ->select('staff_id', 'ticket_id', 'ticket_code', 'time_start', 'time_end')->get();
 
     $res = [];
     foreach($data as $d) {

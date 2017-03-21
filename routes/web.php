@@ -91,7 +91,7 @@ Route::get('test', function() {
   $working_hour_service = new WorkingHourService();
   $ticket_service = new TicketService($working_hour_service);
   $res = $ticket_service->getNextTicketCode(1);
-  var_dump($res); 
+  var_dump(date('d M Y'));
 
   $start_of_month = Carbon::now()->startOfMonth();
   echo       $month = $start_of_month->month;
