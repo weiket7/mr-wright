@@ -114,8 +114,6 @@ class TicketService
   public function getNextTicketCode($company_id) {
     $start_of_month = Carbon::now()->startOfMonth();
     $start_of_next_month = Carbon::now()->startOfMonth()->addMonth(1);
-    Log::info($start_of_month);
-    Log::info($start_of_next_month);
 
     $latest_ticket_code = DB::table('ticket')
       ->where('company_id', $company_id)
@@ -253,5 +251,21 @@ class TicketService
 
   public function getValidation() {
     return $this->validation;
+  }
+
+  public function searchTicket($input) {
+    $s = "SELECT stat, ticket_code, ticket_id, title, category_id, quoted_price, requested_by, requested_on 
+    from ticket
+    where 1 ";
+    if (isset($input['stat']) && $input['stat'] != '') {
+      $s .= " and stat = '$input[stat]'";
+    }
+    if (isset($input['title']) && $input['title'] != '') {
+      $s .= " and title like '%".$input['title']."%'";
+    }
+    if (isset($input['ticket_code']) && $input['ticket_code'] != '') {
+      $s .= " and ticket_code = '".$input['ticket_code']."'";
+    }
+    return DB::select($s);
   }
 }

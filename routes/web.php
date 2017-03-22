@@ -49,6 +49,7 @@ Route::get('operator/save/{id}', 'OperatorController@save');
 Route::post('operator/save/{id}', 'OperatorController@save');
 
 Route::get('ticket', 'TicketController@index');
+Route::post('ticket', 'TicketController@index');
 Route::get('ticket/save', 'TicketController@save');
 Route::post('ticket/save', 'TicketController@save');
 Route::get('ticket/save/{id}', 'TicketController@save');

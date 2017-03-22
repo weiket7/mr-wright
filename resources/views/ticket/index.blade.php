@@ -17,23 +17,20 @@
   <div class="portlet light bordered">
     <div class="portlet-body">
       <form action="" method="post">
+        {!! csrf_field() !!}
         <table class="table table-bordered">
           <thead>
           <tr>
             <th>Status</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Requested By</th>
+            <th>Code</th>
+            <th>Title</th>
           </tr>
           </thead>
           <tbody>
           <tr>
-            <td>
-              {!! Form::select('stat', TicketStat::$values, '', ['class'=>'form-control', 'id'=>'stat', 'placeholder'=>'']) !!}
-            </td>
-            <td>{!! Form::text('name', '', ['class'=>'form-control', 'id'=>'name']) !!}</td>
-            <td></td>
-            <td></td>
+            <td>{!! Form::select('stat', TicketStat::$values, '', ['class'=>'form-control', 'placeholder'=>'']) !!}</td>
+            <td>{!! Form::text('ticket_code', '', ['class'=>'form-control']) !!}</td>
+            <td>{!! Form::text('title', '', ['class'=>'form-control']) !!}</td>
           </tr>
           </tbody>
         </table>
@@ -61,20 +58,22 @@
           <thead>
           <tr>
             <th width="80px">Status</th>
-            <th>Name</th>
+            <th width="120px">Code</th>
+            <th>Title</th>
             <th>Category</th>
+            <th>Quoted Price</th>
             <th>Requested By</th>
-            <th>Company</th>
           </tr>
           </thead>
           <tbody>
           @foreach($tickets as $ticket)
             <tr>
               <td>{{  TicketStat::$values[$ticket->stat]  }}</td>
+              <td>{{  $ticket->ticket_code }}</td>
               <td><a href="{{url("ticket/save/".$ticket->ticket_id)}}">{{ $ticket->title }}</a></td>
               <td>{{ isset($categories[$ticket->category_id]) ? $categories[$ticket->category_id] : '' }}</td>
+              <td>{{ $ticket->quoted_price }}</td>
               <td>{{ $ticket->requested_by }} on {{ ViewHelper::formatDate($ticket->requested_on) }}</td>
-              <td>{{ $ticket->company_display_name }}</td>
             </tr>
           @endforeach
           </tbody>

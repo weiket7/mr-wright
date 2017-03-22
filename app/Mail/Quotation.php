@@ -5,29 +5,31 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class Quotation extends Mailable
 {
-    use Queueable, SerializesModels;
+  use Queueable, SerializesModels;
+  protected $ticket;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
+  /**
+   * Create a new message instance.
+   *
+   * @return void
+   */
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        return $this->markdown('emails.quotation');
-    }
+  public function __construct($ticket)
+  {
+    $this->ticket = $ticket;
+  }
+
+  /**
+   * Build the message.
+   *
+   * @return $this
+   */
+  public function build()
+  {
+    $data['ticket'] = $this->ticket;
+    return $this->markdown('emails.quotation', $data);
+  }
 }

@@ -42,4 +42,8 @@ class ViewHelper {
     return number_format(round($number, 2), 2);
   }
 
+  public static function formatCurrency($number) {
+    return '$'.$number;
+  }
+
 }

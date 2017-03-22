@@ -1157,6 +1157,8 @@ License: You must have a valid license purchased only from themeforest(the above
 
       @if(Session::has('msg'))
         toastr.info("{{Session::get('msg')}}");
+      @elseif(isset($search_result))
+        toastr.info("{{$search_result}}");
       @endif
   
       @if ($errors->any())

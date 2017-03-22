@@ -41,18 +41,20 @@ class Staff extends Eloquent
         continue;
       }
 
-      //TODO handle unselected dropdown
-      $staff_skill = [
-        'skill_id' =>$input['staff_skill'.$i],
-        'updated_by'=>$operator,
-        'updated_on'=>Carbon::now()
-      ];
-      if ($stat == 'add') {
-        $staff_skill['staff_id'] = $this->staff_id;
-        DB::table('staff_skill')->insert($staff_skill);
-      } else {
-        $staff_skill_id = $input['staff_skill_id'.$i];
-        DB::table('staff_skill')->where('staff_skill_id', $staff_skill_id)->update($staff_skill);
+      $skill_id = isset($input['staff_skill'.$i]) ? $input['staff_skill'.$i] : null;
+      if ($skill_id) {
+        $staff_skill = [
+          'skill_id' =>$skill_id,
+          'updated_by'=>$operator,
+          'updated_on'=>Carbon::now()
+        ];
+        if ($stat == 'add') {
+          $staff_skill['staff_id'] = $this->staff_id;
+          DB::table('staff_skill')->insert($staff_skill);
+        } else {
+          $staff_skill_id = $input['staff_skill_id'.$i];
+          DB::table('staff_skill')->where('staff_skill_id', $staff_skill_id)->update($staff_skill);
+        }
       }
     }
   }

@@ -4,11 +4,20 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Mail\Quotation;
+use App\Models\Services\TicketService;
+use App\Models\Ticket;
 use App\Models\User;
 use Mail;
 
 class SiteController extends Controller
 {
+  protected $ticket_service;
+
+  public function __construct(TicketService $ticket_service)
+  {
+    $this->ticket_service = $ticket_service;
+  }
+
   public function index()
   {
     //$product = DB::collection('product')->get();
@@ -17,10 +26,12 @@ class SiteController extends Controller
   }
 
   public function mail() {
-    echo App::environment('local');
+    //echo App::environment('local');
+    $ticket = $this->ticket_service->getTicket(1);
+    $data['ticket'] = $ticket;
+    //return view('emails/quotation', $data);
     //https://laracasts.com/series/laravel-from-scratch-2017/episodes/27
-    //Mail::to($user = User::first())->send(new Quotation());
-
+    Mail::to($user = User::first())->send(new Quotation($ticket));
   }
 }
   

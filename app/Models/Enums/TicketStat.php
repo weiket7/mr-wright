@@ -9,6 +9,7 @@ abstract class TicketStat {
   const Completed = 'C';
   const Invoiced = 'I';
   const Paid = 'P';
+  const Voided = 'V';
   
   static $values = [
     self::Drafted=>'Drafted',
@@ -19,6 +20,7 @@ abstract class TicketStat {
     self::Completed=>'Completed',
     self::Invoiced=>'Invoiced',
     self::Paid=>'Paid',
+    self::Voided=>'Voided',
   ];
 }
 

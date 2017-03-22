@@ -15,6 +15,7 @@
   <div class="portlet light bordered">
     <div class="portlet-body">
       <form action="" method="post">
+        {!! csrf_field() !!}
         <table class="table table-bordered">
           <thead>
           <tr>
