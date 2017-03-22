@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App;
-use App\Models\Services\StaffService;
+use App\Models\Skill;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 
 class StaffController extends Controller
 {
-  protected $staff_service;
-
-  public function __construct(StaffService $staff_service)
+  protected $skill;
+  
+  public function __construct(Skill $skill)
   {
-    $this->staff_service = $staff_service;
+    $this->skill = $skill;
   }
 
   public function index()
@@ -28,15 +27,16 @@ class StaffController extends Controller
 
     if($request->isMethod('post')) {
       $input = $request->all();
-      /*if (!$staff->saveStaff($input)) {
+      if (!$staff->saveStaff($input)) {
         return redirect()->back()->withErrors($staff->getValidation())->withInput($input);
-      }*/
+      }
       return redirect('staff/save/' . $staff->staff_id)->with('msg', 'Staff ' . $action . "d");
     }
 
     $data['action'] = $action;
     $data['staff'] = $staff;
-    $data['skills'] = $staff->getSkills($staff_id);
+    $data['staff_skills'] = $staff->getStaffSkills();
+    $data['skills'] = $this->skill->getSkillDropdown();
 
     return view('staff/form', $data);
   }

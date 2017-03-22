@@ -161,8 +161,11 @@
                           <input type="file" v-bind:name="'image' + index" v-on:change="previewImage(index,$event)">
                         </td>
                         <td>
-                          <textarea v-bind:name="'issue' + index" class="form-control" placeholder="Issue">@{{ issue.issue_desc }}</textarea></td>
-                        <td><textarea v-bind:name="'expected' + index"  class="form-control" placeholder="Expected">@{{ issue.expected_desc }}</textarea></td>
+                          <textarea v-bind:name="'issue' + index" class="form-control" placeholder="Issue">@{{ issue.issue_desc }}</textarea>
+                        </td>
+                        <td>
+                          <textarea v-bind:name="'expected' + index"  class="form-control" placeholder="Expected">@{{ issue.expected_desc }}</textarea>
+                        </td>
                       </tr>
                       </tbody>
                       <tfoot>
@@ -564,7 +567,6 @@
       data: {
         issues: {!! $ticket->issues !!},
         preferred_slots: {!! $ticket->preferred_slots !!},
-        issues_delete: [],
         preferred_slots_delete: [],
         currentDate: moment(),
         currentDateFormatted: moment().format('DD MMM YYYY')
@@ -601,7 +603,6 @@
             issue.stat = '';
           } else {
             Vue.set(issue, 'stat', 'delete');
-            this.issues_delete.push(issue.ticket_issue_id);
           }
         },
         addPreferredSlot: function() {

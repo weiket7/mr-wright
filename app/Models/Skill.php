@@ -33,4 +33,8 @@ class Skill extends Eloquent
   public function getValidation() {
     return $this->validation;
   }
+  
+  public function getSkillDropdown() {
+    return Skill::pluck('name', 'skill_id');
+  }
 }

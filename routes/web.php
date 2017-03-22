@@ -77,6 +77,10 @@ Route::post('skill/save', 'SkillController@save');
 Route::get('skill/save/{id}', 'SkillController@save');
 Route::post('skill/save/{id}', 'SkillController@save');
 
+Route::get('report/ticket', 'ReportController@ticket');
+Route::post('report/ticket', 'ReportController@ticket');
+
+
 Route::get('working-day-time', 'WorkingHourController@workingDaytime');
 Route::get('blocked-date', 'WorkingHourController@blockedDate');
 Route::get('blocked-date-time', 'WorkingHourController@blockedDateTime');

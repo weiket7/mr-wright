@@ -8,7 +8,7 @@
       <h1 class="page-title">Companies</h1>
     </div>
     <div class="col-md-6 text-right">
-      <button type="button" class="btn blue" onclick="location.href='{{url('office/save')}}'">Create</button>
+      <button type="button" class="btn blue" onclick="location.href='{{url('company/save')}}'">Create</button>
     </div>
   </div>
 

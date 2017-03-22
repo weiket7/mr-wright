@@ -25,7 +25,11 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Code</label>
                 <div class="col-md-9">
-                  {{Form::text('code', $company->code, ['class'=>'form-control'])}}
+                  @if($action == 'update')
+                    <div class="form-control-static">{{ $company->code }}</div>
+                  @else
+                    {{Form::text('code', $company->code, ['class'=>'form-control'])}}
+                  @endif
                 </div>
               </div>
             </div>
@@ -102,7 +106,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <!--<div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">Logo</label>
@@ -113,7 +117,7 @@
             </div>
             <div class="col-md-6">
             </div>
-          </div>
+          </div>-->
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
