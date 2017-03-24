@@ -48,5 +48,31 @@ class UserSeeder extends Seeder
       'created_on'=>Carbon::now()
     ]);
 
+    DB::table('user')->insert([
+      'user_id'=>4,
+      'username'=>'Sally',
+      'name'=>'Sally',
+      'email'=>'sally@unity-pharmacy.sg',
+      'password'=>Hash::make(123456),
+      'type'=>UserType::Requester,
+      'stat'=>UserStat::Active,
+      'updated_by'=>'admin',
+      'updated_on'=>Carbon::now(),
+      'created_on'=>Carbon::now()
+    ]);
+
+    DB::table('user')->insert([
+      'user_id'=>5,
+      'username'=>'Jane',
+      'name'=>'Jane',
+      'email'=>'jane@unity-pharmacy.sg',
+      'password'=>Hash::make(123456),
+      'type'=>UserType::Requester,
+      'stat'=>UserStat::Active,
+      'updated_by'=>'admin',
+      'updated_on'=>Carbon::now(),
+      'created_on'=>Carbon::now()
+    ]);
+
   }
 }

@@ -1,7 +1,6 @@
 <?php namespace App\Models;
 
-use CommonHelper;
-use Eloquent, DB, Validator, Input;
+use Eloquent, DB, Validator;
 
 class Company extends Eloquent
 {
@@ -25,7 +24,9 @@ class Company extends Eloquent
     }
 
     $this->name = $input['name'];
-    $this->code = $input['code'];
+    if(isset($input['code'])) {
+      $this->code = $input['code'];
+    }
     $this->registered_name = $input['registered_name'];
     $this->stat = $input['stat'];
     $this->addr = $input['addr'];

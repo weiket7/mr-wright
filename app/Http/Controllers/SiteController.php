@@ -29,14 +29,11 @@ class SiteController extends Controller
   public function login(Request $request) {
     Auth::logout();
     if($request->isMethod('post')) {
-      return redirect('/'); //TODO remove
-
       $username = $request->get("username");
       $password = trim($request->get("password"));
       if (! Auth::attempt(['username'=>$username, 'password'=>$password, 'stat'=>UserStat::Active])) {
         return redirect()->back()->with('msg', 'Wrong username and/or password');
       }
-      $user = Auth::user();
       //$request->session()->put('supplier_id', $user->getSupplierIdByRole());
       //$request->session()->put('outlet_id', $user->getOutletIdByRole());
 

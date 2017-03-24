@@ -1,8 +1,8 @@
 <?php namespace App\Models;
 
 use Carbon\Carbon;
-use CommonHelper;
-use Eloquent, DB, Validator, Input;
+
+use Eloquent, DB, Validator, Log;
 
 class Staff extends Eloquent
 {

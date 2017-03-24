@@ -1,7 +1,7 @@
 <?php namespace App\Models;
 
-use CommonHelper;
-use Eloquent, DB, Validator, Input;
+
+use Eloquent, DB, Validator, Log;
 
 class Office extends Eloquent
 {

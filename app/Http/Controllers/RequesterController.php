@@ -10,12 +10,10 @@ use Illuminate\Http\Request;
 class RequesterController extends Controller
 {
   protected $company_service;
-  protected $office_service;
 
-  public function __construct(CompanyService $company_service, OfficeService $office_service)
+  public function __construct(CompanyService $company_service)
   {
     $this->company_service = $company_service;
-    $this->office_service = $office_service;
   }
 
   public function index(Request $request) {
@@ -29,7 +27,7 @@ class RequesterController extends Controller
     }
     $data['requesters'] = $requesters;
     $data['companies'] = $this->company_service->getCompanyDropdown();
-    $data['offices'] = $this->office_service->getOfficeDropdown();
+    $data['offices'] = $this->company_service->getOfficeDropdown();
     return view("requester/index", $data);
   }
 
@@ -48,7 +46,7 @@ class RequesterController extends Controller
     $data['action'] = $action;
     $data['requester'] = $requester;
     $data['companies'] = $this->company_service->getCompanyDropdown();
-    $data['offices'] = $this->office_service->getOfficeDropdown();
+    $data['offices'] = $this->company_service->getOfficeDropdown();
     $data['requester'] = $requester;
     return view('requester/form', $data);
   }

@@ -1,7 +1,8 @@
 <?php namespace App\Models;
 
-use CommonHelper;
-use Eloquent, DB, Validator, Input;
+
+use Eloquent, DB, Validator, Log;
+use Hash;
 
 class Requester extends Eloquent
 {
@@ -28,6 +29,11 @@ class Requester extends Eloquent
       return false;
     }
 
+    $this->saveRequesterAsUser($input);
+
+    if (isset($input['username'])) {
+      $this->username = $input['username'];
+    }
     $this->name = $input['name'];
     $this->stat = $input['stat'];
     $this->company_id = $input['company_id'];
@@ -38,11 +44,30 @@ class Requester extends Eloquent
     $this->work = $input['work'];
     $this->preferred_contact = $input['preferred_contact'];
     $this->save();
+
     return true;
   }
 
-
   public function getValidation() {
     return $this->validation;
+  }
+
+  private function saveRequesterAsUser($input)
+  {
+    if ($this->requester_id == null) { //create
+      $user = new User();
+    } else {
+      $user = User::where('username', $this->username)->first();
+    }
+    if (isset($input['username'])) {
+      $user->username = $input['username'];
+    }
+    $user->name = $input['name'];
+    $user->stat = $input['stat'];
+    $user->email = $input['email'];
+    if ($input['password']) {
+      $user->password = Hash::make($input['password']);
+    }
+    $user->save();
   }
 }

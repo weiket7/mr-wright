@@ -75,11 +75,6 @@ class CompanyService
     return DB::select($s);
   }
 
-  public function getRequesterAll()
-  {
-    return Requester::orderBy('name')->get();
-  }
-
   public function getOfficeDropdown($company_id = null) {
     if($company_id == null) {
       return Office::pluck('name', 'company_id');
@@ -92,6 +87,11 @@ class CompanyService
       return Requester::pluck('name', 'office_id');
     }
     return Requester::where('office_id', $office_id)->pluck('name', 'requester_id');
+  }
+
+  public function getRequesterAll()
+  {
+    return Requester::orderBy('name')->get();
   }
 
 }

@@ -1,7 +1,6 @@
 <?php namespace App\Models;
 
-use CommonHelper;
-use Eloquent, DB, Validator, Input;
+use Eloquent, DB, Validator;
 
 class CategoryForTicket extends Eloquent
 {
