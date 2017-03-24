@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Models\Enums\TicketStat;
 use App\Models\Services\CompanyService;
 use App\Models\Services\TicketService;
 use App\Models\Ticket;
@@ -74,10 +75,20 @@ class TicketController extends Controller
   }
 
   public function accept(Request $request, $ticket_id = null) {
-    $requester = Auth::user();
-    //TODO user must log in and ticket must belong to him
-    $this->ticket_service->acceptTicket($ticket_id, $requester->user_id);
+    $ticket = $this->ticket_service->getTicket($ticket_id);
+    if($ticket->stat != TicketStat::Quoted) {
+      return redirect('error')->with('error', 'This ticket cannot be accepted because the status is '.strtolower(TicketStat::$values[$ticket->stat]));
+    }
 
+    if (Auth::check() == false) {
+      $request->session()->put('referrer', "ticket/save/".$ticket_id);
+      return redirect("login")->with('msg', 'Please log in');
+    }
+
+    $this->ticket_service->populateTicketForView($ticket);
+    $data['action'] = 'update';
+    $data['ticket'] = $ticket;
+    return view("ticket/view", $data);
   }
   
 }

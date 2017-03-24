@@ -21,9 +21,13 @@ class SiteController extends Controller
     $this->ticket_service = $ticket_service;
   }
 
-  public function index()
-  {
+  public function index() {
     return view("index");
+  }
+
+  public function logout() {
+    Auth::logout();
+    return redirect("login")->with('msg', 'Logged out');
   }
 
   public function login(Request $request) {
@@ -36,8 +40,11 @@ class SiteController extends Controller
       }
       //$request->session()->put('supplier_id', $user->getSupplierIdByRole());
       //$request->session()->put('outlet_id', $user->getOutletIdByRole());
-
-      return redirect('/');
+      $referrer = $request->session()->has('referrer');
+      if ($referrer) {
+        return redirect($request->session()->pull('referrer'));
+      }
+      return redirect('/')->with('msg', 'Logged in');
     }
     return view('site/login');
   }
@@ -63,6 +70,10 @@ class SiteController extends Controller
 
   public function system() {
     return view('site/system');
+  }
+
+  public function error() {
+    return view('error');
   }
 }
   

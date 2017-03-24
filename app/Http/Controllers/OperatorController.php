@@ -8,9 +8,16 @@ use Illuminate\Http\Request;
 
 class OperatorController extends Controller
 {
+  protected $operator;
+
+  public function __construct(Operator $operator)
+  {
+    $this->operator = $operator;
+  }
+
   public function index()
   {
-    $data['operators'] = Operator::all();
+    $data['operators'] = $this->operator->getOperatorAll();
     return view("operator/index", $data);
   }
 

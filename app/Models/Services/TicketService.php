@@ -7,6 +7,7 @@ use App\Models\CategoryForTicket;
 use App\Models\Company;
 use App\Models\Enums\TicketStat;
 use App\Models\Helpers\BackendHelper;
+use App\Models\Office;
 use App\Models\Requester;
 use App\Models\Ticket;
 use App\Models\User;
@@ -32,6 +33,25 @@ class TicketService
     $ticket->skills = $this->getTicketSkills($ticket_id);
     $ticket->preferred_slots = DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)
       ->select('ticket_preferred_slot_id', 'date', 'time_start', 'time_end')->get();
+    return $ticket;
+  }
+
+  public function populateTicketForView($ticket) {
+    $ticket->company_name = Company::where('company_id', $ticket->company_id)->value('name');
+    $ticket->office_name = Office::where('office_id', $ticket->office_id)->value('name');
+    $data = DB::table('staff_assignment as sa')
+      ->join('staff as s', 'sa.staff_id', '=', 's.staff_id')
+      ->where('ticket_id', $ticket->ticket_id)
+      ->select('s.name', 'date', 'time_start', 'time_end')
+      ->get();
+    $res = [];
+    foreach($data as $d) {
+      $res[$d->date][] = $d;
+    }
+    $ticket->staff_assignments = $res;
+    $ticket->skills = DB::table('ticket_skill as ts')
+      ->join('skill as s', 'ts.skill_id', '=', 's.skill_id')
+      ->where('ticket_id', $ticket->ticket_id)->pluck('s.name');
     return $ticket;
   }
 

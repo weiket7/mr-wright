@@ -4,7 +4,7 @@
 <!-- saved from url=(0076)http://www.keenthemes.com/preview/metronic/theme/templates/admin2/login.html -->
 <html lang="en"><!--<![endif]--><!-- BEGIN HEAD --><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>United Points - <?php echo ucfirst($role) ?> Login</title>
+  <title>Mr Wright - Login</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 

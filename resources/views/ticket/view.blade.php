@@ -30,7 +30,9 @@
                 <div class="form-group">
                   <label class="control-label col-md-2">Title</label>
                   <div class="col-md-10">
-                    {{Form::text('title', $ticket->title, ['class'=>'form-control'])}}
+                    <div class="form-control-static">
+                      {{ $ticket->title }}
+                    </div>
                   </div>
                 </div>
                 @if($action !== 'create')
@@ -63,7 +65,9 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Company</label>
                       <div class="col-md-9">
-                        {{Form::select('company_id', $companies, $ticket->company_id, ['id'=>'company_id', 'class'=>'form-control', 'placeholder'=>''])}}
+                        <div class="form-control-static">
+                          {{ $ticket->company_name }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -71,7 +75,9 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Category</label>
                       <div class="col-md-9">
-                        {{Form::select('category_id', $categories, $ticket->category_id, ['class'=>'form-control', 'placeholder'=>''])}}
+                        <div class="form-control-static">
+                          {{ $ticket->category_name }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -81,7 +87,9 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Office</label>
                       <div class="col-md-9">
-                        {{Form::select('office_id', $offices, $ticket->office_id, ['id'=>'office_id', 'class'=>'form-control', 'placeholder'=>''])}}
+                        <div class="form-control-static">
+                          {{ $ticket->office_name }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -89,7 +97,9 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Urgency</label>
                       <div class="col-md-9">
-                        {{Form::select('urgency', TicketUrgency::$values, $ticket->urgency, ['id'=>'requester_id', 'class'=>'form-control', 'placeholder'=>''])}}
+                        <div class="form-control-static">
+                          {{ TicketUrgency::$values[$ticket->urgency] }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -99,7 +109,9 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Requested By</label>
                       <div class="col-md-9">
-                        {{Form::select('requested_by', $requesters, $ticket->requested_by, ['id'=>'requested_by', 'class'=>'form-control', 'placeholder'=>''])}}
+                        <div class="form-control-static">
+                          {{ $ticket->requested_by }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -107,7 +119,9 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Requested On</label>
                       <div class="col-md-9">
-                        {{Form::text('requested_on', ViewHelper::formatDate($ticket->requested_on), ['class'=>'form-control datepicker', 'placeholder'=>''])}}
+                        <div class="form-control-static">
+                          {{ ViewHelper::formatDate($ticket->requested_on) }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -117,7 +131,9 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Requester Description</label>
                       <div class="col-md-9">
-                        {{Form::textarea('requester_desc', $ticket->requester_desc, ['class'=>'form-control', 'rows'=>3])}}
+                        <div class="form-control-static">
+                          {{ $ticket->requester_desc }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -125,7 +141,31 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Operator Description</label>
                       <div class="col-md-9">
-                        {{Form::textarea('operator_desc', $ticket->operator_desc, ['class'=>'form-control', 'rows'=>3])}}
+                        <div class="form-control-static">
+                          {{ $ticket->operator_desc }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Quoted Price</label>
+                      <div class="col-md-9">
+                        <div class="form-control-static">
+                          {{ ViewHelper::formatCurrency($ticket->quoted_price) }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Quotation Description</label>
+                      <div class="col-md-9">
+                        <div class="form-control-static">
+                          {{ $ticket->quotation_desc }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -138,7 +178,6 @@
                     <table class="table table-bordered no-margin-btm">
                       <thead>
                       <tr>
-                        <th width="57px"></th>
                         <th width="255px">Image</th>
                         <th>Issue</th>
                         <th>Expected</th>
@@ -147,44 +186,19 @@
                       <tbody>
                       <tr v-for="(issue, index) in issues" v-bind:class="'row-'+issue.stat">
                         <td>
-                          <button type="button" class="btn btn-icon-only blue" @click="deleteIssue(index)">
-                            <i v-if="issue.stat" class="fa fa-undo"></i>
-                            <i v-else="" class="fa fa-times"></i>
-                          </button>
-                          <input type="hidden" v-bind:name="'issue_stat'+index" v-bind:value="issue.stat" v-if="issue.stat">
-                          <input type="hidden" v-bind:name="'issue_id'+index" v-bind:value="issue.ticket_issue_id">
-                        </td>
-                        <td>
                           <div v-bind:id="'preview-image' + index">
                             <img :src="'{{asset('images/tickets')}}/'+ issue.image " v-if="issue.image" class="ticket-image"/>
                           </div>
-                          <input type="file" v-bind:name="'image' + index" v-on:change="previewImage(index,$event)">
                         </td>
                         <td>
-                          <textarea v-bind:name="'issue' + index" class="form-control" placeholder="Issue">@{{ issue.issue_desc }}</textarea>
+                          @{{ issue.issue_desc }}
                         </td>
                         <td>
-                          <textarea v-bind:name="'expected' + index"  class="form-control" placeholder="Expected">@{{ issue.expected_desc }}</textarea>
+                          @{{ issue.expected_desc }}
                         </td>
                       </tr>
                       </tbody>
-                      <tfoot>
-                      <tr>
-                        <td colspan="4">
-                          <div class="text-center">
-                            <button type="button" class="btn blue" @click='addIssue'>Add</button>
-                          </div>
-                        </td>
-                      </tr>
-                      </tfoot>
                     </table>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="control-label col-md-2">Quoted Price</label>
-                  <div class="col-md-10">
-                    {{Form::text('quoted_price', ViewHelper::formatNumber($ticket->quoted_price), ['class'=>'form-control'])}}
                   </div>
                 </div>
 
@@ -196,39 +210,20 @@
                     <table class="table table-bordered no-margin-btm">
                       <thead>
                       <tr>
-                        <th width="57px"></th>
                         <th width="210px">Date</th>
                         <th>Time</th>
                       </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="(slot, index) in preferred_slots" v-bind:class="'row-'+slot.stat">
-                          <td>
-                            <button type="button" class="btn btn-icon-only blue" @click="deletePreferredSlot(index)">
-                              <i v-if="slot.stat" class="fa fa-undo"></i>
-                              <i v-else="" class="fa fa-times"></i>
-                            </button>
-                            <input type="hidden" v-bind:name="'preferred_slot_stat'+index" v-bind:value="slot.stat" v-if="slot.stat">
-                            <input type="hidden" v-bind:name="'preferred_slot_id'+index" v-bind:value="slot.ticket_preferred_slot_id">
-                          </td>
-                          <td>
-                            <input type="text" v-bind:name="'preferred_slot_date'+index" v-bind:value="slot.date | formatDate" class="form-control datepicker">
-                          </td>
-                          <td>
-                            <input type="text" v-bind:name="'preferred_slot_time_start'+index" v-bind:value="slot.time_start | formatTime" class="form-control" placeholder="HH:MM">
-                            <input type="text" v-bind:name="'preferred_slot_time_end'+index" v-bind:value="slot.time_end | formatTime" class="form-control" placeholder="HH:MM">
-                          </td>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                      <tr>
-                        <td colspan="3">
-                          <div class="text-center">
-                            <button type="button" class="btn blue" @click='addPreferredSlot'>Add</button>
-                          </div>
+                      <tr v-for="(slot, index) in preferred_slots" v-bind:class="'row-'+slot.stat">
+                        <td>
+                          @{{ slot.date | formatDate }}
+                        </td>
+                        <td>
+                          @{{ slot.time_start | formatTime }} to @{{ slot.time_end | formatTime }}
                         </td>
                       </tr>
-                      </tfoot>
+                      </tbody>
                     </table>
                   </div>
                 </div>
@@ -236,57 +231,37 @@
                 <div class="form-group">
                   <label class="control-label col-md-2">Skills</label>
                   <div class="col-md-10">
-                    <div class="mt-checkbox-inline">
-                      @foreach($skills as $skill_id => $name)
-                        <label class="mt-checkbox mt-checkbox-outline">
-                          <?php $checked = in_array($skill_id, $ticket->skills) ? "checked" : ""; ?>
-                          <input type="checkbox" value="{{$skill_id}}" name="skills" {{$checked}}> {{ $name }}
-                          <span></span>
-                        </label>
+                    <div class="form-control-static">
+                      {{ $ticket->skills->implode(', ') }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-2">Staff Assignments</label>
+                  <div class="col-md-10">
+                    <table class="table table-bordered no-margin-btm">
+                      <thead>
+                      <tr>
+                        <th width="210px">Date</th>
+                        <th>Staff</th>
+                        <th>Time</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      @foreach($ticket->staff_assignments as $date => $assignments)
+                        @foreach($assignments as $a)
+                          <tr>
+                            <td>{{ ViewHelper::formatDate($date) }}</td>
+                            <td>{{ $a->name }}</td>
+                            <td>{{ ViewHelper::formatTime($a->time_start) }} to {{ ViewHelper::formatTime($a->time_end) }}</td>
+                          </tr>
                       @endforeach
-                    </div>
+                      @endforeach
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-
-                <div class="form-group">
-                  <label class="control-label col-md-2">Staffs</label>
-                  <div class="col-md-10">
-                    <select id="staffs" class="form-control select2-multiple" multiple="multiple">
-                    </select>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="control-label col-md-2">Date</label>
-                  <div class="col-md-10">
-                    <div class="input-group" style="max-width:300px">
-                      <span class="input-group-btn">
-                          <button class="btn red" type="button" @click="previousDate">Previous</button>
-                      </span>
-                      <input type="text" id="date" name="date" v-model="currentDateFormatted" class="form-control datepicker datepicker-width">
-                      <span class="input-group-btn">
-                          <button class="btn red" type="button" @click="nextDate">Next</button>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="" class="control-label col-md-2">Calendar</label>
-                  <div class="col-md-10">
-                    <input type='hidden' name="staff_assignments" id="staff_assignments" value="{{ json_encode($ticket->staff_assignments) }}"/>
-                    <div id="div-calendar"></div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="control-label col-md-2">Quotation Description</label>
-                  <div class="col-md-10">
-                    {{Form::textarea('quotation_desc', $ticket->quotation_desc, ['class'=>'form-control', 'rows'=>5])}}
-                  </div>
-                </div>
-
-
               </div>
 
               <div class="form-actions">
@@ -330,27 +305,27 @@
           </div>
           <div class="tab-pane fade" id="tab-history">
             <ul class="list-group">
-            <?php $history = [];
+              <?php $history = [];
               if ($ticket->paid_by)
                 $history[] = "Paid by ".$ticket->paid_by." on " . ViewHelper::formatDateTime($ticket->paid_on);
-            if ($ticket->invoiced_by)
+              if ($ticket->invoiced_by)
                 $history[] = "Invoiced by ".$ticket->invoiced_by." on " . ViewHelper::formatDateTime($ticket->invoiced_on);
-            if ($ticket->completed_by)
+              if ($ticket->completed_by)
                 $history[] = "Completed by ".$ticket->completed_by." on " . ViewHelper::formatDateTime($ticket->completed_on);
-            if ($ticket->declined_by)
+              if ($ticket->declined_by)
                 $history[] = "Declined by ".$ticket->declined_by." on " . ViewHelper::formatDateTime($ticket->declined_on);
-            if ($ticket->accepted_by)
+              if ($ticket->accepted_by)
                 $history[] = "Accepted by ".$ticket->accepted_by." on " . ViewHelper::formatDateTime($ticket->accepted_on);
-            if ($ticket->quoted_by)
+              if ($ticket->quoted_by)
                 $history[] = "Quoted by ".$ticket->quoted_by." on " . ViewHelper::formatDateTime($ticket->quoted_on);
-            if ($ticket->opened_by)
+              if ($ticket->opened_by)
                 $history[] = "Opened by ".$ticket->opened_by." on " . ViewHelper::formatDateTime($ticket->opened_on);
-            if ($ticket->drafted_by)
+              if ($ticket->drafted_by)
                 $history[] = "Drafted by ".$ticket->drafted_by." on " . ViewHelper::formatDateTime($ticket->drafted_on);
-            ?>
-            @foreach($history as $h)
-            <li class="list-group-item"> {{ $h }} </li>
-            @endforeach
+              ?>
+              @foreach($history as $h)
+                <li class="list-group-item"> {{ $h }} </li>
+              @endforeach
             </ul>
           </div>
 
@@ -573,18 +548,18 @@
         },
         addPreferredSlot: function() {
           this.preferred_slots.push({date: this.currentDate.format('YYYY-MM-DD'), time_start: '', time_end: '', stat:'add'});
-    
+
           setTimeout(function(){
             initDatepicker();
           }, 500);
-    
+
         },
         deletePreferredSlot: function(index) {
           var slot = this.preferred_slots[index];
           if (slot.stat === 'add') {
             this.preferred_slots.splice(index, 1);
           }
-  
+
           if (slot.stat == 'delete') {
             slot.stat = '';
           } else {

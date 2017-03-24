@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 
+use App\Models\Enums\UserType;
 use Eloquent, DB, Validator, Log;
 use Hash;
 
@@ -21,6 +22,10 @@ class Operator extends Eloquent
     'stat.required'=>'Status is required',
   ];
 
+  public function getOperatorAll() {
+    return Operator::where('type', UserType::Operator)->orderBy('stat')->orderBy('name')->get();
+  }
+
   public function saveOperator($input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
@@ -29,7 +34,9 @@ class Operator extends Eloquent
 
     $this->name = $input['name'];
     $this->stat = $input['stat'];
-    $this->username = $input['username'];
+    if (isset($input['username'])) {
+      $this->username = $input['username'];
+    }
     if ($input['password']) {
       $this->password = Hash::make($input['password']);
     }
