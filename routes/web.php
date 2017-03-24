@@ -19,6 +19,7 @@ use Carbon\Carbon;
 
 Route::get('/', 'SiteController@index');
 Route::get('login', 'SiteController@login');
+Route::post('login', 'SiteController@login');
 Route::get('site/mail', 'SiteController@mail'); //TODO remove
 
 Route::get('product', 'ProductController@index');

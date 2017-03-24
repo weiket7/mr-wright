@@ -15,14 +15,6 @@ class CompanyService
     return Company::orderBy('name')->pluck('name', 'company_id');
   }
 
-  public function getOfficeByCompany($company_id) {
-    return DB::table('office')->where('company_id', $company_id)->pluck('name', 'office_id');
-  }
-
-  public function getRequesterByOffice($office_id) {
-    return DB::table('requester')->where('office_id', $office_id)->pluck('name', 'requester_id');
-  }
-
   public function getCompanyAll() {
     return Company::orderBy('name')->get();
   }
@@ -86,6 +78,20 @@ class CompanyService
   public function getRequesterAll()
   {
     return Requester::orderBy('name')->get();
+  }
+
+  public function getOfficeDropdown($company_id = null) {
+    if($company_id == null) {
+      return Office::pluck('name', 'company_id');
+    }
+    return Office::where('company_id', $company_id)->pluck('name', 'office_id');
+  }
+
+  public function getRequesterDropdown($office_id = null) {
+    if($office_id == null) {
+      return Requester::pluck('name', 'office_id');
+    }
+    return Requester::where('office_id', $office_id)->pluck('name', 'requester_id');
   }
 
 }

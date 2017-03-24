@@ -50,11 +50,11 @@ class ApiController extends Controller
 
   public function getOfficeByCompany(Request $request) {
     $company_id = $request->get('company_id');
-    return $this->company_service->getOfficeByCompany($company_id);
+    return $this->company_service->getOfficeDropdown($company_id);
   }
 
   public function getRequesterByOffice(Request $request) {
     $office_id = $request->get('office_id');
-    return $this->company_service->getRequesterByOffice($office_id);
+    return $this->company_service->getRequesterDropdown($office_id);
   }
 }

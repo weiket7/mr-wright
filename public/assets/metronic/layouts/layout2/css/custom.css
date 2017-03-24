@@ -62,6 +62,9 @@
 .search-th-dropdown {
   width: 217px;
 }
+.login-logo {
+  max-height: 50px;
+}
 
 
 /*fix multiselect options alignment in form-horizontal*/

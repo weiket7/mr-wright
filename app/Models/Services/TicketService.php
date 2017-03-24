@@ -95,6 +95,7 @@ class TicketService
     $ticket->office_id = $input['office_id'];
     $ticket->requester_desc = $input['requester_desc'];
     $ticket->operator_desc = $input['operator_desc'];
+    $ticket->quoted_price = $input['quoted_price'];
     $ticket->quotation_desc = $input['quotation_desc'];
     $ticket->requested_by = $input['requested_by'];
 

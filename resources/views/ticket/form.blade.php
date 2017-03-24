@@ -81,7 +81,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Office</label>
                       <div class="col-md-9">
-                        {{Form::select('office_id', [], $ticket->office_id, ['id'=>'office_id', 'class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('office_id', $offices, $ticket->office_id, ['id'=>'office_id', 'class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -99,7 +99,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Requested By</label>
                       <div class="col-md-9">
-                        {{Form::select('requested_by', [], $ticket->requested_by, ['id'=>'requested_by', 'class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('requested_by', $requesters, $ticket->requested_by, ['id'=>'requested_by', 'class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>

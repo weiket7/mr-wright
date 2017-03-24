@@ -22,7 +22,7 @@
           <thead>
           <tr>
             <th class="search-th-stat">Status</th>
-            <th class="search-th-txt">Name</th>
+            <th class="search-th-txt">Code</th>
             <th>Title</th>
           </tr>
           </thead>

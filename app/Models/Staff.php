@@ -18,7 +18,24 @@ class Staff extends Eloquent
   private $messages = [
     'name.required'=>'Name is required',
   ];
-  
+
+  public static function getStaffAll()
+  {
+    $staffs = Staff::all();
+    $data = DB::table('skill as sk')
+      ->join('staff_skill as ss', 'ss.skill_id', '=', 'sk.skill_id')->select('ss.staff_id', 'ss.skill_id', 'sk.name')->get();
+    $res = [];
+    //var_dump($data); exit;
+    foreach($data as $d) {
+      $res[$d->staff_id][] = $d->name;
+    }
+    foreach($staffs as $staff) {
+      $staff->skills = $res[$staff->staff_id];
+    }
+    return $staffs;
+  }
+
+
   public function saveStaff($input, $operator = 'admin') {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {

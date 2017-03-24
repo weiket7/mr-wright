@@ -36,7 +36,7 @@
             <tr>
               <td>{{StaffStat::$values[$staff->stat]}}</td>
               <td><a href="{{url("staff/save/".$staff->staff_id)}}">{{ $staff->name }}</a></td>
-              <td></td>
+              <td>{{ implode(', ', $staff->skills) }}</td>
             </tr>
           @endforeach
           </tbody>

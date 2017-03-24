@@ -62,8 +62,11 @@ class TicketController extends Controller
       }
       return redirect('ticket/save/'.$ticket_id)->with('msg', $result);
     }
-    $data['ticket'] = $this->ticket_service->getTicket($ticket_id);
+    $ticket = $this->ticket_service->getTicket($ticket_id);
+    $data['ticket'] = $ticket;
     $data['companies'] = $this->company_service->getCompanyDropdown();
+    $data['offices'] = $this->company_service->getOfficeDropdown($ticket->company_id);
+    $data['requesters'] = $this->company_service->getRequesterDropdown($ticket->office_id);
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
     $data['skills'] = $this->ticket_service->getSkills(); 
 

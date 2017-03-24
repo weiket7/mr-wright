@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Mail\QuotationMail;
+use App\Models\Enums\UserStat;
 use App\Models\Services\TicketService;
 use App\Models\Ticket;
 use App\Models\User;
+use Auth;
+use Illuminate\Http\Request;
 use Mail;
 
 class SiteController extends Controller
@@ -20,13 +23,26 @@ class SiteController extends Controller
 
   public function index()
   {
-    //$product = DB::collection('product')->get();
-    //var_dump($product); exit;
     return view("index");
   }
 
-  public function login() {
-    
+  public function login(Request $request) {
+    Auth::logout();
+    if($request->isMethod('post')) {
+      return redirect('/'); //TODO remove
+
+      $username = $request->get("username");
+      $password = trim($request->get("password"));
+      if (! Auth::attempt(['username'=>$username, 'password'=>$password, 'stat'=>UserStat::Active])) {
+        return redirect()->back()->with('msg', 'Wrong username and/or password');
+      }
+      $user = Auth::user();
+      //$request->session()->put('supplier_id', $user->getSupplierIdByRole());
+      //$request->session()->put('outlet_id', $user->getOutletIdByRole());
+
+      return redirect('/');
+    }
+    return view('site/login');
   }
 
   public function mail() {
