@@ -14,8 +14,17 @@ class OfficeController extends Controller
     $this->company_service = $company_service;
   }
 
-  public function index() {
-    $data['offices'] = Office::all();
+  public function index(Request $request) {
+    if($request->isMethod("post")) {
+      $input = $request->all();
+      $offices = $this->company_service->searchOffice($input);
+      $request->flash();
+      $data['search_result'] = 'Showing ' . count($offices) . ' office(s)';
+    } else {
+      $offices = $this->company_service->getOfficeAll();
+    }
+    $data['offices'] = $offices;
+    $data['companies'] = $this->company_service->getCompanyDropdown();
     return view("office/index", $data);
   }
 

@@ -15,19 +15,20 @@
   <div class="portlet light bordered">
     <div class="portlet-body">
       <form action="" method="post">
+        {!! csrf_field() !!}
         <table class="table table-bordered">
           <thead>
           <tr>
-            <th>Status</th>
+            <th class="search-th-stat">Status</th>
             <th>Name</th>
           </tr>
           </thead>
           <tbody>
           <tr>
             <td>
-              {!! Form::select('stat', CompanyStat::$values, '', ['class'=>'form-control', 'id'=>'stat', 'placeholder'=>'']) !!}
+              {!! Form::select('stat', CompanyStat::$values, '', ['class'=>'form-control search-stat', 'placeholder'=>'']) !!}
             </td>
-            <td>{!! Form::text('name', '', ['class'=>'form-control', 'id'=>'name']) !!}</td>
+            <td>{!! Form::text('name', '', ['class'=>'form-control search-txt']) !!}</td>
           </tr>
           </tbody>
         </table>

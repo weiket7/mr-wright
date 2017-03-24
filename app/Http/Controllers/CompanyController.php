@@ -16,9 +16,16 @@ class CompanyController extends Controller
     $this->company_service = $company_service;
   }
   
-  public function index()
-  {
-    $data['companies'] = Company::all();
+  public function index(Request $request) {
+    if($request->isMethod("post")) {
+      $input = $request->all();
+      $companies = $this->company_service->searchCompany($input);
+      $request->flash();
+      $data['search_result'] = 'Showing ' . count($companies) . ' company(s)';
+    } else {
+      $companies = $this->company_service->getCompanyAll();
+    }
+    $data['companies'] = $companies;
     return view("company/index", $data);
   }
   

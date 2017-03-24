@@ -8,26 +8,31 @@
       <h1 class="page-title">Requesters</h1>
     </div>
     <div class="col-md-6 text-right">
-      <button type="button" class="btn blue" onclick="location.href='{{url('office/save')}}'">Create</button>
+      <button type="button" class="btn blue" onclick="location.href='{{url('requester/save')}}'">Create</button>
     </div>
   </div>
 
   <div class="portlet light bordered">
     <div class="portlet-body">
       <form action="" method="post">
+        {!! csrf_field() !!}
         <table class="table table-bordered">
           <thead>
           <tr>
-            <th>Status</th>
-            <th>Name</th>
+            <th class="search-th-stat">Status</th>
+            <th class="search-th-txt">Name</th>
+            <th class="search-th-dropdown">Company</th>
+            <th>Office</th>
           </tr>
           </thead>
           <tbody>
           <tr>
             <td>
-              {!! Form::select('stat', RequesterStat::$values, '', ['class'=>'form-control', 'id'=>'stat', 'placeholder'=>'']) !!}
+              {!! Form::select('stat', RequesterStat::$values, '', ['class'=>'form-control search-stat', 'placeholder'=>'']) !!}
             </td>
             <td>{!! Form::text('name', '', ['class'=>'form-control', 'id'=>'name']) !!}</td>
+            <td>{!! Form::select('company_id', $companies, '', ['id'=>'company_id', 'class'=>'form-control search-dropdown', 'placeholder'=>'']) !!}</td>
+            <td>{!! Form::select('office_id', [], '', ['id'=>'office_id', 'class'=>'form-control search-dropdown', 'placeholder'=>'']) !!}</td>
           </tr>
           </tbody>
         </table>

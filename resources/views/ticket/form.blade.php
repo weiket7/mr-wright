@@ -81,7 +81,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Office</label>
                       <div class="col-md-9">
-                        {{Form::select('office_id', $companies, $ticket->office_id, ['id'=>'office_id', 'class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('office_id', [], $ticket->office_id, ['id'=>'office_id', 'class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -99,7 +99,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Requested By</label>
                       <div class="col-md-9">
-                        {{Form::select('requested_by', $companies, $ticket->requested_by, ['id'=>'requested_by', 'class'=>'form-control', 'placeholder'=>''])}}
+                        {{Form::select('requested_by', [], $ticket->requested_by, ['id'=>'requested_by', 'class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -388,41 +388,7 @@
         getValuesAndPopulateCalendar();
       });
 
-      $("#company_id").change(function() {
-        var company_id = $(this).val();
-        axios.get('{{url('api/getOfficeByCompany')}}?company_id='+company_id)
-        .then(function (response) {
-          var offices = response.data;
-          var html = '<option></option>';
-          for (var office_id in offices) {
-            if (offices.hasOwnProperty(office_id)) {
-              html += "<option value="+office_id+">" + offices[office_id] + "</option>";
-            }
-          }
-          $("#office_id").html(html);
-        })
-        .catch(function (error) {
-          console.log('company_id change error='+error);
-        })
-      });
 
-      $("#office_id").change(function() {
-        var office_id = $(this).val();
-        axios.get('{{url('api/getRequesterByOffice')}}?office_id='+office_id)
-        .then(function (response) {
-          var requesters = response.data;
-          var html = '<option></option>';
-          for (var requester_id in requesters) {
-            if (requesters.hasOwnProperty(requester_id)) {
-              html += "<option value="+requester_id+">" + requesters[requester_id] + "</option>";
-            }
-          }
-          $("#requested_by").html(html);
-        })
-        .catch(function (error) {
-          console.log('office_id change error='+error);
-        })
-      });
 
       populateStaffsAndCalendar();
 

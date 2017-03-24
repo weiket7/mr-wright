@@ -18,9 +18,18 @@ class RequesterController extends Controller
     $this->office_service = $office_service;
   }
 
-  public function index()
-  {
-    $data['requesters'] = Requester::all();
+  public function index(Request $request) {
+    if($request->isMethod("post")) {
+      $input = $request->all();
+      $requesters = $this->company_service->searchRequester($input);
+      $request->flash();
+      $data['search_result'] = 'Showing ' . count($requesters) . ' requester(s)';
+    } else {
+      $requesters = $this->company_service->getRequesterAll();
+    }
+    $data['requesters'] = $requesters;
+    $data['companies'] = $this->company_service->getCompanyDropdown();
+    $data['offices'] = $this->office_service->getOfficeDropdown();
     return view("requester/index", $data);
   }
 

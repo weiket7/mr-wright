@@ -50,7 +50,7 @@ class TicketSeeder extends Seeder
       'drafted_on'=>Carbon::now(),
       'opened_by'=>'Jessica',
       'opened_on'=>Carbon::now(),
-      'requested_by'=>'Sally',
+      'requested_by'=>'Jane',
       'requested_on'=>Carbon::now()->addDay(-3),
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now()

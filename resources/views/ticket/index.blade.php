@@ -21,16 +21,16 @@
         <table class="table table-bordered">
           <thead>
           <tr>
-            <th>Status</th>
-            <th>Code</th>
+            <th class="search-th-stat">Status</th>
+            <th class="search-th-txt">Name</th>
             <th>Title</th>
           </tr>
           </thead>
           <tbody>
           <tr>
-            <td>{!! Form::select('stat', TicketStat::$values, '', ['class'=>'form-control', 'placeholder'=>'']) !!}</td>
-            <td>{!! Form::text('ticket_code', '', ['class'=>'form-control']) !!}</td>
-            <td>{!! Form::text('title', '', ['class'=>'form-control']) !!}</td>
+            <td>{!! Form::select('stat', TicketStat::$values, '', ['class'=>'form-control search-stat', 'placeholder'=>'']) !!}</td>
+            <td>{!! Form::text('ticket_code', '', ['class'=>'form-control search-txt']) !!}</td>
+            <td>{!! Form::text('title', '', ['class'=>'form-control search-txt']) !!}</td>
           </tr>
           </tbody>
         </table>

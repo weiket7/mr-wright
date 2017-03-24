@@ -16,9 +16,13 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Name</label>
+                <label class="control-label col-md-3">Username</label>
                 <div class="col-md-9">
-                  {{Form::text('name', $requester->name, ['class'=>'form-control'])}}
+                  @if($action == 'update')
+                    <div class="form-control-static">{{ $requester->username }}</div>
+                  @else
+                    {{Form::text('username', $requester->username, ['class'=>'form-control'])}}
+                  @endif
                 </div>
               </div>
             </div>
@@ -27,6 +31,24 @@
                 <label class="control-label col-md-3">Status</label>
                 <div class="col-md-9">
                   {{Form::select('stat', RequesterStat::$values, $requester->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Name</label>
+                <div class="col-md-9">
+                  {{Form::text('name', $requester->name, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Designation</label>
+                <div class="col-md-9">
+                  {{Form::text('designation', $requester->designation, ['class'=>'form-control'])}}
                 </div>
               </div>
             </div>
@@ -52,27 +74,9 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Designation</label>
-                <div class="col-md-9">
-                  {{Form::text('designation', $requester->designation, ['class'=>'form-control'])}}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
                 <label class="control-label col-md-3">Email</label>
                 <div class="col-md-9">
                   {{Form::text('email', $requester->email, ['class'=>'form-control'])}}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">Mobile</label>
-                <div class="col-md-9">
-                  {{Form::text('mobile', $requester->mobile, ['class'=>'form-control'])}}
                 </div>
               </div>
             </div>
@@ -88,16 +92,17 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Preferred Contact</label>
+                <label class="control-label col-md-3">Mobile</label>
                 <div class="col-md-9">
-                  {{Form::select('preferred_contact', PreferredContact::$values, $requester->preferred_contact, ['class'=>'form-control', 'placeholder'=>''])}}
+                  {{Form::text('mobile', $requester->mobile, ['class'=>'form-control'])}}
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3"></label>
+                <label class="control-label col-md-3">Preferred Contact</label>
                 <div class="col-md-9">
+                  {{Form::select('preferred_contact', PreferredContact::$values, $requester->preferred_contact, ['class'=>'form-control', 'placeholder'=>''])}}
                 </div>
               </div>
             </div>

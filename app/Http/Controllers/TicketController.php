@@ -6,6 +6,7 @@ use App;
 use App\Models\Services\CompanyService;
 use App\Models\Services\TicketService;
 use App\Models\Ticket;
+use Auth;
 use Illuminate\Http\Request;
 use App\Models\Helpers\BackendHelper;
 use Log;
@@ -70,8 +71,9 @@ class TicketController extends Controller
   }
 
   public function accept(Request $request, $ticket_id = null) {
+    $requester = Auth::user();
     //TODO user must log in and ticket must belong to him
-    $this->ticket_service->acceptTicket($ticket_id);
+    $this->ticket_service->acceptTicket($ticket_id, $requester->user_id);
 
   }
   

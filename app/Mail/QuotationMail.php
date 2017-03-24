@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Quotation extends Mailable
+class QuotationMail extends Mailable
 {
   use Queueable, SerializesModels;
   protected $ticket;

@@ -1155,6 +1155,42 @@ License: You must have a valid license purchased only from themeforest(the above
 
      initDatepicker();
 
+      $("#company_id").change(function() {
+        var company_id = $(this).val();
+        axios.get('{{url('api/getOfficeByCompany')}}?company_id='+company_id)
+        .then(function (response) {
+          var offices = response.data;
+          var html = '<option></option>';
+          for (var office_id in offices) {
+            if (offices.hasOwnProperty(office_id)) {
+              html += "<option value="+office_id+">" + offices[office_id] + "</option>";
+            }
+          }
+          $("#office_id").html(html);
+        })
+        .catch(function (error) {
+          console.log('company_id change error='+error);
+        })
+      });
+
+      $("#office_id").change(function() {
+        var office_id = $(this).val();
+        axios.get('{{url('api/getRequesterByOffice')}}?office_id='+office_id)
+        .then(function (response) {
+          var requesters = response.data;
+          var html = '<option></option>';
+          for (var requester_id in requesters) {
+            if (requesters.hasOwnProperty(requester_id)) {
+              html += "<option value="+requester_id+">" + requesters[requester_id] + "</option>";
+            }
+          }
+          $("#requested_by").html(html);
+        })
+        .catch(function (error) {
+          console.log('office_id change error='+error);
+        })
+      });
+
       @if(Session::has('msg'))
         toastr.info("{{Session::get('msg')}}");
       @elseif(isset($search_result))

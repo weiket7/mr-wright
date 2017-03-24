@@ -41,6 +41,28 @@
 .calendar-empty {
   color: #BFCAD1!important /*grey-salt*/
 }
+.txt-num {
+
+}
+.search-stat {
+  max-width: 110px;
+}
+.search-txt {
+  max-width: 200px;
+}
+.search-dropdown {
+  max-width: 200px;
+}
+.search-th-stat {
+  width: 127px;
+}
+.search-th-txt {
+  width: 217px;
+}
+.search-th-dropdown {
+  width: 217px;
+}
+
 
 /*fix multiselect options alignment in form-horizontal*/
 /*still got issue, background of hover has padding-left*/

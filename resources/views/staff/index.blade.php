@@ -28,6 +28,7 @@
           <tr>
             <th width="70px">Status</th>
             <th>Name</th>
+            <th>Skills</th>
           </tr>
           </thead>
           <tbody>
@@ -35,6 +36,7 @@
             <tr>
               <td>{{StaffStat::$values[$staff->stat]}}</td>
               <td><a href="{{url("staff/save/".$staff->staff_id)}}">{{ $staff->name }}</a></td>
+              <td></td>
             </tr>
           @endforeach
           </tbody>

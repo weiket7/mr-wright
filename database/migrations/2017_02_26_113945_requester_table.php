@@ -13,6 +13,7 @@ class RequesterTable extends Migration
       $t->integer('company_id');
       $t->integer('office_id');
       $t->string('name', 50);
+      $t->string('username', 30);
       $t->char('stat', 1);
       $t->string('designation', 30);
       $t->string('email', 50);

@@ -4,11 +4,11 @@
   <div class="row">
     <div class="col-md-6">
       <h1 class="page-title">
-        Skills
+        Categories for Ticket
       </h1>
     </div>
     <div class="col-md-6 text-right">
-      <button type="button" class="btn blue" onclick="location.href='{{url('skill/save')}}'">Create</button>
+      <button type="button" class="btn blue" onclick="location.href='{{url('category/save')}}'">Create</button>
     </div>
   </div>
 
@@ -28,9 +28,9 @@
           </tr>
           </thead>
           <tbody>
-          @foreach($skills as $skill)
+          @foreach($categories as $id => $name)
             <tr>
-              <td><a href="{{url("skill/save/".$skill->skill_id)}}">{{ $skill->name }}</a></td>
+              <td><a href="{{url("category/save/".$id)}}">{{ $name }}</a></td>
             </tr>
           @endforeach
           </tbody>

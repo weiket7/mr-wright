@@ -11,12 +11,15 @@
 |
 */
 
+use App\Models\Requester;
 use App\Models\Services\TicketService;
 use App\Models\Services\WorkingHourService;
+use App\Models\User;
 use Carbon\Carbon;
 
 Route::get('/', 'SiteController@index');
-Route::get('site/mail', 'SiteController@mail');
+Route::get('login', 'SiteController@login');
+Route::get('site/mail', 'SiteController@mail'); //TODO remove
 
 Route::get('product', 'ProductController@index');
 Route::get('product/save', 'ProductController@save');
@@ -25,18 +28,21 @@ Route::get('product/save/{id}', 'ProductController@save');
 Route::post('product/save/{id}', 'ProductController@save');
 
 Route::get('company', 'CompanyController@index');
+Route::post('company', 'CompanyController@index');
 Route::get('company/save', 'CompanyController@save');
 Route::post('company/save', 'CompanyController@save');
 Route::get('company/save/{id}', 'CompanyController@save');
 Route::post('company/save/{id}', 'CompanyController@save');
 
 Route::get('office', 'OfficeController@index');
+Route::post('office', 'OfficeController@index');
 Route::get('office/save', 'OfficeController@save');
 Route::post('office/save', 'OfficeController@save');
 Route::get('office/save/{id}', 'OfficeController@save');
 Route::post('office/save/{id}', 'OfficeController@save');
 
 Route::get('requester', 'RequesterController@index');
+Route::post('requester', 'RequesterController@index');
 Route::get('requester/save', 'RequesterController@save');
 Route::post('requester/save', 'RequesterController@save');
 Route::get('requester/save/{id}', 'RequesterController@save');
@@ -81,10 +87,13 @@ Route::post('skill/save/{id}', 'SkillController@save');
 Route::get('report/ticket', 'ReportController@ticket');
 Route::post('report/ticket', 'ReportController@ticket');
 
-
 Route::get('working-day-time', 'WorkingHourController@workingDaytime');
 Route::get('blocked-date', 'WorkingHourController@blockedDate');
 Route::get('blocked-date-time', 'WorkingHourController@blockedDateTime');
+Route::get('category-for-ticket', 'SiteController@categoryForTicket');
+Route::get('setting', 'SiteController@setting');
+Route::get('system', 'SiteController@system');
+
 
 Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
 Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
@@ -92,9 +101,14 @@ Route::get('api/getOfficeByCompany', 'ApiController@getOfficeByCompany');
 Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
 
 Route::get('test', function() {
-
   $working_hour_service = new WorkingHourService();
   $ticket_service = new TicketService($working_hour_service);
+  $ticket = $ticket_service->getTicket(1);
+  var_dump($ticket->requested_by);
+  var_dump(Requester::where('username',$ticket->requested_by)->first());
+
+  var_dump(User::where(['username'=>$ticket->requested_by])->first());
+
   $res = $ticket_service->getNextTicketCode(1);
   var_dump(date('d M Y'));
 
@@ -141,6 +155,5 @@ Route::get('test', function() {
 
 });
 
-Auth::routes();
 
 Route::get('/home', 'HomeController@index');

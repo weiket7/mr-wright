@@ -2,14 +2,18 @@
 
 namespace App\Models\Services;
 
+use App\Mail\QuotationMail;
 use App\Models\CategoryForTicket;
 use App\Models\Company;
 use App\Models\Enums\TicketStat;
 use App\Models\Helpers\BackendHelper;
+use App\Models\Requester;
 use App\Models\Ticket;
+use App\Models\User;
 use Carbon\Carbon;
 use DB;
 use Log;
+use Mail;
 use Validator;
 
 class TicketService
@@ -138,7 +142,11 @@ class TicketService
     $ticket->stat = TicketStat::Quoted;
     $ticket->quoted_by = $operator;
     $ticket->quoted_on = Carbon::now();
-    return $ticket->save();
+    $ticket->save();
+
+    $ticket = $this->getTicket($ticket_id);
+    Mail::to($user = Requester::where('username', $ticket->requested_by)->first())->send(new QuotationMail($ticket));
+    return true;
   }
 
   public function openTicket($ticket_id, $operator = 'admin')
@@ -167,6 +175,10 @@ class TicketService
     $ticket->completed_by = $operator;
     $ticket->completed_on = Carbon::now();
     return $ticket->save();
+  }
+
+  public function populateCompanyOfficeRequester($ticket) {
+
   }
 
   public function saveTicketIssues($ticket_id, $input, $operator = 'admin') {
