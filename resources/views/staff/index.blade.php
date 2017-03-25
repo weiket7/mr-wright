@@ -27,7 +27,7 @@
           <thead>
           <tr>
             <th width="70px">Status</th>
-            <th>Name</th>
+            <th width="200px">Name</th>
             <th>Skills</th>
           </tr>
           </thead>

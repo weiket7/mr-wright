@@ -130,6 +130,38 @@
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Quoted Price</label>
+                      <div class="col-md-9">
+                        {{Form::text('quoted_price', ViewHelper::formatNumber($ticket->quoted_price), ['class'=>'form-control'])}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Quotation Description</label>
+                      <div class="col-md-9">
+                        {{Form::textarea('quotation_desc', $ticket->quotation_desc, ['class'=>'form-control', 'rows'=>3])}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                @if($ticket->stat == TicketStat::Declined)
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Decline Reason</label>
+                      <div class="col-md-9">
+                        {{Form::text('decline_reason', ViewHelper::formatNumber($ticket->decline_reason), ['class'=>'form-control'])}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                  </div>
+                </div>
+                @endif
                 <div class="form-group">
                   <label class="control-label col-md-2">Issues</label>
                   <div class="col-md-10">
@@ -279,14 +311,6 @@
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label class="control-label col-md-2">Quotation Description</label>
-                  <div class="col-md-10">
-                    {{Form::textarea('quotation_desc', $ticket->quotation_desc, ['class'=>'form-control', 'rows'=>5])}}
-                  </div>
-                </div>
-
-
               </div>
 
               <div class="form-actions">
@@ -294,32 +318,32 @@
                   <div class="col-md-6">
                     <div class="row">
                       <div class="col-md-offset-3 col-md-9">
-                        @if(in_array($ticket->stat, [null, TicketStat::Opened, TicketStat::Drafted]))
-                          <button type="submit" name="submit" class="btn green" value="{{ ucfirst($action) }} Ticket">
-                            {{ ucfirst($action) }} Ticket
-                          </button>
+                      @if(in_array($ticket->stat, [TicketStat::Drafted, TicketStat::Opened]))
+                        <button type="submit" name="submit" class="btn blue" value="{{ ucfirst($action) }} Ticket">
+                          {{ ucfirst($action) }} Ticket
+                        </button>
+                      @endif
+
+                      <?php $btn_text = "";
+                        if($ticket->stat == TicketStat::Drafted) {
+                          $btn_text = "Open Ticket";
+                        } elseif($ticket->stat == TicketStat::Opened) {
+                          $btn_text = "Send Quotation";
+                        } elseif($ticket->stat == TicketStat::Accepted) {
+                          $btn_text = "Complete";
+                        }
+                        ?>
+                        @if($btn_text)
+                        <button type="submit" name="submit" class="btn green" value="{{ $btn_text }}">
+                          {{ $btn_text }}
+                        </button>
                         @endif
-                        @if($ticket->stat == TicketStat::Drafted)
-                          <button type="submit" name="submit" class="btn blue" value="Open Ticket">
-                            Open Ticket
-                          </button>
-                        @endif
-                        @if($ticket->stat == TicketStat::Opened)
-                          <button type="submit" name="submit" class="btn blue" value="Send Quotation">
-                            Send Quotation
-                          </button>
-                        @endif
-                        @if($ticket->stat == TicketStat::Accepted)
-                          <button type="submit" name="submit" class="btn blue" value="Complete">
-                            Complete
-                          </button>
-                        @endif
+
                         @if($ticket->stat == TicketStat::Quoted)
                           <div class="alert alert-info">
                             Quotation has been sent. Waiting for customer's response.
                           </div>
                         @endif
-
                       </div>
                     </div>
                   </div>

@@ -108,11 +108,12 @@
           </h3>
         </div>
         <div class="panel-body">
-          <button type="button" class="btn btn-lg btn-success" onclick="location.href='{{url('ticket/accept/'.$ticket->ticket_id)}}'">
+          <button type="button" class="btn btn-lg btn-success" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id.'?action=accept')}}'">
             Approve
           </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button type="button" class="btn btn-lg btn-danger" onclick="location.href='{{url('ticket/reject/'.$ticket->ticket_id)}}'">
-            Reject</button>
+          <button type="button" class="btn btn-lg btn-danger" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id.'?action=decline')}}'">
+            Decline
+          </button>
         </div>
         <div class="panel-footer">Valid till X</div>
       </div>

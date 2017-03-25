@@ -52,6 +52,7 @@
           <thead>
           <tr>
             <th width="70px">Status</th>
+            <th width="200px">Company</th>
             <th>Name</th>
           </tr>
           </thead>
@@ -59,6 +60,7 @@
           @foreach($offices as $office)
             <tr>
               <td>{{OfficeStat::$values[$office->stat]}}</td>
+              <td>{{$office->company_name}}</td>
               <td><a href="{{url("office/save/".$office->office_id)}}">{{ $office->name }}</a></td>
             </tr>
           @endforeach

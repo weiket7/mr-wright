@@ -9,8 +9,8 @@ class Menu {
       ['link' => "requester", 'name'=>'Requesters'],
       ['link' => "staff", 'name'=>'Staffs'],
       ['link' => "ticket", 'name'=>'Tickets'],
-      ['link' => "quotation", 'name'=>'Quotations'],
-      ['link' => "invoice", 'name'=>'Invoices'],
+      /*['link' => "quotation", 'name'=>'Quotations'],
+      ['link' => "invoice", 'name'=>'Invoices'],*/
       ['link' => "operator", 'name'=>'Operators'],
       ['name'=>'Reports', 'sub'=>[
         ['link'=>'report/ticket', 'name'=>'Tickets'],

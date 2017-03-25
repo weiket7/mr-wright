@@ -51,7 +51,10 @@ class CompanyService
 
   public function getOfficeAll()
   {
-    return Office::orderBy('name')->get();
+    return DB::table('office as o')
+      ->join('company as c', 'o.company_id', '=', 'c.company_id')
+      ->select('o.office_id', 'o.name', 'c.company_id', 'c.name as company_name', 'o.stat')
+      ->orderBy('name')->get();
   }
 
 
@@ -91,7 +94,11 @@ class CompanyService
 
   public function getRequesterAll()
   {
-    return Requester::orderBy('name')->get();
+    return DB::table('requester as r')
+      ->join('office as o', 'o.office_id', '=', 'r.office_id')
+      ->join('company as c', 'c.company_id', '=', 'r.company_id')
+      ->select('requester_id', 'r.name', 'r.stat', 'r.company_id', 'r.office_id', 'c.name as company_name', 'o.name as office_name')
+      ->orderBy('name')->get();
   }
 
 }

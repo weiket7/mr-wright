@@ -36,6 +36,9 @@ class ViewHelper {
   }
 
   public static function formatNumber($number) {
+    if ($number == null || $number == '') {
+       return '';
+    }
     if (abs($number - round($number)) < 0.0001) { //whole number
       return round($number);
     } 

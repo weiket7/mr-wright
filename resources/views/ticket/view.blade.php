@@ -269,29 +269,17 @@
                   <div class="col-md-6">
                     <div class="row">
                       <div class="col-md-offset-3 col-md-9">
-                        @if(in_array($ticket->stat, [null, TicketStat::Opened, TicketStat::Drafted]))
-                          <button type="submit" name="submit" class="btn green" value="{{ ucfirst($action) }} Ticket">
-                            {{ ucfirst($action) }} Ticket
-                          </button>
+                        @if($action == 'decline')
+                          <div>
+                            <textarea name="decline_reason" title="" class="form-control txt-decline-reason" placeholder="Please share with us the reason for declining"></textarea>
+                          </div>
                         @endif
-                        @if($ticket->stat == TicketStat::Drafted)
-                          <button type="submit" name="submit" class="btn blue" value="Open Ticket">
-                            Open Ticket
-                          </button>
-                        @endif
-                        @if($ticket->stat == TicketStat::Opened)
-                          <button type="submit" name="submit" class="btn blue" value="Send Quotation">
-                            Send Quotation
-                          </button>
-                        @endif
-                        @if($ticket->stat == TicketStat::Accepted)
-                          <button type="submit" name="submit" class="btn blue" value="Complete">
-                            Complete
-                          </button>
-                        @endif
+
                         @if($ticket->stat == TicketStat::Quoted)
-                          <div class="alert alert-info">
-                            Quotation has been sent. Waiting for customer's response.
+                          <div>
+                            <button type="submit" name="submit" class="btn blue" value="{{ ucfirst($action) }}">
+                              {{ ucfirst($action) }}
+                            </button>
                           </div>
                         @endif
 
@@ -337,249 +325,11 @@
 
 @section('script')
   <script>
-    $(document).ready(function() {
-      $("#staffs").select2({
-        allowClear: true,
-        placeholder: "Select"
-      }).on('select2:unselecting', function() {
-        //unselect prevent open dropdown
-        //http://stackoverflow.com/questions/29618382/disable-dropdown-opening-on-select2-clear
-        $(this).data('unselecting', true);
-      }).on('select2:opening', function(e) {
-        if ($(this).data('unselecting')) {
-          $(this).removeData('unselecting');
-          e.preventDefault();
-        }
-      }).on("select2:select select2:unselect", function(e) {
-        getValuesAndPopulateCalendar();
-      });
-
-
-      $("input[name='skills']").click(function() {
-        populateStaffsAndCalendar();
-      });
-
-      $("#date").on('changeDate', function() {
-        getValuesAndPopulateCalendar();
-      });
-
-
-
-      populateStaffsAndCalendar();
-
-    });
-
-    var selected_cells = {!! json_encode($ticket->staff_assignments) !!};
-
-    function selectSlot(cell) {
-      if ($(cell).hasClass('calendar-assigned-other-ticket')) {
-        return;
-      }
-
-      var date = $(cell).attr('data-date');
-      var time = $(cell).attr('data-time');
-      var staff_id = $(cell).attr('data-staff_id');
-      //console.log('date=' + date + ' time=' + time + ' staff_id=' + staff_id);
-      if ($(cell).hasClass('calendar-assigned-current-ticket')) {
-        removeFromCalendarObject(selected_cells, staff_id, date, time);
-        $(cell).removeClass('calendar-assigned-current-ticket');
-        $(cell).addClass('calendar-assigned-remove');
-      } else if ($(cell).hasClass('calendar-assigned-remove')) {
-        pushToCalendarObject(selected_cells, staff_id, date, time);
-        $(cell).removeClass('calendar-assigned-remove');
-        $(cell).addClass('calendar-assigned-current-ticket');
-      } else if ($(cell).hasClass('calendar-selected')) {
-        removeFromCalendarObject(selected_cells, staff_id, date, time);
-        $(cell).removeClass('calendar-selected');
-      } else {
-        pushToCalendarObject(selected_cells, staff_id, date, time);
-        $(cell).addClass('calendar-selected');
-      }
-
-      $("#staff_assignments").val(JSON.stringify(selected_cells));
-    }
-
-    function populateStaffsAndCalendar() {
-      var skill_ids = getSelectedCheckboxesByName('skills');
-
-      axios.get('{{url('api/getStaffWithSkills')}}?skill_ids='+skill_ids)
-      .then(function (response) {
-        //change select2 options
-        //https://github.com/select2/select2/issues/2830
-        var staffs = response.data;
-
-        var $select = $('#staffs');
-        var options = $select.data('select2').options;
-        $select.html('');
-
-        var res = [];
-        for (var i = 0; i < staffs.length; i++) {
-          res.push({
-            "id": staffs[i].staff_id,
-            "text": staffs[i].name
-          });
-          $select.append('<option value=' + staffs[i].staff_id + ' selected>' + staffs[i].name + '</option>');
-        }
-        options.data = res;
-        $select.select2(options);
-
-        getValuesAndPopulateCalendar();
-      })
-      .catch(function (error) {
-        console.log('populateStaffWithSkills error='+error);
-      })
-    }
-
-    function getValuesAndPopulateCalendar() {
-      var staff_ids = getSelectedMultiSelect2ById('staffs');
-      if(staff_ids.length == 0) {
-        return;
-      }
-      var date = vm.currentDate.format('YYYY-MM-DD');
-      if (staffs.length === 0) {
-        toastr.error('Select skills and staffs first');
-      }
-
-      axios.get('{{url('api/getStaffCalendar')}}?staff_ids='+staff_ids+'&date='+date)
-      .then(function (response) {
-        if (response.data.is_date_blocked === true) {
-          $('#div-calendar').html("<div class='alert alert-info no-margin-btm'>Blocked</div>");
-          return;
-        }
-        if (response.data.is_non_working_day === true) {
-          $('#div-calendar').html("<div class='alert alert-info no-margin-btm'>Non working day</div>");
-          return;
-        }
-
-        var html = '<table class="table table-bordered no-margin-btm"><thead><tr><th width="70px"></th>';
-
-        var staffs = response.data.staffs;
-        for (var staff_id in staffs) {
-          if (staffs.hasOwnProperty(staff_id)) {
-            html += "<th>" + staffs[staff_id].name + "</th>";
-          }
-        }
-        html+= "</tr><tbody>";
-
-        var cells = response.data.cells;
-        var intervals = response.data.intervals;
-        var current_ticket_id = {{ $ticket->ticket_id > 0 ? $ticket->ticket_id : 0 }};
-
-        for(var j = 0; j<intervals.length; j++) {
-          var time = intervals[j];
-          html += "<tr><td>"+time+"</td>";
-
-          var cols = cells[time];
-          for (var staff_id in cols) {
-            if (cols.hasOwnProperty(staff_id)) {
-              var text = cols[staff_id].ticket_code;
-
-              var ticket_id = cols[staff_id].ticket_id;
-              var background = "calendar-empty";
-              if (current_ticket_id === ticket_id) {
-                background = "calendar-assigned-current-ticket";
-              } else if (text !== "") {
-                background = "calendar-assigned-other-ticket";
-              } else if (typeof selected_cells[staff_id] !== "undefined" && typeof selected_cells[staff_id][date] !== "undefined"){
-                if (arrayContains(selected_cells[staff_id][date], time) === true) {
-                  background = "calendar-selected";
-                }
-              }
-
-              if (current_ticket_id !== ticket_id && text !== "") {
-                text = "<a href='{{url('ticket/save/')}}/"+ticket_id+"'>"+text+"</a>";
-              } else if (text == "") {
-                text = staffs[staff_id].name
-              }
-
-              html += "<td onclick='selectSlot(this)' class='"+background+"' data-date='"+date+"' data-time='"+time+"' data-staff_id='"+staffs[staff_id].staff_id+"'>"+text+"</td>";
-            }
-          }
-        }
-        $('#div-calendar').html(html);
-      })
-      .catch(function (error) {
-        console.log('populateCalendar error='+JSON.stringify(error));
-      })
-    }
-
     var vm = new Vue({
       el: "#app",
       data: {
         issues: {!! $ticket->issues !!},
         preferred_slots: {!! $ticket->preferred_slots !!},
-        preferred_slots_delete: [],
-        currentDate: moment(),
-        currentDateFormatted: moment().format('DD MMM YYYY')
-      },
-      computed: {
-        yesterday: function() {
-          return moment().add(-1, "days");
-        },
-        tomorrow: function() {
-          return moment().add(1, "days");
-        }
-      },
-      methods: {
-        previousDate: function() {
-          this.currentDate = this.currentDate.add(-1, "days");
-          this.currentDateFormatted = this.currentDate.format('DD MMM YYYY');
-          $('#date').datepicker("setDate", this.currentDate.startOf('day').toDate());
-        },
-        nextDate: function() {
-          this.currentDate = this.currentDate.add(1, "days");
-          this.currentDateFormatted = this.currentDate.format('DD MMM YYYY');
-          $('#date').datepicker("setDate", this.currentDate.startOf('day').toDate());
-        },
-        addIssue: function() {
-          this.issues.push({image:'', issue_desc:'', expected_desc:'', stat:'add'});
-        },
-        deleteIssue: function(index) {
-          var issue = this.issues[index];
-          if (issue.stat === 'add') {
-            this.issues.splice(index, 1);
-          }
-
-          if (issue.stat == 'delete') {
-            issue.stat = '';
-          } else {
-            Vue.set(issue, 'stat', 'delete');
-          }
-        },
-        addPreferredSlot: function() {
-          this.preferred_slots.push({date: this.currentDate.format('YYYY-MM-DD'), time_start: '', time_end: '', stat:'add'});
-
-          setTimeout(function(){
-            initDatepicker();
-          }, 500);
-
-        },
-        deletePreferredSlot: function(index) {
-          var slot = this.preferred_slots[index];
-          if (slot.stat === 'add') {
-            this.preferred_slots.splice(index, 1);
-          }
-
-          if (slot.stat == 'delete') {
-            slot.stat = '';
-          } else {
-            Vue.set(slot, 'stat', 'delete');
-            this.preferred_slots_delete.push(slot.ticket_issue_id);
-          }
-        },
-        previewImage: function(index,e) {
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            var img = $('<img/>', {
-              width:250,
-              height:200,
-              src: e.target.result
-            });
-            $('#preview-image'+index).html(img);
-          };
-          var file = e.target.files[0];
-          reader.readAsDataURL(file);
-        }
       },
       filters: {
         formatDate: function (value) {
@@ -599,37 +349,5 @@
         }
       }
     });
-
-    function pushToCalendarObject(obj, staff_id, date, time) {
-      if (typeof obj[staff_id] === "undefined") {
-        obj[staff_id] = {};
-      }
-
-      if(typeof obj[staff_id][date] === "undefined") {
-        obj[staff_id][date] = [];
-      }
-
-      var exist = arrayContains(obj[staff_id][date], time);
-      if (! exist) {
-        obj[staff_id][date].push(time);
-      }
-    }
-
-    function removeFromCalendarObject(obj, staff_id, date, time) {
-      if (typeof obj[staff_id] === "undefined") {
-        return;
-      }
-
-      if(typeof obj[staff_id][date] === "undefined") {
-        return;
-      }
-
-      for(var i=0; i<obj[staff_id][date].length; i++) {
-        if (obj[staff_id][date][i] === time) {
-          obj[staff_id][date].splice(i, 1);
-        }
-      }
-    }
-
   </script>
 @endsection

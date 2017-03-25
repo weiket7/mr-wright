@@ -57,23 +57,22 @@ Route::post('operator/save', 'OperatorController@save');
 Route::get('operator/save/{id}', 'OperatorController@save');
 Route::post('operator/save/{id}', 'OperatorController@save');
 
-Route::get('ticket', 'TicketController@index');
-Route::post('ticket', 'TicketController@index');
-Route::get('ticket/save', 'TicketController@save');
-Route::post('ticket/save', 'TicketController@save');
-Route::get('ticket/save/{id}', 'TicketController@save');
-Route::post('ticket/save/{id}', 'TicketController@save');
+Route::group(['middleware'=>'ticketmiddleware'], function() {
+  Route::get('ticket', 'TicketController@index');
+  Route::post('ticket', 'TicketController@index');
+  Route::get('ticket/save', 'TicketController@save');
+  Route::post('ticket/save', 'TicketController@save');
+  Route::get('ticket/view/{id}', 'TicketController@view');
+  Route::post('ticket/view/{id}', 'TicketController@view');
+  Route::get('ticket/save/{id}', 'TicketController@save');
+  Route::post('ticket/save/{id}', 'TicketController@save');
 
-Route::get('ticket/accept/{id}', 'TicketController@accept');
-Route::post('ticket/accept/{id}', 'TicketController@accept');
-Route::get('ticket/decline/{id}', 'TicketController@decline');
-Route::post('ticket/decline/{id}', 'TicketController@decline');
-
-Route::get('quotation', 'QuotationController@index');
-Route::get('quotation/save', 'QuotationController@save');
-Route::post('quotation/save', 'QuotationController@save');
-Route::get('quotation/save/{id}', 'QuotationController@save');
-Route::post('quotation/save/{id}', 'QuotationController@save');
+  Route::get('quotation', 'QuotationController@index');
+  Route::get('quotation/save', 'QuotationController@save');
+  Route::post('quotation/save', 'QuotationController@save');
+  Route::get('quotation/save/{id}', 'QuotationController@save');
+  Route::post('quotation/save/{id}', 'QuotationController@save');
+});
 
 Route::get('staff', 'StaffController@index');
 Route::get('staff/save', 'StaffController@save');

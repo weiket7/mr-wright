@@ -54,9 +54,6 @@ class TicketController extends Controller
       } elseif (BackendHelper::stringContains($submit, "quotation")) {
         $this->ticket_service->sendQuotation($ticket_id);
         $result = "Quotation sent";
-      } elseif (BackendHelper::stringContains($submit, "quotation")) {
-        $this->ticket_service->sendQuotation($ticket_id);
-        $result = "Quotation sent";
       } elseif (BackendHelper::stringContains($submit, "complete")) {
         $this->ticket_service->completeTicket($ticket_id);
         $result = "Ticket completed";
@@ -74,19 +71,35 @@ class TicketController extends Controller
     return view('ticket/form', $data);
   }
 
-  public function accept(Request $request, $ticket_id = null) {
+  public function view(Request $request, $ticket_id = null) {
     $ticket = $this->ticket_service->getTicket($ticket_id);
-    if($ticket->stat != TicketStat::Quoted) {
-      return redirect('error')->with('error', 'This ticket cannot be accepted because the status is '.strtolower(TicketStat::$values[$ticket->stat]));
+    $action = $request->get('action');
+    if($action && $ticket->stat != TicketStat::Quoted) {
+      $action_past_tense = $action == 'accept' ? 'accepted' : 'declined';
+      return redirect('error')->with('error', 'This ticket cannot be '.$action_past_tense.' because the status is '.strtolower(TicketStat::$values[$ticket->stat]));
     }
 
     if (Auth::check() == false) {
-      $request->session()->put('referrer', "ticket/save/".$ticket_id);
+      $request->session()->put('referrer', "ticket/view/".$ticket_id."?action=".$action);
       return redirect("login")->with('msg', 'Please log in');
     }
 
+    if($request->isMethod("post")) {
+      $input = $request->all();
+      $submit = $input['submit'];
+      $result = "";
+      if (BackendHelper::stringContains($submit, "accept")) {
+        $this->ticket_service->acceptTicket($ticket_id);
+        $result = "Ticket accepted";
+      } elseif (BackendHelper::stringContains($submit, "decline")) {
+        $this->ticket_service->declineTicket($ticket_id, $input);
+        $result = "Ticket declined";
+      }
+      return redirect('ticket/view/'.$ticket_id)->with('msg', $result);
+    }
+
     $this->ticket_service->populateTicketForView($ticket);
-    $data['action'] = 'update';
+    $data['action'] = $action;
     $data['ticket'] = $ticket;
     return view("ticket/view", $data);
   }

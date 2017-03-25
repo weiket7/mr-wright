@@ -17,6 +17,9 @@
 .ticket-image {
   max-height: 250px;
 }
+.txt-decline-reason {
+  margin-bottom: 10px;
+}
 .row-delete {
   background-color: #95A5A6!important;
 }
