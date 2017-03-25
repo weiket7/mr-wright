@@ -16,8 +16,6 @@ class StaffAssignmentTable extends Migration
       $t->date('date');
       $t->time('time_start');
       $t->time('time_end');
-      $t->string('updated_by', 20);
-      $t->dateTime('updated_on');
     });
   }
 

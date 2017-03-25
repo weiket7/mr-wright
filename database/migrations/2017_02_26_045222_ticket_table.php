@@ -42,6 +42,7 @@ class TicketTable extends Migration
       $t->dateTime('requested_on');
       $t->string('updated_by', 20);
       $t->dateTime('updated_on');
+      $t->string('recent_action', 15);
     });
   }
   

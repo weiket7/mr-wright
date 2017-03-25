@@ -502,7 +502,7 @@ License: You must have a valid license purchased only from themeforest(the above
           <li class="nav-item">
             <?php $link = isset($m['link']) ? url($m['link']) : "javascript:;"; ?>
             <a href="{{ $link }}" class="nav-link nav-toggle">
-              <i class="icon-diamond"></i>
+              <i class="{{ $m['icon'] }}"></i>
               <span class="title">{{$m['name']}}</span>
             </a>
             @if(! isset($m['link']))

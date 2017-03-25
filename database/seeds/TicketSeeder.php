@@ -31,7 +31,8 @@ class TicketSeeder extends Seeder
       'requested_by'=>'Sally',
       'requested_on'=>Carbon::now()->addDay(-3),
       'updated_by'=>'admin',
-      'updated_on'=>Carbon::now()
+      'updated_on'=>Carbon::now(),
+      'recent_action'=>'open',
     ]);
 
     DB::table('ticket')->insert([
@@ -53,7 +54,8 @@ class TicketSeeder extends Seeder
       'requested_by'=>'Jane',
       'requested_on'=>Carbon::now()->addDay(-3),
       'updated_by'=>'admin',
-      'updated_on'=>Carbon::now()
+      'updated_on'=>Carbon::now(),
+      'recent_action'=>'open',
     ]);
   }
 }

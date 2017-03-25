@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App;
 use App\Mail\QuotationMail;
 use App\Models\Enums\UserStat;
+use App\Models\Services\DashboardService;
 use App\Models\Services\TicketService;
 use App\Models\Ticket;
 use App\Models\User;
@@ -15,14 +16,18 @@ use Mail;
 class SiteController extends Controller
 {
   protected $ticket_service;
+  protected $dashboard_service;
 
-  public function __construct(TicketService $ticket_service)
+  public function __construct(DashboardService $dashboard_service, TicketService $ticket_service)
   {
+    $this->dashboard_service = $dashboard_service;
     $this->ticket_service = $ticket_service;
   }
 
   public function index() {
-    return view("index");
+    $data['tickets'] = $this->dashboard_service->getTicketsRecent();
+    $data['staff_assignments'] = $this->dashboard_service->getStaffAssignmentsToday();
+    return view("index", $data);
   }
 
   public function logout() {
@@ -49,19 +54,9 @@ class SiteController extends Controller
     return view('site/login');
   }
 
-  public function mail() {
-    //echo App::environment('local');
-    $ticket = $this->ticket_service->getTicket(1);
-    $data['ticket'] = $ticket;
-    //return view('emails/quotation', $data);
-    //https://laracasts.com/series/laravel-from-scratch-2017/episodes/27
-    Mail::to($user = User::first())->send(new QuotationMail($ticket));
-  }
-
   public function categoryForTicket() {
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
     return view('site/category-for-ticket', $data);
-
   }
 
   public function setting() {

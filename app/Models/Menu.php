@@ -3,19 +3,19 @@
 class Menu {
   public static function getMenu() {
     $menu = [
-      ['link' => "/", 'name'=>'Dashboard'],
-      ['link' => "company", 'name'=>'Companies'],
-      ['link' => "office", 'name'=>'Offices'],
-      ['link' => "requester", 'name'=>'Requesters'],
-      ['link' => "staff", 'name'=>'Staffs'],
-      ['link' => "ticket", 'name'=>'Tickets'],
-      /*['link' => "quotation", 'name'=>'Quotations'],
-      ['link' => "invoice", 'name'=>'Invoices'],*/
-      ['link' => "operator", 'name'=>'Operators'],
-      ['name'=>'Reports', 'sub'=>[
-        ['link'=>'report/ticket', 'name'=>'Tickets'],
+      ['link' => "/", 'name'=>'Dashboard', 'icon'=>'icon-home'],
+      ['link' => "company", 'name'=>'Companies', 'icon'=>'icon-plane'],
+      ['link' => "office", 'name'=>'Offices', 'icon'=>'icon-direction'],
+      ['link' => "requester", 'name'=>'Requesters', 'icon'=>'icon-users'],
+      ['link' => "staff", 'name'=>'Staffs', 'icon'=>'icon-wrench'],
+      ['link' => "ticket", 'name'=>'Tickets', 'icon'=>'icon-note'],
+      /*['link' => "quotation", 'name'=>'Quotations', 'icon]=>'',
+      ['link' => "invoice", 'name'=>'Invoices', 'icon]=>'',*/
+      ['link' => "operator", 'name'=>'Operators', 'icon'=>'icon-eyeglasses'],
+      ['name'=>'Reports', 'icon'=>'icon-bar-chart', 'sub'=>[
+        ['link'=>'report/ticket', 'name'=>'Tickets', 'icon'=>''],
       ]],
-      ['name'=>'Settings', 'sub'=>[
+      ['name'=>'Settings', 'icon'=>'icon-settings', 'sub'=>[
         ['link'=>'skill', 'name'=>'Skills'],
         ['link'=>'category-for-ticket', 'name'=>'Categories for Ticket'],
         ['link'=>'working-day-time', 'name'=>'Working Day Times'],

@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 class ViewHelper {
   public static function formatDateTime($date) {
     return date('d M Y, h:i a', strtotime($date));
@@ -33,6 +35,22 @@ class ViewHelper {
 
   public static function formatDateDay($date) {
     return date('d M Y, l', strtotime($date));
+  }
+
+  public static function timeAgo($date) {
+    $now = Carbon::now();
+    $date = Carbon::createFromFormat('Y-m-d H:i:s', $date);
+    $minutes = $now->diffInMinutes($date);
+    if ($minutes <= 1) {
+      return "Just now";
+    }
+    if ($minutes < 60) {
+      return $minutes . ' mins';
+    }
+    if ($minutes < 720) {
+      return floor($minutes / 60) . ' hours';
+    }
+    return $now->diffInDays($date) . ' days';
   }
 
   public static function formatNumber($number) {

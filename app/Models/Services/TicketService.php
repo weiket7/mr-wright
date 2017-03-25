@@ -118,15 +118,16 @@ class TicketService
     $ticket->quoted_price = $input['quoted_price'];
     $ticket->quotation_desc = $input['quotation_desc'];
     $ticket->requested_by = $input['requested_by'];
+    $ticket->updated_on = Carbon::now();
 
     $ticket->requested_on = Carbon::createFromFormat('d M Y', $input['requested_on']);
     if ($ticket_id == null) {
       $ticket->ticket_code = $this->getNextTicketCode($ticket->company_id);
       $ticket->stat = TicketStat::Drafted;
-      $ticket->opened_by = $operator;
-      $ticket->opened_on = Carbon::now();
+      $ticket->drafted_by = $operator;
+      $ticket->drafted_on = Carbon::now();
     }
-
+    $ticket->recent_action = $ticket_id == null ? 'draft' : 'update';
     $ticket->save();
 
     $this->saveStaffAssignments($ticket_id, $input);
@@ -163,6 +164,7 @@ class TicketService
     $ticket->stat = TicketStat::Quoted;
     $ticket->quoted_by = $operator;
     $ticket->quoted_on = Carbon::now();
+    $ticket->recent_action = 'quote';
     $ticket->save();
 
     $ticket = $this->getTicket($ticket_id);
@@ -176,15 +178,19 @@ class TicketService
     $ticket->stat = TicketStat::Opened;
     $ticket->opened_by = $operator;
     $ticket->opened_on = Carbon::now();
+    $ticket->updated_on = Carbon::now();
+    $ticket->recent_action = 'open';
     return $ticket->save();
   }
 
   public function acceptTicket($ticket_id, $operator = 'admin') {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Accepted;
-    //$ticket->agreed_price = $ticket->quoted_price;
+    //$ticket->agreed_price = $ticket->quoted_price; //TODO
     $ticket->accepted_by = $operator;
     $ticket->accepted_on = Carbon::now();
+    $ticket->updated_on = Carbon::now();
+    $ticket->recent_action = 'accept';
     return $ticket->save();
   }
 
@@ -195,6 +201,8 @@ class TicketService
     $ticket->decline_reason = $input['decline_reason'];
     $ticket->declined_by = $operator;
     $ticket->declined_on = Carbon::now();
+    $ticket->updated_on = Carbon::now();
+    $ticket->recent_action = 'decline';
     return $ticket->save();
   }
 
@@ -204,6 +212,8 @@ class TicketService
     $ticket->stat = TicketStat::Completed;
     $ticket->completed_by = $operator;
     $ticket->completed_on = Carbon::now();
+    $ticket->updated_on = Carbon::now();
+    $ticket->recent_action = 'complete';
     return $ticket->save();
   }
 
@@ -211,7 +221,7 @@ class TicketService
 
   }
 
-  public function saveTicketIssues($ticket_id, $input, $operator = 'admin') {
+  public function saveTicketIssues($ticket_id, $input) {
     $issues_count = $input['issues_count'];
     for($i=0; $i<$issues_count; $i++) {
       if (isset($input['issue_stat'.$i]) && $input['issue_stat'.$i] == 'delete') {
@@ -222,8 +232,6 @@ class TicketService
       $ticket_issue = [
         'issue_desc' => $input['issue'.$i],
         'expected_desc' => $input['expected'.$i],
-        'updated_by'=>$operator,
-        'updated_on'=>Carbon::now()
       ];
       if (isset($input['issue_stat'.$i]) && $input['issue_stat'.$i] == 'add') {
         $ticket_issue['ticket_id'] = $ticket_id;
@@ -242,7 +250,7 @@ class TicketService
 
   }
 
-  public function saveStaffAssignments($ticket_id, $input, $operator = 'admin') {
+  public function saveStaffAssignments($ticket_id, $input) {
     DB::table('staff_assignment')->where('ticket_id', $ticket_id)->delete();
 
     $staff_assignments = json_decode($input['staff_assignments'], true);
@@ -256,8 +264,6 @@ class TicketService
             'staff_id'=>$staff_id,
             'time_start'=>$p['time_start'],
             'time_end'=>$p['time_end'],
-            'updated_by'=>$operator,
-            'updated_on'=>Carbon::now(),
           ];
           DB::table('staff_assignment')->insert($staff_assignment);
         }
@@ -310,4 +316,5 @@ class TicketService
     }
     return DB::select($s);
   }
+
 }

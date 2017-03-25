@@ -14,8 +14,6 @@ class TicketIssueTable extends Migration
       $t->string('image', 50);
       $t->string('issue_desc', 50);
       $t->string('expected_desc', 50);
-      $t->string('updated_by', 20);
-      $t->dateTime('updated_on');
     });
   }
   

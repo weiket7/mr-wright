@@ -12,6 +12,12 @@
   margin-bottom: 0;
   padding-left: 25px;
 }
+.feeds li .col1>.cont>.cont-col2>.desc {
+  margin-left: 80px;
+}
+.feeds li .col1>.cont>.cont-col1>.label {
+  width: 75px;
+}
 
 /*custom*/
 .ticket-image {

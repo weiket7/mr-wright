@@ -1,6 +1,5 @@
 <?php use App\Models\Enums\TicketStat; ?>
 <?php use App\Models\Enums\TicketUrgency; ?>
-<?php use App\Models\Enums\TicketPriority; ?>
 
 @extends("template")
 
@@ -318,7 +317,7 @@
                   <div class="col-md-6">
                     <div class="row">
                       <div class="col-md-offset-3 col-md-9">
-                      @if(in_array($ticket->stat, [TicketStat::Drafted, TicketStat::Opened]))
+                      @if(in_array($ticket->stat, [null, TicketStat::Drafted, TicketStat::Opened]))
                         <button type="submit" name="submit" class="btn blue" value="{{ ucfirst($action) }} Ticket">
                           {{ ucfirst($action) }} Ticket
                         </button>
