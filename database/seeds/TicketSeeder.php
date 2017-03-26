@@ -19,8 +19,8 @@ class TicketSeeder extends Seeder
       'company_id'=>1,
       'office_id'=>1,
       'category_id'=>3,
-      'category_name'=>'Plumbing',
       'urgency'=> TicketUrgency::High,
+      'quoted_price'=>100,
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
 
@@ -42,8 +42,8 @@ class TicketSeeder extends Seeder
       'company_id'=>1,
       'office_id'=>1,
       'category_id'=>3,
-      'category_name'=>'Plumbing',
       'urgency'=> TicketUrgency::High,
+      'quoted_price'=>100,
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
 

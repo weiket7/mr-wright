@@ -210,7 +210,7 @@
                     <table class="table table-bordered no-margin-btm">
                       <thead>
                       <tr>
-                        <th width="210px">Date</th>
+                        <th width="120px">Date</th>
                         <th>Time</th>
                       </tr>
                       </thead>
@@ -229,22 +229,13 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-2">Skills</label>
-                  <div class="col-md-10">
-                    <div class="form-control-static">
-                      {{ $ticket->skills->implode(', ') }}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
                   <label class="control-label col-md-2">Staff Assignments</label>
                   <div class="col-md-10">
                     <table class="table table-bordered no-margin-btm">
                       <thead>
                       <tr>
-                        <th width="210px">Date</th>
-                        <th>Staff</th>
+                        <th width="120px">Date</th>
+                        <th width="200px">Staff</th>
                         <th>Time</th>
                       </tr>
                       </thead>

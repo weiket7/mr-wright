@@ -87,9 +87,9 @@ class CompanyService
 
   public function getRequesterDropdown($office_id = null) {
     if($office_id == null) {
-      return Requester::pluck('name', 'office_id');
+      return Requester::pluck('name', 'username');
     }
-    return Requester::where('office_id', $office_id)->pluck('name', 'requester_id');
+    return Requester::where('office_id', $office_id)->pluck('name', 'username');
   }
 
   public function getRequesterAll()

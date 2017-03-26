@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Mail\QuotationMail;
 use App\Models\Enums\TicketStat;
+use App\Models\Requester;
 use App\Models\Services\CompanyService;
 use App\Models\Services\TicketService;
 use App\Models\Ticket;
+use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 use App\Models\Helpers\BackendHelper;
 use Log;
+use Mail;
 
 class TicketController extends Controller
 {
@@ -57,6 +61,9 @@ class TicketController extends Controller
       } elseif (BackendHelper::stringContains($submit, "complete")) {
         $this->ticket_service->completeTicket($ticket_id);
         $result = "Ticket completed";
+      } elseif (BackendHelper::stringContains($submit, "paid")) {
+        $this->ticket_service->paidTicket($ticket_id);
+        $result = "Ticket paid";
       }
       return redirect('ticket/save/'.$ticket_id)->with('msg', $result);
     }
@@ -73,16 +80,13 @@ class TicketController extends Controller
 
   public function view(Request $request, $ticket_id = null) {
     $ticket = $this->ticket_service->getTicket($ticket_id);
-    $action = $request->get('action');
-    if($action && $ticket->stat != TicketStat::Quoted) {
-      $action_past_tense = $action == 'accept' ? 'accepted' : 'declined';
-      return redirect('error')->with('error', 'This ticket cannot be '.$action_past_tense.' because the status is '.strtolower(TicketStat::$values[$ticket->stat]));
-    }
+    $this->ticket_service->populateTicketForView($ticket);
+    $data['ticket'] = $ticket;
+    $data['action'] = 'view';
+    return view("ticket/view", $data);
+  }
 
-    if (Auth::check() == false) {
-      $request->session()->put('referrer', "ticket/view/".$ticket_id."?action=".$action);
-      return redirect("login")->with('msg', 'Please log in');
-    }
+  public function acceptDecline(Request $request, $ticket_id = null) {
 
     if($request->isMethod("post")) {
       $input = $request->all();
@@ -98,10 +102,21 @@ class TicketController extends Controller
       return redirect('ticket/view/'.$ticket_id)->with('msg', $result);
     }
 
+    $action = $request->segment(2);
+    $ticket = $this->ticket_service->getTicket($ticket_id);
     $this->ticket_service->populateTicketForView($ticket);
     $data['action'] = $action;
     $data['ticket'] = $ticket;
     return view("ticket/view", $data);
+  }
+
+  public function previewQuotation($ticket_id) {
+    $ticket = $this->ticket_service->getTicket($ticket_id);
+    $this->ticket_service->populateTicketForView($ticket);
+    $data['ticket'] = $ticket;
+    return view('emails/quotation', $data);
+    //Mail::to($user = User::where('username', $ticket->requested_by)->first())->send(new QuotationMail($ticket));
+
   }
   
 }

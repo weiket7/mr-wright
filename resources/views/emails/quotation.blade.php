@@ -39,16 +39,16 @@
     </div>
 
     <div class="row company-header">
-      <div class="col-xs-6">
+      <div class="col-xs-5">
         <div><b>{{ $ticket->company_name }}</b></div>
-        <div>Office</div>
-        <div>Address</div>
-        <div>Postal</div>
+        <div>{{ $ticket->office->name }}</div>
+        <div>{{ $ticket->office->addr }}</div>
+        <div>{{ $ticket->office->postal }}</div>
       </div>
-      <div class="col-xs-6">
-        <div>Requested by X on X</div>
-        <div>Email</div>
-        <div>Contact</div>
+      <div class="col-xs-7">
+        <div>Requested by {{ $ticket->requested_by }} on {{ ViewHelper::formatDateTime($ticket->requested_on) }}</div>
+        <div>Email: {{ $ticket->requester->email }}</div>
+        <div>Mobile: {{ $ticket->requester->mobile }}</div>
       </div>
     </div>
     <br>
@@ -108,14 +108,14 @@
           </h3>
         </div>
         <div class="panel-body">
-          <button type="button" class="btn btn-lg btn-success" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id.'?action=accept')}}'">
+          <button type="button" class="btn btn-lg btn-success" onclick="location.href='{{url('ticket/accept/'.$ticket->ticket_id)}}'">
             Approve
           </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button type="button" class="btn btn-lg btn-danger" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id.'?action=decline')}}'">
+          <button type="button" class="btn btn-lg btn-danger" onclick="location.href='{{url('ticket/decline/'.$ticket->ticket_id)}}'">
             Decline
           </button>
         </div>
-        <div class="panel-footer">Valid till X</div>
+        {{--<div class="panel-footer">Valid till X</div>--}}
       </div>
     </div>
   </div>

@@ -330,6 +330,8 @@
                           $btn_text = "Send Quotation";
                         } elseif($ticket->stat == TicketStat::Accepted) {
                           $btn_text = "Complete";
+                        } elseif($ticket->stat == TicketStat::Completed) {
+                          $btn_text = "Paid";
                         }
                         ?>
                         @if($btn_text)

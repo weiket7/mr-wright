@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Enums\UserStat;
-use App\Models\Enums\UserType;
+use App\Models\Enums\Role;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
       'name'=>'Admin',
       'email'=>'admin@mrwright.sg',
       'password'=>Hash::make(123456),
-      'type'=>UserType::Operator,
+      'role'=>Role::Admin,
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
       'name'=>'Misty',
       'email'=>'misty@mrwright.sg',
       'password'=>Hash::make(123456),
-      'type'=>UserType::Operator,
+      'role'=>Role::Operator,
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
       'name'=>'Jessica',
       'email'=>'jessica@mrwright.sg',
       'password'=>Hash::make(123456),
-      'type'=>UserType::Operator,
+      'role'=>Role::Operator,
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
       'name'=>'Sally',
       'email'=>'sally@unity-pharmacy.sg',
       'password'=>Hash::make(123456),
-      'type'=>UserType::Requester,
+      'role'=>Role::Requester,
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -67,7 +67,20 @@ class UserSeeder extends Seeder
       'name'=>'Jane',
       'email'=>'jane@unity-pharmacy.sg',
       'password'=>Hash::make(123456),
-      'type'=>UserType::Requester,
+      'role'=>Role::Requester,
+      'stat'=>UserStat::Active,
+      'updated_by'=>'admin',
+      'updated_on'=>Carbon::now(),
+      'created_on'=>Carbon::now()
+    ]);
+
+    DB::table('user')->insert([
+      'user_id'=>6,
+      'username'=>'Candice',
+      'name'=>'Candice',
+      'email'=>'candice@mrwright.sg',
+      'password'=>Hash::make(123456),
+      'role'=>Role::Finance,
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),

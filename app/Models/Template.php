@@ -1,6 +1,5 @@
 <?php namespace App\Models;
 
-
 use Eloquent, DB, Validator, Log;
 
 class Template extends Eloquent

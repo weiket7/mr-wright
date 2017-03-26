@@ -9,8 +9,11 @@
   padding: 0;
 }
 .mt-checkbox, .mt-radio {
-  margin-bottom: 0;
+  margin-bottom: 5px;
   padding-left: 25px;
+}
+.mt-checkbox-list, .mt-radio-list {
+  padding: 0;
 }
 .feeds li .col1>.cont>.cont-col2>.desc {
   margin-left: 80px;
@@ -70,6 +73,9 @@
 }
 .search-th-dropdown {
   width: 217px;
+}
+.search-th-fromto {
+  width: 337px; /*+17*/
 }
 .login-logo {
   max-height: 50px;

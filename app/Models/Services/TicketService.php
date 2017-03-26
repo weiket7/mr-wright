@@ -38,7 +38,8 @@ class TicketService
 
   public function populateTicketForView($ticket) {
     $ticket->company_name = Company::where('company_id', $ticket->company_id)->value('name');
-    $ticket->office_name = Office::where('office_id', $ticket->office_id)->value('name');
+    $ticket->office = Office::find($ticket->office_id);
+    $ticket->requester = Requester::where('username', $ticket->requested_by)->first();
     $data = DB::table('staff_assignment as sa')
       ->join('staff as s', 'sa.staff_id', '=', 's.staff_id')
       ->where('ticket_id', $ticket->ticket_id)
@@ -168,6 +169,7 @@ class TicketService
     $ticket->save();
 
     $ticket = $this->getTicket($ticket_id);
+    $this->populateTicketForView($ticket);
     Mail::to($user = Requester::where('username', $ticket->requested_by)->first())->send(new QuotationMail($ticket));
     return true;
   }
@@ -197,7 +199,6 @@ class TicketService
   public function declineTicket($ticket_id, $input, $operator = 'admin') {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Declined;
-    //TODO decline reason
     $ticket->decline_reason = $input['decline_reason'];
     $ticket->declined_by = $operator;
     $ticket->declined_on = Carbon::now();
@@ -316,5 +317,15 @@ class TicketService
     }
     return DB::select($s);
   }
-
+  
+  public function paidTicket($ticket_id, $operator = 'admin') {
+    $ticket = Ticket::findOrFail($ticket_id);
+    $ticket->stat = TicketStat::Paid;
+    $ticket->paid_by = $operator;
+    $ticket->paid_on = Carbon::now();
+    $ticket->updated_on = Carbon::now();
+    $ticket->recent_action = 'pay';
+    return $ticket->save();
+  }
+  
 }

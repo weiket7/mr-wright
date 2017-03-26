@@ -17,6 +17,8 @@ class Menu {
       ]],
       ['name'=>'Settings', 'icon'=>'icon-settings', 'sub'=>[
         ['link'=>'skill', 'name'=>'Skills'],
+        ['link'=>'role', 'name'=>'Roles'],
+        ['link'=>'access', 'name'=>'Accesses'],
         ['link'=>'category-for-ticket', 'name'=>'Categories for Ticket'],
         ['link'=>'working-day-time', 'name'=>'Working Day Times'],
         ['link'=>'blocked-date', 'name'=>'Blocked Dates'],

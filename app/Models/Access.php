@@ -1,15 +1,13 @@
 <?php namespace App\Models;
 
-
-use App\Models\Enums\Role;
-use App\Models\Enums\UserType;
 use Eloquent, DB, Validator, Log;
-use Hash;
 
-class Operator extends Eloquent
+class Access extends Eloquent
 {
-  public $table = 'user';
-  protected $primaryKey = 'user_id';
+  public $table = 'access';
+  protected $primaryKey = 'access_id';
+  const CREATED_AT = 'created_on';
+  const UPDATED_AT = 'updated_on';
   protected $validation;
   public $timestamps = false;
 
@@ -23,11 +21,7 @@ class Operator extends Eloquent
     'stat.required'=>'Status is required',
   ];
 
-  public function getOperatorAll() {
-    return Operator::whereIn('role', [Role::Operator, Role::Admin, Role::Finance])->orderBy('stat')->orderBy('name')->get();
-  }
-
-  public function saveOperator($input) {
+  public function saveAccess($input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
@@ -35,13 +29,6 @@ class Operator extends Eloquent
 
     $this->name = $input['name'];
     $this->stat = $input['stat'];
-    if (isset($input['username'])) {
-      $this->username = $input['username'];
-    }
-    if ($input['password']) {
-      $this->password = Hash::make($input['password']);
-    }
-    $this->email = $input['email'];
     $this->save();
     return true;
   }

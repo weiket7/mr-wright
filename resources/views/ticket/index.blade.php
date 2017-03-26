@@ -58,7 +58,7 @@
           <thead>
           <tr>
             <th width="80px">Status</th>
-            <th>Code</th>
+            <th width="120px">Code</th>
             <th>Title</th>
             <th>Category</th>
             <th>Quoted Price</th>

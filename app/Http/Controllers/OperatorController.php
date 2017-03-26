@@ -30,7 +30,7 @@ class OperatorController extends Controller
       if (!$operator->saveOperator($input)) {
         return redirect()->back()->withErrors($operator->getValidation())->withInput($input);
       }
-      return redirect('operator/save/' . $operator->operator_id)->with('msg', 'Operator ' . $action . "d");
+      return redirect('operator/save/' . $operator->user_id)->with('msg', 'Operator ' . $action . "d");
     }
 
     $data['action'] = $action;

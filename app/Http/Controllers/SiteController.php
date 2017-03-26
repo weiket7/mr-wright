@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Mail\QuotationMail;
+use App\Models\Enums\Role;
 use App\Models\Enums\UserStat;
 use App\Models\Services\DashboardService;
 use App\Models\Services\TicketService;
@@ -43,7 +44,11 @@ class SiteController extends Controller
       if (! Auth::attempt(['username'=>$username, 'password'=>$password, 'stat'=>UserStat::Active])) {
         return redirect()->back()->with('msg', 'Wrong username and/or password');
       }
-      //$request->session()->put('supplier_id', $user->getSupplierIdByRole());
+
+      $user = Auth::user();
+      if ($user->role == Role::Requester) {
+        $request->session()->put('access', $user->getRequesterAccess($user->username));
+      }
       //$request->session()->put('outlet_id', $user->getOutletIdByRole());
       $referrer = $request->session()->has('referrer');
       if ($referrer) {
@@ -53,20 +58,6 @@ class SiteController extends Controller
     }
     return view('site/login');
   }
-
-  public function categoryForTicket() {
-    $data['categories'] = $this->ticket_service->getCategoryDropdown();
-    return view('site/category-for-ticket', $data);
-  }
-
-  public function setting() {
-    return view('site/setting');
-  }
-
-  public function system() {
-    return view('site/system');
-  }
-
   public function error() {
     return view('error');
   }

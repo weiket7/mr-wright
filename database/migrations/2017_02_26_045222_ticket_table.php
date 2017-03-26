@@ -17,8 +17,9 @@ class TicketTable extends Migration
       $t->string('company_name', 50);
       $t->integer('office_id');
       $t->integer('category_id');
-      $t->string('category_name', 30);
       $t->char('urgency', 1);
+      $t->string('requested_by', 20);
+      $t->dateTime('requested_on');
       $t->decimal('quoted_price', 12, 2);
       //$t->decimal('agreed_price', 12, 2); //TODO
       $t->string('requester_desc', 250);
@@ -38,8 +39,8 @@ class TicketTable extends Migration
       $t->dateTime('declined_on');
       $t->string('completed_by', 20);
       $t->dateTime('completed_on');
-      $t->string('requested_by', 20);
-      $t->dateTime('requested_on');
+      $t->string('paid_by', 20);
+      $t->dateTime('paid_on');
       $t->string('updated_by', 20);
       $t->dateTime('updated_on');
       $t->string('recent_action', 15);
