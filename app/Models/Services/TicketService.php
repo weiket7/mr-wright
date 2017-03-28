@@ -37,9 +37,10 @@ class TicketService
   }
 
   public function populateTicketForView($ticket) {
-    $ticket->company_name = Company::where('company_id', $ticket->company_id)->value('name');
+    $ticket->company = Company::where('company_id', $ticket->company_id)->first();
     $ticket->office = Office::find($ticket->office_id);
     $ticket->requester = Requester::where('username', $ticket->requested_by)->first();
+    $ticket->category = CategoryForTicket::where('category_for_ticket_id', $ticket->category_id)->first();
     $data = DB::table('staff_assignment as sa')
       ->join('staff as s', 'sa.staff_id', '=', 's.staff_id')
       ->where('ticket_id', $ticket->ticket_id)
@@ -92,12 +93,18 @@ class TicketService
   private $rules = [
     'title'=>'required',
     'company_id'=>'required',
+    'office_id'=>'required',
+    'requested_by'=>'required',
+    'category_id'=>'required',
     'requested_on'=>'required',
   ];
 
   private $messages = [
     'title.required'=>'Title is required',
     'company_id.required'=>'Company is required',
+    'office_id.required'=>'Office is required',
+    'requested_by.required'=>'Requested By is required',
+    'category_id.required'=>'Category is required',
     'requested_on.required'=>'Requested On is required',
   ];
 

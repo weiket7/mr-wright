@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Enums\StaffStat;
 use Carbon\Carbon;
 
 use Eloquent, DB, Validator, Log;
@@ -10,6 +11,7 @@ class Staff extends Eloquent
   protected $primaryKey = 'staff_id';
   protected $validation;
   public $timestamps = false;
+  protected $attributes = ['stat'=>StaffStat::Active];
 
   private $rules = [
     'name'=>'required',

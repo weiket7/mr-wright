@@ -66,7 +66,7 @@
                       <label class="control-label col-md-3">Company</label>
                       <div class="col-md-9">
                         <div class="form-control-static">
-                          {{ $ticket->company_name }}
+                          {{ $ticket->company->name }}
                         </div>
                       </div>
                     </div>
@@ -76,7 +76,7 @@
                       <label class="control-label col-md-3">Category</label>
                       <div class="col-md-9">
                         <div class="form-control-static">
-                          {{ $ticket->category_name }}
+                          {{ $ticket->category->name }}
                         </div>
                       </div>
                     </div>
@@ -88,7 +88,7 @@
                       <label class="control-label col-md-3">Office</label>
                       <div class="col-md-9">
                         <div class="form-control-static">
-                          {{ $ticket->office_name }}
+                          {{ $ticket->office->name }}
                         </div>
                       </div>
                     </div>
@@ -98,7 +98,9 @@
                       <label class="control-label col-md-3">Urgency</label>
                       <div class="col-md-9">
                         <div class="form-control-static">
-                          {{ TicketUrgency::$values[$ticket->urgency] }}
+                          @if($ticket->urgency)
+                            {{  TicketUrgency::$values[$ticket->urgency] }}
+                          @endif
                         </div>
                       </div>
                     </div>
@@ -273,6 +275,14 @@
                             </button>
                           </div>
                         @endif
+
+                          @if($ticket->stat == TicketStat::Completed)
+                            <div>
+                              <button type="submit" name="submit" class="btn blue" value="Send Invoice">
+                                Send Invoice
+                              </button>
+                            </div>
+                          @endif
 
                       </div>
                     </div>

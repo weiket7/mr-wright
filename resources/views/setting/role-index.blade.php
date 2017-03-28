@@ -18,15 +18,13 @@
         <table class="table table-bordered table-hover">
           <thead>
           <tr>
-            <th width="120px">Name</th>
-            <th>Accesses</th>
+            <th>Name</th>
           </tr>
           </thead>
           <tbody>
-          @foreach($roles as $role => $accesses)
+          @foreach($roles as $role)
             <tr>
-              <td><a href="{{url('role/view/'.Role::$values[$role])}}">{{ Role::$values[$role] }}</a></td>
-              <td>{{ implode(', ', $accesses) }}</td>
+              <td><a href="{{url('role/view/'.$role)}}">{{ $role }}</a></td>
             </tr>
           @endforeach
           </tbody>

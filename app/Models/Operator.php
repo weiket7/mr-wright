@@ -2,6 +2,7 @@
 
 
 use App\Models\Enums\Role;
+use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
 use Eloquent, DB, Validator, Log;
 use Hash;
@@ -12,15 +13,21 @@ class Operator extends Eloquent
   protected $primaryKey = 'user_id';
   protected $validation;
   public $timestamps = false;
+  protected $attributes = ['stat'=>UserStat::Active];
 
   private $rules = [
-    'name'=>'required',
+    'username'=>"sometimes|required|unique:user,username",
     'stat'=>'required',
+    'name'=>'required',
+    'role'=>'required',
   ];
 
   private $messages = [
-    'name.required'=>'Name is required',
+    'username.required'=>'Username is required',
+    'username.unique'=>'Username is not available',
     'stat.required'=>'Status is required',
+    'name.required'=>'Name is required',
+    'role.required'=>'Role is required',
   ];
 
   public function getOperatorAll() {

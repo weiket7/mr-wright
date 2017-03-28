@@ -1,3 +1,5 @@
+<?php use App\Models\Enums\StaffStat; ?>
+
 @extends("template")
 
 @section('content')
@@ -16,6 +18,12 @@
                 <label class="control-label col-md-3">Name</label>
                 <div class="col-md-9">
                   {{Form::text('name', $staff->name, ['class'=>'form-control'])}}
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3">Status</label>
+                <div class="col-md-9">
+                  {{Form::select('stat', StaffStat::$values, $staff->stat, ['class'=>'form-control', 'placeholder'=>''])}}
                 </div>
               </div>
             </div>

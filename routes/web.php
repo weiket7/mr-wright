@@ -12,6 +12,7 @@
 */
 
 use App\Mail\QuotationMail;
+use App\Models\Enums\Role;
 use App\Models\Requester;
 use App\Models\Services\TicketService;
 use App\Models\Services\WorkingHourService;
@@ -75,6 +76,9 @@ Route::group(['middleware'=>'auth'], function() {
   Route::get('skill/save/{id}', 'SkillController@save');
   Route::post('skill/save/{id}', 'SkillController@save');
 
+  Route::get('invoice', 'InvoiceController@index');
+  Route::post('invoice', 'InvoiceController@index');
+
   Route::get('report/ticket', 'ReportController@ticket');
   Route::post('report/ticket', 'ReportController@ticket');
 
@@ -84,6 +88,7 @@ Route::group(['middleware'=>'auth'], function() {
   Route::get('category-for-ticket', 'SettingController@categoryForTicket');
   Route::get('system', 'SettingController@system');
   Route::get('role', 'SettingController@role');
+  Route::get('role/view/{id}', 'SettingController@roleView');
   Route::get('access', 'SettingController@access');
 
 
@@ -106,9 +111,9 @@ Route::get('test', function() {
   $working_hour_service = new WorkingHourService();
   $ticket_service = new TicketService($working_hour_service);
   $ticket = $ticket_service->getTicket(1);
-  Mail::to($user = Requester::where('username', $ticket->requested_by)->first())->send(new QuotationMail($ticket));
+  //Mail::to($user = Requester::where('username', $ticket->requested_by)->first())->send(new QuotationMail($ticket));
 
-
+var_dump(Role::$values);
 });
 
 

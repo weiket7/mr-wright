@@ -9,8 +9,8 @@ class Menu {
       ['link' => "requester", 'name'=>'Requesters', 'icon'=>'icon-users'],
       ['link' => "staff", 'name'=>'Staffs', 'icon'=>'icon-wrench'],
       ['link' => "ticket", 'name'=>'Tickets', 'icon'=>'icon-note'],
-      /*['link' => "quotation", 'name'=>'Quotations', 'icon]=>'',
-      ['link' => "invoice", 'name'=>'Invoices', 'icon]=>'',*/
+      /*['link' => "quotation", 'name'=>'Quotations', 'icon'=>''],*/
+      ['link' => "invoice", 'name'=>'Invoices', 'icon'=>'icon-calculator'],
       ['link' => "operator", 'name'=>'Operators', 'icon'=>'icon-eyeglasses'],
       ['name'=>'Reports', 'icon'=>'icon-bar-chart', 'sub'=>[
         ['link'=>'report/ticket', 'name'=>'Tickets', 'icon'=>''],

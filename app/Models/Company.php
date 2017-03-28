@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Enums\CompanyStat;
 use Eloquent, DB, Validator;
 
 class Company extends Eloquent
@@ -8,7 +9,8 @@ class Company extends Eloquent
   protected $primaryKey = 'company_id';
   protected $validation;
   public $timestamps = false;
-  
+  protected $attributes = ['stat'=>CompanyStat::Active];
+
   private $rules = [
     'name'=>'required',
   ];

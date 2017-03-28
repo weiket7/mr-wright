@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 
+use App\Models\Enums\OfficeStat;
 use Eloquent, DB, Validator, Log;
 
 class Office extends Eloquent
@@ -11,15 +12,23 @@ class Office extends Eloquent
   const UPDATED_AT = 'updated_on';
   protected $validation;
   public $timestamps = false;
+  protected $attributes = ['stat'=>OfficeStat::Active];
+
 
   private $rules = [
     'name'=>'required',
+    'address'=>'required',
+    'postal'=>'required',
     'stat'=>'required',
+    'company_id'=>'required',
   ];
 
   private $messages = [
     'name.required'=>'Name is required',
+    'address.required'=>'Address is required',
+    'postal.required'=>'Postal is required',
     'stat.required'=>'Status is required',
+    'company_id.required'=>'Company is required',
   ];
 
   public function saveOffice($input) {

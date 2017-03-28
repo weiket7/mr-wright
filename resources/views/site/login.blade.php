@@ -60,7 +60,7 @@
     <!--<label class="rememberme check">
       <div class="checker"><span><input type="checkbox" name="remember" value="1"></span></div>Remember </label>-->
     @if($role !== 'admin')
-      <a href="{!! URL::to($role . '/account/reset-password') !!}" id="forget-password" class="forget-password">Reset Password</a>
+      <a href="{!! URL::to($role . '/account/reset-password') !!}" id="forget-password" class="forget-password">Forgot Password</a>
     @endif
   </div>
 

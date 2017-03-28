@@ -1,5 +1,6 @@
 <?php use App\Models\Enums\RequesterStat; ?>
 <?php use App\Models\Enums\PreferredContact; ?>
+<?php use App\Models\Enums\UserStat; ?>
 
 @extends("template")
 
@@ -16,9 +17,13 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Name</label>
+                <label class="control-label col-md-3">Username</label>
                 <div class="col-md-9">
-                  {{Form::text('name', $requester->name, ['class'=>'form-control'])}}
+                  @if($action == 'update')
+                    <div class="form-control-static">{{ $requester->username }}</div>
+                  @else
+                    {{Form::text('username', $requester->username, ['class'=>'form-control'])}}
+                  @endif
                 </div>
               </div>
             </div>
@@ -34,13 +39,9 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Username</label>
+                <label class="control-label col-md-3">Name</label>
                 <div class="col-md-9">
-                  @if($action == 'update')
-                    <div class="form-control-static">{{ $requester->username }}</div>
-                  @else
-                    {{Form::text('username', $requester->username, ['class'=>'form-control'])}}
-                  @endif
+                  {{Form::text('name', $requester->name, ['class'=>'form-control'])}}
                 </div>
               </div>
             </div>

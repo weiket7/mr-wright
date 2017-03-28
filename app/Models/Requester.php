@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 
+use App\Models\Enums\UserStat;
 use Eloquent, DB, Validator, Log;
 use Hash;
 
@@ -12,15 +13,28 @@ class Requester extends Eloquent
   const UPDATED_AT = 'updated_on';
   protected $validation;
   public $timestamps = false;
+  protected $attributes = ['stat'=>UserStat::Active];
 
   private $rules = [
-    'name'=>'required',
+    'username'=>"sometimes|required|unique:user,username",
+    'name'=>"required",
     'stat'=>'required',
+    'password'=>'required',
+    'company_id'=>'required',
+    'office_id'=>'required',
+    'email'=>'required|email',
   ];
 
   private $messages = [
+    'username.required'=>'Username is required',
+    'username.unique'=>'Username is not available',
     'name.required'=>'Name is required',
     'stat.required'=>'Status is required',
+    'password.required'=>'Password is required',
+    'company_id.required'=>'Company is required',
+    'office_id.required'=>'Office is required',
+    'email.required'=>'Email is required',
+    'email.email'=>'Email must be valid email',
   ];
 
   public function saveRequester($input) {
@@ -31,11 +45,8 @@ class Requester extends Eloquent
 
     $this->saveRequesterAsUser($input);
 
-    if (isset($input['username'])) {
-      $this->username = $input['username'];
-    }
     $this->name = $input['name'];
-    $this->stat = $input['stat'];
+    if (isset($input['stat'])) $this->stat = $input['stat'];
     $this->company_id = $input['company_id'];
     $this->office_id = $input['office_id'];
     $this->designation = $input['designation'];

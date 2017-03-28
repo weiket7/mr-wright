@@ -1,4 +1,5 @@
 <?php use App\Models\Enums\UserStat; ?>
+<?php use App\Models\Enums\Role; ?>
 
 @extends("template")
 
@@ -15,9 +16,13 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Name</label>
+                <label class="control-label col-md-3">Username</label>
                 <div class="col-md-9">
-                  {{Form::text('name', $operator->name, ['class'=>'form-control'])}}
+                  @if($action == 'update')
+                    <div class="form-control-static">{{ $operator->username }}</div>
+                  @else
+                    {{Form::text('username', $operator->username, ['class'=>'form-control'])}}
+                  @endif
                 </div>
               </div>
             </div>
@@ -33,13 +38,9 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Username</label>
+                <label class="control-label col-md-3">Name</label>
                 <div class="col-md-9">
-                  @if($action == 'update')
-                    <div class="form-control-static">{{ $operator->username }}</div>
-                  @else
-                    {{Form::text('username', $operator->username, ['class'=>'form-control'])}}
-                  @endif
+                  {{Form::text('name', $operator->name, ['class'=>'form-control'])}}
                 </div>
               </div>
             </div>
@@ -58,6 +59,14 @@
                 <label class="control-label col-md-3">Email</label>
                 <div class="col-md-9">
                   {{Form::text('email', $operator->email, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Role</label>
+                <div class="col-md-9">
+                  {{Form::select('role', Role::$values, $operator->role, ['class'=>'form-control', 'placeholder'=>''])}}
                 </div>
               </div>
             </div>

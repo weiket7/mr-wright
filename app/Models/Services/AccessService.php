@@ -13,4 +13,12 @@ class AccessService
     }
     return $res;
   }
+
+  public function getRoleAccess($role)
+  {
+    return DB::table('role_access as ra')
+      ->where('role', $role)
+      ->join('access as a', 'ra.access_id', '=', 'a.access_id')
+      ->select('role', 'name')->get();
+  }
 }

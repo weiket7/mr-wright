@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Access;
+use App\Models\Enums\Role;
 use App\Models\Services\AccessService;
 use App\Models\Services\TicketService;
 use Illuminate\Http\Request;
@@ -19,9 +20,17 @@ class SettingController extends Controller
   }
 
   public function role(Request $request) {
-    $data['roles'] = $this->access_service->getRoleAll();
+    $data['roles'] = Role::$values;
     return view("setting/role-index", $data);
   }
+
+  public function roleView(Request $request, $role = null) {
+    $data['action'] = $request->segment(2);
+    $data['role'] = $role;
+    $data['accesses'] = $this->access_service->getRoleAccess(array_search($role, Role::$values));
+    return view("setting/role-view", $data);
+  }
+
 
   public function access(Request $request) {
     $data['accesses'] = Access::all();
