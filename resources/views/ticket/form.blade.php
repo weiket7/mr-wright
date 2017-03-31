@@ -213,13 +213,6 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-2">Quoted Price</label>
-                  <div class="col-md-10">
-                    {{Form::text('quoted_price', ViewHelper::formatNumber($ticket->quoted_price), ['class'=>'form-control'])}}
-                  </div>
-                </div>
-
-                <div class="form-group">
                   <label class="control-label col-md-2">Preferred Slots</label>
                   <div class="col-md-10">
                     <input type="hidden" name="preferred_slots_count" v-bind:value="preferred_slots.length">

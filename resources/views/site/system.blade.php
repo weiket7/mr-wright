@@ -19,8 +19,17 @@
         </thead>
         <tbody>
         <tr>
-          <td>Mr Wright Version</td>
-          <td>Beta 1.0</td>
+          <td>Application</td>
+          <td>{{ config('app.name') }}</td>
+        </tr>
+        <tr>
+          <td>Mail</td>
+          <td>
+            Driver: {{ env('MAIL_DRIVER') }}<br>
+            Host: {{ env('MAIL_HOST') }}<br>
+            Port: {{ env('MAIL_PORT') }}<br>
+            Username: {{ env('MAIL_USERNAME') }}
+          </td>
         </tr>
         <tr>
           <td>Laravel</td>

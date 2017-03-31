@@ -20,13 +20,13 @@ use App\Models\User;
 use Carbon\Carbon;
 
 
-Route::get('/', 'SiteController@index');
 Route::get('login', 'SiteController@login');
 Route::get('logout', 'SiteController@logout');
 Route::post('login', 'SiteController@login');
 Route::get('error', 'SiteController@error');
 
 Route::group(['middleware'=>'auth'], function() {
+  Route::get('/', 'SiteController@index');
   Route::get('company', 'CompanyController@index');
   Route::post('company', 'CompanyController@index');
   Route::get('company/save', 'CompanyController@save');

@@ -138,9 +138,9 @@ class TicketService
     $ticket->recent_action = $ticket_id == null ? 'draft' : 'update';
     $ticket->save();
 
-    $this->saveStaffAssignments($ticket_id, $input);
-    $this->saveTicketIssues($ticket_id, $input);
-    $this->savePreferredSlots($ticket_id, $input);
+    $this->saveStaffAssignments($ticket->ticket_id, $input);
+    $this->saveTicketIssues($ticket->ticket_id, $input);
+    $this->savePreferredSlots($ticket->ticket_id, $input);
 
     return $ticket->ticket_id;
   }
