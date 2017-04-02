@@ -43,7 +43,7 @@ class TicketSeeder extends Seeder
       'office_id'=>1,
       'category_id'=>3,
       'urgency'=> TicketUrgency::High,
-      'quoted_price'=>100,
+      'quoted_price'=>120,
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
 

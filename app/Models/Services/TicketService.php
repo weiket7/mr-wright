@@ -31,9 +31,16 @@ class TicketService
     $ticket->issues = DB::table('ticket_issue')->where('ticket_id', $ticket_id)->orderBy('ticket_issue_id')->get();
     $ticket->staff_assignments = $this->getStaffAssignments($ticket_id);
     $ticket->skills = $this->getTicketSkills($ticket_id);
-    $ticket->preferred_slots = DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)
-      ->select('ticket_preferred_slot_id', 'date', 'time_start', 'time_end')->get();
+    $ticket->preferred_slots = $this->getPreferredSlots($ticket_id);
     return $ticket;
+  }
+
+  public function getPreferredSlots($ticket_id) {
+    $data = DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)
+      ->select('ticket_preferred_slot_id', 'date',
+        DB::raw("lower(time_format(time_start, '%l:%i %p')) as time_start"),
+        DB::raw("lower(time_format(time_end, '%l:%i %p')) as time_end"))->get();
+    return $data;
   }
 
   public function populateTicketForView($ticket) {
@@ -144,7 +151,7 @@ class TicketService
 
     return $ticket->ticket_id;
   }
-  
+
   public function getNextTicketCode($company_id) {
     $start_of_month = Carbon::now()->startOfMonth();
     $start_of_next_month = Carbon::now()->startOfMonth()->addMonth(1);
@@ -313,26 +320,49 @@ class TicketService
     $s = "SELECT stat, ticket_code, ticket_id, title, category_id, quoted_price, requested_by, requested_on 
     from ticket
     where 1 ";
-    if (isset($input['stat']) && $input['stat'] != '') {
-      $s .= " and stat = '$input[stat]'";
+    if (isset($input['stat'])) {
+      if (is_array($input['stat']) && count($input['stat'])) {
+        $s .= " and stat in ('".implode(',', $input['stat'])."')";
+      } else {
+        $s .= " and stat = '".$input['stat']."'";
+      }
     }
+
     if (isset($input['title']) && $input['title'] != '') {
       $s .= " and title like '%".$input['title']."%'";
     }
     if (isset($input['ticket_code']) && $input['ticket_code'] != '') {
       $s .= " and ticket_code = '".$input['ticket_code']."'";
     }
+
+    if (isset($input['quoted_price_from']) && isset($input['quoted_price_to'])
+      && $input['quoted_price_from'] != '' && $input['quoted_price_to'] != '') {
+      $quoted_price_from = $input['quoted_price_from'];
+      $quoted_price_to = $input['quoted_price_to'];
+      $s .= " and (quoted_price >= '".$quoted_price_from."' and quoted_price <= '".$quoted_price_to."')";
+    }
+
+    if (isset($input['date_column']) && $input['date_column'] != '') {
+      if (isset($input['date_from']) && isset($input['date_to'])
+        && $input['date_from'] != '' && $input['date_to'] != '') {
+        $date_column = $input['date_column'];
+        $date_from = Carbon::createFromFormat('d M y', $input['date_from']);
+        $date_to = Carbon::createFromFormat('d M y', $input['date_to'])->addDay(1)->format('Y-m-d');
+        $s .= " and (".$date_column." >= '".$date_from."' and ".$date_column." < '".$date_to."')";
+      }
+    }
+
+    if (isset($input['company_id']) && $input['company_id'] != '') {
+      $s .= " and company_id = '".$input['company_id']."'";
+    }
+    if (isset($input['office_id']) && $input['office_id'] != '') {
+      $s .= " and office_id = '".$input['office_id']."'";
+    }
+    if (isset($input['requested_by']) && $input['requested_by'] != '') {
+      $s .= " and requested_by = '".$input['requested_by']."'";
+    }
     return DB::select($s);
   }
-  
-  public function paidTicket($ticket_id, $operator = 'admin') {
-    $ticket = Ticket::findOrFail($ticket_id);
-    $ticket->stat = TicketStat::Paid;
-    $ticket->paid_by = $operator;
-    $ticket->paid_on = Carbon::now();
-    $ticket->updated_on = Carbon::now();
-    $ticket->recent_action = 'pay';
-    return $ticket->save();
-  }
+
   
 }

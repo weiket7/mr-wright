@@ -17,12 +17,12 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Username</label>
+                <label class="control-label col-md-3">Username <span class="required">*</span></label>
                 <div class="col-md-9">
                   @if($action == 'update')
                     <div class="form-control-static">{{ $requester->username }}</div>
                   @else
-                    {{Form::text('username', $requester->username, ['class'=>'form-control'])}}
+                    {{Form::text('username', $requester->username, ['class'=>'form-control', 'maxlength'=>30])}}
                   @endif
                 </div>
               </div>
@@ -31,7 +31,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Status</label>
                 <div class="col-md-9">
-                  {{Form::select('stat', RequesterStat::$values, $requester->stat, ['class'=>'form-control', 'placeholder'=>''])}}
+                  {{Form::select('stat', RequesterStat::$values, $requester->stat, ['class'=>'form-control'])}}
                 </div>
               </div>
             </div>
@@ -39,15 +39,20 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Name</label>
+                <label class="control-label col-md-3">Name <span class="required">*</span></label>
                 <div class="col-md-9">
-                  {{Form::text('name', $requester->name, ['class'=>'form-control'])}}
+                  {{Form::text('name', $requester->name, ['class'=>'form-control', 'maxlength'=>50])}}
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Password</label>
+                <label class="control-label col-md-3">
+                  Password
+                  @if($action == 'create')
+                    <span class="required">*</span>
+                  @endif
+                </label>
                 <div class="col-md-9">
                   {{Form::password('password', ['class'=>'form-control'])}}
                 </div>
@@ -67,7 +72,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Company</label>
+                <label class="control-label col-md-3">Company <span class="required">*</span></label>
                 <div class="col-md-9">
                   {{Form::select('company_id', $companies, $requester->company_id, ['id'=>'company_id', 'class'=>'form-control', 'placeholder'=>''])}}
                 </div>
@@ -75,7 +80,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Office</label>
+                <label class="control-label col-md-3">Office <span class="required">*</span></label>
                 <div class="col-md-9">
                   {{Form::select('office_id', $offices, $requester->office_id, ['id'=>'office_id', 'class'=>'form-control', 'placeholder'=>''])}}
                 </div>
@@ -85,9 +90,9 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Email</label>
+                <label class="control-label col-md-3">Email <span class="required">*</span></label>
                 <div class="col-md-9">
-                  {{Form::text('email', $requester->email, ['class'=>'form-control'])}}
+                  {{Form::text('email', $requester->email, ['class'=>'form-control', 'maxlength'=>100])}}
                 </div>
               </div>
             </div>
@@ -95,7 +100,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Work</label>
                 <div class="col-md-9">
-                  {{Form::text('work', $requester->work, ['class'=>'form-control'])}}
+                  {{Form::text('work', $requester->work, ['class'=>'form-control', 'maxlength'=>20])}}
                 </div>
               </div>
             </div>
@@ -103,9 +108,9 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Mobile</label>
+                <label class="control-label col-md-3">Mobile <span class="required">*</span></label>
                 <div class="col-md-9">
-                  {{Form::text('mobile', $requester->mobile, ['class'=>'form-control'])}}
+                  {{Form::text('mobile', $requester->mobile, ['class'=>'form-control', 'maxlength'=>20])}}
                 </div>
               </div>
             </div>

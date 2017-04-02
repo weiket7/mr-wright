@@ -41,13 +41,13 @@
             </td>
             <td>
               <div class="input-group input-large input-daterange">
-                <input type="text" class="form-control" name="from" placeholder="From">
+                <input type="text" class="form-control" name="quoted_price_from" placeholder="From">
                 <span class="input-group-addon"> to </span>
-                <input type="text" class="form-control" name="to" placeholder="To">
+                <input type="text" class="form-control" name="quoted_price_to" placeholder="To">
               </div>
             </td>
             <td>
-              <select class="form-control search-dropdown" style="margin-bottom: 10px">
+              <select name="date_column" class="form-control search-dropdown" style="margin-bottom: 10px">
                 <option value=""></option>
                 <option value="">Requested On</option>
                 <option value="">Opened On</option>
@@ -60,9 +60,9 @@
                 <option value="">Voided On</option>
               </select>
               <div class="input-group input-large datepicker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
-                <input type="text" class="form-control" name="from" placeholder="From">
+                <input type="text" class="form-control" name="date_from" placeholder="From">
                 <span class="input-group-addon"> to </span>
-                <input type="text" class="form-control" name="to" placeholder="To">
+                <input type="text" class="form-control" name="date_to" placeholder="To">
               </div>
             </td>
             <td>

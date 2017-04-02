@@ -19,10 +19,10 @@ class Requester extends Eloquent
     'username'=>"sometimes|required|unique:user,username",
     'name'=>"required",
     'stat'=>'required',
-    'password'=>'required',
     'company_id'=>'required',
     'office_id'=>'required',
-    'email'=>'required|email',
+    'email' =>'required|email',
+    'mobile' => 'required',
   ];
 
   private $messages = [
@@ -30,16 +30,20 @@ class Requester extends Eloquent
     'username.unique'=>'Username is not available',
     'name.required'=>'Name is required',
     'stat.required'=>'Status is required',
-    'password.required'=>'Password is required',
     'company_id.required'=>'Company is required',
     'office_id.required'=>'Office is required',
     'email.required'=>'Email is required',
     'email.email'=>'Email must be valid email',
+    'mobile.required' => 'Mobile is required',
   ];
 
   public function saveRequester($input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
-    if ( $this->validation->fails() ) {
+    $create_password_required = $this->requester_id == null && $input['password'] == '';
+    if ( $this->validation->fails() || $create_password_required ) {
+      if ($create_password_required) {
+        $this->validation->errors()->add("password", "Password is required");
+      }
       return false;
     }
 

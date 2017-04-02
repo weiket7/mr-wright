@@ -15,9 +15,9 @@ class OfficeTable extends Migration
       $t->string('name', 50);
       $t->string('addr', 200);
       $t->string('postal', 20);
-      $t->string('country', 50);
+      /*$t->string('country', 50);
       $t->string('state', 50);
-      $t->string('city', 50);
+      $t->string('city', 50);*/
       $t->string('updated_by', 20);
       $t->dateTime('updated_on');
     });

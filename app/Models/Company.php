@@ -13,10 +13,13 @@ class Company extends Eloquent
 
   private $rules = [
     'name'=>'required',
+    'code'=>'required|unique:company,code'
   ];
   
   private $messages = [
     'name.required'=>'Name is required',
+    'code.required'=>'Code is required',
+    'code.unique'=>'Code is not available'
   ];
   
   public function saveCompany($input) {

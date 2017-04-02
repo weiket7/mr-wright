@@ -30,7 +30,7 @@ class ViewHelper {
     if ($time == '') {
       return '';
     }
-    return date('g:ia', strtotime($time));
+    return date('g:i a', strtotime($time));
   }
 
   public static function formatDateDay($date) {

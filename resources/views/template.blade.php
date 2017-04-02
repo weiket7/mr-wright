@@ -217,7 +217,7 @@ License: You must have a valid license purchased only from themeforest(the above
   <script src="{{asset('assets/metronic/global/plugins/moment.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}" type="text/javascript"></script>
-  <script src="{{asset('assets/metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('assets/metronic/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/global/plugins/bootstrap-toastr/toastr.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/global/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
   <!-- END PAGE LEVEL PLUGINS -->
@@ -245,7 +245,8 @@ License: You must have a valid license purchased only from themeforest(the above
 
       $.fn.select2.defaults.set("theme", "bootstrap");
 
-     initDatepicker();
+      initDatepicker();
+      //initTimepicker();
 
       $("#company_id").change(function() {
         var company_id = $(this).val();
@@ -303,6 +304,13 @@ License: You must have a valid license purchased only from themeforest(the above
         format: "dd M yyyy",
         orientation: "bottom",
         autoclose: true
+      });
+    }
+
+    function initTimepicker() {
+      $('.timepicker-default').timepicker({
+        autoclose: true,
+        minuteStep: 15
       });
     }
   </script>

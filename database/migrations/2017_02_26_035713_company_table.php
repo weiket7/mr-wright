@@ -10,8 +10,8 @@ class CompanyTable extends Migration
     {
       Schema::create('company', function(Blueprint $t) {
         $t->increments('company_id');
-        $t->string('code', 20);
         $t->char('stat', 1);
+        $t->string('code', 5);
         $t->string('name', 50);
         $t->string('registered_name', 100);
         $t->string('logo', 50);

@@ -40,7 +40,7 @@
         <div class="row">
           <div class="col-md-12 text-center">
             <button type="submit" name="submit" class="btn blue" value="Search">Search</button>
-            <button type="reset" class="btn green">Clear</button>
+              <button type="reset" class="btn green">Clear</button>
           </div>
         </div>
       </form>

@@ -962,6 +962,8 @@
     },
 
     update: function(ignoreWidget) {
+      //console.log(this.meridian);
+      //console.log(this.getTime());
       this.updateElement();
       if (!ignoreWidget) {
         this.updateWidget();
@@ -977,6 +979,8 @@
           'meridian': this.meridian
         }
       });
+
+      this.$element.val(this.getTime());
     },
 
     updateElement: function() {

@@ -239,8 +239,8 @@
                             <input type="text" v-bind:name="'preferred_slot_date'+index" v-bind:value="slot.date | formatDate" class="form-control datepicker">
                           </td>
                           <td>
-                            <input type="text" v-bind:name="'preferred_slot_time_start'+index" v-bind:value="slot.time_start | formatTime" class="form-control" placeholder="HH:MM">
-                            <input type="text" v-bind:name="'preferred_slot_time_end'+index" v-bind:value="slot.time_end | formatTime" class="form-control" placeholder="HH:MM">
+                            <input type="text" v-bind:name="'preferred_slot_time_start'+index" v-model="slot.time_start" class="form-control time" placeholder="hour:minute am/pm">
+                            <input type="text" v-bind:name="'preferred_slot_time_end'+index" v-model="slot.time_end" class="form-control time" placeholder="hour:minute am/pm">
                           </td>
                         </tr>
                       </tbody>
@@ -406,11 +406,20 @@
         getValuesAndPopulateCalendar();
       });
 
-
-
       populateStaffsAndCalendar();
-
     });
+
+    function validateForm() {
+      $(".time").each(function() {
+        var time = $(this).val();
+        if(validateTime(time) == false) {
+          $(this).addClass("txt-error");
+          toastr.error("Enter valid time");
+        } else {
+          $(this).removeClass("txt-error");
+        }
+      });
+    }
 
     var selected_cells = {!! json_encode($ticket->staff_assignments) !!};
 
@@ -590,12 +599,8 @@
           }
         },
         addPreferredSlot: function() {
-          this.preferred_slots.push({date: this.currentDate.format('YYYY-MM-DD'), time_start: '', time_end: '', stat:'add'});
-    
-          setTimeout(function(){
-            initDatepicker();
-          }, 500);
-    
+          var slot = {date: this.currentDate.format('YYYY-MM-DD'), time_start: '', time_end: '', stat:'add'};
+          this.preferred_slots.push(slot);
         },
         deletePreferredSlot: function(index) {
           var slot = this.preferred_slots[index];
@@ -638,10 +643,20 @@
           if (value instanceof moment === false) {
             value = moment(value, "HH:mm:ss");
           }
-          return value.format('HH:mm');
+          return value.format('h:mma');
         }
       }
     });
+
+    function validateTime(value) {
+      value = value.trim();
+
+      //https://www.mkyong.com/regular-expressions/how-to-validate-time-in-12-hours-format-with-regular-expression/
+      //http://stackoverflow.com/questions/41758187/invalid-group-in-regular-expression
+      //var timeRegex = /^(1[012]|[1-9]):[0-5][0-9](\\s)?(?i)(am|pm)$/; //not working version
+      var timeRegex = /^(1[012]|[1-9]):[0-5][0-9]\s?(am|pm)$/i;
+      return timeRegex.test(value);
+    }
 
     function pushToCalendarObject(obj, staff_id, date, time) {
       if (typeof obj[staff_id] === "undefined") {

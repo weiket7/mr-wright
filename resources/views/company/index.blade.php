@@ -20,6 +20,7 @@
           <thead>
           <tr>
             <th class="search-th-stat">Status</th>
+            <th class="search-th-txt">Code</th>
             <th>Name</th>
           </tr>
           </thead>
@@ -28,6 +29,7 @@
             <td>
               {!! Form::select('stat', CompanyStat::$values, '', ['class'=>'form-control search-stat', 'placeholder'=>'']) !!}
             </td>
+            <th>{!! Form::text('code', '', ['class'=>'form-control search-txt']) !!}</th>
             <td>{!! Form::text('name', '', ['class'=>'form-control search-txt']) !!}</td>
           </tr>
           </tbody>
@@ -50,6 +52,7 @@
           <thead>
           <tr>
             <th width="70px">Status</th>
+            <th width="70px">Code</th>
             <th>Name</th>
           </tr>
           </thead>
@@ -57,6 +60,7 @@
           @foreach($companies as $company)
             <tr>
               <td>{{CompanyStat::$values[$company->stat]}}</td>
+              <td>{{$company->code}}</td>
               <td><a href="{{url("company/save/".$company->company_id)}}">{{ $company->name }}</a></td>
             </tr>
           @endforeach

@@ -17,18 +17,18 @@ class Office extends Eloquent
 
   private $rules = [
     'name'=>'required',
-    'address'=>'required',
+    'addr'=>'required',
     'postal'=>'required',
-    'stat'=>'required',
     'company_id'=>'required',
+    'stat'=>'required',
   ];
 
   private $messages = [
     'name.required'=>'Name is required',
-    'address.required'=>'Address is required',
+    'addr.required'=>'Address is required',
     'postal.required'=>'Postal is required',
-    'stat.required'=>'Status is required',
     'company_id.required'=>'Company is required',
+    'stat.required'=>'Status is required',
   ];
 
   public function saveOffice($input) {

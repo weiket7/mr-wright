@@ -11,8 +11,7 @@ class CompanyController extends Controller
 {
   protected $company_service;
 
-  public function __construct(CompanyService $company_service)
-  {
+  public function __construct(CompanyService $company_service) {
     $this->company_service = $company_service;
   }
   

@@ -16,7 +16,7 @@ class RequesterTable extends Migration
       $t->string('username', 30);
       $t->char('stat', 1);
       $t->string('designation', 30);
-      $t->string('email', 50);
+      $t->string('email', 100);
       $t->string('work', 20);
       $t->string('mobile', 20);
       $t->char('preferred_contact', 1);

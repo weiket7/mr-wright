@@ -29,6 +29,9 @@
 .txt-decline-reason {
   margin-bottom: 10px;
 }
+.txt-error {
+  border-color: #e73d4a;
+}
 .row-delete {
   background-color: #95A5A6!important;
 }

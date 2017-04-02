@@ -31,12 +31,18 @@ class Operator extends Eloquent
   ];
 
   public function getOperatorAll() {
-    return Operator::whereIn('role', [Role::Operator, Role::Admin, Role::Finance])->orderBy('stat')->orderBy('name')->get();
+    return Operator::whereIn('role', [Role::Operator, Role::Admin, Role::Finance])
+      ->orderBy('stat')->orderBy('name')->get();
   }
 
   public function saveOperator($input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
-    if ( $this->validation->fails() ) {
+    Log::info('so'.$this->user_id);
+    $create_password_required = $this->user_id == null && $input['password'] == '';
+    if ( $this->validation->fails() || $create_password_required ) {
+      if ($create_password_required) {
+        $this->validation->errors()->add("password", "Password is required");
+      }
       return false;
     }
 
@@ -49,6 +55,7 @@ class Operator extends Eloquent
       $this->password = Hash::make($input['password']);
     }
     $this->email = $input['email'];
+    $this->role = $input['role'];
     $this->save();
     return true;
   }
