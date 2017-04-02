@@ -1,6 +1,7 @@
 <?php namespace App\Models\Helpers;
 
 use App;
+use Carbon\Carbon;
 
 class BackendHelper
 {
@@ -45,5 +46,15 @@ class BackendHelper
       return true;
     }
     return false;
+  }
+
+  public static function dateBeforeDateInclusive($date1, $date2) {
+    if (is_string($date1)) {
+      $date1 = Carbon::createFromFormat('Y-m-d H:i:s', $date1);
+    }
+    if (is_string($date2)) {
+      $date2 = Carbon::createFromFormat('Y-m-d', $date2);
+    }
+    return $date1->lte($date2);
   }
 }

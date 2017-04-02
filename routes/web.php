@@ -13,6 +13,7 @@
 
 use App\Mail\QuotationMail;
 use App\Models\Enums\Role;
+use App\Models\Helpers\BackendHelper;
 use App\Models\Requester;
 use App\Models\Services\TicketService;
 use App\Models\Services\WorkingHourService;
@@ -87,6 +88,7 @@ Route::group(['middleware'=>'auth'], function() {
   Route::get('blocked-date-time', 'WorkingHourController@blockedDateTime');
   Route::get('category-for-ticket', 'SettingController@categoryForTicket');
   Route::get('system', 'SettingController@system');
+  Route::get('setting', 'SettingController@setting');
   Route::get('role', 'SettingController@role');
   Route::get('role/view/{id}', 'SettingController@roleView');
   Route::get('access', 'SettingController@access');
@@ -99,7 +101,7 @@ Route::group(['middleware'=>'auth'], function() {
 
 });
 
-Route::group(['middleware' => 'ticketmiddleware'], function () {
+Route::group(['middleware' => 'ticketrespondmiddleware'], function () {
   Route::get('ticket/accept/{id}', 'TicketController@acceptDecline');
   Route::post('ticket/accept/{id}', 'TicketController@acceptDecline');
   Route::get('ticket/decline/{id}', 'TicketController@acceptDecline');
@@ -113,7 +115,10 @@ Route::get('test', function() {
   $ticket = $ticket_service->getTicket(1);
   //Mail::to($user = Requester::where('username', $ticket->requested_by)->first())->send(new QuotationMail($ticket));
 
-var_dump(Role::$values);
+  var_dump(Role::$values);
+
+  $res = BackendHelper::dateBeforeDateInclusive('2017-04-02 00:00:00', '2017-04-01');
+  var_dump($res);
 });
 
 

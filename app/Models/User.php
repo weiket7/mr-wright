@@ -30,13 +30,4 @@ class User extends Authenticatable
   protected $hidden = [
     'password', 'remember_token',
   ];
-
-  public function getRequesterAccess($username)
-  {
-    $requester = Requester::where('username', $username)->first();
-    return [
-      'company_id' => $requester->company_id,
-      'office_id' => $requester->office_id,
-    ];
-   }
 }

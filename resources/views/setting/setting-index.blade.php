@@ -3,7 +3,7 @@
 @section("content")
   <div class="row">
     <div class="col-md-6">
-      <h1 class="page-title">Accesses</h1>
+      <h1 class="page-title">Settings</h1>
     </div>
     <div class="col-md-6 text-right">
     </div>
@@ -15,13 +15,15 @@
         <table class="table table-bordered table-hover">
           <thead>
           <tr>
-            <th>Name</th>
+            <th width="300px">Name</th>
+            <th>Value</th>
           </tr>
           </thead>
           <tbody>
-          @foreach($accesses as $access)
+          @foreach($settings as $setting)
             <tr>
-              <td>{{ $access->name }}</td>
+              <td>{{ $setting->name }}</td>
+              <td>{{ $setting->value }}</td>
             </tr>
           @endforeach
           </tbody>

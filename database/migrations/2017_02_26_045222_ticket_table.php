@@ -19,8 +19,9 @@ class TicketTable extends Migration
       $t->integer('category_id');
       $t->char('urgency', 1);
       $t->string('requested_by', 20);
-      $t->dateTime('requested_on');
+      $t->date('requested_on');
       $t->decimal('quoted_price', 12, 2);
+      $t->date('quote_valid_till');
       //$t->decimal('agreed_price', 12, 2); //TODO
       $t->string('requester_desc', 250);
       $t->string('operator_desc', 250);

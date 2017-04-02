@@ -9,6 +9,7 @@ use App\Models\Enums\TicketStat;
 use App\Models\Helpers\BackendHelper;
 use App\Models\Office;
 use App\Models\Requester;
+use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\User;
 use Carbon\Carbon;
@@ -180,6 +181,8 @@ class TicketService
     $ticket->quoted_by = $operator;
     $ticket->quoted_on = Carbon::now();
     $ticket->recent_action = 'quote';
+    $quote_valid_working_days = Setting::getSetting('quote_valid_working_days');
+    $ticket->quote_valid_till = Carbon::now()->addWeekday($quote_valid_working_days);
     $ticket->save();
 
     $ticket = $this->getTicket($ticket_id);
@@ -323,7 +326,7 @@ class TicketService
     if (isset($input['stat'])) {
       if (is_array($input['stat']) && count($input['stat'])) {
         $s .= " and stat in ('".implode(',', $input['stat'])."')";
-      } else {
+      } elseif ($input['stat'] != '') {
         $s .= " and stat = '".$input['stat']."'";
       }
     }
@@ -361,6 +364,7 @@ class TicketService
     if (isset($input['requested_by']) && $input['requested_by'] != '') {
       $s .= " and requested_by = '".$input['requested_by']."'";
     }
+    Log::info($s);
     return DB::select($s);
   }
 

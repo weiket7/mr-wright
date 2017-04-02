@@ -23,6 +23,7 @@ class Menu {
         ['link'=>'working-day-time', 'name'=>'Working Day Times'],
         ['link'=>'blocked-date', 'name'=>'Blocked Dates'],
         ['link'=>'blocked-date-time', 'name'=>'Blocked Date Times'],
+        ['link'=>'setting', 'name'=>'Settings'],
         ['link'=>'system', 'name'=>'System'],
       ]],
     ];

@@ -6,6 +6,7 @@ use App;
 use App\Mail\QuotationMail;
 use App\Models\Enums\Role;
 use App\Models\Enums\UserStat;
+use App\Models\Services\AccessService;
 use App\Models\Services\DashboardService;
 use App\Models\Services\TicketService;
 use App\Models\Ticket;
@@ -16,13 +17,15 @@ use Mail;
 
 class SiteController extends Controller
 {
+  protected $access_service;
   protected $ticket_service;
   protected $dashboard_service;
 
-  public function __construct(DashboardService $dashboard_service, TicketService $ticket_service)
+  public function __construct(DashboardService $dashboard_service, TicketService $ticket_service, AccessService $access_service)
   {
     $this->dashboard_service = $dashboard_service;
     $this->ticket_service = $ticket_service;
+    $this->access_service = $access_service;
   }
 
   public function index() {
@@ -46,9 +49,7 @@ class SiteController extends Controller
       }
 
       $user = Auth::user();
-      if ($user->role == Role::Requester) {
-        $request->session()->put('access', $user->getRequesterAccess($user->username));
-      }
+      $request->session()->put('access', $this->access_service->getAccess($user));
       //$request->session()->put('outlet_id', $user->getOutletIdByRole());
       $referrer = $request->session()->has('referrer');
       if ($referrer) {

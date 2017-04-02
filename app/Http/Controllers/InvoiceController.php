@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Enums\TicketStat;
 use App\Models\Services\CompanyService;
 use App\Models\Services\TicketService;
 use App\Models\Ticket;
@@ -20,14 +21,7 @@ class InvoiceController extends Controller
 
   public function index(Request $request)
   {
-    if($request->isMethod("post")) {
-      $input = $request->all();
-      $tickets = $this->ticket_service->searchTicket($input);
-      $request->flash();
-      $data['search_result'] = 'Showing ' . count($tickets) . ' ticket(s)';
-    } else {
-      $tickets = Ticket::all(); //TODO
-    }
+    $tickets = Ticket::where('stat', TicketStat::Completed)->get();
     $data['tickets'] = $tickets;
     $data['companies'] = $this->company_service->getCompanyDropdown();
     $data['categories'] = $this->ticket_service->getCategoryDropdown();

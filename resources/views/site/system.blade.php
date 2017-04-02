@@ -59,6 +59,12 @@
           <td>Upload Directory</td>
           <td>{{BackendHelper::getDir('')}}</td>
         </tr>
+        <tr>
+          <td>Access</td>
+          <td>
+            {{ var_dump(Session::get('accesses')) }}
+          </td>
+        </tr>
       </table>
     </div>
   </div>

@@ -276,14 +276,13 @@
                           </div>
                         @endif
 
-                          @if($ticket->stat == TicketStat::Completed)
-                            <div>
-                              <button type="submit" name="submit" class="btn blue" value="Send Invoice">
-                                Send Invoice
-                              </button>
-                            </div>
-                          @endif
-
+                        @if($ticket->stat == TicketStat::Completed)
+                          <div>
+                            <button type="submit" name="submit" class="btn blue" value="Send Invoice">
+                              Send Invoice
+                            </button>
+                          </div>
+                        @endif
                       </div>
                     </div>
                   </div>

@@ -6,6 +6,7 @@ use App\Models\Access;
 use App\Models\Enums\Role;
 use App\Models\Services\AccessService;
 use App\Models\Services\TicketService;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
@@ -31,6 +32,10 @@ class SettingController extends Controller
     return view("setting/role-view", $data);
   }
 
+  public function setting(Request $request) {
+    $data['settings'] = Setting::all();
+    return view("setting/setting-index", $data);
+  }
 
   public function access(Request $request) {
     $data['accesses'] = Access::all();

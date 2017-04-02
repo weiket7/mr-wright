@@ -15,12 +15,9 @@ class ViewHelper {
   }
 
 
-  public static function formatDate($date, $birthday = false) {
+  public static function formatDate($date) {
     if ($date == '') {
       return '';
-    }
-    if ($birthday) {
-      return date('d-m-Y', strtotime($date));
     }
     return date('d M Y', strtotime($date));
   }

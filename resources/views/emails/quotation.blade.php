@@ -114,6 +114,6 @@
         Decline
       </button>
     </div>
-    <div class="panel-footer text-center">Valid till X</div>
+    <div class="panel-footer text-center">Valid till {{ ViewHelper::formatDate($ticket->quote_valid_till) }} (inclusive)</div>
   </div>
 @endsection

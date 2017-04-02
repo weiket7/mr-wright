@@ -147,6 +147,21 @@
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Quote Valid Till</label>
+                      <div class="col-md-9">
+                        <div class="form-control-static">
+                          {{ ViewHelper::formatDate($ticket->quote_valid_till) }} (inclusive)
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+
+                  </div>
+                </div>
                 @if($ticket->stat == TicketStat::Declined)
                 <div class="row">
                   <div class="col-md-6">
