@@ -6,6 +6,7 @@ use App\Mail\InvoiceMail;
 use App\Mail\QuotationMail;
 use App\Models\CategoryForTicket;
 use App\Models\Company;
+use App\Models\Enums\PaymentMethod;
 use App\Models\Enums\TicketStat;
 use App\Models\Helpers\BackendHelper;
 use App\Models\Office;
@@ -366,13 +367,17 @@ class TicketService
   }
 
 
-  public function paidTicket($ticket_id, $operator = 'admin') {
+  public function paidTicket($input, $ticket_id, $operator = 'admin') {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Paid;
     $ticket->paid_by = $operator;
     $ticket->paid_on = Carbon::now();
     $ticket->updated_on = Carbon::now();
     $ticket->recent_action = 'pay';
+    $ticket->payment_method = $input['payment_method'];
+    if (in_array($ticket->payment_method, [PaymentMethod::Bank, PaymentMethod::Cheque])) {
+      $ticket->ref_no = $input['ref_no'];
+    }
     return $ticket->save();
   }
 

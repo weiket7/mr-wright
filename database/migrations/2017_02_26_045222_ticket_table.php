@@ -24,6 +24,8 @@ class TicketTable extends Migration
       $t->date('quote_valid_till');
       $t->decimal('product_total', 12, 2);
       //$t->decimal('agreed_price', 12, 2); //TODO
+      $t->char('payment_method', 1);
+      $t->string('ref_no', 50);
       $t->string('requester_desc', 250);
       $t->string('operator_desc', 250);
       $t->string('quotation_desc', 250);

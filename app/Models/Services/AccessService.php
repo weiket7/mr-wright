@@ -63,8 +63,4 @@ class AccessService
     //var_dump($available_accesses); exit;
     return $available_accesses;
   }
-
-  public function canPayTicket($access_session) {
-    return in_array('ticket_respond', $access_session['accesses']);
-  }
 }

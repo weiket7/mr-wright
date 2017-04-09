@@ -1,6 +1,7 @@
 <?php use App\Models\Enums\TicketStat; ?>
 <?php use App\Models\Enums\TicketUrgency; ?>
 <?php use App\Models\Enums\TicketPriority; ?>
+<?php use App\Models\Enums\PaymentMethod; ?>
 
 @extends("template")
 
@@ -57,7 +58,32 @@
                     </div>
                   </div>
                 </div>
-
+                @if($ticket->payment_method)
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Payment Method</label>
+                      <div class="col-md-9">
+                        <div class="form-control-static">
+                          {{ PaymentMethod::$values[$ticket->payment_method]}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  @if($ticket->ref_no)
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Ref No</label>
+                      <div class="col-md-9">
+                        <div class="form-control-static">
+                          {{ $ticket->ref_no }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  @endif
+                </div>
+                @endif
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -173,8 +199,6 @@
                 <div class="form-group">
                   <label class="control-label col-md-2">Issues</label>
                   <div class="col-md-10">
-                    <input type="hidden" name="issues_count" v-bind:value="issues.length">
-
                     <table class="table table-bordered no-margin-btm">
                       <thead>
                       <tr>
@@ -184,19 +208,19 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr v-for="(issue, index) in issues" v-bind:class="'row-'+issue.stat">
-                        <td>
-                          <div v-bind:id="'preview-image' + index">
-                            <img :src="'{{asset('images/tickets')}}/'+ issue.image " v-if="issue.image" class="ticket-image"/>
-                          </div>
-                        </td>
-                        <td>
-                          @{{ issue.issue_desc }}
-                        </td>
-                        <td>
-                          @{{ issue.expected_desc }}
-                        </td>
-                      </tr>
+                      @foreach($ticket->issues as $issue)
+                        <tr>
+                          <td>
+                            <img src="{{asset('images/tickets/'.$issue->image)}}" class="ticket-image"/>
+                          </td>
+                          <td>
+                            {{ $issue->issue_desc }}
+                          </td>
+                          <td>
+                            {{ $issue->expected_desc }}
+                          </td>
+                        </tr>
+                      @endforeach
                       </tbody>
                     </table>
                   </div>
@@ -205,8 +229,6 @@
                 <div class="form-group">
                   <label class="control-label col-md-2">Preferred Slots</label>
                   <div class="col-md-10">
-                    <input type="hidden" name="preferred_slots_count" v-bind:value="preferred_slots.length">
-
                     <table class="table table-bordered no-margin-btm">
                       <thead>
                       <tr>
@@ -215,14 +237,16 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr v-for="(slot, index) in preferred_slots" v-bind:class="'row-'+slot.stat">
-                        <td>
-                          @{{ slot.date | formatDate }}
-                        </td>
-                        <td>
-                          @{{ slot.time_start | formatTime }} to @{{ slot.time_end | formatTime }}
-                        </td>
-                      </tr>
+                      @foreach($ticket->preferred_slots as $slot)
+                        <tr>
+                          <td>
+                            {{ ViewHelper::formatDate($slot->date)}}
+                          </td>
+                          <td>
+                            {{ ViewHelper::formatTime($slot->time_start) }} to {{ ViewHelper::formatTime($slot->time_end) }}
+                          </td>
+                        </tr>
+                      @endforeach
                       </tbody>
                     </table>
                   </div>
@@ -247,7 +271,7 @@
                             <td>{{ $a->name }}</td>
                             <td>{{ ViewHelper::formatTime($a->time_start) }} to {{ ViewHelper::formatTime($a->time_end) }}</td>
                           </tr>
-                      @endforeach
+                        @endforeach
                       @endforeach
                       </tbody>
                     </table>
@@ -270,11 +294,11 @@
                             @endif
 
                             @if($action == "accept" || $action == "decline") <!--show 1 button when ticket/accept or ticket/decline-->
-                              <div><button type="submit" name="submit" class="btn blue" value="{{ ucfirst($action) }}">
+                            <div><button type="submit" name="submit" class="btn blue" value="{{ ucfirst($action) }}">
                                 {{ ucfirst($action) }}
                               </button></div>
                             @else <!--show 2 buttons when operator ticket/accept or ticket/decline-->
-                              <div><button type="submit" name="submit" class="btn blue" value="Accept">
+                            <div><button type="submit" name="submit" class="btn blue" value="Accept">
                                 Accept
                               </button>
                               <button type="submit" name="submit" class="btn blue" value="Decline">
@@ -283,37 +307,40 @@
                             @endif
                           @elseif($ticket->stat == TicketStat::Accepted && ViewHelper::hasAccess('ticket_complete'))
                             <div><button type="submit" name="submit" class="btn blue" value="Complete">
-                              Complete
-                            </button></div>
+                                Complete
+                              </button></div>
                           @elseif($ticket->stat == TicketStat::Completed && ViewHelper::hasAccess('ticket_invoice'))
                             <div><button type="submit" name="submit" class="btn blue" value="Send Invoice">
-                              Send Invoice
-                            </button></div>
+                                Send Invoice
+                              </button></div>
                           @elseif($ticket->stat == TicketStat::Invoiced && ViewHelper::hasAccess('ticket_pay'))
                             <div class="mt-radio-list">
                               <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="payment_method" value="option2"> Credit Card
+                                <input type="radio" name="payment_method" value="R" @click="selectPaymentMethod('R')"> Credit Card
                                 <span></span>
                               </label>
                               <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="payment_method" value="option2"> Cash
+                                <input type="radio" name="payment_method" value="C" @click="selectPaymentMethod('C')"> Cash
                                 <span></span>
                               </label>
                               <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="payment_method" value="option1"> Bank Transfer
+                                <input type="radio" name="payment_method" value="N" @click="selectPaymentMethod('N')"> NETS
                                 <span></span>
                               </label>
-                              <input type="text" name="bank_ref_no" class="form-control">
                               <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="payment_method" value="option2"> Cheque
+                                <input type="radio" name="payment_method" value="B" @click="selectPaymentMethod('B')"> Bank Transfer
                                 <span></span>
                               </label>
-                              <input type="text" name="cheque_no" class="form-control">
+                              <label class="mt-radio mt-radio-outline">
+                                <input type="radio" name="payment_method" value="Q" @click="selectPaymentMethod('Q')"> Cheque
+                                <span></span>
+                              </label>
+                              <input type="text" name="ref_no" v-show="showRefNo" class="form-control" placeholder="Ref No">
                             </div>
                             <br>
                             <div><button type="submit" name="submit" class="btn blue" value="Paid">
-                              Paid
-                            </button></div>
+                                Paid
+                              </button></div>
                           @endif
                         </div>
                       </div>
@@ -361,8 +388,12 @@
     var vm = new Vue({
       el: "#app",
       data: {
-        issues: {!! $ticket->issues !!},
-        preferred_slots: {!! $ticket->preferred_slots !!},
+        showRefNo: false
+      },
+      methods: {
+        selectPaymentMethod: function(pm) {
+          this.showRefNo = pm == 'B' || pm == 'Q';
+        }
       },
       filters: {
         formatDate: function (value) {

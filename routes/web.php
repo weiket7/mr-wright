@@ -103,20 +103,15 @@ Route::group(['middleware'=>['auth', 'modulemiddleware']], function() {
   Route::get('api/getOfficeByCompany', 'ApiController@getOfficeByCompany');
   Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
 
-});
-
-Route::group(['middleware' => 'ticketrespondmiddleware'], function () {
+  //TODO
   Route::get('ticket/accept/{id}', 'TicketController@view');
   Route::post('ticket/accept/{id}', 'TicketController@view');
   Route::get('ticket/decline/{id}', 'TicketController@view');
   Route::post('ticket/decline/{id}', 'TicketController@view');
-});
 
-Route::group(['middleware' => 'ticketpaymiddleware'], function () {
   Route::get('ticket/pay/{id}', 'TicketController@view');
   Route::post('ticket/pay/{id}', 'TicketController@view');
 });
-
 
 Route::get('test', function() {
   $working_hour_service = new WorkingHourService();
