@@ -26,23 +26,21 @@ class TicketRespondMiddleware
 
     $access_service = new AccessService();
 
-    $access_session = $request->session()->get('access');
+    $access_session = BackendHelper::getAccessesFromSession();
     if (! $access_service->canRespondToTicket($access_session)) {
       return redirect("error")->with('error', 'Not authorised to accept or decline ticket');
     }
 
-    //TODO
-    if (! $access_service->isRequesterAndCanAccessTicket($access_session, $ticket_id)) {
+    $ticket = Ticket::find($ticket_id);
+    if (! $access_service->isRequesterAndCanAccessTicket(Auth::user(), $access_session, $ticket)) {
       return redirect("error")->with('error', 'Not authorised to this ticket');
     }
 
-    $ticket = Ticket::find($ticket_id);
     if($ticket->stat != TicketStat::Quoted) {
       $action_past_tense = $action == 'accept' ? 'accepted' : 'declined';
       return redirect('error')->with('error', 'This ticket cannot be '.$action_past_tense.' because the status is '.strtolower(TicketStat::$values[$ticket->stat]));
     }
 
-    Log::info('quoted_on='.$ticket->quoted_on.' valid_till='.$ticket->quote_valid_till);
     if(! BackendHelper::dateBeforeDateInclusive($ticket->quoted_on, $ticket->quote_valid_till)) {
       $action_past_tense = $action == 'accept' ? 'accepted' : 'declined';
       return redirect('error')->with('error', 'This ticket cannot be '.$action_past_tense.' because the quote has expired, it was valid till '. ViewHelper::formatDate($ticket->quote_valid_till));

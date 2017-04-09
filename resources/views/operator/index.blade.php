@@ -1,5 +1,4 @@
 <?php use App\Models\Enums\UserStat; ?>
-<?php use App\Models\Enums\Role; ?>
 
 @extends("template", [ "title"=>"Companies" ])
 
@@ -35,7 +34,7 @@
             <tr>
               <td>{{UserStat::$values[$operator->stat]}}</td>
               <td><a href="{{url("operator/save/".$operator->user_id)}}">{{ $operator->name }}</a></td>
-              <td>{{Role::$values[$operator->role]}}</td>
+              <td>{{$roles[$operator->role_id]}}</td>
             </tr>
           @endforeach
           </tbody>

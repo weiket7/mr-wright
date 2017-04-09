@@ -15,6 +15,10 @@ class BackendHelper
     return $data;
   }
 
+  public static function getAccessesFromSession() {
+    return session()->get('accesses');
+  }
+
   public static function stringContains($target, $value) {
     if (stripos($target, trim($value)) !== false) {
       return true;

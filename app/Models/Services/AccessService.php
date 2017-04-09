@@ -2,6 +2,7 @@
 
 use App\Models\Access;
 use App\Models\Enums\Role;
+use App\Models\Enums\UserType;
 use App\Models\Requester;
 use App\Models\Ticket;
 use DB;
@@ -35,9 +36,8 @@ class AccessService
       $company_id = $requester->company_id;
       $office_id = $requester->office_id;
     }*/
-    $access = $this->getRoleAccess($user->role);
+    $access = $this->getRoleAccess($user->role_id);
     return [
-      'role_id' => $user->role,
       'company_id' => $company_id,
       'office_id' => $office_id,
       'accesses' => $access->pluck('name')->toArray()
@@ -45,13 +45,11 @@ class AccessService
    }
 
   public function canRespondToTicket($access_session) {
-    //respond = accept/decline
-    return in_array('ticket_pay', $access_session['accesses']);
+    return in_array('ticket_respond', $access_session['accesses']);
   }
 
-  public function isRequesterAndCanAccessTicket($access_session, $ticket_id) {
-    if ($access_session['role_id'] == Role::Requester) {
-      $ticket = Ticket::find($ticket_id);
+  public function isRequesterAndCanAccessTicket($auth_user, $access_session, $ticket) {
+    if ($auth_user->type == UserType::User) {
       if ($access_session['company_id'] != $ticket->company_id || $access_session['office_id'] != $ticket->office_id) {
         return false;
       }
@@ -64,5 +62,9 @@ class AccessService
     $available_accesses = $all_accesses->diffKeys($role_accesses)->all();
     //var_dump($available_accesses); exit;
     return $available_accesses;
+  }
+
+  public function canPayTicket($access_session) {
+    return in_array('ticket_respond', $access_session['accesses']);
   }
 }

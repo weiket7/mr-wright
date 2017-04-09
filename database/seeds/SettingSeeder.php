@@ -11,5 +11,11 @@ class SettingSeeder extends Seeder
       'name'=>'quote_valid_working_days',
       'value'=>7,
     ]);
+    DB::table('setting')->insert([
+    'name'=>'invoice_payment_to',
+    'value'=>'Please make payment to Mr Wright via:
+      1.
+      2.'
+  ]);
   }
 }

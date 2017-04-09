@@ -35,30 +35,28 @@
                     </div>
                   </div>
                 </div>
-                @if($action !== 'create')
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="control-label col-md-3">Ticket Code</label>
-                        <div class="col-md-9">
-                          <div class="form-control-static">
-                            {{ $ticket->ticket_code }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="control-label col-md-3">Status</label>
-                        <div class="col-md-9">
-                          <div class="form-control-static">
-                            {{ TicketStat::$values[$ticket->stat] }}
-                          </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Ticket Code</label>
+                      <div class="col-md-9">
+                        <div class="form-control-static">
+                          {{ $ticket->ticket_code }}
                         </div>
                       </div>
                     </div>
                   </div>
-                @endif
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Status</label>
+                      <div class="col-md-9">
+                        <div class="form-control-static">
+                          {{ TicketStat::$values[$ticket->stat] }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
                 <div class="row">
                   <div class="col-md-6">
@@ -262,25 +260,62 @@
                   <div class="col-md-6">
                     <div class="row">
                       <div class="col-md-offset-3 col-md-9">
-                        @if($action == 'decline')
-                          <div>
-                            <textarea name="decline_reason" title="" class="form-control txt-decline-reason" placeholder="Please share with us the reason for declining"></textarea>
-                          </div>
-                        @endif
+                        <div>
+                          @if($ticket->stat == TicketStat::Quoted && ViewHelper::hasAccess('ticket_respond'))
+                            @if($action == 'view' || $action == 'decline')
+                              <div>
+                                <textarea name="decline_reason" title="" class="form-control txt-decline-reason" placeholder="Please share with us the reason for declining">
+                                </textarea>
+                              </div>
+                            @endif
 
-                        @if($ticket->stat == TicketStat::Quoted)
-                          <div>
-                            <button type="submit" name="submit" class="btn blue" value="{{ ucfirst($action) }}">
-                              {{ ucfirst($action) }}
-                            </button>
-                          </div>
-                        @elseif($ticket->stat == TicketStat::Completed)
-                          <div>
-                            <button type="submit" name="submit" class="btn blue" value="Send Invoice">
+                            @if($action == "accept" || $action == "decline") <!--show 1 button when ticket/accept or ticket/decline-->
+                              <div><button type="submit" name="submit" class="btn blue" value="{{ ucfirst($action) }}">
+                                {{ ucfirst($action) }}
+                              </button></div>
+                            @else <!--show 2 buttons when operator ticket/accept or ticket/decline-->
+                              <div><button type="submit" name="submit" class="btn blue" value="Accept">
+                                Accept
+                              </button>
+                              <button type="submit" name="submit" class="btn blue" value="Decline">
+                                Decline
+                              </button></div>
+                            @endif
+                          @elseif($ticket->stat == TicketStat::Accepted && ViewHelper::hasAccess('ticket_complete'))
+                            <div><button type="submit" name="submit" class="btn blue" value="Complete">
+                              Complete
+                            </button></div>
+                          @elseif($ticket->stat == TicketStat::Completed && ViewHelper::hasAccess('ticket_invoice'))
+                            <div><button type="submit" name="submit" class="btn blue" value="Send Invoice">
                               Send Invoice
-                            </button>
-                          </div>
-                        @endif
+                            </button></div>
+                          @elseif($ticket->stat == TicketStat::Invoiced && ViewHelper::hasAccess('ticket_pay'))
+                            <div class="mt-radio-list">
+                              <label class="mt-radio mt-radio-outline">
+                                <input type="radio" name="payment_method" value="option2"> Credit Card
+                                <span></span>
+                              </label>
+                              <label class="mt-radio mt-radio-outline">
+                                <input type="radio" name="payment_method" value="option2"> Cash
+                                <span></span>
+                              </label>
+                              <label class="mt-radio mt-radio-outline">
+                                <input type="radio" name="payment_method" value="option1"> Bank Transfer
+                                <span></span>
+                              </label>
+                              <input type="text" name="bank_ref_no" class="form-control">
+                              <label class="mt-radio mt-radio-outline">
+                                <input type="radio" name="payment_method" value="option2"> Cheque
+                                <span></span>
+                              </label>
+                              <input type="text" name="cheque_no" class="form-control">
+                            </div>
+                            <br>
+                            <div><button type="submit" name="submit" class="btn blue" value="Paid">
+                              Paid
+                            </button></div>
+                          @endif
+                        </div>
                       </div>
                     </div>
                   </div>

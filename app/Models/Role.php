@@ -47,4 +47,8 @@ class Role extends Eloquent
   public function getValidation() {
     return $this->validation;
   }
+
+  public function getRoleDropdown() {
+    return Role::orderBy('name')->pluck('name', 'role_id');
+  }
 }

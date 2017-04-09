@@ -58,16 +58,6 @@ class TicketController extends BaseController
       } elseif (BackendHelper::stringContains($submit, "quotation")) {
         $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
         $result = "Quotation sent";
-      } elseif (BackendHelper::stringContains($submit, "invoice")) {
-
-        $this->ticket_service->sendInvoice($ticket_id, $this->getUsername());
-        $result = "Quotation sent";
-      } elseif (BackendHelper::stringContains($submit, "complete")) {
-        $this->ticket_service->completeTicket($ticket_id, $this->getUsername());
-        $result = "Ticket completed";
-      } elseif (BackendHelper::stringContains($submit, "paid")) {
-        $this->ticket_service->paidTicket($ticket_id, $this->getUsername());
-        $result = "Ticket paid";
       }
       return redirect('ticket/save/'.$ticket_id)->with('msg', $result);
     }
@@ -87,40 +77,28 @@ class TicketController extends BaseController
       $input = $request->all();
       $submit = $input['submit'];
       $result = "";
-      if (BackendHelper::stringContains($submit, "invoice")) {
-        $this->ticket_service->sendInvoice($ticket_id, $this->getUsername());
-        $result = "Quotation sent";
-      }
-      return redirect('ticket/save/'.$ticket_id)->with('msg', $result);
-    }
-
-    $ticket = $this->ticket_service->getTicket($ticket_id);
-    $this->ticket_service->populateTicketForView($ticket);
-    $data['ticket'] = $ticket;
-    $data['action'] = 'view';
-    return view("ticket/view", $data);
-  }
-
-  public function acceptDecline(Request $request, $ticket_id = null) {
-
-    if($request->isMethod("post")) {
-      $input = $request->all();
-      $submit = $input['submit'];
-      $result = "";
       if (BackendHelper::stringContains($submit, "accept")) {
         $this->ticket_service->acceptTicket($ticket_id);
         $result = "Ticket accepted";
       } elseif (BackendHelper::stringContains($submit, "decline")) {
         $this->ticket_service->declineTicket($ticket_id, $input);
         $result = "Ticket declined";
+      } elseif (BackendHelper::stringContains($submit, "complete")) {
+        $this->ticket_service->completeTicket($ticket_id, $this->getUsername());
+        $result = "Ticket completed";
+      } elseif (BackendHelper::stringContains($submit, "invoice")) {
+        $this->ticket_service->sendInvoice($ticket_id, $this->getUsername());
+        $result = "Invoice sent";
+      } elseif (BackendHelper::stringContains($submit, "paid")) {
+        $this->ticket_service->paidTicket($ticket_id, $this->getUsername());
+        $result = "Ticket paid";
       }
       return redirect('ticket/view/'.$ticket_id)->with('msg', $result);
     }
 
-    $action = $request->segment(2);
     $ticket = $this->ticket_service->getTicket($ticket_id);
     $this->ticket_service->populateTicketForView($ticket);
-    $data['action'] = $action;
+    $data['action'] = $request->segment(2);
     $data['ticket'] = $ticket;
     return view("ticket/view", $data);
   }

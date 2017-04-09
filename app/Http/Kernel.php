@@ -34,6 +34,9 @@ class Kernel extends HttpKernel
         'ticketrespondmiddleware'=> [
             \App\Http\Middleware\TicketRespondMiddleware::class
         ],
+        'modulemiddleware'=> [
+            \App\Http\Middleware\ModuleMiddleware::class
+        ],
 
         'api' => [
             'throttle:60,1',

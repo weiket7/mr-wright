@@ -4,20 +4,23 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Models\Operator;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class OperatorController extends Controller
 {
-  protected $operator;
+  protected $operator_service;
+  protected $role_service;
 
-  public function __construct(Operator $operator)
+  public function __construct(Operator $operator_service, Role $role_service)
   {
-    $this->operator = $operator;
+    $this->operator_service = $operator_service;
+    $this->role_service = $role_service;
   }
 
-  public function index()
-  {
-    $data['operators'] = $this->operator->getOperatorAll();
+  public function index() {
+    $data['operators'] = $this->operator_service->getOperatorAll();
+    $data['roles'] = $this->role_service->getRoleDropdown();
     return view("operator/index", $data);
   }
 
@@ -35,6 +38,7 @@ class OperatorController extends Controller
 
     $data['action'] = $action;
     $data['operator'] = $operator;
+    $data['roles'] = $this->role_service->getRoleDropdown();
     return view('operator/form', $data);
   }
 

@@ -15,7 +15,11 @@
           <div class="form-group">
             <label class="control-label col-md-2">Name</label>
             <div class="col-md-10">
-              <div class="form-control-static">{{ $role->name }}</div>
+              @if($action == 'update')
+                <div class="form-control-static">{{ $role->name }}</div>
+              @else
+                {{Form::text('name', $role->name, ['class'=>'form-control', 'maxlength'=>30])}}
+              @endif
             </div>
           </div>
           <div class="form-group">

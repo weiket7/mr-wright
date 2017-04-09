@@ -2,6 +2,7 @@
 
 use App\Models\Enums\UserStat;
 use App\Models\Enums\Role;
+use App\Models\Enums\UserType;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -16,6 +17,7 @@ class UserSeeder extends Seeder
       'email'=>'admin@mrwright.sg',
       'password'=>Hash::make(123456),
       'role_id'=>1, //admin
+      'type'=>UserType::Operator,
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -29,6 +31,7 @@ class UserSeeder extends Seeder
       'email'=>'misty@mrwright.sg',
       'password'=>Hash::make(123456),
       'role_id'=>3, //operator
+      'type'=>UserType::Operator,
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -42,6 +45,7 @@ class UserSeeder extends Seeder
       'email'=>'jessica@mrwright.sg',
       'password'=>Hash::make(123456),
       'role_id'=>3, //operator
+      'type'=>UserType::Operator,
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -55,6 +59,7 @@ class UserSeeder extends Seeder
       'email'=>'sally@unity-pharmacy.sg',
       'password'=>Hash::make(123456),
       'role_id'=>5, //requester
+      'type'=>UserType::Operator,
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -68,6 +73,7 @@ class UserSeeder extends Seeder
       'email'=>'jane@unity-pharmacy.sg',
       'password'=>Hash::make(123456),
       'role_id'=>5, //requester
+      'type'=>UserType::Operator,
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -81,6 +87,7 @@ class UserSeeder extends Seeder
       'email'=>'candice@mrwright.sg',
       'password'=>Hash::make(123456),
       'role_id'=>2, //finance
+      'type'=>UserType::Operator,
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),

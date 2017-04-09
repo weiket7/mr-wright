@@ -108,7 +108,7 @@
     </div>
     <div class="panel-body text-center">
       <button type="button" class="btn btn-lg btn-success" onclick="location.href='{{url('ticket/accept/'.$ticket->ticket_id)}}'">
-        Approve
+        Accept
       </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <button type="button" class="btn btn-lg btn-danger" onclick="location.href='{{url('ticket/decline/'.$ticket->ticket_id)}}'">
         Decline

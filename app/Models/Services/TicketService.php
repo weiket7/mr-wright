@@ -2,6 +2,7 @@
 
 namespace App\Models\Services;
 
+use App\Mail\InvoiceMail;
 use App\Mail\QuotationMail;
 use App\Models\CategoryForTicket;
 use App\Models\Company;
@@ -233,10 +234,6 @@ class TicketService
     $ticket->updated_on = Carbon::now();
     $ticket->recent_action = 'complete';
     return $ticket->save();
-  }
-
-  public function populateCompanyOfficeRequester($ticket) {
-
   }
 
   public function saveTicketIssues($ticket_id, $input) {

@@ -60,7 +60,7 @@
           <td>{{BackendHelper::getDir('')}}</td>
         </tr>
         <tr>
-          <td>Access</td>
+          <td>Accesses</td>
           <td>
             {{ var_dump(Session::get('accesses')) }}
           </td>

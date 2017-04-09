@@ -14,6 +14,9 @@ class ViewHelper {
     return date('d M Y, h:i a');
   }
 
+  public static function hasAccess($access) {
+    return in_array($access, session()->get('accesses')['accesses']);
+  }
 
   public static function formatDate($date) {
     if ($date == '') {

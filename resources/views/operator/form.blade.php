@@ -1,5 +1,4 @@
 <?php use App\Models\Enums\UserStat; ?>
-<?php use App\Models\Enums\Role; ?>
 
 @extends("template")
 
@@ -71,7 +70,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Role <span class="required">*</span></label>
                 <div class="col-md-9">
-                  {{Form::select('role', Role::$values, $operator->role, ['class'=>'form-control', 'placeholder'=>''])}}
+                  {{Form::select('role_id', $roles, $operator->role_id, ['class'=>'form-control', 'placeholder'=>''])}}
                 </div>
               </div>
             </div>

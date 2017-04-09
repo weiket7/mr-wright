@@ -26,7 +26,7 @@ Route::get('logout', 'SiteController@logout');
 Route::post('login', 'SiteController@login');
 Route::get('error', 'SiteController@error');
 
-Route::group(['middleware'=>'auth'], function() {
+Route::group(['middleware'=>['auth', 'modulemiddleware']], function() {
   Route::get('/', 'SiteController@index');
   Route::get('company', 'CompanyController@index');
   Route::post('company', 'CompanyController@index');
@@ -90,11 +90,13 @@ Route::group(['middleware'=>'auth'], function() {
   Route::get('category-for-ticket', 'SettingController@categoryForTicket');
   Route::get('system', 'SettingController@system');
   Route::get('setting', 'SettingController@setting');
-  Route::get('role', 'RoleController@index');
-  Route::get('role/save/{id}', 'RoleController@save');
-  Route::post('role/save/{id}', 'RoleController@save');
   Route::get('access', 'SettingController@access');
 
+  Route::get('role', 'RoleController@index');
+  Route::get('role/save', 'RoleController@save');
+  Route::post('role/save', 'RoleController@save');
+  Route::get('role/save/{id}', 'RoleController@save');
+  Route::post('role/save/{id}', 'RoleController@save');
 
   Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
   Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
@@ -104,10 +106,15 @@ Route::group(['middleware'=>'auth'], function() {
 });
 
 Route::group(['middleware' => 'ticketrespondmiddleware'], function () {
-  Route::get('ticket/accept/{id}', 'TicketController@acceptDecline');
-  Route::post('ticket/accept/{id}', 'TicketController@acceptDecline');
-  Route::get('ticket/decline/{id}', 'TicketController@acceptDecline');
-  Route::post('ticket/decline/{id}', 'TicketController@acceptDecline');
+  Route::get('ticket/accept/{id}', 'TicketController@view');
+  Route::post('ticket/accept/{id}', 'TicketController@view');
+  Route::get('ticket/decline/{id}', 'TicketController@view');
+  Route::post('ticket/decline/{id}', 'TicketController@view');
+});
+
+Route::group(['middleware' => 'ticketpaymiddleware'], function () {
+  Route::get('ticket/pay/{id}', 'TicketController@view');
+  Route::post('ticket/pay/{id}', 'TicketController@view');
 });
 
 

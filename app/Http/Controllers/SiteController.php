@@ -49,7 +49,7 @@ class SiteController extends Controller
       }
 
       $user = Auth::user();
-      $request->session()->put('access', $this->access_service->getAccess($user));
+      $request->session()->put('accesses', $this->access_service->getAccess($user));
       //$request->session()->put('outlet_id', $user->getOutletIdByRole());
       $referrer = $request->session()->has('referrer');
       if ($referrer) {

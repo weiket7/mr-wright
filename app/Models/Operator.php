@@ -1,7 +1,5 @@
 <?php namespace App\Models;
 
-
-use App\Models\Enums\Role;
 use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
 use Eloquent, DB, Validator, Log;
@@ -19,7 +17,7 @@ class Operator extends Eloquent
     'username'=>"sometimes|required|unique:user,username",
     'stat'=>'required',
     'name'=>'required',
-    'role'=>'required',
+    'role_id'=>'required',
   ];
 
   private $messages = [
@@ -27,11 +25,11 @@ class Operator extends Eloquent
     'username.unique'=>'Username is not available',
     'stat.required'=>'Status is required',
     'name.required'=>'Name is required',
-    'role.required'=>'Role is required',
+    'role_id.required'=>'Role is required',
   ];
 
   public function getOperatorAll() {
-    return Operator::whereIn('role', [Role::Operator, Role::Admin, Role::Finance])
+    return Operator::where('type', UserType::Operator)
       ->orderBy('stat')->orderBy('name')->get();
   }
 
@@ -55,7 +53,7 @@ class Operator extends Eloquent
       $this->password = Hash::make($input['password']);
     }
     $this->email = $input['email'];
-    $this->role = $input['role'];
+    $this->role_id = $input['role_id'];
     $this->save();
     return true;
   }

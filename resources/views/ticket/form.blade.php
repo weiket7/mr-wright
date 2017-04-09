@@ -135,7 +135,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Quoted Price</label>
                       <div class="col-md-9">
-                        {{Form::text('quoted_price', ViewHelper::formatNumber($ticket->quoted_price), ['class'=>'form-control'])}}
+                        {{Form::number('quoted_price', ViewHelper::formatNumber($ticket->quoted_price), ['class'=>'form-control', 'step'=>".01" ])}}
                       </div>
                     </div>
                   </div>
@@ -148,6 +148,7 @@
                     </div>
                   </div>
                 </div>
+                @if ($ticket->stat == TicketStat::Quoted)
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -163,6 +164,8 @@
 
                   </div>
                 </div>
+                @endif
+
                 @if($ticket->stat == TicketStat::Declined)
                 <div class="row">
                   <div class="col-md-6">
@@ -333,14 +336,10 @@
                       @endif
 
                       <?php $btn_text = "";
-                        if($ticket->stat == TicketStat::Drafted) {
+                        if($ticket->stat == TicketStat::Drafted && ViewHelper::hasAccess('ticket_open')) {
                           $btn_text = "Open Ticket";
-                        } elseif($ticket->stat == TicketStat::Opened) {
+                        } elseif($ticket->stat == TicketStat::Opened && ViewHelper::hasAccess('ticket_quote')) {
                           $btn_text = "Send Quotation";
-                        } elseif($ticket->stat == TicketStat::Accepted) {
-                          $btn_text = "Complete";
-                        } elseif($ticket->stat == TicketStat::Completed) {
-                          $btn_text = "Paid";
                         }
                         ?>
                         @if($btn_text)

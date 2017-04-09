@@ -107,10 +107,7 @@
       </h3>
     </div>
     <div class="panel-body text-center">
-      Please make payment to Mr Wright via:<br>
-      1.<br>
-      2.
+      To make payment, please <a href="{{url('ticket/pay/'.$ticket->ticket_id)}}">log in to Mr Wright</a>
     </div>
-    <div class="panel-footer text-center">Valid till {{ ViewHelper::formatDate($ticket->quote_valid_till) }} (inclusive)</div>
   </div>
 @endsection

@@ -8,7 +8,7 @@
       <h1 class="page-title">Roles</h1>
     </div>
     <div class="col-md-6 text-right">
-      <button type="button" class="btn blue" onclick="location.href='{{url('ticket/save')}}'">Create</button>
+      <button type="button" class="btn blue" onclick="location.href='{{url('role/save')}}'">Create</button>
     </div>
   </div>
 
