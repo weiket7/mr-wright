@@ -37,4 +37,5 @@ class Skill extends Eloquent
   public function getSkillDropdown() {
     return Skill::pluck('name', 'skill_id');
   }
+
 }

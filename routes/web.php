@@ -64,6 +64,7 @@ Route::group(['middleware'=>'auth'], function() {
   Route::get('ticket/save/{id}', 'TicketController@save');
   Route::post('ticket/save/{id}', 'TicketController@save');
   Route::get('ticket/preview-quotation/{id}', 'TicketController@previewQuotation');
+  Route::get('ticket/preview-invoice/{id}', 'TicketController@previewInvoice');
 
   Route::get('staff', 'StaffController@index');
   Route::get('staff/save', 'StaffController@save');
@@ -89,8 +90,9 @@ Route::group(['middleware'=>'auth'], function() {
   Route::get('category-for-ticket', 'SettingController@categoryForTicket');
   Route::get('system', 'SettingController@system');
   Route::get('setting', 'SettingController@setting');
-  Route::get('role', 'SettingController@role');
-  Route::get('role/view/{id}', 'SettingController@roleView');
+  Route::get('role', 'RoleController@index');
+  Route::get('role/save/{id}', 'RoleController@save');
+  Route::post('role/save/{id}', 'RoleController@save');
   Route::get('access', 'SettingController@access');
 
 

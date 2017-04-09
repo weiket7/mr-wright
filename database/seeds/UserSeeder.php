@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
       'name'=>'Admin',
       'email'=>'admin@mrwright.sg',
       'password'=>Hash::make(123456),
-      'role'=>Role::Admin,
+      'role_id'=>1, //admin
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
       'name'=>'Misty',
       'email'=>'misty@mrwright.sg',
       'password'=>Hash::make(123456),
-      'role'=>Role::Operator,
+      'role_id'=>3, //operator
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
       'name'=>'Jessica',
       'email'=>'jessica@mrwright.sg',
       'password'=>Hash::make(123456),
-      'role'=>Role::Operator,
+      'role_id'=>3, //operator
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
       'name'=>'Sally',
       'email'=>'sally@unity-pharmacy.sg',
       'password'=>Hash::make(123456),
-      'role'=>Role::Requester,
+      'role_id'=>5, //requester
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -67,7 +67,7 @@ class UserSeeder extends Seeder
       'name'=>'Jane',
       'email'=>'jane@unity-pharmacy.sg',
       'password'=>Hash::make(123456),
-      'role'=>Role::Requester,
+      'role_id'=>5, //requester
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -80,7 +80,7 @@ class UserSeeder extends Seeder
       'name'=>'Candice',
       'email'=>'candice@mrwright.sg',
       'password'=>Hash::make(123456),
-      'role'=>Role::Finance,
+      'role_id'=>2, //finance
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),

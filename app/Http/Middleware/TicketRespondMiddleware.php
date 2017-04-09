@@ -2,9 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Enums\Role;
 use App\Models\Enums\TicketStat;
-use App\Models\Enums\UserType;
 use App\Models\Helpers\BackendHelper;
 use App\Models\Services\AccessService;
 use App\Models\Ticket;
@@ -33,6 +31,7 @@ class TicketRespondMiddleware
       return redirect("error")->with('error', 'Not authorised to accept or decline ticket');
     }
 
+    //TODO
     if (! $access_service->isRequesterAndCanAccessTicket($access_session, $ticket_id)) {
       return redirect("error")->with('error', 'Not authorised to this ticket');
     }

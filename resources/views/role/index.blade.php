@@ -24,7 +24,7 @@
           <tbody>
           @foreach($roles as $role)
             <tr>
-              <td><a href="{{url('role/view/'.$role)}}">{{ $role }}</a></td>
+              <td><a href="{{url('role/save/'.$role->role_id)}}">{{ $role->name }}</a></td>
             </tr>
           @endforeach
           </tbody>

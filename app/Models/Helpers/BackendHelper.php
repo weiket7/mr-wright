@@ -16,7 +16,7 @@ class BackendHelper
   }
 
   public static function stringContains($target, $value) {
-    if (stripos($target, $value) !== false) {
+    if (stripos($target, trim($value)) !== false) {
       return true;
     }
     return false;

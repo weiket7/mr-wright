@@ -36,7 +36,7 @@ class StaffController extends Controller
     $data['action'] = $action;
     $data['staff'] = $staff;
     $data['staff_skills'] = $staff->getStaffSkills();
-    $data['skills'] = $this->skill->getSkillDropdown();
+    $data['available_skills'] = $staff->getAvailableSkills($data['staff_skills']);
 
     return view('staff/form', $data);
   }

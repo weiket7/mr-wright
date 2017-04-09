@@ -274,9 +274,7 @@
                               {{ ucfirst($action) }}
                             </button>
                           </div>
-                        @endif
-
-                        @if($ticket->stat == TicketStat::Completed)
+                        @elseif($ticket->stat == TicketStat::Completed)
                           <div>
                             <button type="submit" name="submit" class="btn blue" value="Send Invoice">
                               Send Invoice

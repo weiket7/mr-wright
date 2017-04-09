@@ -25,6 +25,7 @@
           <div class="tab-pane fade active in" id="tab-general">
             <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
               {!! csrf_field() !!}
+              {!! csrf_field() !!}
               <div class="form-body">
                 <div class="form-group">
                   <label class="control-label col-md-2">Title</label>

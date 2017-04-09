@@ -46,35 +46,18 @@ class Staff extends Eloquent
 
     $this->name = $input['name'];
     $this->save();
-    
+
     $this->saveStaffSkills($input, $operator);
     return true;
   }
-  
-  private function saveStaffSkills($input, $operator = 'admin') {
-    $count = $input['staff_skills_count'];
-    for($i=0; $i<$count; $i++) {
-      $stat = isset($input['staff_skill_stat'.$i]) ? $input['staff_skill_stat'.$i] : '';
-      if ($stat == 'delete') {
-        DB::table('staff_skill')->where('staff_skill_id', $input['skill_id'.$i])->delete();
-        continue;
-      }
 
-      $skill_id = isset($input['staff_skill'.$i]) ? $input['staff_skill'.$i] : null;
-      if ($skill_id) {
-        $staff_skill = [
-          'skill_id' =>$skill_id,
-          'updated_by'=>$operator,
-          'updated_on'=>Carbon::now()
-        ];
-        if ($stat == 'add') {
-          $staff_skill['staff_id'] = $this->staff_id;
-          DB::table('staff_skill')->insert($staff_skill);
-        } else {
-          $staff_skill_id = $input['staff_skill_id'.$i];
-          DB::table('staff_skill')->where('staff_skill_id', $staff_skill_id)->update($staff_skill);
-        }
-      }
+  private function saveStaffSkills($input, $operator = 'admin') {
+    DB::table('staff_skill')->where('staff_id', $this->staff_id)->delete();
+    foreach(json_decode($input['staff_skills']) as $a) {
+      DB::table('staff_skill')->insert([
+        'staff_id'=>$this->staff_id,
+        'skill_id'=>$a->skill_id
+      ]);
     }
   }
 
@@ -82,7 +65,13 @@ class Staff extends Eloquent
     return DB::table('skill as sk')
       ->join('staff_skill as ss', 'ss.skill_id', '=', 'sk.skill_id')
       ->join('staff as st', 'ss.staff_id', '=', 'st.staff_id')
-      ->where('ss.staff_id', $this->staff_id)->select('staff_skill_id', 'sk.skill_id', 'sk.name')->get();
+      ->where('ss.staff_id', $this->staff_id)->select('staff_skill_id', 'sk.skill_id', 'sk.name')->get()->keyBy('skill_id');
+  }
+
+  public function getAvailableSkills($staff_skills) {
+    $all_skills = Skill::select(['name', 'skill_id'])->get()->keyBy('skill_id');
+    $available_skills = $all_skills->diffKeys($staff_skills)->all();
+    return $available_skills;
   }
 
   public function getValidation() {

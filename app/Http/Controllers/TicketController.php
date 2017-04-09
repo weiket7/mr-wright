@@ -16,7 +16,7 @@ use App\Models\Helpers\BackendHelper;
 use Log;
 use Mail;
 
-class TicketController extends Controller
+class TicketController extends BaseController
 {
   protected $company_service;
   protected $ticket_service;
@@ -50,19 +50,23 @@ class TicketController extends Controller
         $this->ticket_service->openTicket($ticket_id);
         $result = "Ticket opened";
       } elseif (BackendHelper::stringContains($submit, "ticket")) {
-        $ticket_id = $this->ticket_service->saveTicket($ticket_id, $input);
+        $ticket_id = $this->ticket_service->saveTicket($ticket_id, $input, $this->getUsername());
         if ($ticket_id === false) {
           return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
         }
         $result = "Ticket " . $data['action'] . "d";
       } elseif (BackendHelper::stringContains($submit, "quotation")) {
-        $this->ticket_service->sendQuotation($ticket_id);
+        $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
+        $result = "Quotation sent";
+      } elseif (BackendHelper::stringContains($submit, "invoice")) {
+
+        $this->ticket_service->sendInvoice($ticket_id, $this->getUsername());
         $result = "Quotation sent";
       } elseif (BackendHelper::stringContains($submit, "complete")) {
-        $this->ticket_service->completeTicket($ticket_id);
+        $this->ticket_service->completeTicket($ticket_id, $this->getUsername());
         $result = "Ticket completed";
       } elseif (BackendHelper::stringContains($submit, "paid")) {
-        $this->ticket_service->paidTicket($ticket_id);
+        $this->ticket_service->paidTicket($ticket_id, $this->getUsername());
         $result = "Ticket paid";
       }
       return redirect('ticket/save/'.$ticket_id)->with('msg', $result);
@@ -79,6 +83,17 @@ class TicketController extends Controller
   }
 
   public function view(Request $request, $ticket_id = null) {
+    if($request->isMethod("post")) {
+      $input = $request->all();
+      $submit = $input['submit'];
+      $result = "";
+      if (BackendHelper::stringContains($submit, "invoice")) {
+        $this->ticket_service->sendInvoice($ticket_id, $this->getUsername());
+        $result = "Quotation sent";
+      }
+      return redirect('ticket/save/'.$ticket_id)->with('msg', $result);
+    }
+
     $ticket = $this->ticket_service->getTicket($ticket_id);
     $this->ticket_service->populateTicketForView($ticket);
     $data['ticket'] = $ticket;
@@ -115,6 +130,15 @@ class TicketController extends Controller
     $this->ticket_service->populateTicketForView($ticket);
     $data['ticket'] = $ticket;
     return view('emails/quotation', $data);
+    //Mail::to($user = User::where('username', $ticket->requested_by)->first())->send(new QuotationMail($ticket));
+
+  }
+
+  public function previewInvoice($ticket_id) {
+    $ticket = $this->ticket_service->getTicket($ticket_id);
+    $this->ticket_service->populateTicketForView($ticket);
+    $data['ticket'] = $ticket;
+    return view('emails/invoice', $data);
     //Mail::to($user = User::where('username', $ticket->requested_by)->first())->send(new QuotationMail($ticket));
 
   }

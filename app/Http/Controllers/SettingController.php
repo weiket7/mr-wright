@@ -20,18 +20,6 @@ class SettingController extends Controller
     $this->ticket_service = $ticket_service;
   }
 
-  public function role(Request $request) {
-    $data['roles'] = Role::$values;
-    return view("setting/role-index", $data);
-  }
-
-  public function roleView(Request $request, $role = null) {
-    $data['action'] = $request->segment(2);
-    $data['role'] = $role;
-    $data['accesses'] = $this->access_service->getRoleAccess(array_search($role, Role::$values));
-    return view("setting/role-view", $data);
-  }
-
   public function setting(Request $request) {
     $data['settings'] = Setting::all();
     return view("setting/setting-index", $data);

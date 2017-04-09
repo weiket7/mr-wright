@@ -368,5 +368,30 @@ class TicketService
     return DB::select($s);
   }
 
-  
+
+  public function paidTicket($ticket_id, $operator = 'admin') {
+    $ticket = Ticket::findOrFail($ticket_id);
+    $ticket->stat = TicketStat::Paid;
+    $ticket->paid_by = $operator;
+    $ticket->paid_on = Carbon::now();
+    $ticket->updated_on = Carbon::now();
+    $ticket->recent_action = 'pay';
+    return $ticket->save();
+  }
+
+  public function sendInvoice($ticket_id, $operator = 'admin')
+  {
+    $ticket = Ticket::findOrFail($ticket_id);
+    $ticket->stat = TicketStat::Invoiced;
+    $ticket->invoiced_by = $operator;
+    $ticket->invoiced_on = Carbon::now();
+    $ticket->recent_action = 'invoice';
+    $ticket->save();
+
+    $ticket = $this->getTicket($ticket_id);
+    $this->populateTicketForView($ticket);
+    Mail::to($user = Requester::where('username', $ticket->requested_by)->first())->send(new InvoiceMail($ticket));
+    return true;
+  }
+
 }

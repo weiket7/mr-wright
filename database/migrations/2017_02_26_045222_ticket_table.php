@@ -40,6 +40,8 @@ class TicketTable extends Migration
       $t->dateTime('declined_on');
       $t->string('completed_by', 20);
       $t->dateTime('completed_on');
+      $t->string('invoiced_by', 20);
+      $t->dateTime('invoiced_on');
       $t->string('paid_by', 20);
       $t->dateTime('paid_on');
       $t->string('updated_by', 20);

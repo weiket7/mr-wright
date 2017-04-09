@@ -11,7 +11,7 @@ class RoleAccessSeeder extends Seeder
 
         foreach($ticket_set as $t) {
             DB::table('role_access')->insert([
-              'role'=>Role::Admin,
+              'role_id'=>1, //admin
               'access_id'=>$t
             ]);
         }
@@ -22,23 +22,23 @@ class RoleAccessSeeder extends Seeder
         unset($arr[7]); //pay
         foreach($arr as $t) {
             DB::table('role_access')->insert([
-              'role'=>Role::Operator,
+              'role_id'=>3, //operator
               'access_id'=>$t
             ]);
         }
 
 
         DB::table('role_access')->insert([
-          'role'=>Role::Requester,
+          'role_id'=>5, //requester
           'access_id'=>4, //accept
         ]);
         DB::table('role_access')->insert([
-          'role'=>Role::Requester,
+          'role_id'=>5, //requester
           'access_id'=>5, //decline
         ]);
 
         DB::table('role_access')->insert([
-          'role'=>Role::Finance,
+          'role_id'=>2, //finance
           'access_id'=>7, //pay
         ]);
 

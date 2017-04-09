@@ -33,41 +33,33 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Skill</label>
                 <div class="col-md-9">
-                  <input type="hidden" name="staff_skills_count" v-bind:value="staff_skills.length">
+                  <input type="hidden" name="staff_skills" :value="JSON.stringify(staff_skills)">
   
-                  <table class="table table-bordered no-margin-btm">
-                    <tbody>
-                    <tr v-for="(skill, index) in staff_skills" v-bind:class="'row-'+skill.stat">
-                      <td width="57px">
-                        <button type="button" class="btn btn-icon-only blue" @click="deleteStaffSkill(index)">
-                        <i v-if="skill.name" class="fa fa-undo"></i>
-                        <i v-else="" class="fa fa-times"></i>
-                        </button>
-                        <input type="hidden" v-bind:name="'staff_skill_stat'+index" v-bind:value="skill.stat" v-if="skill.stat">
-                        <input type="hidden" v-bind:name="'staff_skill_id'+index" v-bind:value="skill.staff_skill_id">
-                      </td>
-                      <td>
-                        <select :name="'staff_skill'+index" v-model="skill.skill_id" class="form-control">
-                          <option></option>
-                          <option v-for="(name, skill_id) in skills" :value="skill_id">
-                            @{{ name }}
-                          </option>
-                        </select>
-                      </td>
-                    </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td colspan="2">
-                          <div class="text-center">
-                            <button type="button" @click="addStaffSkill" class="btn blue">
-                              Add
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
+                  <div class="row">
+                    <div class="col-md-5">
+                      <ul class="list-group">
+                        <li v-for="skill in available_skills" :class="{'bg-grey-steel': skill.selected }" class="list-group-item" @click="selectSkill(skill)">
+                        @{{ skill.name }}
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-md-2 text-center">
+                      <button type="button" class="btn btn-icon-only blue" @click="addSkill">
+                      <i class="fa fa-arrow-right"></i>
+                      </button>
+                      <br><br>
+                      <button type="button" class="btn btn-icon-only blue" @click="removeSkill">
+                      <i class="fa fa-arrow-left"></i>
+                      </button>
+                    </div>
+                    <div class="col-md-5">
+                      <ul class="list-group">
+                        <li v-for="skill in staff_skills" :class="{'bg-grey-steel': skill.selected }" class="list-group-item" @click="selectSkill(skill)">
+                        @{{ skill.name }}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -99,23 +91,40 @@
     var vm = new Vue({
       el: "#app",
       data: {
-        staff_skills: {!! $staff_skills !!},
-        skills: {!! $skills !!}
+        staff_skills: {!! count($staff_skills) ? json_encode($staff_skills) : "{}" !!},
+        available_skills: {!! count($available_skills) ? json_encode($available_skills) : "{}" !!}
       },
       methods: {
-        addStaffSkill: function() {
-          this.staff_skills.push({name:'', stat:'add'});
-        },
-        deleteStaffSkill: function(index) {
-          var skill = this.staff_skills[index];
-          if (skill.stat === 'add') {
-            this.staff_skills.splice(index, 1);
-          }
-      
-          if (skill.stat == 'delete') {
-            skill.stat = '';
+        selectSkill: function(skill) {
+          if (typeof skill.selected  == "undefined") {
+            Vue.set(skill, 'selected', true);
           } else {
-            Vue.set(skill, 'stat', 'delete');
+            skill.selected  = ! skill.selected;
+          }
+          //console.log(skill.selected );
+        },
+        addSkill: function() {
+          var obj = this.available_skills;
+
+          for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+              if (obj[key].selected === true) {
+                Vue.set(this.staff_skills, key, obj[key]);
+                Vue.delete(obj, key);
+              }
+            }
+          }
+        },
+        removeSkill: function() {
+          var obj = this.staff_skills;
+
+          for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+              if (obj[key].selected === true) {
+                Vue.set(this.available_skills, key, obj[key]);
+                Vue.delete(obj, key);
+              }
+            }
           }
         }
       }
