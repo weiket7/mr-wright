@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Setting;
 use Auth;
 use Illuminate\Http\Request;
-use App\Models\Product;
 
 class BaseController extends Controller
 {
