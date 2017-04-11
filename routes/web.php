@@ -21,13 +21,15 @@ use App\Models\User;
 use Carbon\Carbon;
 
 
-Route::get('login', 'SiteController@login');
-Route::get('logout', 'SiteController@logout');
-Route::post('login', 'SiteController@login');
-Route::get('error', 'SiteController@error');
+Route::get('/', 'SiteController@index');
+
+Route::get('admin/login', 'AdminController@login');
+Route::get('admin/logout', 'AdminController@logout');
+Route::post('admin/login', 'AdminController@login');
+Route::get('admin/error', 'AdminController@error');
 
 Route::group(['middleware'=>['auth', 'modulemiddleware']], function() {
-  Route::get('/', 'SiteController@index');
+  Route::get('admin', 'AdminController@index');
   Route::get('company', 'CompanyController@index');
   Route::post('company', 'CompanyController@index');
   Route::get('company/save', 'CompanyController@save');
