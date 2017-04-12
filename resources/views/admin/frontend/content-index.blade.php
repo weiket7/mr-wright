@@ -26,7 +26,7 @@
           <tbody>
           @foreach($contents as $content)
             <tr>
-              <td><a href="{{url("content/save/".$content->frontend_content_id)}}">{{ $content->key }}</a></td>
+              <td><a href="{{url("admin/content/save/".$content->frontend_content_id)}}">{{ $content->key }}</a></td>
               <td>{{ $content->value }}</td>
             </tr>
           @endforeach

@@ -29,10 +29,10 @@
           <tbody>
           @foreach($banners as $banner)
             <tr>
-              <td><a href="{{url("banner/save/".$banner->frontend_banner_id)}}">{{ $banner->title }}</a></td>
+              <td><a href="{{url("admin/banner/save/".$banner->frontend_banner_id)}}">{{ $banner->title }}</a></td>
               <td>{{ $banner->content }}</td>
               <td>{{ $banner->button_text }}</td>
-              <td>{{ $banner->button_link }}</td>
+              <td>{{ $banner->link }}</td>
               <td>{{ $banner->image }}</td>
             </tr>
           @endforeach

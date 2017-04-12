@@ -34,13 +34,13 @@
     <div class="header-top-bar">
       <ul class="contact-details clearfix">
         <li class="template-phone">
-          <a href="tel:+149752322235">+149 75 23 222 35</a>
+          <a href="tel:+149752322235">{{$frontend['contents']['contact']}}</a>
         </li>
         <li class="template-mail">
-          <a href="mailto:renovate@mail.com">renovate@mail.com</a>
+          <a href="mailto:renovate@mail.com">{{$frontend['contents']['email']}}</a>
         </li>
         <li class="template-clock">
-          Mon - Fri: 08.00 - 17.00
+          {{$frontend['contents']['opening_hours']}}
         </li>
       </ul>
       <div class="search-container">
@@ -514,15 +514,16 @@
         <ul class="contact-details-list">
           <li class="sl-small-phone">
             <p>Phone:<br>
-              +149 75 23 222 35</p>
+              {{$frontend['contents']['contact']}}
+            </p>
           </li>
         </ul>
       </div>
       <div class="column column-1-3">
         <ul class="contact-details-list">
           <li class="sl-small-location">
-            <p>272 Linden Avenue<br>
-              Winter Park, FL 32789</p>
+            <p>{!! nl2br($frontend['contents']['address']) !!}
+            </p>
           </li>
         </ul>
       </div>
@@ -530,7 +531,7 @@
         <ul class="contact-details-list">
           <li class="sl-small-mail">
             <p>E-mail:<br>
-              <a href="mailto:kevin.smith@connect.com">renovate@mail.com</a></p>
+              <a href="mailto:{{$frontend['contents']['email']}}">{{$frontend['contents']['email']}}</a></p>
           </li>
         </ul>
       </div>
@@ -540,7 +541,7 @@
     <div class="row row-4-4">
       <div class="column column-1-4">
         <h6 class="box-header">About Us</h6>
-        <p class="description t1">Founded by Kevin Smith back in 2000. Renovate has estabilished itself as one of the greatest and prestigious providers of construction focused interior renovation services and building.</p>
+        <p class="description t1">{{$frontend['contents']['footer_about']}}</p>
         <ul class="social-icons yellow margin-top-26">
           <li>
             <a target="_blank" href="http://facebook.com/QuanticaLabs" class="social-facebook" title="facebook"></a>

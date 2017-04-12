@@ -16,99 +16,60 @@ class FrontendContentTable extends Migration
     });
 
     /*GENERAL*/
-    DB::table('frontend_content')->insert([
-      'page'=>'general',
-      'key'=>'contact',
-      'value'=>'+65 3222 3512',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'general',
-      'key'=>'email',
-      'value'=>'renovate@mail.com',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'general',
-      'key'=>'opening_hours',
-      'value'=>'Mon - Fri: 08.00 - 17.00',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'general',
-      'key'=>'facebook',
-      'value'=>'http://facebook.com',
-    ]);
+    $data = [
+      ['key'=>'contact', 'value'=>'+65 3222 3512'],
+      ['key'=>'email', 'value'=>'renovate@mail.com'],
+      ['key'=>'opening_hours', 'value'=>'Mon - Fri: 08.00 - 17.00'],
+      ['key'=>'facebook', 'value'=>'http://facebook.com'],
+      ['key'=>'address', 'value'=>'272 Linden Avenue
+Winter Park, FL 32789']
+    ];
+    foreach($data as $d) {
+      DB::table('frontend_content')->insert([
+        'page'=>'general', 'key'=>$d['key'], 'value'=>$d['value']
+      ]);
+    }
 
-    /*HOME ABOUT*/
-    DB::table('frontend_content')->insert([
-      'key'=>'about_row1_title', 'page'=>'home',
-      'value'=>'OVER 15 YEARS EXPERIENCE',
-    ]);
-    DB::table('frontend_content')->insert([
-      'key'=>'about_row1_content', 'page'=>'home',
-      'value'=>'We combine quality workmanship, superior knowledge and low prices to provide you with service unmatched by our competitors.',
-    ]);
-    DB::table('frontend_content')->insert([
-      'key'=>'about_row2_title', 'page'=>'home',
-      'value'=>'BEST MATERIALS',
-    ]);
-    DB::table('frontend_content')->insert([
-      'key'=>'about_row2_content', 'page'=>'home',
-      'value'=>'We have the experience, personel and resources to make the project run smoothly. We can ensure a job is done on time.',
-    ]);
-    DB::table('frontend_content')->insert([
-      'key'=>'about_row3_title', 'page'=>'home',
-      'value'=>'PROFESSIONAL STANDARDS',
-    ]);
-    DB::table('frontend_content')->insert([
-      'key'=>'about_row3_content', 'page'=>'home',
-      'value'=>'Work with us involve a carefully planned series of steps, centered around a schedule we stick to and daily communication.',
-    ]);
+    $data = [
+      ['key'=>'about_column1_icon', 'value'=>'house-2'],
+      ['key'=>'about_column1_title', 'value'=>'WE\'RE EXPERTS'],
+      ['key'=>'about_column1_content', 'value'=>'Morbi nulla tortor, dignissim est node cursus euismod est arcu. Nomad at vehicula novum justo magna.'],
+      ['key'=>'about_column2_icon', 'value'=>'team'],
+      ['key'=>'about_column2_title', 'value'=>'WE\'RE FRIENDLY'],
+      ['key'=>'about_column2_content', 'value'=>'Morbi nulla tortor, dignissim est node cursus euismod est arcu. Nomad at vehicula novum justo magna.'],
+      ['key'=>'about_column3_icon', 'value'=>'measure'],
+      ['key'=>'about_column3_title', 'value'=>'WE\'RE ACCURATE'],
+      ['key'=>'about_column3_content', 'value'=>'Morbi nulla tortor, dignissim est node cursus euismod est arcu. Nomad at vehicula novum justo magna.'],
+      ['key'=>'about_column4_icon', 'value'=>'brush-2'],
+      ['key'=>'about_column4_title', 'value'=>'WE\'RE TRUSTED'],
+      ['key'=>'about_column4_content', 'value'=>'Morbi nulla tortor, dignissim est node cursus euismod est arcu. Nomad at vehicula novum justo magna.'],
+    ];
+    foreach($data as $d) {
+      DB::table('frontend_content')->insert([
+        'page'=>'home', 'key'=>$d['key'], 'value'=>$d['value']
+      ]);
+    }
 
     /*HOME SERVICE*/
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'service_column1_image',
-      'value'=>'house-1',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'service_column1_title',
-      'value'=>'INTERIOR RENOVATION',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'service_column1_content',
-      'value'=>'',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'service_column2_image',
-      'value'=>'eco',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'service_column2_title',
-      'value'=>'DESIGN AND BUILD',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'service_column2_content',
-      'value'=>'Morbi nulla tortor, dignissim est node cursus euismod est arcu. Nomad at vehicula novum justo magna.',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'service_column3_image',
-      'value'=>'garage',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'service_column3_title',
-      'value'=>'TILING AND PAINTING',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'service_column3_content',
-      'value'=>'Morbi nulla tortor, dignissim est node cursus euismod est arcu. Nomad at vehicula novum justo magna.',
-    ]);
+    $data = [
+      ['key'=>'service_column1_image', 'value'=>'service1.jpg'],
+      ['key'=>'service_column1_title', 'value'=>'INTERIOR RENOVATION'],
+      ['key'=>'service_column1_content', 'value'=>'We can help you bring new life to existing rooms and develop unused spaces.'],
+      ['key'=>'service_column1_link', 'value'=>''],
+      ['key'=>'service_column2_image', 'value'=>'service2.jpg'],
+      ['key'=>'service_column2_title', 'value'=>'DESIGN AND BUILD'],
+      ['key'=>'service_column2_content', 'value'=>'From initial design and project specification to archieving a high end finish.'],
+      ['key'=>'service_column2_link', 'value'=>''],
+      ['key'=>'service_column3_image', 'value'=>'service3.jpg'],
+      ['key'=>'service_column3_title', 'value'=>'TILING AND PAINTING'],
+      ['key'=>'service_column3_content', 'value'=>'We offer quality tiling and painting solutions for interior and exterior.'],
+      ['key'=>'service_column3_link', 'value'=>''],
+    ];
+    foreach($data as $d) {
+      DB::table('frontend_content')->insert([
+        'page'=>'home', 'key'=>$d['key'], 'value'=>$d['value']
+      ]);
+    }
 
     /*HOME WHY CHOOSE*/
     DB::table('frontend_content')->insert([

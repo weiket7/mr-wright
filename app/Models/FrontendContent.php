@@ -40,6 +40,6 @@ class FrontendContent extends Eloquent
 
   public function getContentAll()
   {
-    return DB::table('frontend_content')->get();
+    return DB::table('frontend_content')->pluck('value', 'key');
   }
 }
