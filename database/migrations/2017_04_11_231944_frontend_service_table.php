@@ -9,7 +9,7 @@ class FrontendServiceTable extends Migration
     public function up()
     {
         Schema::create('frontend_service', function (Blueprint $t) {
-            $t->increments('service_id');
+            $t->increments('frontend_service_id');
             $t->string('title', 50);
             $t->string('content', 100);
             $t->string('button_text', 50);

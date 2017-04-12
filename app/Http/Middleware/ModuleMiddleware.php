@@ -12,7 +12,8 @@ class ModuleMiddleware
   public function handle(Request $request, Closure $next)
   {
     $module = $request->segment(1);
-    if($module == 'ticket' || $module == '' || $module == 'api') {
+    //TODO
+    if($module == 'ticket' || $module == '' || $module == 'api' || $module = 'dashboard') {
       return $next($request);
     }
 
@@ -21,7 +22,7 @@ class ModuleMiddleware
     $accesses = $request->session()->get('accesses')['accesses'];
 
     if (! in_array($module, $accesses)) {
-      return redirect("error")->with('error', 'Not authorised to module ' . $module);
+      return redirect("admin/error")->with('error', 'Not authorised to module ' . $module);
     }
     /*if (Auth::check() == false) {
       $request->session()->put('referrer', "ticket/" . $action . "/" . $ticket_id);

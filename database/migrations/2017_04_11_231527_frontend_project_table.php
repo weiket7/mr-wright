@@ -9,7 +9,7 @@ class FrontendProjectTable extends Migration
   public function up()
   {
     Schema::create('frontend_project', function (Blueprint $t) {
-      $t->increments('project_id');
+      $t->increments('frontend_project_id');
       $t->string('title', 50);
       $t->string('content', 1000);
       $t->string('category', 30);

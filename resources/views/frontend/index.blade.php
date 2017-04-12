@@ -5,73 +5,25 @@
 <div class="revolution-slider-container">
   <div class="revolution-slider">
     <ul style="display: none;">
-      <!-- SLIDE 1 -->
-      <li data-transition="fade" data-masterspeed="500" data-slotamount="1" data-delay="6000">
-        <!-- MAIN IMAGE -->
-        <img src="{{asset('renovate')}}/images/slider/image_01.jpg" alt="slidebg1" data-bgfit="cover">
-        <!-- LAYERS -->
-        <!-- LAYER 01 -->
-        <div class="tp-caption"
-             data-frames='[{"delay":500,"speed":1200,"from":"x:40;o:0;","ease":"easeInOutExpo"},{"delay":"wait","speed":500,"to":"o:0;","ease":"easeInOutExpo"}]'
-             data-x="0"
-             data-y="140"
-        >
-          <!--data-start="500"
-          data-transform_in="x:40;y:0;o:0;s:1200;e:easeInOutExpo;"
-          data-transform_out="x:0;y:0;o:0;s:500;e:easeInOutExpo;"-->
+      @foreach($frontend["banners"] as $banner)
+        <li data-transition="fade" data-masterspeed="500" data-slotamount="1" data-delay="6000">
+          <img src="{{asset('images/frontend/'.$banner->image)}}" alt="slidebg1" data-bgfit="cover">
 
-          <div class="slider-content-box">
-            <h2><a href="service_interior_renovation.html" title="INTERIOR RENOVATION">HOME IMPROVEMENTS AND REMODELING</a></h2>
-            <p>With over 15 years experience and real focus on customer satisfaction, you can rely on us for your next renovation, remodeling or driveway sett.</p>
-            <a target="_top" class="more simple" href="https://themeforest.net/cart/add_items?item_ids=11313006&amp;ref=QuanticaLabs" title="BUY THIS TEMPLATE">BUY THIS TEMPLATE</a>
+          <div class="tp-caption"
+               data-frames='[{"delay":500,"speed":1200,"from":"x:40;o:0;","ease":"easeInOutExpo"},{"delay":"wait","speed":500,"to":"o:0;","ease":"easeInOutExpo"}]'
+               data-x="0"
+               data-y="140"
+          >
+            <div class="slider-content-box">
+              <h2><a href="{{url($banner->link)}}">{{$banner->title}}</a></h2>
+              <p>{{$banner->content}}</p>
+              <a target="_top" class="more simple" href="{{url($banner->link)}}">
+                {{$banner->button_text}}
+              </a>
+            </div>
           </div>
-        </div>
-      </li>
-
-      <!-- SLIDE 2 -->
-      <li data-transition="fade" data-masterspeed="500" data-slotamount="1" data-delay="6000">
-        <!-- MAIN IMAGE -->
-        <img src="{{asset('renovate')}}/images/slider/image_02.jpg" alt="slidebg2" data-bgfit="cover">
-        <!-- LAYERS -->
-        <!-- LAYER 01 -->
-        <div class="tp-caption"
-             data-frames='[{"delay":500,"speed":1200,"from":"x:40;o:0;","ease":"easeInOutExpo"},{"delay":"wait","speed":500,"to":"o:0;","ease":"easeInOutExpo"}]'
-             data-x="0"
-             data-y="140"
-        >
-          <!--data-start="500"
-          data-transform_in="x:40;y:0;o:0;s:1200;e:easeInOutExpo;"
-          data-transform_out="x:0;y:0;o:0;s:500;e:easeInOutExpo;"-->
-
-          <div class="slider-content-box">
-            <h2><a href="service_tiling_painting.html" title="TILING AND PAINTING">PROFESSIONAL TILING AND PAINTING SERVICES</a></h2>
-            <p>We combine quality workmanship, superior knowledge and low prices to provide you with service unmatched by our competitors.</p>
-            <a target="_top" class="more simple" href="https://themeforest.net/cart/add_items?item_ids=11313006&amp;ref=QuanticaLabs" title="BUY THIS TEMPLATE">BUY THIS TEMPLATE</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- SLIDE 3 -->
-      <li data-transition="fade" data-masterspeed="500" data-slotamount="1" data-delay="6000">
-        <!-- MAIN IMAGE -->
-        <img src="{{asset('renovate')}}/images/slider/image_03.jpg" alt="slidebg3" data-bgfit="cover">
-        <!-- LAYERS -->
-        <!-- LAYER 01 -->
-        <div class="tp-caption"
-             data-frames='[{"delay":500,"speed":1200,"from":"x:40;o:0;","ease":"easeInOutExpo"},{"delay":"wait","speed":500,"to":"o:0;","ease":"easeInOutExpo"}]'
-             data-x="0"
-             data-y="140"
-        >
-          <!--data-start="500"
-          data-transform_in="x:40;y:0;o:0;s:1200;e:easeInOutExpo;"
-          data-transform_out="x:0;y:0;o:0;s:500;e:easeInOutExpo;"-->
-
-          <div class="slider-content-box">
-            <h2><a href="service_household_repairs.html" title="HOUSEHOLD REPAIRS">YOUR MOST AFFORDABLE CONTRACTORS</a></h2>
-            <p>We have the experience, personel and resources to make the project run smoothly. We can ensure a job is done on time.</p>
-            <a target="_top" class="more simple" href="https://themeforest.net/cart/add_items?item_ids=11313006&amp;ref=QuanticaLabs" title="BUY THIS TEMPLATE">BUY THIS TEMPLATE</a>
-          </div>
-        </div>
+        </li>
+      @endforeach
       </li>
     </ul>
   </div>

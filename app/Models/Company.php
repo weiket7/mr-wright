@@ -13,7 +13,7 @@ class Company extends Eloquent
 
   private $rules = [
     'name'=>'required',
-    'code'=>'required|unique:company,code'
+    'code'=>'required|sometimes|unique:company,code'
   ];
   
   private $messages = [

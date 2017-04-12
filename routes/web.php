@@ -34,81 +34,87 @@ Route::get('admin/logout', 'AdminController@logout');
 Route::get('admin/error', 'AdminController@error');
 
 Route::group(['middleware'=>['auth', 'modulemiddleware']], function() {
-  Route::get('dashboard', 'AdminController@dashboard');
-  Route::get('company', 'CompanyController@index');
-  Route::post('company', 'CompanyController@index');
-  Route::get('company/save', 'CompanyController@save');
-  Route::post('company/save', 'CompanyController@save');
-  Route::get('company/save/{id}', 'CompanyController@save');
-  Route::post('company/save/{id}', 'CompanyController@save');
+  Route::get('admin/dashboard', 'Admin\AdminController@dashboard');
+  Route::get('admin/company', 'Admin\CompanyController@index');
+  Route::post('admin/company', 'Admin\CompanyController@index');
+  Route::get('admin/company/save', 'Admin\CompanyController@save');
+  Route::post('admin/company/save', 'Admin\CompanyController@save');
+  Route::get('admin/company/save/{id}', 'Admin\CompanyController@save');
+  Route::post('admin/company/save/{id}', 'Admin\CompanyController@save');
 
-  Route::get('office', 'OfficeController@index');
-  Route::post('office', 'OfficeController@index');
-  Route::get('office/save', 'OfficeController@save');
-  Route::post('office/save', 'OfficeController@save');
-  Route::get('office/save/{id}', 'OfficeController@save');
-  Route::post('office/save/{id}', 'OfficeController@save');
+  Route::get('admin/office', 'Admin\OfficeController@index');
+  Route::post('admin/office', 'Admin\OfficeController@index');
+  Route::get('admin/office/save', 'Admin\OfficeController@save');
+  Route::post('admin/office/save', 'Admin\OfficeController@save');
+  Route::get('admin/office/save/{id}', 'Admin\OfficeController@save');
+  Route::post('admin/office/save/{id}', 'Admin\OfficeController@save');
 
-  Route::get('requester', 'RequesterController@index');
-  Route::post('requester', 'RequesterController@index');
-  Route::get('requester/save', 'RequesterController@save');
-  Route::post('requester/save', 'RequesterController@save');
-  Route::get('requester/save/{id}', 'RequesterController@save');
-  Route::post('requester/save/{id}', 'RequesterController@save');
+  Route::get('admin/requester', 'Admin\RequesterController@index');
+  Route::post('admin/requester', 'Admin\RequesterController@index');
+  Route::get('admin/requester/save', 'Admin\RequesterController@save');
+  Route::post('admin/requester/save', 'Admin\RequesterController@save');
+  Route::get('admin/requester/save/{id}', 'Admin\RequesterController@save');
+  Route::post('admin/requester/save/{id}', 'Admin\RequesterController@save');
 
-  Route::get('operator', 'OperatorController@index');
-  Route::get('operator/save', 'OperatorController@save');
-  Route::post('operator/save', 'OperatorController@save');
-  Route::get('operator/save/{id}', 'OperatorController@save');
-  Route::post('operator/save/{id}', 'OperatorController@save');
+  Route::get('admin/operator', 'Admin\OperatorController@index');
+  Route::get('admin/operator/save', 'Admin\OperatorController@save');
+  Route::post('admin/operator/save', 'Admin\OperatorController@save');
+  Route::get('admin/operator/save/{id}', 'Admin\OperatorController@save');
+  Route::post('admin/operator/save/{id}', 'Admin\OperatorController@save');
 
-  Route::get('ticket', 'TicketController@index');
-  Route::post('ticket', 'TicketController@index');
-  Route::get('ticket/save', 'TicketController@save');
-  Route::post('ticket/save', 'TicketController@save');
-  Route::get('ticket/view/{id}', 'TicketController@view');
-  Route::post('ticket/view/{id}', 'TicketController@view');
-  Route::get('ticket/save/{id}', 'TicketController@save');
-  Route::post('ticket/save/{id}', 'TicketController@save');
-  Route::get('ticket/preview-quotation/{id}', 'TicketController@previewQuotation');
-  Route::get('ticket/preview-invoice/{id}', 'TicketController@previewInvoice');
+  Route::get('admin/ticket', 'Admin\TicketController@index');
+  Route::post('admin/ticket', 'Admin\TicketController@index');
+  Route::get('admin/ticket/save', 'Admin\TicketController@save');
+  Route::post('admin/ticket/save', 'Admin\TicketController@save');
+  Route::get('admin/ticket/view/{id}', 'Admin\TicketController@view');
+  Route::post('admin/ticket/view/{id}', 'Admin\TicketController@view');
+  Route::get('admin/ticket/save/{id}', 'Admin\TicketController@save');
+  Route::post('admin/ticket/save/{id}', 'Admin\TicketController@save');
+  Route::get('admin/ticket/preview-quotation/{id}', 'Admin\TicketController@previewQuotation');
+  Route::get('admin/ticket/preview-invoice/{id}', 'Admin\TicketController@previewInvoice');
 
-  Route::get('staff', 'StaffController@index');
-  Route::get('staff/save', 'StaffController@save');
-  Route::post('staff/save', 'StaffController@save');
-  Route::get('staff/save/{id}', 'StaffController@save');
-  Route::post('staff/save/{id}', 'StaffController@save');
+  Route::get('admin/staff', 'Admin\StaffController@index');
+  Route::get('admin/staff/save', 'Admin\StaffController@save');
+  Route::post('admin/staff/save', 'Admin\StaffController@save');
+  Route::get('admin/staff/save/{id}', 'Admin\StaffController@save');
+  Route::post('admin/staff/save/{id}', 'Admin\StaffController@save');
 
-  Route::get('skill', 'SkillController@index');
-  Route::get('skill/save', 'SkillController@save');
-  Route::post('skill/save', 'SkillController@save');
-  Route::get('skill/save/{id}', 'SkillController@save');
-  Route::post('skill/save/{id}', 'SkillController@save');
+  Route::get('admin/skill', 'Admin\SkillController@index');
+  Route::get('admin/skill/save', 'Admin\SkillController@save');
+  Route::post('admin/skill/save', 'Admin\SkillController@save');
+  Route::get('admin/skill/save/{id}', 'Admin\SkillController@save');
+  Route::post('admin/skill/save/{id}', 'Admin\SkillController@save');
 
-  Route::get('invoice', 'InvoiceController@index');
-  Route::post('invoice', 'InvoiceController@index');
+  Route::get('admin/invoice', 'Admin\InvoiceController@index');
+  Route::post('admin/invoice', 'Admin\InvoiceController@index');
 
-  Route::get('report/ticket', 'ReportController@ticket');
-  Route::post('report/ticket', 'ReportController@ticket');
+  Route::get('admin/report/ticket', 'Admin\ReportController@ticket');
+  Route::post('admin/report/ticket', 'Admin\ReportController@ticket');
 
-  Route::get('working-day-time', 'WorkingHourController@workingDaytime');
-  Route::get('blocked-date', 'WorkingHourController@blockedDate');
-  Route::get('blocked-date-time', 'WorkingHourController@blockedDateTime');
-  Route::get('category-for-ticket', 'SettingController@categoryForTicket');
-  Route::get('system', 'SettingController@system');
-  Route::get('setting', 'SettingController@setting');
-  Route::get('access', 'SettingController@access');
+  Route::get('admin/working-day-time', 'Admin\WorkingHourController@workingDaytime');
+  Route::get('admin/blocked-date', 'Admin\WorkingHourController@blockedDate');
+  Route::get('admin/blocked-date-time', 'Admin\WorkingHourController@blockedDateTime');
+  Route::get('admin/category-for-ticket', 'Admin\SettingController@categoryForTicket');
+  Route::get('admin/system', 'Admin\SettingController@system');
+  Route::get('admin/setting', 'Admin\SettingController@setting');
+  Route::get('admin/access', 'Admin\SettingController@access');
 
-  Route::get('role', 'RoleController@index');
-  Route::get('role/save', 'RoleController@save');
-  Route::post('role/save', 'RoleController@save');
-  Route::get('role/save/{id}', 'RoleController@save');
-  Route::post('role/save/{id}', 'RoleController@save');
+  Route::get('admin/role', 'Admin\RoleController@index');
+  Route::get('admin/role/save', 'Admin\RoleController@save');
+  Route::post('admin/role/save', 'Admin\RoleController@save');
+  Route::get('admin/role/save/{id}', 'Admin\RoleController@save');
+  Route::post('admin/role/save/{id}', 'Admin\RoleController@save');
 
   Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
   Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
   Route::get('api/getOfficeByCompany', 'ApiController@getOfficeByCompany');
   Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
+
+  Route::get('admin/content', 'Admin\FrontendController@content');
+  Route::get('admin/banner', 'Admin\FrontendController@banner');
+  Route::get('admin/service', 'Admin\FrontendController@service');
+  Route::get('admin/project', 'Admin\FrontendController@project');
+
 
   //TODO
   Route::get('ticket/accept/{id}', 'TicketController@view');

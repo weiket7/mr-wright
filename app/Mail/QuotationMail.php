@@ -31,6 +31,6 @@ class QuotationMail extends Mailable
   {
     $data['ticket'] = $this->ticket;
     $subject = "Mr Wright Quotation for ".$this->ticket->ticket_code;
-    return $this->subject($subject)->markdown('emails.quotation', $data);
+    return $this->subject($subject)->view('admin.emails.quotation', $data);
   }
 }

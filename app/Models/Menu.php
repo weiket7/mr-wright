@@ -3,28 +3,34 @@
 class Menu {
   public static function getMenu() {
     $menu = [
-      ['link' => "/", 'name'=>'Dashboard', 'icon'=>'icon-home'],
-      ['link' => "company", 'name'=>'Companies', 'icon'=>'icon-plane'],
-      ['link' => "office", 'name'=>'Offices', 'icon'=>'icon-direction'],
-      ['link' => "requester", 'name'=>'Requesters', 'icon'=>'icon-users'],
-      ['link' => "staff", 'name'=>'Staffs', 'icon'=>'icon-wrench'],
-      ['link' => "ticket", 'name'=>'Tickets', 'icon'=>'icon-note'],
-      /*['link' => "quotation", 'name'=>'Quotations', 'icon'=>''],*/
-      ['link' => "invoice", 'name'=>'Invoices', 'icon'=>'icon-calculator'],
-      ['link' => "operator", 'name'=>'Operators', 'icon'=>'icon-eyeglasses'],
-      ['name'=>'Reports', 'icon'=>'icon-bar-chart', 'sub'=>[
-        ['link'=>'report/ticket', 'name'=>'Tickets', 'icon'=>''],
+      ["link"=>"admin/dashboard", "name"=>"Dashboard", "icon"=>"icon-home"],
+      ["link"=>"admin/company", "name"=>"Companies", "icon"=>"icon-plane"],
+      ["link"=>"admin/office", "name"=>"Offices", "icon"=>"icon-direction"],
+      ["link"=>"admin/requester", "name"=>"Requesters", "icon"=>"icon-users"],
+      ["link"=>"admin/staff", "name"=>"Staffs", "icon"=>"icon-wrench"],
+      ["link"=>"admin/ticket", "name"=>"Tickets", "icon"=>"icon-note"],
+      /*["link"=>"admin/quotation", "name"=>"Quotations", "icon"=>""],*/
+      ["link"=>"admin/invoice", "name"=>"Invoices", "icon"=>"icon-calculator"],
+      ["link"=>"admin/operator", "name"=>"Operators", "icon"=>"icon-eyeglasses"],
+      ["name"=>"Reports", "icon"=>"icon-bar-chart", "sub"=>[
+        ["link"=>"admin/report/ticket", "name"=>"Tickets", "icon"=>""],
       ]],
-      ['name'=>'Settings', 'icon'=>'icon-settings', 'sub'=>[
-        ['link'=>'skill', 'name'=>'Skills'],
-        ['link'=>'role', 'name'=>'Roles'],
-        ['link'=>'access', 'name'=>'Accesses'],
-        ['link'=>'category-for-ticket', 'name'=>'Categories for Ticket'],
-        ['link'=>'working-day-time', 'name'=>'Working Day Times'],
-        ['link'=>'blocked-date', 'name'=>'Blocked Dates'],
-        ['link'=>'blocked-date-time', 'name'=>'Blocked Date Times'],
-        ['link'=>'setting', 'name'=>'Settings'],
-        ['link'=>'system', 'name'=>'System'],
+      ["name"=>"Frontend", "icon"=>"icon-settings", "sub"=>[
+        ["link"=>"admin/content", "name"=>"Content"],
+        ["link"=>"admin/banner", "name"=>"Banners"],
+        ["link"=>"admin/service", "name"=>"Services"],
+        ["link"=>"admin/project", "name"=>"Projects"],
+      ]],
+      ["name"=>"Settings", "icon"=>"icon-settings", "sub"=>[
+        ["link"=>"admin/skill", "name"=>"Skills"],
+        ["link"=>"admin/role", "name"=>"Roles"],
+        ["link"=>"admin/access", "name"=>"Accesses"],
+        ["link"=>"admin/category-for-ticket", "name"=>"Categories for Ticket"],
+        ["link"=>"admin/working-day-time", "name"=>"Working Day Times"],
+        ["link"=>"admin/blocked-date", "name"=>"Blocked Dates"],
+        ["link"=>"admin/blocked-date-time", "name"=>"Blocked Date Times"],
+        ["link"=>"admin/setting", "name"=>"Settings"],
+        ["link"=>"admin/system", "name"=>"System"],
       ]],
     ];
     return $menu;
