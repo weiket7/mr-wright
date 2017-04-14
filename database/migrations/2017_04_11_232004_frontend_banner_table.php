@@ -10,6 +10,7 @@ class FrontendBannerTable extends Migration
   {
     Schema::create('frontend_banner', function (Blueprint $t) {
       $t->increments('frontend_banner_id');
+      $t->mediumInteger('position');
       $t->string('title', 50);
       $t->string('content', 100);
       $t->string('button_text', 50);
@@ -18,6 +19,7 @@ class FrontendBannerTable extends Migration
     });
 
     DB::table('frontend_banner')->insert([
+      'position'=>1,
       'title'=>'HOME IMPROVEMENTS AND REMODELING',
       'content'=>'With over 15 years experience and real focus on customer satisfaction, you can rely on us for your next renovation, remodeling or driveway sett.',
       'button_text'=>'CONTACT US',
@@ -25,6 +27,7 @@ class FrontendBannerTable extends Migration
       'image'=>'image_01.jpg',
     ]);
     DB::table('frontend_banner')->insert([
+      'position'=>2,
       'title'=>'PROFESSIONAL TILING AND PAINTING SERVICES',
       'content'=>'We combine quality workmanship, superior knowledge and low prices to provide you with service unmatched by our competitors.',
       'button_text'=>'CONTACT US',
@@ -32,6 +35,7 @@ class FrontendBannerTable extends Migration
       'image'=>'image_02.jpg',
     ]);
     DB::table('frontend_banner')->insert([
+      'position'=>3,
       'title'=>'YOUR MOST AFFORDABLE CONTRACTORS',
       'content'=>'We have the experience, personel and resources to make the project run smoothly. We can ensure a job is done on time.',
       'button_text'=>'CONTACT US',

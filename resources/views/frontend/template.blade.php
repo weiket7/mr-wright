@@ -72,7 +72,7 @@
     <div class="vertical-align-table column-1-1">
       <div class="header clearfix">
         <div class="logo vertical-align-cell">
-          <h1><a href="index.html" title="Renovate">RENOVATE</a></h1>
+          <h1><a href=" {{ url('/') }}" title="Renovate">RENOVATE</a></h1>
         </div>
         <a href="#" class="mobile-menu-switch vertical-align-cell">
           <span class="line"></span>
@@ -109,70 +109,20 @@
                   SERVICES
                 </a>
                 <ul>
+                  @foreach($frontend['services'] as $service)
                   <li>
-                    <a href="service_interior_renovation.html" title="Interior Renovation">
-                      Interior Renovation
+                    <a href="{{ url('services/'.$service->slug) }}" title="{{$service->title}}">
+                      {{$service->title}}
                     </a>
                   </li>
-                  <li>
-                    <a href="service_design_build.html" title="Design and Build">
-                      Design and Build
-                    </a>
-                  </li>
-                  <li>
-                    <a href="service_tiling_painting.html" title="Design and Build">
-                      Tiling and Painting
-                    </a>
-                  </li>
-                  <li>
-                    <a href="service_paver_walkways.html" title="Paver Walkways">
-                      Paver Walkways
-                    </a>
-                  </li>
-                  <li>
-                    <a href="service_household_repairs.html" title="Household Repairs">
-                      Household Repairs
-                    </a>
-                  </li>
-                  <li>
-                    <a href="service_solar_systems.html" title="Solar Systems">
-                      Solar Systems
-                    </a>
-                  </li>
+                  @endforeach
                 </ul>
               </li>
-              <li>
+              {{--<li>
                 <a href="projects.html" title="Projects">
                   PROJECTS
                 </a>
-                <ul>
-                  <li>
-                    <a href="project_interior_renovation.html" title="Interior Renovation">
-                      Interior Renovation
-                    </a>
-                  </li>
-                  <li>
-                    <a href="project_garden_renovation.html" title="Garden Renovation">
-                      Garden Renovation
-                    </a>
-                  </li>
-                  <li>
-                    <a href="project_painting.html" title="Painting">
-                      Painting
-                    </a>
-                  </li>
-                  <li>
-                    <a href="project_design_build.html" title="Design and Build">
-                      Design and Build
-                    </a>
-                  </li>
-                  <li>
-                    <a href="project_solar_systems.html" title="Solar Systems">
-                      Solar Systems
-                    </a>
-                  </li>
-                </ul>
-              </li>
+              </li>--}}
               <li>
                 <a href="blog.html" title="Blog">
                   BLOG
@@ -508,12 +458,9 @@
       <div class="column column-1-4">
         <h6 class="box-header">Our Services</h6>
         <ul class="list margin-top-20">
-          <li class="template-bullet">Interior Renovation</li>
-          <li class="template-bullet">Design and Build</li>
-          <li class="template-bullet">Tiling and Painting</li>
-          <li class="template-bullet">Paver Walkways</li>
-          <li class="template-bullet">Household Repairs</li>
-          <li class="template-bullet">Solar Systems</li>
+          @foreach($frontend['services'] as $service)
+            <li class="template-bullet">{{ $service->title }}</li>
+          @endforeach
         </ul>
       </div>
       <div class="column column-1-4">

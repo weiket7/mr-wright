@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\FrontendBanner;
 use App\Models\FrontendContent;
+use App\Models\FrontendService;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -21,6 +22,13 @@ class FrontendController extends Controller
     $frontend_content = new FrontendBanner();
     $data['banners'] = $frontend_content->getBannerAll();
     return view('admin/frontend/banner-index', $data);
+  }
+
+  public function service()
+  {
+    $frontend_content = new FrontendService();
+    $data['services'] = $frontend_content->getServiceAll();
+    return view('admin/frontend/service-index', $data);
   }
 
 

@@ -57,7 +57,11 @@
   color: #BFCAD1!important /*grey-salt*/
 }
 .txt-num {
-
+  max-width: 50px;
+}
+.txt-num-short {
+  max-width: 50px;
+  height: 25px;
 }
 .search-stat {
   max-width: 110px;

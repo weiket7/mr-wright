@@ -15,11 +15,7 @@ class AppServiceProvider extends ServiceProvider
    */
   public function boot()
   {
-    $frontend_content = new FrontendContent();
-    $data['contents'] = $frontend_content->getContentAll();
-    $frontend_banner = new FrontendBanner();
-    $data['banners'] =  $frontend_banner->getBannerAll();
-    view()->share('frontend', $data);
+    view()->composer('*', 'App\Http\Composers\FrontendComposer');
   }
 
   /**

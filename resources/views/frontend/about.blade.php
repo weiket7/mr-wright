@@ -41,7 +41,7 @@
           <p class="description t1">Founded by Kevin Smith back in 2000, Renovate has established itself as one of the greatest and prestigious providers of construction focused interior renovation services and building. We provide a professional renovation and installation services with a real focus on customer satisfaction. Our construction Services is a multi-task company specializing in the following core areas:</p>
           <ul class="list margin-top-20">
             @for($i=1; $i<=5; $i++)
-              @if($frontend['contents']['about_line'.$i])
+              @if ($frontend['contents']['about_line'.$i])
                 <li class="template-bullet">{{ $frontend['contents']['about_line'.$i] }}</li>
               @endif
             @endfor

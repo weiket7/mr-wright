@@ -7,9 +7,6 @@
     <div class="col-md-6">
       <h1 class="page-title">Banners</h1>
     </div>
-    <div class="col-md-6 text-right">
-      <button type="button" class="btn blue" onclick="location.href='{{url('admin/banner/save')}}'">Create</button>
-    </div>
   </div>
 
 
@@ -19,6 +16,7 @@
         <table class="table table-bordered table-hover">
           <thead>
           <tr>
+            <th>Position</th>
             <th>Title</th>
             <th>Content</th>
             <th>Button Text</th>
@@ -29,11 +27,12 @@
           <tbody>
           @foreach($banners as $banner)
             <tr>
+              <td><input type="text" class="form-control txt-num-short" value="{{$banner->position}}"></td>
               <td><a href="{{url("admin/banner/save/".$banner->frontend_banner_id)}}">{{ $banner->title }}</a></td>
               <td>{{ $banner->content }}</td>
               <td>{{ $banner->button_text }}</td>
               <td>{{ $banner->link }}</td>
-              <td>{{ $banner->image }}</td>
+              <td><img src="{{ asset('images/frontend/services/'.$banner->image) }}" style="max-height: 200px; max-width: 300px;">
             </tr>
           @endforeach
           </tbody>

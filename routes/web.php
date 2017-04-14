@@ -26,6 +26,7 @@ Route::get('register', 'Frontend\SiteController@register');
 Route::get('contact', 'Frontend\SiteController@contact');
 Route::get('about', 'Frontend\SiteController@about');
 Route::get('services', 'Frontend\SiteController@service');
+Route::get('services/{slug}', 'Frontend\SiteController@service');
 Route::get('projects', 'Frontend\SiteController@project');
 
 Route::get('admin', 'Admin\AdminController@login');
