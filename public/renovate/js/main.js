@@ -1017,7 +1017,7 @@ jQuery(document).ready(function($){
 			$("#paver-walkway-cost").costCalculator("calculate");
 		});
 	}
-	$(".contact-form").submit(function(event){
+	/*$(".contact-form").submit(function(event){
 		event.preventDefault();
 		var data = $(this).serializeArray();
 		var self = $(this);
@@ -1131,7 +1131,7 @@ jQuery(document).ready(function($){
 				self.find(".block").unblock();
 			}
 		});
-	});
+	});*/
 
 	if($(".header-container").hasClass("sticky"))
 		menu_position = $(".header-container").offset().top;

@@ -13,6 +13,16 @@ class SiteController extends Controller
     return view("frontend/index");
   }
 
+  public function login()
+  {
+    return view("frontend/login");
+  }
+
+  public function logout()
+  {
+    
+  }
+
   public function register()
   {
     return view("frontend/register");

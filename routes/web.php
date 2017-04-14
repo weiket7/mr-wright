@@ -24,10 +24,16 @@ use Carbon\Carbon;
 Route::get('/', 'Frontend\SiteController@index');
 Route::get('register', 'Frontend\SiteController@register');
 Route::get('contact', 'Frontend\SiteController@contact');
+Route::post('contact', 'Frontend\SiteController@contact');
 Route::get('about', 'Frontend\SiteController@about');
 Route::get('services', 'Frontend\SiteController@service');
 Route::get('services/{slug}', 'Frontend\SiteController@service');
 Route::get('projects', 'Frontend\SiteController@project');
+
+Route::get('login', 'Frontend\SiteController@login');
+Route::post('login', 'Frontend\SiteController@login');
+Route::get('logout', 'Frontend\SiteController@logout');
+Route::get('error', 'Frontend\SiteController@error');
 
 Route::get('admin', 'Admin\AdminController@login');
 Route::post('admin', 'Admin\AdminController@login');

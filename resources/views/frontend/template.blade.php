@@ -8,9 +8,9 @@
   <meta name="format-detection" content="telephone=no" />
   <meta name="keywords" content="Construction, Renovation" />
   <meta name="description" content="Responsive Construction Renovation Template" />
-  <!--slider revolution-->
+
+  <link href="{{asset('assets/renovate/style/bootstrap.css')}}" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" type="text/css" href="{{asset('renovate/rs-plugin/css/settings.css')}}" media="screen" />
-  <!--style-->
   <link href='//fonts.googleapis.com/css?family=Raleway:100,300,400,500,600,700,900' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/reset.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/superfish.css')}}">
@@ -124,63 +124,19 @@
                 </a>
               </li>--}}
               <li>
-                <a href="blog.html" title="Blog">
-                  BLOG
-                </a>
-                <ul>
-                  <li>
-                    <a href="blog.html" title="Blog">
-                      Blog
-                    </a>
-                  </li>
-                  <li>
-                    <a href="blog_left_sidebar.html" title="Blog">
-                      Blog Left Sidebar
-                    </a>
-                  </li>
-                  <li>
-                    <a href="blog_2_columns.html" title="Blog 2 Columns">
-                      Blog 2 Columns
-                    </a>
-                  </li>
-                  <li>
-                    <a href="blog_3_columns.html" title="Blog 3 Columns">
-                      Blog 3 Columns
-                    </a>
-                  </li>
-                  <li>
-                    <a href="post.html" title="Single Post">
-                      Single Post
-                    </a>
-                  </li>
-                  <li>
-                    <a href="search.html?s=ipsum" title="Search Template">
-                      Search Template
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a href="{{url('register')}}" title="Authors">
+                <a href="{{url('register')}}" title="Register">
                   REGISTER
                 </a>
               </li>
+              <li>
+                <a href="{{url('login')}}" title="Login">
+                  LOGIN
+                </a>
+              </li>
               <li class="left-flyout">
-                <a href="contact.html" title="Contact">
+                <a href="{{url('contact')}}" title="Contact">
                   CONTACT
                 </a>
-                <ul>
-                  <li>
-                    <a href="contact.html" title="Contact Style 1">
-                      Contact Style 1
-                    </a>
-                  </li>
-                  <li>
-                    <a href="contact_2.html" title="Contact Style 2">
-                      Contact Style 2
-                    </a>
-                  </li>
-                </ul>
               </li>
             </ul>
           </nav>
