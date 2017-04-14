@@ -12,7 +12,7 @@
       <form action="" method="post" class="form-horizontal">
         {!! csrf_field() !!}
         <div class="form-body">
-          <div class="row">
+          <div class="r-row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">Name <span class="required">*</span></label>
@@ -34,7 +34,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="r-row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">Registered Name</label>
@@ -52,7 +52,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="r-row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">Address</label>
@@ -70,7 +70,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="r-row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">State</label>
@@ -88,7 +88,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="r-row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">Postal</label>
@@ -119,7 +119,7 @@
             </div>
           </div>-->
           @if($action == 'update')
-          <div class="row">
+          <div class="r-row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">Offices</label>
@@ -141,9 +141,9 @@
         </div>
 
         <div class="form-actions">
-          <div class="row">
+          <div class="r-row">
             <div class="col-md-6">
-              <div class="row">
+              <div class="r-row">
                 <div class="col-md-offset-3 col-md-9">
                   <button type="submit" class="btn green">Submit</button>
                   <button type="button" class="btn default">Cancel</button>

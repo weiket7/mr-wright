@@ -64,7 +64,7 @@
 	/* --- containers --- */
 	.header-top-bar,
 	.header,
-	.row,
+	.r-row,
 	.announcement
 	{
 		width: 750px;
@@ -476,7 +476,7 @@
 	/* --- containers --- */
 	.header-top-bar,
 	.header,
-	.row,
+	.r-row,
 	.announcement,
 	.menu-container,
 	.blog.horizontal-carousel li.column,
@@ -625,11 +625,11 @@
 	{
 		background: none;
 	}
-	.row .column
+	.r-row .column
 	{
 		margin-top: 40px;
 	}
-	.row .column:first-child
+	.r-row .column:first-child
 	{
 		margin-top: 0;
 	}
@@ -637,7 +637,7 @@
 	{
 		margin-left: 0;
 	}
-	.column-1-2, .column-1-3, .column-2-3, .column-1-4, .column-3-4, .columns.no-width .column-left, .columns.no-width .column-right, .row-4-4 .column-1-4, .row.full-width.flex-box>.column
+	.column-1-2, .column-1-3, .column-2-3, .column-1-4, .column-3-4, .columns.no-width .column-left, .columns.no-width .column-right, .row-4-4 .column-1-4, .r-row.full-width.flex-box>.column
 	{
 		width: 100%;
 	}
@@ -677,7 +677,7 @@
 		clear: both;
 	}
 	/* --- blog --- */
-	.row .blog .post-content
+	.r-row .blog .post-content
 	{
 		width: 362px;
 	}
@@ -842,21 +842,21 @@
 		font-size: 16px;
 		line-height: 26px;
 	}
-	.row .type-small .testimonials-list p
+	.r-row .type-small .testimonials-list p
 	{
 		padding: 33px 40px 37px;
 	}
-	.row .type-small .testimonials-list .author-details-box
+	.r-row .type-small .testimonials-list .author-details-box
 	{
 		margin-left: 30px;
 		margin-top: 50px;
 	}
-	.row .type-small .testimonials-list .ornament
+	.r-row .type-small .testimonials-list .ornament
 	{
 		margin-left: 44px;
 		margin-right: 43px;
 	}
-	.row .type-small .testimonials-list .ornament::before
+	.r-row .type-small .testimonials-list .ornament::before
 	{
 		width: 48px;
 		height: 48px;
@@ -972,11 +972,11 @@
 	/* --- header --- */
 	.header-top-bar,
 	.header,
-	.row,
+	.r-row,
 	.announcement,
 	.menu-container,
 	.blog .post-details,
-	.row .blog .post-content,
+	.r-row .blog .post-content,
 	.blog.horizontal-carousel li.column,
 	.testimonials-container.type-small .testimonials-list li
 	{
@@ -1021,11 +1021,11 @@
 		display: none;
 	}
 	/* --- page layout --- */
-	.row .column
+	.r-row .column
 	{
 		margin-top: 40px;
 	}
-	.row .column:first-child
+	.r-row .column:first-child
 	{
 		margin-top: 0;
 	}

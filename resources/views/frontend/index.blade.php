@@ -31,10 +31,10 @@
 
 <div class="theme-page">
   <div class="clearfix">
-    <div class="row page-margin-top-section padding-bottom-66">
+    <div class="r-row page-margin-top-section padding-bottom-66">
       <h2 class="box-header">WHY CHOOSE RENOVATE</h2>
       <p class="description align-center">Founded by Kevin Smith back in 2000, Renovate has established itself as one of the greatest and prestigious<br>providers of construction focused interior renovation services and building.</p>
-      <div class="row page-margin-top">
+      <div class="r-row page-margin-top">
         <div class="column column-1-4">
           <ul class="features-list big">
             <li class="sl-large-{{$frontend['contents']['about_column1_icon']}}">
@@ -75,8 +75,8 @@
 
     </div>
 
-    <div class="row full-width gray page-padding-top-section">
-      <div class="row">
+    <div class="r-row full-width gray page-padding-top-section">
+      <div class="r-row">
         <h2 class="box-header">OUR SERVICES</h2>
         <p class="description align-center">With over 15 years experience and real focus on customer satisfaction, you can rely on us for your next renovation,<br>driveway sett or home repair. We provide a professional service for private and commercial customers.</p>
         <ul class="services-list clearfix page-margin-top">
@@ -108,8 +108,8 @@
       </div>
     </div>
 
-    <div class="row page-margin-top-section padding-bottom-66">
-      <div class="row">
+    <div class="r-row page-margin-top-section padding-bottom-66">
+      <div class="r-row">
         <h2 class="box-header">RECENT NEWS</h2>
         <p class="description align-center">Founded by Kevin Smith back in 2000, Renovate has established itself as one of the greatest and prestigous<br> providers of construction focused interior renovation services and building.</p>
       </div>

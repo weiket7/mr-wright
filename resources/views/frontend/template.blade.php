@@ -9,10 +9,10 @@
   <meta name="keywords" content="Construction, Renovation" />
   <meta name="description" content="Responsive Construction Renovation Template" />
 
-  <link href="{{asset('assets/renovate/style/bootstrap.css')}}" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/rs-plugin/css/settings.css')}}" media="screen" />
+  <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
   <link href='//fonts.googleapis.com/css?family=Raleway:100,300,400,500,600,700,900' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/reset.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('renovate/rs-plugin/css/settings.css')}}" media="screen" />
   <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/superfish.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/prettyPhoto.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/jquery.qtip.css')}}">
@@ -72,7 +72,7 @@
     <div class="vertical-align-table column-1-1">
       <div class="header clearfix">
         <div class="logo vertical-align-cell">
-          <h1><a href=" {{ url('/') }}" title="Renovate">RENOVATE</a></h1>
+          <h1>MR WRIGHT</h1>
         </div>
         <a href="#" class="mobile-menu-switch vertical-align-cell">
           <span class="line"></span>
@@ -83,21 +83,9 @@
           <nav>
             <ul class="sf-menu">
               <li class="selected">
-                <a href="index.html" title="Home">
+                <a href="{{ url('/') }}" title="Home">
                   HOME
                 </a>
-                <ul>
-                  <li>
-                    <a href="index.html" title="Home Style 1">
-                      Home Style 1
-                    </a>
-                  </li>
-                  <li class="selected">
-                    <a href="home2.html" title="Home Style 2">
-                      Home Style 2
-                    </a>
-                  </li>
-                </ul>
               </li>
               <li>
                 <a href="{{url('about')}}" title="About">
@@ -362,8 +350,8 @@
 
   @yield('content')
 
-  <div class="row yellow full-width padding-top-bottom-30">
-    <div class="row">
+  <div class="r-row yellow full-width padding-top-bottom-30">
+    <div class="r-row">
       <div class="column column-1-3">
         <ul class="contact-details-list">
           <li class="sl-small-phone">
@@ -391,8 +379,8 @@
       </div>
     </div>
   </div>
-  <div class="row gray full-width page-padding-top padding-bottom-50">
-    <div class="row row-4-4">
+  <div class="r-row gray full-width page-padding-top padding-bottom-50">
+    <div class="r-row row-4-4">
       <div class="column column-1-4">
         <h6 class="box-header">About Us</h6>
         <p class="description t1">{{$frontend['contents']['footer_about']}}</p>
@@ -463,7 +451,7 @@
       </div>
     </div>
   </div>
-  <div class="row align-center padding-top-bottom-30">
+  <div class="r-row align-center padding-top-bottom-30">
     <span class="copyright">© Copyright 2015 <a href="http://themeforest.net/item/renovate-construction-renovation-template/11313006?ref=QuanticaLabs" title="Renovate Template" target="_blank">Renovate Template</a> by <a href="http://quanticalabs.com" title="QuanticaLabs" target="_blank">QuanticaLabs</a></span>
   </div>
 </div>
@@ -490,5 +478,6 @@
 <script type="text/javascript" src="{{asset('renovate/js/jquery.blockUI.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('renovate/js/main.js')}}"></script>
 <script type="text/javascript" src="{{asset('renovate/js/odometer.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
 </body>
 </html>

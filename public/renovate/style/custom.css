@@ -1,7 +1,22 @@
-.form-register {
-  width: 100%;
-}
-
+/*NEW*/
 .margin-bottom-40 {
   margin-bottom: 40px;
+}
+
+/*STYLE.CSS*/
+.ui-selectmenu-button {
+  float: none;
+}
+
+/*BOOTSTRAP*/
+label {
+  font-weight: normal;
+}
+.page-header {
+  padding-top: 5px;
+  height: 70px;
+  margin: 0;
+}
+.form-control {
+  border-radius:0 !important;
 }

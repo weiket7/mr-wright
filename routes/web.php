@@ -22,13 +22,18 @@ use Carbon\Carbon;
 
 
 Route::get('/', 'Frontend\SiteController@index');
+Route::get('home', 'Frontend\SiteController@index');
 Route::get('register', 'Frontend\SiteController@register');
+Route::post('register', 'Frontend\SiteController@register');
 Route::get('contact', 'Frontend\SiteController@contact');
 Route::post('contact', 'Frontend\SiteController@contact');
 Route::get('about', 'Frontend\SiteController@about');
 Route::get('services', 'Frontend\SiteController@service');
 Route::get('services/{slug}', 'Frontend\SiteController@service');
 Route::get('projects', 'Frontend\SiteController@project');
+
+
+Route::get('ticket/create', 'Frontend\TicketController@create');
 
 Route::get('login', 'Frontend\SiteController@login');
 Route::post('login', 'Frontend\SiteController@login');

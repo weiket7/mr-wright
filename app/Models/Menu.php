@@ -14,12 +14,13 @@ class Menu {
       ["link"=>"admin/operator", "name"=>"Operators", "icon"=>"icon-eyeglasses"],
       ["name"=>"Reports", "icon"=>"icon-bar-chart", "sub"=>[
         ["link"=>"admin/report/ticket", "name"=>"Tickets", "icon"=>""],
-      ]],
+      ]], 
       ["name"=>"Frontend", "icon"=>"icon-settings", "sub"=>[
         ["link"=>"admin/content", "name"=>"Content"],
         ["link"=>"admin/banner", "name"=>"Banners"],
         ["link"=>"admin/service", "name"=>"Services"],
-        ["link"=>"admin/project", "name"=>"Projects"],
+        /*["link"=>"admin/project", "name"=>"Projects"],
+        ["link"=>"admin/project", "name"=>"Blog"],*/
       ]],
       ["name"=>"Settings", "icon"=>"icon-settings", "sub"=>[
         ["link"=>"admin/skill", "name"=>"Skills"],

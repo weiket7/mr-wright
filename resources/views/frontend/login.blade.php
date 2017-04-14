@@ -1,11 +1,11 @@
 @extends('frontend.template')
 
 @section('content')
-  <div class="row page-margin-top">
+  <div class="r-row page-margin-top margin-bottom-40">
 
     <h3 class="box-header">Log In</h3>
 
-    <form method="post" action="" class="margin-top-40 margin-bottom-40">
+    <form method="post" action="" class="margin-top-40">
       {{ csrf_field() }}
       <input class="text-input hint" name="username" type="text" placeholder="Username *" autofocus autocomplete="off">
       <br><br>

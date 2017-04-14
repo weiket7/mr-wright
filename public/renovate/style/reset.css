@@ -3,7 +3,8 @@ a, abbr, acronym, big, cite, code,
 del, dfn, font, img, ins, kbd, q, s, samp,
 small, strike, sub, sup, tt, var,
 dl, dt, dd,
-fieldset, form, label, legend {
+fieldset, form, legend {
+	/*removed label*/
 	margin: 0;
 	padding: 0;
 	border: 0;

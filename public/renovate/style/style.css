@@ -893,29 +893,29 @@ body.overlay .background-overlay
 	vertical-align: middle;
 }
 /* --- page layout --- */
-.row
+.r-row
 {
 	width: 1170px;
 	margin-left: auto;
 	margin-right: auto;
 }
-.column .row
+.column .r-row
 {
 	width: auto;
 }
-.row.full-width
+.r-row.full-width
 {
 	width: 100%;
 }
-.row.gray
+.r-row.gray
 {
 	background: #F5F5F5;
 }
-.row.yellow
+.r-row.yellow
 {
 	background: #F4BC16;
 }
-.row:after
+.r-row:after
 {
     font-size: 0px;
     content: ".";
@@ -924,7 +924,7 @@ body.overlay .background-overlay
     visibility: hidden;
     clear: both;
 }
-.column 
+.column
 {
 	position: relative;
 	float: left;
@@ -932,7 +932,7 @@ body.overlay .background-overlay
 }
 .column:first-child,
 .column.first,
-.row.full-width>.column.column-1-2 .column-1-3:first-child
+.r-row.full-width>.column.column-1-2 .column-1-3:first-child
 {
 	margin-left: 0;
 }
@@ -944,24 +944,24 @@ body.overlay .background-overlay
 {
 	width: 570px;
 }
-.row.full-width>.column-1-2
+.r-row.full-width>.column-1-2
 {
 	width: 50%;
 }
-.row.full-width>.column-1-3
+.r-row.full-width>.column-1-3
 {
 	width: 33%;
 }
-.row.full-width>.column-1-2 .column-1-3
+.r-row.full-width>.column-1-2 .column-1-3
 {
 	width: 30%;
 }
-.row.full-width>.column.column-1-2,
-.row.full-width>.column.column-1-3
+.r-row.full-width>.column.column-1-2,
+.r-row.full-width>.column.column-1-3
 {
 	margin: 0;
 }
-.row.full-width>.column.column-1-2 .column-1-3
+.r-row.full-width>.column.column-1-2 .column-1-3
 {
 	margin-left: 5%;
 }
@@ -1076,7 +1076,7 @@ div.team-box
 	display: block;
 	font-weight: 500;
 	font-size: 11px;
-	color: #999; 
+	color: #999;
 	line-height: 21px;
 	letter-spacing: 1px;
 	padding-top: 7px;
@@ -1509,7 +1509,7 @@ div.team-box
 	margin-top: 7px;
 	font-family: 'Raleway';
 	font-weight: 500;
-	font-size: 11px; 
+	font-size: 11px;
 	color: #FFF;
 	line-height: 16px;
 	letter-spacing: 1px;
@@ -1636,7 +1636,7 @@ body .type-small .testimonials-list .ornament.empty-circle::before
 	margin-top: -1px;
 }
 .our-clients-list.type-list .our-clients-item-container
-{	
+{
 	display: inline-block;
 }
 .our-clients-list.type-list li .vertical-align-cell
@@ -1735,7 +1735,7 @@ body .type-small .testimonials-list .ornament.empty-circle::before
 	background-size: cover;
 }
 /* --- counters --- */
-span.number, 
+span.number,
 span.odometer.number
 {
 	margin-top: 10px;
@@ -1745,7 +1745,7 @@ span.odometer.number
 	color: #FFF;
 	visibility: visible;
 }
-span.number:after, 
+span.number:after,
 span.odometer.number:after
 {
 	display: block;
@@ -1806,7 +1806,7 @@ span.odometer.number:after
 {
 	height: 300px;
 }
-.blog .post-content .row
+.blog .post-content .r-row
 {
 	width: auto;
 }
