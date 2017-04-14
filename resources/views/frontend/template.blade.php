@@ -100,7 +100,12 @@
                 </ul>
               </li>
               <li>
-                <a href="services.html" title="Services">
+                <a href="{{url('about')}}" title="About">
+                  ABOUT
+                </a>
+              </li>
+              <li>
+                <a href="{{ url('services') }}" title="Services">
                   SERVICES
                 </a>
                 <ul>
@@ -164,63 +169,6 @@
                   <li>
                     <a href="project_solar_systems.html" title="Solar Systems">
                       Solar Systems
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a href="team.html" title="Our Team">
-                  OUR TEAM
-                </a>
-              </li>
-              <li>
-                <a href="about.html" title="Pages">
-                  PAGES
-                </a>
-                <ul>
-                  <li>
-                    <a href="about.html" title="About">
-                      About
-                    </a>
-                  </li>
-                  <li>
-                    <a href="404.html" title="404 Not Found">
-                      404 Not Found
-                    </a>
-                  </li>
-                  <li>
-                    <a href="services.html" title="Services Style 1">
-                      Services Style 1
-                    </a>
-                  </li>
-                  <li>
-                    <a href="services2.html" title="Services Style 2">
-                      Services Style 2
-                    </a>
-                  </li>
-                  <li>
-                    <a href="service_interior_renovation.html" title="Single Service">
-                      Single Service
-                    </a>
-                  </li>
-                  <li>
-                    <a href="projects.html" title="Projects">
-                      Projects
-                    </a>
-                  </li>
-                  <li>
-                    <a href="project_interior_renovation.html" title="Single Project">
-                      Single Project
-                    </a>
-                  </li>
-                  <li>
-                    <a href="team.html" title="Team">
-                      Team
-                    </a>
-                  </li>
-                  <li>
-                    <a href="team_mark_whilberg.html" title="Single Team">
-                      Single Team
                     </a>
                   </li>
                 </ul>

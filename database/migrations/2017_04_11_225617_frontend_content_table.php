@@ -140,37 +140,37 @@ providers of construction focused interior renovation services and building.',
 
     DB::table('frontend_content')->insert([
       'page'=>'about',
-      'key'=>'title',
+      'key'=>'about_title',
       'value'=>'WE ARE RENOVATE',
     ]);
     DB::table('frontend_content')->insert([
       'page'=>'about',
-      'key'=>'content',
+      'key'=>'about_content',
       'value'=>'Founded by Kevin Smith back in 2000, Renovate has established itself as one of the greatest and prestigious providers of construction focused interior renovation services and building. We provide a professional renovation and installation services with a real focus on customer satisfaction. Our construction Services is a multi-task company specializing in the following core areas:',
     ]);
     DB::table('frontend_content')->insert([
       'page'=>'about',
-      'key'=>'line1',
+      'key'=>'about_line1',
       'value'=>'We combine Quality Workmanship, Superior Knowledge and Low Prices',
     ]);
     DB::table('frontend_content')->insert([
       'page'=>'about',
-      'key'=>'line2',
+      'key'=>'about_line2',
       'value'=>'We Can Ensure a Job is Done on Time and on Budget',
     ]);
     DB::table('frontend_content')->insert([
       'page'=>'about',
-      'key'=>'line3',
+      'key'=>'about_line3',
       'value'=>'Proven Results for Setting Exceptional Standards in Cost Control',
     ]);
     DB::table('frontend_content')->insert([
       'page'=>'about',
-      'key'=>'line4',
+      'key'=>'about_line4',
       'value'=>'Professional Service for Private and Commercial Customers',
     ]);
     DB::table('frontend_content')->insert([
       'page'=>'about',
-      'key'=>'line5',
+      'key'=>'about_line5',
       'value'=>'15 Years Experience and a Real Focus on Customer Satisfaction',
     ]);
 

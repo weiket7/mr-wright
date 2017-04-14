@@ -25,13 +25,15 @@ Route::get('/', 'Frontend\SiteController@index');
 Route::get('register', 'Frontend\SiteController@register');
 Route::get('contact', 'Frontend\SiteController@contact');
 Route::get('about', 'Frontend\SiteController@about');
+Route::get('services', 'Frontend\SiteController@service');
+Route::get('projects', 'Frontend\SiteController@project');
 
-Route::get('admin', 'AdminController@login');
-Route::post('admin', 'AdminController@login');
-Route::get('admin/login', 'AdminController@login');
-Route::post('admin/login', 'AdminController@login');
-Route::get('admin/logout', 'AdminController@logout');
-Route::get('admin/error', 'AdminController@error');
+Route::get('admin', 'Admin\AdminController@login');
+Route::post('admin', 'Admin\AdminController@login');
+Route::get('admin/login', 'Admin\AdminController@login');
+Route::post('admin/login', 'Admin\AdminController@login');
+Route::get('admin/logout', 'Admin\AdminController@logout');
+Route::get('admin/error', 'Admin\AdminController@error');
 
 Route::group(['middleware'=>['auth', 'modulemiddleware']], function() {
   Route::get('admin/dashboard', 'Admin\AdminController@dashboard');

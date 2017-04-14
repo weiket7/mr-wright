@@ -16,6 +16,21 @@ class SiteController extends BaseController
     return view("frontend/register");
   }
 
+  public function about()
+  {
+    return view("frontend/about");
+  }
+
+  public function service()
+  {
+    return view("frontend/service");
+  }
+
+  public function project()
+  {
+    return view("frontend/project");
+  }
+
   public function contact()
   {
     return view("frontend/contact");

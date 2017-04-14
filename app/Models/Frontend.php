@@ -4,8 +4,8 @@ use Eloquent, DB, Validator, Log;
 
 class Frontend extends Eloquent
 {
-  public $table = 'frontend';
-  protected $primaryKey = 'frontend_id';
+  public $table = 'frontend_content';
+  protected $primaryKey = 'frontend_id_content';
   public $timestamps = false;
 
   private $rules = [
