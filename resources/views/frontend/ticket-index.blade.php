@@ -26,7 +26,7 @@
             @if($ticket->stat == TicketStat::Opened)
               Opened, pending quotation
             @elseif($ticket->stat == TicketStat::Quoted)
-              Quoted <button type="button" class="btn btn-primary">Respond</button>
+              Quoted <button type="button" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'" class="btn btn-primary">Respond</button>
             @elseif($ticket->stat == TicketStat::Accepted)
               Accepted, pending completion
             @elseif($ticket->stat == TicketStat::Declined)
@@ -34,7 +34,7 @@
             @elseif($ticket->stat == TicketStat::Completed)
               Completed, pending invoice
             @elseif($ticket->stat == TicketStat::Invoiced)
-              Invoiced <button type="button" class="btn btn-primary">Payment</button>
+              Invoiced <button type="button" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'" class="btn btn-primary">Payment</button>
             @elseif($ticket->stat == TicketStat::Paid)
               Paid
             @endif

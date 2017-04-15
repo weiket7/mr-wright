@@ -6,7 +6,7 @@ abstract class UserType {
 
   static $values = [
     self::Operator=>'Operator',
-    self::Requester=>'Operator',
+    self::Requester=>'Requester',
   ];
 }
 

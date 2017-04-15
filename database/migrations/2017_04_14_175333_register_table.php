@@ -16,9 +16,9 @@ class RegisterTable extends Migration
             $t->string('designation', 50);
             $t->string('mobile', 100);
             $t->string('email', 100);
-            $t->string('company', 100);
-            $t->string('office', 100);
-            $t->string('address', 200);
+            $t->string('company_name', 100);
+            $t->string('office_name', 100);
+            $t->string('addr', 200);
             $t->string('postal', 20);
             $t->dateTime('created_on');
         });

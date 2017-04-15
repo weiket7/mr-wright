@@ -3,9 +3,9 @@
 @section('content')
   <form method="post" action="">
 
-    @if(Session::has('msg'))
+    @if(Session::has('login_error'))
       <div class="alert alert-danger">
-        {{ Session::get('msg') }}
+        {{ Session::get('login_error') }}
       </div>
     @endif
 

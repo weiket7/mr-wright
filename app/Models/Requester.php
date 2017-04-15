@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 
+use App\Models\Enums\RequesterType;
 use App\Models\Enums\UserStat;
 use Eloquent, DB, Validator, Log;
 use Hash;
@@ -58,6 +59,13 @@ class Requester extends Eloquent
     $this->mobile = $input['mobile'];
     $this->work = $input['work'];
     $this->preferred_contact = $input['preferred_contact'];
+    if($this->type == RequesterType::Individual) {
+      $this->company_name = $input['company_name'];
+      $this->addr = $input['addr'];
+      $this->postal = $input['postal'];
+    } else {
+      $this->company_name = Company::where('company_id', $input['company_id'])->value('name');
+    }
     $this->save();
 
     return true;
@@ -84,5 +92,10 @@ class Requester extends Eloquent
       $user->password = Hash::make($input['password']);
     }
     $user->save();
+  }
+
+  public function getRequesterByUsername($username)
+  {
+    return DB::table('requester')->where('username', $username)->first();
   }
 }

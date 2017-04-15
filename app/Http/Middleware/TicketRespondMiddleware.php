@@ -16,7 +16,7 @@ class TicketRespondMiddleware
 { 
   public function handle(Request $request, Closure $next)
   {
-    $action = $request->segment(2);
+    $action = $request->segment(3); //admin/ticket/accept or admin/ticket/decline
     $ticket_id = $request->id;
 
     if (Auth::check() == false) {

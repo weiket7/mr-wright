@@ -286,25 +286,19 @@
                       <div class="col-md-offset-3 col-md-9">
                         <div>
                           @if($ticket->stat == TicketStat::Quoted && ViewHelper::hasAccess('ticket_respond'))
-                            @if($action == 'view' || $action == 'decline')
-                              <div>
-                                <textarea name="decline_reason" title="" class="form-control txt-decline-reason" placeholder="Please share with us the reason for declining">
-                                </textarea>
-                              </div>
-                            @endif
+                            <div>
+                              <textarea name="accept_decline_reason" title="" class="form-control txt-decline-reason" placeholder="[Optional] Please share with us the reason for accepting or declining">
+                              </textarea>
+                            </div>
 
-                            @if($action == "accept" || $action == "decline") <!--show 1 button when ticket/accept or ticket/decline-->
-                            <div><button type="submit" name="submit" class="btn blue" value="{{ ucfirst($action) }}">
-                                {{ ucfirst($action) }}
-                              </button></div>
-                            @else <!--show 2 buttons when operator ticket/accept or ticket/decline-->
-                            <div><button type="submit" name="submit" class="btn blue" value="Accept">
+                            <div>
+                              <button type="submit" name="submit" class="btn blue" value="Accept">
                                 Accept
                               </button>
                               <button type="submit" name="submit" class="btn blue" value="Decline">
                                 Decline
-                              </button></div>
-                            @endif
+                              </button>
+                            </div>
                           @elseif($ticket->stat == TicketStat::Accepted && ViewHelper::hasAccess('ticket_complete'))
                             <div><button type="submit" name="submit" class="btn blue" value="Complete">
                                 Complete

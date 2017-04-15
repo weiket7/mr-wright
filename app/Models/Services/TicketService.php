@@ -204,9 +204,10 @@ class TicketService
     return $ticket->save();
   }
 
-  public function acceptTicket($ticket_id, $operator = 'admin') {
+  public function acceptTicket($ticket_id, $input, $operator = 'admin') {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Accepted;
+    $ticket->accept_decline_reason = $input['accept_decline_reason'];
     //$ticket->agreed_price = $ticket->quoted_price; //TODO
     $ticket->accepted_by = $operator;
     $ticket->accepted_on = Carbon::now();
@@ -218,7 +219,7 @@ class TicketService
   public function declineTicket($ticket_id, $input, $operator = 'admin') {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Declined;
-    $ticket->decline_reason = $input['decline_reason'];
+    $ticket->accept_decline_reason = $input['accept_decline_reason'];
     $ticket->declined_by = $operator;
     $ticket->declined_on = Carbon::now();
     $ticket->updated_on = Carbon::now();

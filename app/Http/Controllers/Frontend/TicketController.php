@@ -47,12 +47,37 @@ class TicketController extends Controller
         $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
         $result = "Quotation sent";
       }
-      return redirect('admin/ticket/save/'.$ticket_id)->with('msg', $result);
+      return redirect('ticket/save/'.$ticket_id)->with('msg', $result);
     }
     $ticket = $this->ticket_service->getTicket($ticket_id);
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
     $data['ticket'] = $ticket;
     return view('frontend/ticket-form', $data);
+  }
+
+  public function view(Request $request, $ticket_id = null) {
+    if($request->isMethod("post")) {
+      $input = $request->all();
+      $submit = $input['submit'];
+      $result = "";
+      if (BackendHelper::stringContains($submit, "accept")) {
+        $this->ticket_service->acceptTicket($ticket_id, $input, $this->getUsername());
+        $result = "Ticket accepted";
+      } elseif (BackendHelper::stringContains($submit, "decline")) {
+        $this->ticket_service->declineTicket($ticket_id, $input);
+        $result = "Ticket declined";
+      } elseif (BackendHelper::stringContains($submit, "payment")) {
+        $this->ticket_service->paidTicket($input, $ticket_id, $this->getUsername());
+        $result = "Ticket paid";
+      }
+      return redirect('ticket/view/'.$ticket_id)->with('msg', $result);
+    }
+
+    $ticket = $this->ticket_service->getTicket($ticket_id);
+    $this->ticket_service->populateTicketForView($ticket);
+    $data['action'] = $request->segment(2);
+    $data['ticket'] = $ticket;
+    return view("frontend/ticket-view", $data);
   }
 
 

@@ -94,5 +94,20 @@ class UserSeeder extends Seeder
       'created_on'=>Carbon::now()
     ]);
 
+    DB::table('user')->insert([
+      'user_id'=>7,
+      'username'=>'olivia',
+      'name'=>'olivia',
+      'email'=>'olivia@hotmail.com',
+      'password'=>Hash::make(123456),
+      'role_id'=>5, //requester
+      'type'=>UserType::Requester,
+      'stat'=>UserStat::Active,
+      'updated_by'=>'admin',
+      'updated_on'=>Carbon::now(),
+      'created_on'=>Carbon::now()
+    ]);
+
+
   }
 }

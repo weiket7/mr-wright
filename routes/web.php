@@ -28,20 +28,10 @@ Route::post('register', 'Frontend\SiteController@register');
 Route::get('contact', 'Frontend\SiteController@contact');
 Route::post('contact', 'Frontend\SiteController@contact');
 Route::get('about', 'Frontend\SiteController@about');
-Route::get('account', 'Frontend\SiteController@account');
-Route::post('account', 'Frontend\SiteController@account');
 Route::get('services', 'Frontend\SiteController@service');
 Route::get('services/{slug}', 'Frontend\SiteController@service');
 Route::get('projects', 'Frontend\SiteController@project');
 
-
-Route::get('ticket', 'Frontend\TicketController@index');
-Route::get('ticket/save', 'Frontend\TicketController@save');
-Route::post('ticket/save', 'Frontend\TicketController@save');
-Route::get('ticket/save/{id}', 'Frontend\TicketController@save');
-Route::post('ticket/save/{id}', 'Frontend\TicketController@save');
-Route::get('ticket/view/{id}', 'Frontend\TicketController@view');
-Route::post('ticket/view/{id}', 'Frontend\TicketController@view');
 
 Route::get('login', 'Frontend\SiteController@login');
 Route::post('login', 'Frontend\SiteController@login');
@@ -56,6 +46,20 @@ Route::get('admin/logout', 'Admin\AdminController@logout');
 Route::get('admin/error', 'Admin\AdminController@error');
 
 Route::group(['middleware'=>['auth', 'modulemiddleware']], function() {
+  Route::get('account', 'Frontend\SiteController@account');
+  Route::post('account', 'Frontend\SiteController@account');
+
+  Route::get('ticket', 'Frontend\TicketController@index');
+  Route::get('ticket/save', 'Frontend\TicketController@save');
+  Route::post('ticket/save', 'Frontend\TicketController@save');
+  Route::get('ticket/save/{id}', 'Frontend\TicketController@save');
+  Route::post('ticket/save/{id}', 'Frontend\TicketController@save');
+  Route::get('ticket/view/{id}', 'Frontend\TicketController@view');
+  Route::post('ticket/view/{id}', 'Frontend\TicketController@view');
+
+  Route::get('ticket/pay/{id}', 'TicketController@view');
+  Route::post('ticket/pay/{id}', 'TicketController@view');
+
   Route::get('admin/dashboard', 'Admin\AdminController@dashboard');
   Route::get('admin/company', 'Admin\CompanyController@index');
   Route::post('admin/company', 'Admin\CompanyController@index');
@@ -137,15 +141,6 @@ Route::group(['middleware'=>['auth', 'modulemiddleware']], function() {
   Route::get('admin/service', 'Admin\FrontendController@service');
   Route::get('admin/project', 'Admin\FrontendController@project');
 
-
-  //TODO
-  Route::get('ticket/accept/{id}', 'TicketController@view');
-  Route::post('ticket/accept/{id}', 'TicketController@view');
-  Route::get('ticket/decline/{id}', 'TicketController@view');
-  Route::post('ticket/decline/{id}', 'TicketController@view');
-
-  Route::get('ticket/pay/{id}', 'TicketController@view');
-  Route::post('ticket/pay/{id}', 'TicketController@view');
 });
 
 Route::get('test', function() {

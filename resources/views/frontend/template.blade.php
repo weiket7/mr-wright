@@ -405,6 +405,21 @@
 
   @if(isset($title))
     <div class="r-row page-margin-top margin-bottom-40">
+
+      @if ($errors->any())
+        <div class="alert alert-danger">
+          @foreach ($errors->all() as $error)
+            {{$error}}<br>
+          @endforeach
+        </div>
+      @endif
+
+      @if(Session::has('msg'))
+        <div class="alert alert-success">
+          {!!  Session::get('msg') !!}
+        </div>
+      @endif
+
       @yield('content')
     </div>
   @else

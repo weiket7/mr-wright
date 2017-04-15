@@ -2,12 +2,6 @@
 
 @section('content')
 
-  @if(Session::has('msg'))
-    <div class="alert alert-success">
-      {{ Session::get('msg') }}
-    </div>
-  @endif
-
   <form method="post" action="" class="form-horizontal">
     {{ csrf_field() }}
 
@@ -18,7 +12,7 @@
             Username *
           </label>
           <div class="col-md-9">
-            <input type="text" name="username" class="form-control" autofocus>
+            {{ Form::text('username', $user->username, ['class'=>'form-control', 'autofocus']) }}
           </div>
         </div>
       </div>
@@ -41,7 +35,7 @@
             Full Name *
           </label>
           <div class="col-md-9">
-            <input type="text" name="name" class="form-control">
+            {{ Form::text('name', $user->name, ['class'=>'form-control', 'autofocus']) }}
           </div>
         </div>
       </div>
@@ -51,7 +45,7 @@
             Designation *
           </label>
           <div class="col-md-9">
-            <input type="text" name="designation" class="form-control">
+            {{ Form::text('designation', $user->designation, ['class'=>'form-control', 'autofocus']) }}
           </div>
         </div>
       </div>
@@ -64,7 +58,7 @@
             Mobile *
           </label>
           <div class="col-md-9">
-            <input type="text" name="mobile" class="form-control">
+            {{ Form::text('mobile', $user->mobile, ['class'=>'form-control', 'autofocus']) }}
           </div>
         </div>
       </div>
@@ -74,7 +68,7 @@
             Email *
           </label>
           <div class="col-md-9">
-            <input type="email" name="email" class="form-control">
+            {{ Form::text('email', $user->email, ['class'=>'form-control', 'autofocus']) }}
           </div>
         </div>
       </div>
@@ -87,7 +81,7 @@
             Company Name *
           </label>
           <div class="col-md-9">
-            <input type="text" name="company_name" class="form-control">
+            {{ Form::text('company_name', $user->company_name, ['class'=>'form-control', 'autofocus']) }}
           </div>
         </div>
       </div>
@@ -110,7 +104,7 @@
             Address *
           </label>
           <div class="col-md-9">
-            <input type="text" name="addr" class="form-control">
+            {{ Form::text('addr', $user->addr, ['class'=>'form-control', 'autofocus']) }}
           </div>
         </div>
       </div>
@@ -120,7 +114,7 @@
             Postal Code *
           </label>
           <div class="col-md-9">
-            <input type="text" name="postal" class="form-control">
+            {{ Form::text('postal', $user->postal, ['class'=>'form-control', 'autofocus']) }}
           </div>
         </div>
       </div>

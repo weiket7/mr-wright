@@ -5,6 +5,10 @@
 .bold {
   font-weight: bold;
 }
+.lbl-radio {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 
 
 /*STYLE.CSS*/
@@ -19,7 +23,7 @@ label {
   height: 70px;
   margin: 0;
 }
-.form-control, .btn, .alert {
+.form-control, .btn, .alert, .panel {
   border-radius:0 !important;
 }
 .social-icons.yellow li a, .menu-container .sf-menu li ul {
@@ -27,6 +31,6 @@ label {
   -webkit-box-sizing: content-box;
 }
 .alert {
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin-top: 0px;
+  margin-bottom: 20px;
 }
