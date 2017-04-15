@@ -578,8 +578,7 @@
         preferred_slots_delete: [],
         currentDate: moment(),
         currentDateFormatted: moment().format('DD MMM YYYY')
-      },
-      computed: {
+      },computed: {
         yesterday: function() {
           return moment().add(-1, "days");
         },

@@ -15,11 +15,14 @@ class TicketTable extends Migration
       $t->string('title', 100);
       $t->integer('company_id');
       $t->string('company_name', 50);
+      $t->integer('office_name');
       $t->integer('office_id');
       $t->integer('category_id');
       $t->char('urgency', 1);
       $t->string('requested_by', 20);
       $t->date('requested_on');
+      $t->string('addr', 100);
+      $t->string('postal', 20);
       $t->decimal('quoted_price', 12, 2);
       $t->date('quote_valid_till');
       $t->decimal('product_total', 12, 2);

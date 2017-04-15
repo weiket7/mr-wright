@@ -31,7 +31,7 @@ class AdminController extends Controller
 
   public function logout() {
     Auth::logout();
-    return redirect("login")->with('msg', 'Logged out');
+    return redirect("admin/login")->with('msg', 'Logged out');
   }
 
   public function login(Request $request) {

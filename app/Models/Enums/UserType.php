@@ -1,12 +1,12 @@
 <?php namespace App\Models\Enums;
 
 abstract class UserType {
-  const User = 'U';
   const Operator = 'O';
+  const Requester = 'R';
 
   static $values = [
-    self::User=>'User',
     self::Operator=>'Operator',
+    self::Requester=>'Operator',
   ];
 }
 

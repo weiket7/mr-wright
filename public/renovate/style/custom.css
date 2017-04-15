@@ -2,11 +2,13 @@
 .margin-bottom-40 {
   margin-bottom: 40px;
 }
+.bold {
+  font-weight: bold;
+}
+
 
 /*STYLE.CSS*/
-.ui-selectmenu-button {
-  float: none;
-}
+
 
 /*BOOTSTRAP*/
 label {
@@ -17,6 +19,14 @@ label {
   height: 70px;
   margin: 0;
 }
-.form-control {
+.form-control, .btn, .alert {
   border-radius:0 !important;
+}
+.social-icons.yellow li a, .menu-container .sf-menu li ul {
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+}
+.alert {
+  margin-bottom: 10px;
+  margin-top: 10px;
 }

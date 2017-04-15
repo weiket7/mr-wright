@@ -28,12 +28,20 @@ Route::post('register', 'Frontend\SiteController@register');
 Route::get('contact', 'Frontend\SiteController@contact');
 Route::post('contact', 'Frontend\SiteController@contact');
 Route::get('about', 'Frontend\SiteController@about');
+Route::get('account', 'Frontend\SiteController@account');
+Route::post('account', 'Frontend\SiteController@account');
 Route::get('services', 'Frontend\SiteController@service');
 Route::get('services/{slug}', 'Frontend\SiteController@service');
 Route::get('projects', 'Frontend\SiteController@project');
 
 
-Route::get('ticket/create', 'Frontend\TicketController@create');
+Route::get('ticket', 'Frontend\TicketController@index');
+Route::get('ticket/save', 'Frontend\TicketController@save');
+Route::post('ticket/save', 'Frontend\TicketController@save');
+Route::get('ticket/save/{id}', 'Frontend\TicketController@save');
+Route::post('ticket/save/{id}', 'Frontend\TicketController@save');
+Route::get('ticket/view/{id}', 'Frontend\TicketController@view');
+Route::post('ticket/view/{id}', 'Frontend\TicketController@view');
 
 Route::get('login', 'Frontend\SiteController@login');
 Route::post('login', 'Frontend\SiteController@login');

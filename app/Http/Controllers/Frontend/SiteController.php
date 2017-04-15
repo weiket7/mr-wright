@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Enums\UserType;
 use App\Models\FrontendService;
+use Auth;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller
@@ -13,14 +15,28 @@ class SiteController extends Controller
     return view("frontend/index");
   }
 
-  public function login()
+  public function login(Request $request)
   {
+    $input = $request->all();
+    if ($request->isMethod("post")) {
+      if (Auth::attempt(['username'=>$input['username'], 'password'=>$input['password'], 'type'=>UserType::Requester])) {
+        return redirect('account')->with('msg', 'You have logged in');
+      }
+      return redirect()->back()->with('msg', 'Wrong username/password');
+    }
+
     return view("frontend/login");
+  }
+
+  public function account() {
+    $data['user'] = Auth::user();
+    return view('frontend/account', $data);
   }
 
   public function logout()
   {
-    
+    Auth::logout();
+    return redirect("login")->with('msg', 'Logged out');
   }
 
   public function register()

@@ -150,18 +150,9 @@ table td, table th
 {
 	border-left: 1px solid #E2E6E7;
 }
-table td:first-child, table th:first-child
-{
-	text-align: right;
-	border-left: none;
-}
 table.align-left td:first-child, table.align-left th:first-child
 {
 	text-align: left;
-}
-table tr:nth-child(odd)
-{
-	background: #F5F5F5;
 }
 .radius
 {
@@ -506,7 +497,6 @@ h6.box-header:after
 .page-header-left
 {
 	float: left;
-	width: 400px;
 }
 .page-header-right
 {
@@ -864,7 +854,7 @@ body.overlay .background-overlay
 }
 .page-margin-top
 {
-	margin-top: 50px;
+	margin-top: 30px;
 }
 .page-margin-top-section
 {

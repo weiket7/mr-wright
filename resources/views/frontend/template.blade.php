@@ -26,6 +26,9 @@
   <link rel="stylesheet" type="text/css" href="{{asset('renovate/fonts/template/styles.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('renovate/fonts/social/styles.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/custom.css')}}">
+
+  <link href="{{asset('assets/metronic/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
+
   <link rel="shortcut icon" href="{{asset('renovate/images/favicon.ico')}}">
 </head>
 <body>
@@ -82,50 +85,90 @@
         <div class="menu-container clearfix vertical-align-cell">
           <nav>
             <ul class="sf-menu">
-              <li class="selected">
-                <a href="{{ url('/') }}" title="Home">
-                  HOME
-                </a>
-              </li>
-              <li>
-                <a href="{{url('about')}}" title="About">
-                  ABOUT
-                </a>
-              </li>
-              <li>
-                <a href="{{ url('services') }}" title="Services">
-                  SERVICES
-                </a>
-                <ul>
-                  @foreach($frontend['services'] as $service)
-                  <li>
-                    <a href="{{ url('services/'.$service->slug) }}" title="{{$service->title}}">
-                      {{$service->title}}
-                    </a>
-                  </li>
-                  @endforeach
-                </ul>
-              </li>
-              {{--<li>
-                <a href="projects.html" title="Projects">
-                  PROJECTS
-                </a>
-              </li>--}}
-              <li>
-                <a href="{{url('register')}}" title="Register">
-                  REGISTER
-                </a>
-              </li>
-              <li>
-                <a href="{{url('login')}}" title="Login">
-                  LOGIN
-                </a>
-              </li>
-              <li class="left-flyout">
-                <a href="{{url('contact')}}" title="Contact">
-                  CONTACT
-                </a>
-              </li>
+              @if(Auth::check())
+                <li class="selected">
+                  <a href="services.html" title="Services">
+                    HOME
+                  </a>
+                  <ul>
+                    <li>
+                      <a href="{{ url('about') }}">
+                        ABOUT
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{{ url('services') }}">
+                        SERVICES
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{{ url('contact') }}">
+                        CONTACT
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="{{ url('account') }}" title="Account">
+                    ACCOUNT
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ url('ticket') }}" title="Tickets">
+                    TICKETS
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ url('logout') }}" title="Log Out">
+                    LOG OUT
+                  </a>
+                </li>
+              @else
+                <li class="selected">
+                  <a href="{{ url('/') }}" title="Home">
+                    HOME
+                  </a>
+                </li>
+                <li>
+                  <a href="{{url('about')}}" title="About">
+                    ABOUT
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ url('services') }}" title="Services">
+                    SERVICES
+                  </a>
+                  <ul>
+                    @foreach($frontend['services'] as $service)
+                      <li>
+                        <a href="{{ url('services/'.$service->slug) }}" title="{{$service->title}}">
+                          {{$service->title}}
+                        </a>
+                      </li>
+                    @endforeach
+                  </ul>
+                </li>
+                {{--<li>
+                  <a href="projects.html" title="Projects">
+                    PROJECTS
+                  </a>
+                </li>--}}
+                <li>
+                  <a href="{{url('register')}}" title="Register">
+                    REGISTER
+                  </a>
+                </li>
+                <li>
+                  <a href="{{url('login')}}" title="Login">
+                    LOGIN
+                  </a>
+                </li>
+                <li class="left-flyout">
+                  <a href="{{url('contact')}}" title="Contact">
+                    CONTACT
+                  </a>
+                </li>
+              @endif
             </ul>
           </nav>
           <div class="mobile-menu-container">
@@ -348,7 +391,26 @@
     </div>
   </div>
 
-  @yield('content')
+  @if(isset($title))
+    <div class="r-row gray full-width page-header vertical-align-table">
+      <div class="r-row full-width padding-top-bottom-50 vertical-align-cell">
+        <div class="r-row">
+          <div class="page-header-left">
+            <h1>{{ strtoupper($title) }}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  @endif
+
+  @if(isset($title))
+    <div class="r-row page-margin-top margin-bottom-40">
+      @yield('content')
+    </div>
+  @else
+    @yield('content')
+
+  @endif
 
   <div class="r-row yellow full-width padding-top-bottom-30">
     <div class="r-row">
@@ -478,6 +540,15 @@
 <script type="text/javascript" src="{{asset('renovate/js/jquery.blockUI.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('renovate/js/main.js')}}"></script>
 <script type="text/javascript" src="{{asset('renovate/js/odometer.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
+
+<script src="{{asset('js/bootstrap.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/metronic/global/plugins/moment.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('js/vue.js')}}" type="text/javascript"></script>
+
+
+@section('script')
+
+@show
+
 </body>
 </html>

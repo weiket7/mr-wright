@@ -6,7 +6,7 @@ use App\Models\Enums\TicketUrgency;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
-class TicketSeeder extends Seeder
+class  TicketSeeder extends Seeder
 {
   public function run()
   {
@@ -17,7 +17,10 @@ class TicketSeeder extends Seeder
       'stat'=>TicketStat::Opened,
       'title'=>'Fix tap in pantry',
       'company_id'=>1,
+      'company_name'=>'Unity Pharmacy',
       'office_id'=>1,
+      'addr'=>'Address',
+      'postal'=>'123456',
       'category_id'=>3,
       'urgency'=> TicketUrgency::High,
       'quoted_price'=>100,
@@ -37,7 +40,98 @@ class TicketSeeder extends Seeder
 
     DB::table('ticket')->insert([
       'ticket_code'=>'UP_'.$month_year.'_002',
-      'stat'=>TicketStat::Opened,
+      'stat'=>TicketStat::Quoted,
+      'title'=>'Fix tap in pantry',
+      'company_id'=>1,
+      'office_id'=>1,
+      'category_id'=>3,
+      'urgency'=> TicketUrgency::High,
+      'quoted_price'=>100,
+      'requester_desc'=>'Inform Sally at reception when done',
+      'operator_desc'=>'IMPT: Remember to clean up after completion',
+      'requested_by'=>'Sally',
+      'requested_on'=>Carbon::now()->addDay(-3),
+    ]);
+
+    DB::table('ticket')->insert([
+      'ticket_code'=>'UP_'.$month_year.'_003',
+      'stat'=>TicketStat::Accepted,
+      'title'=>'Fix tap in pantry',
+      'company_id'=>1,
+      'office_id'=>1,
+      'category_id'=>3,
+      'urgency'=> TicketUrgency::High,
+      'quoted_price'=>120,
+      'requester_desc'=>'Inform Sally at reception when done',
+      'operator_desc'=>'IMPT: Remember to clean up after completion',
+      'requested_by'=>'Sally',
+      'requested_on'=>Carbon::now()->addDay(-3),
+    ]);
+
+    DB::table('ticket')->insert([
+      'ticket_code'=>'UP_'.$month_year.'_004',
+      'stat'=>TicketStat::Declined,
+      'title'=>'Fix tap in pantry',
+      'company_id'=>1,
+      'office_id'=>1,
+      'category_id'=>3,
+      'urgency'=> TicketUrgency::High,
+      'quoted_price'=>120,
+      'requester_desc'=>'Inform Sally at reception when done',
+      'operator_desc'=>'IMPT: Remember to clean up after completion',
+      'requested_by'=>'Sally',
+      'requested_on'=>Carbon::now()->addDay(-3),
+    ]);
+
+    DB::table('ticket')->insert([
+      'ticket_code'=>'UP_'.$month_year.'_005',
+      'stat'=>TicketStat::Completed,
+      'title'=>'Fix tap in pantry',
+      'company_id'=>1,
+      'office_id'=>1,
+      'category_id'=>3,
+      'urgency'=> TicketUrgency::High,
+      'quoted_price'=>120,
+      'requester_desc'=>'Inform Sally at reception when done',
+      'operator_desc'=>'IMPT: Remember to clean up after completion',
+      'requested_by'=>'Sally',
+      'requested_on'=>Carbon::now()->addDay(-3),
+    ]);
+
+
+    DB::table('ticket')->insert([
+      'ticket_code'=>'UP_'.$month_year.'_006',
+      'stat'=>TicketStat::Invoiced,
+      'title'=>'Fix tap in pantry',
+      'company_id'=>1,
+      'office_id'=>1,
+      'category_id'=>3,
+      'urgency'=> TicketUrgency::High,
+      'quoted_price'=>120,
+      'requester_desc'=>'Inform Sally at reception when done',
+      'operator_desc'=>'IMPT: Remember to clean up after completion',
+      'requested_by'=>'Sally',
+      'requested_on'=>Carbon::now()->addDay(-3),
+    ]);
+
+    DB::table('ticket')->insert([
+      'ticket_code'=>'UP_'.$month_year.'_007',
+      'stat'=>TicketStat::Paid,
+      'title'=>'Fix tap in pantry',
+      'company_id'=>1,
+      'office_id'=>1,
+      'category_id'=>3,
+      'urgency'=> TicketUrgency::High,
+      'quoted_price'=>120,
+      'requester_desc'=>'Inform Sally at reception when done',
+      'operator_desc'=>'IMPT: Remember to clean up after completion',
+      'requested_by'=>'Sally',
+      'requested_on'=>Carbon::now()->addDay(-3),
+    ]);
+
+    DB::table('ticket')->insert([
+      'ticket_code'=>'UP_'.$month_year.'_008',
+      'stat'=>TicketStat::Declined,
       'title'=>'Fix tap in pantry',
       'company_id'=>1,
       'office_id'=>1,
@@ -57,5 +151,6 @@ class TicketSeeder extends Seeder
       'updated_on'=>Carbon::now(),
       'recent_action'=>'open',
     ]);
+
   }
 }

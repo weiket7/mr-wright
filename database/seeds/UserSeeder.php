@@ -59,7 +59,7 @@ class UserSeeder extends Seeder
       'email'=>'sally@unity-pharmacy.sg',
       'password'=>Hash::make(123456),
       'role_id'=>5, //requester
-      'type'=>UserType::Operator,
+      'type'=>UserType::Requester,
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -73,7 +73,7 @@ class UserSeeder extends Seeder
       'email'=>'jane@unity-pharmacy.sg',
       'password'=>Hash::make(123456),
       'role_id'=>5, //requester
-      'type'=>UserType::Operator,
+      'type'=>UserType::Requester,
       'stat'=>UserStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),

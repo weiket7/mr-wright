@@ -396,4 +396,9 @@ class TicketService
     return true;
   }
 
+  public function getTicketAllByUsername($username)
+  {
+    return DB::table('ticket')->where('requested_by', $username)->get();
+  }
+
 }

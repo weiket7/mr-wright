@@ -1,19 +1,21 @@
-@extends('frontend.template')
+@extends('frontend.template', ['title'=>'log in'])
 
 @section('content')
-  <div class="r-row page-margin-top margin-bottom-40">
+  <form method="post" action="">
 
-    <h3 class="box-header">Log In</h3>
+    @if(Session::has('msg'))
+      <div class="alert alert-danger">
+        {{ Session::get('msg') }}
+      </div>
+    @endif
 
-    <form method="post" action="" class="margin-top-40">
-      {{ csrf_field() }}
-      <input class="text-input hint" name="username" type="text" placeholder="Username *" autofocus autocomplete="off">
-      <br><br>
+    {{ csrf_field() }}
+    <input class="text-input hint" name="username" type="text" placeholder="Username *" autofocus autocomplete="off" value="{{ App::environment('local') ? "Sally" : '' }}">
+    <br><br>
 
-      <input class="text-input hint" name="password" type="password" placeholder="Password *" autocomplete="off">
-      <br><br>
+    <input class="text-input hint" name="password" type="password" placeholder="Password *" autocomplete="off" value="{{ App::environment('local') ? "123456" : '' }}">
+    <br><br>
 
-      <input type="submit" name="submit" value="LOG IN" class="more active">
-    </form>
-  </div>
+    <input type="submit" name="submit" value="LOG IN" class="more active">
+  </form>
 @endsection
