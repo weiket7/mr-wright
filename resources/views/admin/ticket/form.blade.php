@@ -23,8 +23,10 @@
         </ul>
         <div class="tab-content no-space">
           <div class="tab-pane fade active in" id="tab-general">
-            <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
+            <form action="" method="post" id="form-ticket" class="form-horizontal" enctype="multipart/form-data" v-on:submit.prevent="submitForm">
               {!! csrf_field() !!}
+              <input type="hidden" v-model="submit_action" name="submit_action">
+
               <div class="form-body">
                 <div class="form-group">
                   <label class="control-label col-md-2">Title</label>
@@ -148,36 +150,36 @@
                   </div>
                 </div>
                 @if ($ticket->stat == TicketStat::Quoted)
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="control-label col-md-3">Quote Valid Till</label>
-                      <div class="col-md-9">
-                        <div class="form-control-static">
-                          {{ ViewHelper::formatDate($ticket->quote_valid_till) }} (inclusive)
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Quote Valid Till</label>
+                        <div class="col-md-9">
+                          <div class="form-control-static">
+                            {{ ViewHelper::formatDate($ticket->quote_valid_till) }} (inclusive)
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="col-md-6">
+                    <div class="col-md-6">
 
+                    </div>
                   </div>
-                </div>
                 @endif
 
                 @if($ticket->stat == TicketStat::Declined)
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="control-label col-md-3">Decline Reason</label>
-                      <div class="col-md-9">
-                        {{Form::text('decline_reason', ViewHelper::formatNumber($ticket->decline_reason), ['class'=>'form-control'])}}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Decline Reason</label>
+                        <div class="col-md-9">
+                          {{Form::text('decline_reason', ViewHelper::formatNumber($ticket->decline_reason), ['class'=>'form-control'])}}
+                        </div>
                       </div>
                     </div>
+                    <div class="col-md-6">
+                    </div>
                   </div>
-                  <div class="col-md-6">
-                  </div>
-                </div>
                 @endif
                 <div class="form-group">
                   <label class="control-label col-md-2">Issues</label>
@@ -197,15 +199,19 @@
                       <tr v-for="(issue, index) in issues" v-bind:class="'row-'+issue.stat">
                         <td>
                           <button type="button" class="btn btn-icon-only blue" @click="deleteIssue(index)">
-                            <i v-if="issue.stat" class="fa fa-undo"></i>
-                            <i v-else="" class="fa fa-times"></i>
+                          <i v-if="issue.stat" class="fa fa-undo"></i>
+                          <i v-else="" class="fa fa-times"></i>
                           </button>
                           <input type="hidden" v-bind:name="'issue_stat'+index" v-bind:value="issue.stat" v-if="issue.stat">
                           <input type="hidden" v-bind:name="'issue_id'+index" v-bind:value="issue.ticket_issue_id">
                         </td>
                         <td>
                           <div v-bind:id="'preview-image' + index">
-                            <img :src="'{{asset('images/tickets')}}/'+ issue.image " v-if="issue.image" class="ticket-image"/>
+                            <img v-if="isImage(issue.image)" :src="'{{asset('images/tickets')}}/'+ issue.image" v-if="issue.image" class="ticket-image"/>
+                            <video v-else-if="isVideo(issue.image)" width="320" height="240" controls>
+                              <source :src="'{{asset('images/tickets')}}/'+ issue.image">
+                              Your browser does not support the video tag.
+                            </video>
                           </div>
                           <input type="file" v-bind:name="'image' + index" v-on:change="previewImage(index,$event)">
                         </td>
@@ -244,23 +250,23 @@
                       </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="(slot, index) in preferred_slots" v-bind:class="'row-'+slot.stat">
-                          <td>
-                            <button type="button" class="btn btn-icon-only blue" @click="deletePreferredSlot(index)">
-                              <i v-if="slot.stat" class="fa fa-undo"></i>
-                              <i v-else="" class="fa fa-times"></i>
-                            </button>
-                            <input type="hidden" v-bind:name="'preferred_slot_stat'+index" v-bind:value="slot.stat" v-if="slot.stat">
-                            <input type="hidden" v-bind:name="'preferred_slot_id'+index" v-bind:value="slot.ticket_preferred_slot_id">
-                          </td>
-                          <td>
-                            <input type="text" v-bind:name="'preferred_slot_date'+index" v-bind:value="slot.date | formatDate" class="form-control datepicker">
-                          </td>
-                          <td>
-                            <input type="text" v-bind:name="'preferred_slot_time_start'+index" v-model="slot.time_start" class="form-control time" placeholder="hour:minute am/pm">
-                            <input type="text" v-bind:name="'preferred_slot_time_end'+index" v-model="slot.time_end" class="form-control time" placeholder="hour:minute am/pm">
-                          </td>
-                        </tr>
+                      <tr v-for="(slot, index) in preferred_slots" v-bind:class="'row-'+slot.stat">
+                        <td>
+                          <button type="button" class="btn btn-icon-only blue" @click="deletePreferredSlot(index)">
+                          <i v-if="slot.stat" class="fa fa-undo"></i>
+                          <i v-else="" class="fa fa-times"></i>
+                          </button>
+                          <input type="hidden" v-bind:name="'preferred_slot_stat'+index" v-bind:value="slot.stat" v-if="slot.stat">
+                          <input type="hidden" v-bind:name="'preferred_slot_id'+index" v-bind:value="slot.ticket_preferred_slot_id">
+                        </td>
+                        <td>
+                          <input type="text" v-bind:name="'preferred_slot_date'+index" v-bind:value="slot.date | formatDate" class="form-control datepicker">
+                        </td>
+                        <td>
+                          <dropdown-time :name="'preferred_slot_time_start'+index" :value="slot.time_start" class="select-time"></dropdown-time>
+                          <dropdown-time :name="'preferred_slot_time_end'+index" :value="slot.time_end" class="select-time"></dropdown-time>
+                        </td>
+                      </tr>
                       </tbody>
                       <tfoot>
                       <tr>
@@ -325,67 +331,52 @@
 
               <div class="form-actions">
                 <div class="row">
-                  <div class="col-md-6">
-                    <div class="row">
-                      <div class="col-md-offset-3 col-md-9">
-                      @if(in_array($ticket->stat, [null, TicketStat::Drafted, TicketStat::Opened]))
-                        <button type="submit" name="submit" class="btn blue" value="{{ ucfirst($action) }} Ticket">
-                          {{ ucfirst($action) }} Ticket
-                        </button>
-                      @endif
+                  <div class="col-md-offset-2 col-md-10">
+                    @if($ticket->stat == null)
+                      <input type="submit" @click='draftTicket' value="Draft Ticket" class="btn blue">
+                    @elseif($ticket->stat == TicketStat::Drafted)
+                      <input type="submit" @click='updateTicket' value="Update Ticket" class="btn blue">
+                      <input type="submit" @click='openTicket' value="Open Ticket" class="btn blue">
+                    @elseif($ticket->stat == TicketStat::Opened)
+                      <input type="submit" @click='updateTicket' value="Update Ticket" class="btn blue">
+                      <input type="submit" @click='sendQuotation' value="Send Quotation" class="btn blue">
+                    @endif
 
-                      <?php $btn_text = "";
-                        if($ticket->stat == TicketStat::Drafted && ViewHelper::hasAccess('ticket_open')) {
-                          $btn_text = "Open Ticket";
-                        } elseif($ticket->stat == TicketStat::Opened && ViewHelper::hasAccess('ticket_quote')) {
-                          $btn_text = "Send Quotation";
-                        }
-                        ?>
-                        @if($btn_text)
-                        <button type="submit" name="submit" class="btn green" value="{{ $btn_text }}">
-                          {{ $btn_text }}
-                        </button>
-                        @endif
-
-                        @if($ticket->stat == TicketStat::Quoted)
-                          <div class="alert alert-info">
-                            Quotation has been sent. Waiting for customer's response.
-                          </div>
-                        @endif
+                    @if($ticket->stat == TicketStat::Quoted)
+                      <div class="alert alert-info">
+                        Quotation has been sent. Waiting for customer's response.
                       </div>
-                    </div>
+                    @endif
                   </div>
-                  <div class="col-md-6"> </div>
                 </div>
               </div>
             </form>
           </div>
           <div class="tab-pane fade" id="tab-history">
             <ul class="list-group">
-            <?php $history = [];
+              <?php $history = [];
               if ($ticket->paid_by)
                 $history[] = "Paid by ".$ticket->paid_by." on " . ViewHelper::formatDateTime($ticket->paid_on);
-            if ($ticket->invoiced_by)
+              if ($ticket->invoiced_by)
                 $history[] = "Invoiced by ".$ticket->invoiced_by." on " . ViewHelper::formatDateTime($ticket->invoiced_on);
-            if ($ticket->completed_by)
+              if ($ticket->completed_by)
                 $history[] = "Completed by ".$ticket->completed_by." on " . ViewHelper::formatDateTime($ticket->completed_on);
-            if ($ticket->declined_by)
+              if ($ticket->declined_by)
                 $history[] = "Declined by ".$ticket->declined_by." on " . ViewHelper::formatDateTime($ticket->declined_on);
-            if ($ticket->accepted_by)
+              if ($ticket->accepted_by)
                 $history[] = "Accepted by ".$ticket->accepted_by." on " . ViewHelper::formatDateTime($ticket->accepted_on);
-            if ($ticket->quoted_by)
+              if ($ticket->quoted_by)
                 $history[] = "Quoted by ".$ticket->quoted_by." on " . ViewHelper::formatDateTime($ticket->quoted_on);
-            if ($ticket->opened_by)
+              if ($ticket->opened_by)
                 $history[] = "Opened by ".$ticket->opened_by." on " . ViewHelper::formatDateTime($ticket->opened_on);
-            if ($ticket->drafted_by)
+              if ($ticket->drafted_by)
                 $history[] = "Drafted by ".$ticket->drafted_by." on " . ViewHelper::formatDateTime($ticket->drafted_on);
-            ?>
-            @foreach($history as $h)
-            <li class="list-group-item"> {{ $h }} </li>
-            @endforeach
+              ?>
+              @foreach($history as $h)
+                <li class="list-group-item"> {{ $h }} </li>
+              @endforeach
             </ul>
           </div>
-
         </div>
       </div>
     </div>
@@ -424,15 +415,19 @@
     });
 
     function validateForm() {
-      $(".time").each(function() {
+      var validate = true;
+      $(".select-time").each(function() {
         var time = $(this).val();
-        if(validateTime(time) == false) {
+        //console.log('time='+time);
+        if (time == '') {
           $(this).addClass("txt-error");
-          toastr.error("Enter valid time");
+          validate = false;
+          toastr.error("Select time");
         } else {
           $(this).removeClass("txt-error");
         }
       });
+      return validate;
     }
 
     var selected_cells = {!! json_encode($ticket->staff_assignments) !!};
@@ -569,6 +564,45 @@
       })
     }
 
+    Vue.component('dropdown-time', {
+      props: ['name', 'value'],
+      data() {
+        return {
+          times: [
+            {key:'', value:''},
+            {key: '00:00', value: '12:00 am'},
+            {key: '01:00', value: '1:00 am'},
+            {key: '02:00', value: '2:00 am'},
+            {key: '03:00', value: '3:00 am'},
+            {key: '04:00', value: '4:00 am'},
+            {key: '05:00', value: '5:00 am'},
+            {key: '06:00', value: '6:00 am'},
+            {key: '07:00', value: '7:00 am'},
+            {key: '08:00', value: '8:00 am'},
+            {key: '09:00', value: '9:00 am'},
+            {key: '10:00', value: '10:00 am'},
+            {key: '11:00', value: '11:00 am'},
+            {key: '12:00', value: '12:00 pm'},
+            {key: '13:00', value: '1:00 pm'},
+            {key: '14:00', value: '2:00 pm'},
+            {key: '15:00', value: '3:00 pm'},
+            {key: '16:00', value: '4:00 pm'},
+            {key: '17:00', value: '5:00 pm'},
+            {key: '18:00', value: '6:00 pm'},
+            {key: '19:00', value: '7:00 pm'},
+            {key: '20:00', value: '8:00 pm'},
+            {key: '21:00', value: '9:00 pm'},
+            {key: '22:00', value: '10:00 pm'},
+            {key: '23:00', value: '11:00 pm'}
+          ]
+        }
+      },
+      created(){
+        this.selectedOption = this.value;
+      },
+      template: "<select :name='name' v-model='selectedOption' class='form-control'><option v-for='time in times' :value='time.key'>@{{ time.value }}</option></select>"
+    });
+
     var vm = new Vue({
       el: "#app",
       data: {
@@ -576,7 +610,8 @@
         preferred_slots: {!! $ticket->preferred_slots !!},
         preferred_slots_delete: [],
         currentDate: moment(),
-        currentDateFormatted: moment().format('DD MMM YYYY')
+        currentDateFormatted: moment().format('DD MMM YYYY'),
+        submit_action: '',
       },computed: {
         yesterday: function() {
           return moment().add(-1, "days");
@@ -614,13 +649,16 @@
         addPreferredSlot: function() {
           var slot = {date: this.currentDate.format('YYYY-MM-DD'), time_start: '', time_end: '', stat:'add'};
           this.preferred_slots.push(slot);
+          Vue.nextTick(function() {
+            initDatepicker();
+          });
         },
         deletePreferredSlot: function(index) {
           var slot = this.preferred_slots[index];
           if (slot.stat === 'add') {
             this.preferred_slots.splice(index, 1);
           }
-  
+
           if (slot.stat == 'delete') {
             slot.stat = '';
           } else {
@@ -630,8 +668,8 @@
         },
         previewImage: function(index,e) {
           var reader = new FileReader();
-          var fileType = e.target.files[0].type;
-          if (isImage(fileType) === false) {
+          var file_mime = e.target.files[0].type;
+          if (fileMimeIsImage(file_mime) === false) {
             $('#preview-image' + index).html("Video");
             return;
           }
@@ -645,6 +683,32 @@
           };
           var file = e.target.files[0];
           reader.readAsDataURL(file);
+        },
+        isImage: function(file_name) {
+          return fileExtensionIsImage(file_name);
+        },
+        isVideo: function(file_name) {
+          return fileExtensionIsVideo(file_name);
+        },
+        draftTicket: function() {
+          this.submit_action = "draft";
+        },
+        updateTicket: function() {
+          this.submit_action = "update";
+        },
+        sendQuotation: function() {
+          this.submit_action = "quote";
+        },
+        openTicket: function() {
+          this.submit_action = "open";
+        },
+        submitForm: function() {
+          var validate = validateForm();
+          console.log('val'+validate);
+          if (validate) {
+            console.log(document.getElementById("form-ticket"));
+            document.getElementById("form-ticket").submit();
+          }
         }
       },
       filters: {
@@ -665,26 +729,6 @@
         }
       }
     });
-
-    function isImage(file_type) {
-      switch (file_type) {
-        case "image/jpeg":
-        case "image/png":
-        case "image/gif":
-          return true; break;
-      }
-      return false;
-    }
-
-    function validateTime(value) {
-      value = value.trim();
-
-      //https://www.mkyong.com/regular-expressions/how-to-validate-time-in-12-hours-format-with-regular-expression/
-      //http://stackoverflow.com/questions/41758187/invalid-group-in-regular-expression
-      //var timeRegex = /^(1[012]|[1-9]):[0-5][0-9](\\s)?(?i)(am|pm)$/; //not working version
-      var timeRegex = /^(1[012]|[1-9]):[0-5][0-9]\s?(am|pm)$/i;
-      return timeRegex.test(value);
-    }
 
     function pushToCalendarObject(obj, staff_id, date, time) {
       if (typeof obj[staff_id] === "undefined") {

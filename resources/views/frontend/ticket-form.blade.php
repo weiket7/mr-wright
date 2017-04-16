@@ -173,7 +173,11 @@
             </td>
             <td>
               <div v-bind:id="'preview-image' + index">
-                <img :src="'{{asset('images/tickets')}}/'+ issue.image " v-if="issue.image" class="ticket-image"/>
+                <img v-if="isImage(issue.image)" :src="'{{asset('images/tickets')}}/'+ issue.image" v-if="issue.image" class="ticket-image"/>
+                <video v-else-if="isVideo(issue.image)" width="320" height="240" controls>
+                  <source :src="'{{asset('images/tickets')}}/'+ issue.image">
+                  Your browser does not support the video tag.
+                </video>
               </div>
               <input type="file" v-bind:name="'image' + index" v-on:change="previewImage(index,$event)">
             </td>
@@ -227,8 +231,8 @@
               <input type="text" v-bind:name="'preferred_slot_date'+index" v-bind:value="slot.date | formatDate" class="form-control datepicker">
             </td>
             <td>
-              <input type="text" v-bind:name="'preferred_slot_time_start'+index" v-model="slot.time_start" class="form-control time" placeholder="HH:MM am/pm">
-              <input type="text" v-bind:name="'preferred_slot_time_end'+index" v-model="slot.time_end" class="form-control time" placeholder="HH:MM am/pm">
+              <dropdown-time :name="'preferred_slot_time_start'+index" :value="slot.time_start"></dropdown-time>
+              <dropdown-time :name="'preferred_slot_time_end'+index" :value="slot.time_end"></dropdown-time>
             </td>
           </tr>
           </tbody>
@@ -251,6 +255,9 @@
       @elseif($ticket->stat == TicketStat::Drafted)
         <input type="submit" name="submit" value="UPDATE TICKET" class="more active">
         <input type="submit" name="submit" value="OPEN TICKET" class="more active">
+      @elseif($ticket->stat == TicketStat::Opened)
+        <input type="submit" name="submit" value="UPDATE TICKET" class="more active">
+        <input type="submit" name="submit" value="OPEN TICKET" class="more active">
       @endif
     </div>
 
@@ -260,11 +267,50 @@
 
 @section('script')
   <script>
+    Vue.component('dropdown-time', {
+      props: ['name', 'value'],
+      data() {
+        return {
+          times: [
+            {key:'', value:''},
+            {key: '00:00', value: '12:00 am'},
+            {key: '01:00', value: '1:00 am'},
+            {key: '02:00', value: '2:00 am'},
+            {key: '03:00', value: '3:00 am'},
+            {key: '04:00', value: '4:00 am'},
+            {key: '05:00', value: '5:00 am'},
+            {key: '06:00', value: '6:00 am'},
+            {key: '07:00', value: '7:00 am'},
+            {key: '08:00', value: '8:00 am'},
+            {key: '09:00', value: '9:00 am'},
+            {key: '10:00', value: '10:00 am'},
+            {key: '11:00', value: '11:00 am'},
+            {key: '12:00', value: '12:00 pm'},
+            {key: '13:00', value: '1:00 pm'},
+            {key: '14:00', value: '2:00 pm'},
+            {key: '15:00', value: '3:00 pm'},
+            {key: '16:00', value: '4:00 pm'},
+            {key: '17:00', value: '5:00 pm'},
+            {key: '18:00', value: '6:00 pm'},
+            {key: '19:00', value: '7:00 pm'},
+            {key: '20:00', value: '8:00 pm'},
+            {key: '21:00', value: '9:00 pm'},
+            {key: '22:00', value: '10:00 pm'},
+            {key: '23:00', value: '11:00 pm'}
+          ]
+        }
+      },
+      created(){
+        this.selectedOption = this.value;
+      },
+      template: "<select :name='name' v-model='selectedOption' class='form-control'><option v-for='time in times' :value='time.key'>@{{ time.value }}</option></select>"
+    });
+
     var vm = new Vue({
       el: "#app",
       data: {
-        preferred_slots: [],
-        issues: [],
+        issues: {!! $ticket->issues !!},
+        preferred_slots: {!! $ticket->preferred_slots !!},
         currentDate: moment()
       },
       methods: {
@@ -302,6 +348,11 @@
         },
         previewImage: function(index,e) {
           var reader = new FileReader();
+          var file_mime = e.target.files[0].type;
+          if (fileMimeIsImage(file_mime) === false) {
+            $('#preview-image' + index).html("Video");
+            return;
+          }
           reader.onload = function (e) {
             var img = $('<img/>', {
               width:250,
@@ -312,6 +363,12 @@
           };
           var file = e.target.files[0];
           reader.readAsDataURL(file);
+        },
+        isImage: function(file_name) {
+          return fileExtensionIsImage(file_name);
+        },
+        isVideo: function(file_name) {
+          return fileExtensionIsVideo(file_name);
         }
       },
       filters: {

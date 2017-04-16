@@ -23,7 +23,7 @@ class SiteController extends Controller
     $input = $request->all();
     if ($request->isMethod("post")) {
       if (Auth::attempt(['username'=>$input['username'], 'password'=>$input['password'], 'type'=>UserType::Requester])) {
-        return redirect('account')->with('msg', 'You have logged in');
+        return redirect('account')->with('msg', 'Logged in');
       }
       return redirect()->back()->with('login_error', 'Wrong username/password');
     }

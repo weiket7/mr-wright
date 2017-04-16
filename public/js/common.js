@@ -38,10 +38,42 @@ function removeFromObject(obj, key, value) {
 }
 
 function arrayContains(arr, value) {
+  value = value.toLowerCase();
   for(var i=0; i<arr.length; i++) {
-    if (arr[i] == value) {
+    var v = arr[i].toLowerCase();
+    if (v == value) {
       return true;
     }
   }
   return false;
+}
+
+function fileExtensionIsImage(file_name) {
+  file_name = file_name.toLowerCase();
+  var extension = file_name.split('.')[1];
+  var image_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+  return image_extensions.indexOf(extension) >= 0;
+}
+
+function fileMimeIsImage(file_mime) {
+  file_mime = file_mime.toLowerCase();
+  var image_mimes = ["image/jpeg", "image/png", "image/gif"];
+  return image_mimes.indexOf(file_mime) >= 0;
+}
+
+function fileExtensionIsVideo(file_name) {
+  file_name = file_name.toLowerCase();
+  var extension = file_name.split('.')[1];
+  var video_extensions = ['wmv', 'avi', 'flv', 'mp4', 'mov'];
+  return video_extensions.indexOf(extension) >= 0;
+}
+
+function validateTime(value) {
+  value = value.trim();
+
+  //https://www.mkyong.com/regular-expressions/how-to-validate-time-in-12-hours-format-with-regular-expression/
+  //http://stackoverflow.com/questions/41758187/invalid-group-in-regular-expression
+  //var timeRegex = /^(1[012]|[1-9]):[0-5][0-9](\\s)?(?i)(am|pm)$/; //not working version
+  var timeRegex = /^(1[012]|[1-9]):[0-5][0-9]\s?(am|pm)$/i;
+  return timeRegex.test(value);
 }

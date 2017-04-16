@@ -9,7 +9,10 @@
   margin-top: 5px;
   margin-bottom: 5px;
 }
-
+/*custom*/
+.ticket-image {
+  max-height: 250px;
+}
 
 /*STYLE.CSS*/
 

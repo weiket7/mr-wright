@@ -564,6 +564,7 @@
 <script src="{{asset('js/bootstrap.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/metronic/global/plugins/moment.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('js/vue.js')}}" type="text/javascript"></script>
+<script src="{{asset('js/common.js')}}" type="text/javascript"></script>
 
 
 @section('script')

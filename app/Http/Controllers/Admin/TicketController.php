@@ -37,15 +37,15 @@ class TicketController extends Controller
     $data['action'] = $ticket_id == null ? 'create' : 'update';
     if($request->isMethod("post")) {
       $input = $request->all();
-      $submit = $input['submit'];
+      $submit_action = $input['submit_action'];
       $result = "";
-      if (BackendHelper::stringContains($submit, "open ticket")) {
+      if ($submit_action == "open") {
         $ticket_id = $this->ticket_service->openTicket($ticket_id, $this->getUsername());
         $result = "Ticket opened";
-      } elseif (BackendHelper::stringContains($submit, "ticket")) {
+      } elseif ($submit_action == "draft" || $submit_action == "update") {
         $ticket_id = $this->ticket_service->saveTicket($ticket_id, $input, $this->getUsername());
         $result = "Ticket " . $data['action'] . "d";
-      } elseif (BackendHelper::stringContains($submit, "quotation")) {
+      } elseif ($submit_action == "quote") {
         $ticket_id = $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
         $result = "Quotation sent";
       }

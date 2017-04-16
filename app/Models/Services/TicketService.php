@@ -42,8 +42,8 @@ class TicketService
   public function getPreferredSlots($ticket_id) {
     $data = DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)
       ->select('ticket_preferred_slot_id', 'date',
-        DB::raw("lower(time_format(time_start, '%l:%i %p')) as time_start"),
-        DB::raw("lower(time_format(time_end, '%l:%i %p')) as time_end"))->get();
+        DB::raw("lower(time_format(time_start, '%H:%i')) as time_start"),
+        DB::raw("lower(time_format(time_end, '%H:%i')) as time_end"))->get();
     return $data;
   }
 
