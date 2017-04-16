@@ -13,9 +13,34 @@
         Title
       </label>
       <div class="col-md-10">
-        {{Form::text('title', '', ['class'=>'form-control'])}}
+        {{Form::text('title', $ticket->title, ['class'=>'form-control', 'autofocus'])}}
       </div>
     </div>
+
+    @if($ticket->stat != null)
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Ticket Code
+            </label>
+            <label class="col-md-9 form-control-static">
+              {{ $ticket->ticket_code }}
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Status
+            </label>
+            <label class="col-md-9 form-control-static">
+              {{ TicketStat::$values[$ticket->stat] }}
+            </label>
+          </div>
+        </div>
+      </div>
+    @endif
 
     <div class="row">
       <div class="col-md-6">
@@ -24,7 +49,7 @@
             Category
           </label>
           <div class="col-md-9">
-            {{ Form::select('category', $categories, $ticket->category_id, ['placeholder'=>'', 'class'=>'form-control']) }}
+            {{ Form::select('category_id', $categories, $ticket->category_id, ['placeholder'=>'', 'class'=>'form-control']) }}
           </div>
         </div>
       </div>
@@ -47,7 +72,11 @@
             Company Name
           </label>
           <label class="col-md-9 form-control-static">
-            {{ $ticket->company_name }}
+            @if($ticket->stat == null)
+              {{ $requester->company_name }}
+            @else
+              {{ $ticket->company_name }}
+            @endif
           </label>
         </div>
       </div>
@@ -69,7 +98,11 @@
             Address
           </label>
           <label class="col-md-9 form-control-static">
-            {{ $ticket->addr }}
+            @if($ticket->stat == null)
+              {{ $requester->addr }}
+            @else
+              {{ $ticket->addr }}
+            @endif
           </label>
         </div>
       </div>
@@ -79,7 +112,11 @@
             Postal Code
           </label>
           <label class="col-md-9 form-control-static">
-            {{ $ticket->postal }}
+            @if($ticket->stat == null)
+              {{ $requester->postal }}
+            @else
+              {{ $ticket->postal }}
+            @endif
           </label>
         </div>
       </div>
@@ -113,6 +150,8 @@
         Issues
       </label>
       <div class="col-md-10">
+        <input type="hidden" name="issues_count" v-bind:value="issues.length">
+
         <table class="table table-bordered">
           <thead>
           <tr>
@@ -164,6 +203,8 @@
         Preferred Slots
       </label>
       <div class="col-md-10">
+        <input type="hidden" name="preferred_slots_count" v-bind:value="preferred_slots.length">
+
         <table class="table table-bordered">
           <thead>
           <tr>
@@ -205,8 +246,15 @@
     </div>
 
     <div class="text-center">
-      <input type="submit" name="submit" value="{{ strtoupper($action) }} TICKET" class="more active">
+      @if($ticket->stat == null)
+        <input type="submit" name="submit" value="DRAFT TICKET" class="more active">
+      @elseif($ticket->stat == TicketStat::Drafted)
+        <input type="submit" name="submit" value="UPDATE TICKET" class="more active">
+        <input type="submit" name="submit" value="OPEN TICKET" class="more active">
+      @endif
     </div>
+
+
   </form>
 @endsection
 

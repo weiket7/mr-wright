@@ -1,6 +1,10 @@
 @extends('frontend.template', ['title'=>'register'])
 
 @section('content')
+  <div class="alert alert-info">
+    Upon registration, if the company's Unity Entity Number (UEN) has been registered in Mr Wright, the company's admin will be informed to send an invite to you.
+  </div>
+
   <form method="post" action="" class="form-horizontal">
     {{ csrf_field() }}
 
@@ -87,23 +91,33 @@
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
-            Office Name *
+            Unique Entity Number (UEN) *
           </label>
           <div class="col-md-9">
-            <input type="text" name="office_name" class="form-control">
+            <input type="text" name="uen" class="form-control">
           </div>
         </div>
       </div>
     </div>
 
     <div class="row">
+      {{--<div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-3">
+            Office  Name *
+          </label>
+          <div class="col-md-9">
+            <input type="text" name="office_name" class="form-control">
+          </div>
+        </div>
+      </div>--}}
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
             Address *
           </label>
           <div class="col-md-9">
-            <input type="text" name="addr" class="form-control">
+            <textarea name="addr" class="form-control" rows="2"></textarea>
           </div>
         </div>
       </div>
@@ -118,6 +132,7 @@
         </div>
       </div>
     </div>
+
 
     <div class="margin-top-30">
       <div class="align-center">

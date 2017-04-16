@@ -46,7 +46,7 @@ class RequesterController extends Controller
     $data['action'] = $action;
     $data['requester'] = $requester;
     $data['companies'] = $this->company_service->getCompanyDropdown();
-    $data['offices'] = $this->company_service->getOfficeDropdown();
+    $data['offices'] = $this->company_service->getOfficeDropdown($requester->company_id);
     $data['requester'] = $requester;
     return view('admin/requester/form', $data);
   }

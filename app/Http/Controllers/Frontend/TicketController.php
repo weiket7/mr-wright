@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\FrontendService;
 use App\Models\Helpers\BackendHelper;
+use App\Models\Requester;
 use App\Models\Services\CompanyService;
 use App\Models\Services\TicketService;
 use Illuminate\Http\Request;
@@ -29,29 +30,25 @@ class TicketController extends Controller
   }
 
   public function save(Request $request, $ticket_id = null) {
-    $data['action'] = $ticket_id == null ? 'create' : 'update';
+    $action = $ticket_id == null ? 'draft' : 'update';
     if($request->isMethod("post")) {
       $input = $request->all();
       $submit = $input['submit'];
-      $result = "";
-      if (BackendHelper::stringContains($submit, "open ticket")) {
+      if (BackendHelper::stringContains($submit, "draft") || BackendHelper::stringContains($submit, "update")) {
+        $ticket_id = $this->ticket_service->saveFrontendTicket($ticket_id, $input, $this->getUsername());
+        $result = BackendHelper::stringContains($submit, "draft") ? "Ticket drafted" : "Ticket updated";
+        return redirect('ticket/save/'.$ticket_id)->with('msg', $result);
+      } elseif (BackendHelper::stringContains($submit, "open")) {
         $this->ticket_service->openTicket($ticket_id);
-        $result = "Ticket opened";
-      } elseif (BackendHelper::stringContains($submit, "ticket")) {
-        $ticket_id = $this->ticket_service->saveTicket($ticket_id, $input, $this->getUsername());
-        if ($ticket_id === false) {
-          return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
-        }
-        $result = "Ticket " . $data['action'] . "d";
-      } elseif (BackendHelper::stringContains($submit, "quotation")) {
-        $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
-        $result = "Quotation sent";
+        return redirect('ticket/view/'.$ticket_id)->with('msg', 'Ticket opened');
       }
-      return redirect('ticket/save/'.$ticket_id)->with('msg', $result);
     }
     $ticket = $this->ticket_service->getTicket($ticket_id);
-    $data['categories'] = $this->ticket_service->getCategoryDropdown();
     $data['ticket'] = $ticket;
+    $data['categories'] = $this->ticket_service->getCategoryDropdown();
+    $data['action'] = $action;
+    $requester = new Requester();
+    $data['requester'] = $requester->getRequesterByUsername($this->getUsername());
     return view('frontend/ticket-form', $data);
   }
 

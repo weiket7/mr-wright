@@ -144,6 +144,8 @@ Route::group(['middleware'=>['auth', 'modulemiddleware']], function() {
 });
 
 Route::get('test', function() {
+  var_dump(Auth::user()->username);
+
   $working_hour_service = new WorkingHourService();
   $ticket_service = new TicketService($working_hour_service);
   $ticket = $ticket_service->getTicket(1);

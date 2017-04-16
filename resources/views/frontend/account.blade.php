@@ -9,17 +9,17 @@
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
-            Username *
+            Username
           </label>
-          <div class="col-md-9">
-            {{ Form::text('username', $user->username, ['class'=>'form-control', 'autofocus']) }}
-          </div>
+          <label class="form-control-static col-md-9">
+            {{ $user->username }}
+          </label>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
-            Password *
+            Password
           </label>
           <div class="col-md-9">
             <input type="password" name="password" class="form-control">
@@ -35,7 +35,7 @@
             Full Name *
           </label>
           <div class="col-md-9">
-            {{ Form::text('name', $user->name, ['class'=>'form-control', 'autofocus']) }}
+            {{ Form::text('name', $user->name, ['class'=>'form-control']) }}
           </div>
         </div>
       </div>
@@ -45,7 +45,7 @@
             Designation *
           </label>
           <div class="col-md-9">
-            {{ Form::text('designation', $user->designation, ['class'=>'form-control', 'autofocus']) }}
+            {{ Form::text('designation', $user->designation, ['class'=>'form-control']) }}
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@
             Mobile *
           </label>
           <div class="col-md-9">
-            {{ Form::text('mobile', $user->mobile, ['class'=>'form-control', 'autofocus']) }}
+            {{ Form::text('mobile', $user->mobile, ['class'=>'form-control']) }}
           </div>
         </div>
       </div>
@@ -68,7 +68,7 @@
             Email *
           </label>
           <div class="col-md-9">
-            {{ Form::text('email', $user->email, ['class'=>'form-control', 'autofocus']) }}
+            {{ Form::text('email', $user->email, ['class'=>'form-control']) }}
           </div>
         </div>
       </div>
@@ -78,20 +78,32 @@
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
-            Company Name *
+            Company Name
           </label>
           <div class="col-md-9">
-            {{ Form::text('company_name', $user->company_name, ['class'=>'form-control', 'autofocus']) }}
+            @if($user->is_admin)
+              {{ Form::text('company_name', $user->company_name, ['class'=>'form-control']) }}
+            @else
+              <label class="form-control-static">
+                {{ $user->company_name }}
+              </label>
+            @endif
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
-            Office Name *
+            UEN *
           </label>
           <div class="col-md-9">
-            <input type="text" name="office_name" class="form-control">
+            @if($user->is_admin)
+              {{ Form::text('uen', $user->uen, ['class'=>'form-control']) }}
+            @else
+              <label class="form-control-static">
+                {{ $user->uen }}
+              </label>
+            @endif
           </div>
         </div>
       </div>
@@ -104,7 +116,13 @@
             Address *
           </label>
           <div class="col-md-9">
-            {{ Form::text('addr', $user->addr, ['class'=>'form-control', 'autofocus']) }}
+            @if($user->is_admin)
+              {{ Form::text('addr', $user->addr, ['class'=>'form-control']) }}
+            @else
+              <label class="form-control-static">
+                {{ $user->addr }}
+              </label>
+            @endif
           </div>
         </div>
       </div>
@@ -114,7 +132,13 @@
             Postal Code *
           </label>
           <div class="col-md-9">
-            {{ Form::text('postal', $user->postal, ['class'=>'form-control', 'autofocus']) }}
+            @if($user->is_admin)
+              {{ Form::text('postal', $user->postal, ['class'=>'form-control']) }}
+            @else
+              <label class="form-control-static">
+                {{ $user->postal }}
+              </label>
+            @endif
           </div>
         </div>
       </div>

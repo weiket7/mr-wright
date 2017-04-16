@@ -6,14 +6,9 @@ use App\Models\Enums\UserType;
 use Eloquent, DB, Validator, Log;
 use Hash;
 
-class Register extends Eloquent
+class Account extends Eloquent
 {
-  public $table = 'register';
-  protected $primaryKey = 'register_id';
-  const CREATED_AT = 'created_on';
-  const UPDATED_AT = 'updated_on';
   protected $validation;
-  public $timestamps = false;
 
   private $rules = [
     'username'=>"required|min:6|unique:user,username",
@@ -24,6 +19,8 @@ class Register extends Eloquent
     'email' =>'required|email',
     'mobile' => 'required',
     'company_name' => 'required',
+    //'office_name' => 'required',
+    'uen' => 'required',
     'addr' => 'required',
     'postal' => 'required',
   ];
@@ -37,7 +34,9 @@ class Register extends Eloquent
     //'password.confirmed'=>'Password must be confirmed',
     'name.required'=>'Name is required',
     'designation.required'=>'Designation is required',
-    'company_name.required'=>'Company name is required',
+    'company_name.required'=>'Company registered name is required',
+    'uen.required'=>'Unique Entity Number (UEN) is required',
+    //'office_name.required'=>'Office name is required',
     'email.required'=>'Email is required',
     'email.email'=>'Email must be valid email',
     'mobile.required' => 'Mobile is required',
@@ -45,22 +44,62 @@ class Register extends Eloquent
     'postal.required' => 'Postal code is required',
   ];
 
+  public function saveAccount($input, $username) {
+    $requester = Requester::where('username', $username)->first();
+    $requester->name = $input['name'];
+    $requester->designation = $input['designation'];
+    $requester->email = $input['email'];
+    $requester->mobile = $input['mobile'];
+    $requester->save();
+
+    $user = User::where('username', $username)->first();
+    if ($input['password']) {
+      $user->password = Hash::make($input['password']);
+    }
+    $user->name = $input['name'];
+    $user->email = $input['email'];
+    $user->save();
+    return true;  
+  }
+
   public function saveRegister($input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
     }
 
+    $input = array_map('trim', $input);
+
+    $exist = Company::where('uen', $input['uen'])->count();
+    if ($exist) {
+      //TODO
+      $this->informAdmin();
+      return false;
+    }
+
+    $company = new Company();
+    $company->name = $input['company_name'];
+    $company->uen = $input['uen'];
+    $company->addr = $input['addr'];
+    $company->postal = $input['postal'];
+    $company->save();
+
+    $office = new Office();
+    $office->company_id = $company->company_id;
+    $office->name = $input['company_name'];
+    $office->addr = $input['addr'];
+    $office->postal = $input['postal'];
+    $office->save();
+
     $requester = new Requester();
+    $requester->office_id = $office->office_id;
+    $requester->company_id = $company->company_id;
     $requester->name = $input['name'];
     $requester->username = $input['username'];
     $requester->designation = $input['designation'];
     $requester->email = $input['email'];
     $requester->mobile = $input['mobile'];
-    $requester->company_name = $input['company_name'];
-    $requester->addr = $input['addr'];
-    $requester->postal = $input['postal'];
-    $requester->type = RequesterType::Individual;
+    $requester->type = RequesterType::Corporate;
     $requester->save();
 
     $user = new User();
@@ -78,5 +117,9 @@ class Register extends Eloquent
 
   public function getValidation() {
     return $this->validation;
+  }
+
+  private function informAdmin()
+  {
   }
 }

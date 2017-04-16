@@ -21,7 +21,7 @@ class ReportController extends Controller
   {
     $data['companies'] = $this->company_service->getCompanyDropdown();
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
-    return view("report/ticket", $data);
+    return view("admin/report/ticket", $data);
   }
   
   

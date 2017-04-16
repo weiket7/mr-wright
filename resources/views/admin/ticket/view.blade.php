@@ -53,6 +53,9 @@
                       <div class="col-md-9">
                         <div class="form-control-static">
                           {{ TicketStat::$values[$ticket->stat] }}
+                          @if(in_array($ticket->stat, [TicketStat::Accepted, TicketStat::Declined]) && $ticket->accept_decline_reason)
+                            - {{ $ticket->accept_decline_reason }}
+                          @endif
                         </div>
                       </div>
                     </div>

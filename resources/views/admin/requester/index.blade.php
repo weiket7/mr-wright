@@ -1,4 +1,5 @@
 <?php use App\Models\Enums\RequesterStat; ?>
+<?php use App\Models\Enums\RequesterType; ?>
 
 @extends("admin.template")
 
@@ -20,6 +21,7 @@
           <thead>
           <tr>
             <th class="search-th-stat">Status</th>
+            <th class="search-th-stat">Type</th>
             <th class="search-th-txt">Name</th>
             <th class="search-th-dropdown">Company</th>
             <th>Office</th>
@@ -29,6 +31,9 @@
           <tr>
             <td>
               {!! Form::select('stat', RequesterStat::$values, '', ['class'=>'form-control search-stat', 'placeholder'=>'']) !!}
+            </td>
+            <td>
+              {!! Form::select('type', RequesterType::$values, '', ['class'=>'form-control search-stat', 'placeholder'=>'']) !!}
             </td>
             <td>{!! Form::text('name', '', ['class'=>'form-control', 'id'=>'name']) !!}</td>
             <td>{!! Form::select('company_id', $companies, '', ['id'=>'company_id', 'class'=>'form-control search-dropdown', 'placeholder'=>'']) !!}</td>
@@ -54,6 +59,7 @@
           <thead>
           <tr>
             <th width="70px">Status</th>
+            <th width="70px">Type</th>
             <th width="200px">Company</th>
             <th width="200px">Office</th>
             <th>Name</th>
@@ -63,6 +69,7 @@
           @foreach($requesters as $requester)
             <tr>
               <td>{{RequesterStat::$values[$requester->stat]}}</td>
+              <td>{{RequesterType::$values[$requester->type]}}</td>
               <td>{{$requester->company_name}}</td>
               <td>{{$requester->office_name}}</td>
               <td><a href="{{url("admin/requester/save/".$requester->requester_id)}}">{{ $requester->name }}</a></td>

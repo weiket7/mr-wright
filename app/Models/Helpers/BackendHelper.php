@@ -15,6 +15,21 @@ class BackendHelper
     return $data;
   }
 
+  public static function getActionPastTense($action) {
+    switch ($action) {
+      case "draft":
+        return "drafted"; break;
+      case "update":
+        return "updated"; break;
+      case "create":
+        return "created"; break;
+      case "submit":
+        return "submitted"; break;
+      case "invoice":
+        return "invoiced"; break;
+    }
+  }
+
   public static function getAccessesFromSession() {
     return session()->get('accesses');
   }

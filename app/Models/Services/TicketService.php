@@ -7,6 +7,7 @@ use App\Mail\QuotationMail;
 use App\Models\CategoryForTicket;
 use App\Models\Company;
 use App\Models\Enums\PaymentMethod;
+use App\Models\Enums\RequesterType;
 use App\Models\Enums\TicketStat;
 use App\Models\Helpers\BackendHelper;
 use App\Models\Office;
@@ -102,23 +103,23 @@ class TicketService
 
   private $rules = [
     'title'=>'required',
-    'company_id'=>'required',
-    'office_id'=>'required',
-    'requested_by'=>'required',
     'category_id'=>'required',
-    'requested_on'=>'required',
+    'company_id'=>'sometimes|required',
+    'office_id'=>'sometimes|required',
+    'requested_by'=>'sometimes|required',
+    'requested_on'=>'sometimes|required',
   ];
 
   private $messages = [
     'title.required'=>'Title is required',
+    'category_id.required'=>'Category is required',
     'company_id.required'=>'Company is required',
     'office_id.required'=>'Office is required',
     'requested_by.required'=>'Requested By is required',
-    'category_id.required'=>'Category is required',
     'requested_on.required'=>'Requested On is required',
   ];
 
-  public function saveTicket($ticket_id, $input, $operator = 'admin') {
+  public function saveTicket($ticket_id, $input, $username = 'admin') {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
@@ -131,42 +132,88 @@ class TicketService
     $ticket->company_id = $input['company_id'];
     $ticket->company_name = Company::find($input['company_id'])->value('name');
     $ticket->office_id = $input['office_id'];
+    $office = Office::find($input['office_id']);
+    $ticket->addr = $office->addr;
+    $ticket->postal = $office->postal;
     $ticket->requester_desc = $input['requester_desc'];
     $ticket->operator_desc = $input['operator_desc'];
     $ticket->quoted_price = $input['quoted_price'];
     $ticket->quotation_desc = $input['quotation_desc'];
     $ticket->requested_by = $input['requested_by'];
+    $ticket->requested_on = Carbon::createFromFormat('d M Y', $input['requested_on']);
     $ticket->updated_on = Carbon::now();
 
-    $ticket->requested_on = Carbon::createFromFormat('d M Y', $input['requested_on']);
     if ($ticket_id == null) {
       $ticket->ticket_code = $this->getNextTicketCode($ticket->company_id);
       $ticket->stat = TicketStat::Drafted;
-      $ticket->drafted_by = $operator;
-      $ticket->drafted_on = Carbon::now();
+      //$ticket->drafted_by = $username;
+      //$ticket->drafted_on = Carbon::now();
     }
     $ticket->recent_action = $ticket_id == null ? 'draft' : 'update';
     $ticket->save();
 
     $this->saveStaffAssignments($ticket->ticket_id, $input);
+    if ($this->saveTicketIssues($ticket->ticket_id, $input) === false) {
+      $this->validation->errors()->add("image", "Images must be png, jpg or gif<br>Videos must be wmv, mov, mp4, flv or avi");
+      return false;
+    }
+    $this->savePreferredSlots($ticket->ticket_id, $input);
+
+    return $ticket->ticket_id;
+  }
+
+  public function saveFrontendTicket($ticket_id, $input, $username = 'admin') {
+    $this->validation = Validator::make($input, $this->rules, $this->messages );
+    if ( $this->validation->fails() ) {
+      return false;
+    }
+
+    $ticket = Ticket::findOrNew($ticket_id);
+    $ticket->title = $input['title'];
+    $ticket->category_id = $input['category_id'];
+    $ticket->urgency = $input['urgency'];
+    $ticket->requester_desc = $input['requester_desc'];
+
+    $requester_service = new Requester();
+    $requester = $requester_service->getRequesterByUsername($username);
+    $ticket->company_id = $requester->company_id;
+    $ticket->company_name = $requester->company_name;
+    $ticket->office_id = $requester->office_id;
+    $ticket->addr = $requester->addr;
+    $ticket->postal = $requester->postal;
+
+    $ticket->requested_by = $username;
+    $ticket->requested_on = Carbon::now();
+    $ticket->updated_on = Carbon::now();
+
+    if ($ticket_id == null) {
+      $ticket->ticket_code = $this->getNextTicketCode($ticket->company_id);
+      $ticket->stat = TicketStat::Drafted;
+      //$ticket->drafted_by = $username;
+      //$ticket->drafted_on = Carbon::now();
+    }
+    $ticket->recent_action = $ticket_id == null ? 'draft' : 'update';
+    $ticket->save();
+
     $this->saveTicketIssues($ticket->ticket_id, $input);
     $this->savePreferredSlots($ticket->ticket_id, $input);
 
     return $ticket->ticket_id;
   }
 
-  public function getNextTicketCode($company_id) {
+  public function getNextTicketCode($company_id = null) {
     $start_of_month = Carbon::now()->startOfMonth();
     $start_of_next_month = Carbon::now()->startOfMonth()->addMonth(1);
-
+    Log::info($start_of_month.$start_of_next_month);
     $latest_ticket_code = DB::table('ticket')
       ->where('company_id', $company_id)
-      ->where('opened_on', '>=', $start_of_month)
-      ->where('opened_on', '<', $start_of_next_month)
+      ->where('requested_on', '>=', $start_of_month)
+      ->where('requested_on', '<', $start_of_next_month)
+      ->orderBy('requested_on', 'desc')
       ->value('ticket_code');
 
     if ($latest_ticket_code == null) {
-      $company_code = Company::find($company_id)->value ('code');
+      $company_code = Company::find($company_id)->value('code');
       $month_year = $start_of_month->format('m').$start_of_month->format('y');
       return $company_code.'_'.$month_year.'_001';
     }
@@ -176,11 +223,11 @@ class TicketService
     return $arr[0].'_'.$arr[1].'_'.str_pad($number+1, 3, '0', STR_PAD_LEFT);
   }
 
-  public function sendQuotation($ticket_id, $operator = 'admin')
+  public function sendQuotation($ticket_id, $username = 'admin')
   {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Quoted;
-    $ticket->quoted_by = $operator;
+    $ticket->quoted_by = $username;
     $ticket->quoted_on = Carbon::now();
     $ticket->recent_action = 'quote';
     $quote_valid_working_days = Setting::getSetting('quote_valid_working_days');
@@ -193,45 +240,46 @@ class TicketService
     return true;
   }
 
-  public function openTicket($ticket_id, $operator = 'admin')
+  public function openTicket($ticket_id, $username = 'admin')
   {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Opened;
-    $ticket->opened_by = $operator;
+    $ticket->opened_by = $username;
     $ticket->opened_on = Carbon::now();
     $ticket->updated_on = Carbon::now();
     $ticket->recent_action = 'open';
-    return $ticket->save();
+    $ticket->save();
+    return true;
   }
 
-  public function acceptTicket($ticket_id, $input, $operator = 'admin') {
+  public function acceptTicket($ticket_id, $input, $username = 'admin') {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Accepted;
     $ticket->accept_decline_reason = $input['accept_decline_reason'];
     //$ticket->agreed_price = $ticket->quoted_price; //TODO
-    $ticket->accepted_by = $operator;
+    $ticket->accepted_by = $username;
     $ticket->accepted_on = Carbon::now();
     $ticket->updated_on = Carbon::now();
     $ticket->recent_action = 'accept';
     return $ticket->save();
   }
 
-  public function declineTicket($ticket_id, $input, $operator = 'admin') {
+  public function declineTicket($ticket_id, $input, $username = 'admin') {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Declined;
     $ticket->accept_decline_reason = $input['accept_decline_reason'];
-    $ticket->declined_by = $operator;
+    $ticket->declined_by = $username;
     $ticket->declined_on = Carbon::now();
     $ticket->updated_on = Carbon::now();
     $ticket->recent_action = 'decline';
     return $ticket->save();
   }
 
-  public function completeTicket($ticket_id, $operator = 'admin')
+  public function completeTicket($ticket_id, $username = 'admin')
   {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Completed;
-    $ticket->completed_by = $operator;
+    $ticket->completed_by = $username;
     $ticket->completed_on = Carbon::now();
     $ticket->updated_on = Carbon::now();
     $ticket->recent_action = 'complete';
@@ -240,6 +288,7 @@ class TicketService
 
   public function saveTicketIssues($ticket_id, $input) {
     $issues_count = $input['issues_count'];
+
     for($i=0; $i<$issues_count; $i++) {
       if (isset($input['issue_stat'.$i]) && $input['issue_stat'.$i] == 'delete') {
         DB::table('ticket_issue')->where('ticket_issue_id', $input['issue_id'.$i])->delete();
@@ -260,11 +309,14 @@ class TicketService
 
       $image = isset($input['image' . $i]) ? $input['image' . $i] : null;
       if ($image) {
+        if (in_array(strtolower($image->getClientOriginalExtension()), ['png', 'jpg', 'gif' ,'wmv', 'avi', 'flv', 'mp4', 'mov']) === false) {
+          return false;
+        }
         $image_name = BackendHelper::uploadFile('images/tickets', $ticket_id.'_'.$ticket_issue_id, $image);
         DB::table('ticket_issue')->where('ticket_issue_id', $ticket_issue_id)->update(['image'=>$image_name]);
       }
     }
-
+    return true;
   }
 
   public function saveStaffAssignments($ticket_id, $input) {
@@ -288,7 +340,7 @@ class TicketService
     }
   }
 
-  private function savePreferredSlots($ticket_id, $input, $operator = 'admin')
+  private function savePreferredSlots($ticket_id, $input, $username = 'admin')
   {
     $preferred_slots_count = $input['preferred_slots_count'];
     for($i=0; $i<$preferred_slots_count; $i++) {
@@ -301,7 +353,7 @@ class TicketService
         'date' => Carbon::createFromFormat('d M Y', $input['preferred_slot_date'.$i]),
         'time_start' => $input['preferred_slot_time_start'.$i],
         'time_end' => $input['preferred_slot_time_end'.$i],
-        'updated_by'=>$operator,
+        'updated_by'=>$username,
         'updated_on'=>Carbon::now()
       ];
       if (isset($input['preferred_slot_stat'.$i]) && $input['preferred_slot_stat'.$i] == 'add') {
@@ -368,10 +420,10 @@ class TicketService
   }
 
 
-  public function paidTicket($input, $ticket_id, $operator = 'admin') {
+  public function paidTicket($input, $ticket_id, $username = 'admin') {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Paid;
-    $ticket->paid_by = $operator;
+    $ticket->paid_by = $username;
     $ticket->paid_on = Carbon::now();
     $ticket->updated_on = Carbon::now();
     $ticket->recent_action = 'pay';
@@ -382,11 +434,11 @@ class TicketService
     return $ticket->save();
   }
 
-  public function sendInvoice($ticket_id, $operator = 'admin')
+  public function sendInvoice($ticket_id, $username = 'admin')
   {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Invoiced;
-    $ticket->invoiced_by = $operator;
+    $ticket->invoiced_by = $username;
     $ticket->invoiced_on = Carbon::now();
     $ticket->recent_action = 'invoice';
     $ticket->save();
@@ -399,7 +451,7 @@ class TicketService
 
   public function getTicketAllByUsername($username)
   {
-    return DB::table('ticket')->where('requested_by', $username)->get();
+    return DB::table('ticket')->where('requested_by', $username)->orderBy('requested_on', 'desc')->get();
   }
 
 }

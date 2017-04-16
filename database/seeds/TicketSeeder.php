@@ -27,12 +27,12 @@ class  TicketSeeder extends Seeder
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
 
-      'drafted_by'=>'Misty',
-      'drafted_on'=>Carbon::now(),
+      //'drafted_by'=>'Misty',
+      //'drafted_on'=>Carbon::now(),
       'opened_by'=>'Jessica',
       'opened_on'=>Carbon::now(),
       'requested_by'=>'Sally',
-      'requested_on'=>Carbon::now()->addDay(-3),
+      'requested_on'=>Carbon::now()->subMinute(99),
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
       'recent_action'=>'open',
@@ -50,7 +50,7 @@ class  TicketSeeder extends Seeder
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
       'requested_by'=>'Sally',
-      'requested_on'=>Carbon::now()->addDay(-3),
+      'requested_on'=>Carbon::now()->subMinute(98),
     ]);
 
     DB::table('ticket')->insert([
@@ -65,12 +65,13 @@ class  TicketSeeder extends Seeder
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
       'requested_by'=>'Sally',
-      'requested_on'=>Carbon::now()->addDay(-3),
+      'requested_on'=>Carbon::now()->subMinute(97),
     ]);
 
     DB::table('ticket')->insert([
       'ticket_code'=>'UP_'.$month_year.'_004',
       'stat'=>TicketStat::Declined,
+      'accept_decline_reason'=>'Too expensive',
       'title'=>'Fix tap in pantry',
       'company_id'=>1,
       'office_id'=>1,
@@ -80,7 +81,7 @@ class  TicketSeeder extends Seeder
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
       'requested_by'=>'Sally',
-      'requested_on'=>Carbon::now()->addDay(-3),
+      'requested_on'=>Carbon::now()->subMinute(96),
     ]);
 
     DB::table('ticket')->insert([
@@ -95,7 +96,7 @@ class  TicketSeeder extends Seeder
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
       'requested_by'=>'Sally',
-      'requested_on'=>Carbon::now()->addDay(-3),
+      'requested_on'=>Carbon::now()->subMinute(95),
     ]);
 
 
@@ -111,7 +112,7 @@ class  TicketSeeder extends Seeder
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
       'requested_by'=>'Sally',
-      'requested_on'=>Carbon::now()->addDay(-3),
+      'requested_on'=>Carbon::now()->subMinute(94),
     ]);
 
     DB::table('ticket')->insert([
@@ -126,12 +127,13 @@ class  TicketSeeder extends Seeder
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
       'requested_by'=>'Sally',
-      'requested_on'=>Carbon::now()->addDay(-3),
+      'requested_on'=>Carbon::now()->subMinute(93),
     ]);
 
     DB::table('ticket')->insert([
       'ticket_code'=>'UP_'.$month_year.'_008',
       'stat'=>TicketStat::Declined,
+      'accept_decline_reason'=>'Too expensive',
       'title'=>'Fix tap in pantry',
       'company_id'=>1,
       'office_id'=>1,
@@ -141,12 +143,12 @@ class  TicketSeeder extends Seeder
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
 
-      'drafted_by'=>'Misty',
-      'drafted_on'=>Carbon::now(),
+      //'drafted_by'=>'Misty',
+      //'drafted_on'=>Carbon::now(),
       'opened_by'=>'Jessica',
       'opened_on'=>Carbon::now(),
       'requested_by'=>'Jane',
-      'requested_on'=>Carbon::now()->addDay(-3),
+      'requested_on'=>Carbon::now()->subMinute(92),
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
       'recent_action'=>'open',

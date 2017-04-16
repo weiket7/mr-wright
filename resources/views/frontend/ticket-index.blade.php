@@ -5,7 +5,7 @@
 @extends('frontend.template', ['title'=>'tickets'])
 
 @section('content')
-  <input type="button" value="CREATE TICKET" class="more active" onclick="location.href='{{url('ticket/save')}}'">
+  <input type="button" value="DRAFT TICKET" class="more active" onclick="location.href='{{url('ticket/save')}}'">
 
   <div class="table-responsive margin-top-20">
     <table class="table table-bordered table-hover">
@@ -23,7 +23,9 @@
       @foreach($tickets as $ticket)
         <tr>
           <td>
-            @if($ticket->stat == TicketStat::Opened)
+            @if($ticket->stat == TicketStat::Drafted)
+              Drafted
+            @elseif($ticket->stat == TicketStat::Opened)
               Opened, pending quotation
             @elseif($ticket->stat == TicketStat::Quoted)
               Quoted <button type="button" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'" class="btn btn-primary">Respond</button>

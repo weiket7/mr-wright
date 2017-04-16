@@ -25,7 +25,6 @@
           <div class="tab-pane fade active in" id="tab-general">
             <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
               {!! csrf_field() !!}
-              {!! csrf_field() !!}
               <div class="form-body">
                 <div class="form-group">
                   <label class="control-label col-md-2">Title</label>
@@ -631,6 +630,11 @@
         },
         previewImage: function(index,e) {
           var reader = new FileReader();
+          var fileType = e.target.files[0].type;
+          if (isImage(fileType) === false) {
+            $('#preview-image' + index).html("Video");
+            return;
+          }
           reader.onload = function (e) {
             var img = $('<img/>', {
               width:250,
@@ -661,6 +665,16 @@
         }
       }
     });
+
+    function isImage(file_type) {
+      switch (file_type) {
+        case "image/jpeg":
+        case "image/png":
+        case "image/gif":
+          return true; break;
+      }
+      return false;
+    }
 
     function validateTime(value) {
       value = value.trim();

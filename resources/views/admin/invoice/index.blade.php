@@ -31,7 +31,7 @@
             <tr>
               <td>{{  TicketStat::$values[$ticket->stat]  }}</td>
               <td>{{  $ticket->ticket_code }}</td>
-              <td><a href="{{url("ticket/view/".$ticket->ticket_id)}}">{{ $ticket->title }}</a></td>
+              <td><a href="{{url("admin/ticket/view/".$ticket->ticket_id)}}">{{ $ticket->title }}</a></td>
               <td>{{ isset($categories[$ticket->category_id]) ? $categories[$ticket->category_id] : '' }}</td>
               <td>{{ $ticket->quoted_price }}</td>
               <td>{{ $ticket->completed_by }} on {{ ViewHelper::formatDate($ticket->completed_on) }}</td>

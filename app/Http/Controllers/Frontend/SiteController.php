@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Enums\UserType;
 use App\Models\FrontendService;
-use App\Models\Register;
+use App\Models\Account;
 use App\Models\Requester;
 use Auth;
 use Illuminate\Http\Request;
@@ -32,6 +32,14 @@ class SiteController extends Controller
   }
 
   public function account(Request $request) {
+    if ($request->isMethod("post")) {
+      $account_service  = new Account();
+      $input = $request->all();
+      if (! $account_service->saveAccount($input, $this->getUsername())) {
+        return redirect()->back()->withErrors($account_service->getValidation())->withInput($input);
+      }
+      return redirect('account')->with('msg', 'Account saved');
+    }
     $requester_service = new Requester();
     $data['user'] = $requester_service->getRequesterByUsername($this->getUsername());
     return view('frontend/account', $data);
@@ -46,7 +54,7 @@ class SiteController extends Controller
   public function register(Request $request)
   {
     if ($request->isMethod("post")) {
-      $register = new Register();
+      $register = new Account();
       $input = $request->all();
       $user_id = $register->saveRegister($input);
       if (! $user_id) {

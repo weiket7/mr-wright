@@ -71,14 +71,14 @@
           @foreach($tickets as $ticket)
             <tr>
               <td>{{  TicketStat::$values[$ticket->stat]  }}</td>
-              <td>{{  $ticket->ticket_code }}</td>
               <td>
-                @if(in_array($ticket->stat, [TicketStat::Drafted, TicketStat::Opened]))
-                  <a href="{{url("admin/ticket/save/".$ticket->ticket_id)}}">{{ $ticket->title }}</a>
-                @else
-                  <a href="{{url("admin/ticket/view/".$ticket->ticket_id)}}">{{ $ticket->title }}</a>
-                @endif
+            @if(in_array($ticket->stat, [TicketStat::Drafted, TicketStat::Opened]))
+                <a href="{{url("admin/ticket/save/".$ticket->ticket_id)}}">{{ $ticket->ticket_code }}</a>
+            @else
+                <a href="{{url("admin/ticket/view/".$ticket->ticket_id)}}">{{ $ticket->ticket_code }}</a>
+              @endif
               </td>
+              <td>{{  $ticket->title }}</td>
               <td>{{ isset($categories[$ticket->category_id]) ? $categories[$ticket->category_id] : '' }}</td>
               <td>{{ $ticket->quoted_price }}</td>
               <td>{{ $ticket->requested_by }} on {{ ViewHelper::formatDate($ticket->requested_on) }}</td>

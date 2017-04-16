@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 
+use App\Models\Enums\RequesterStat;
 use App\Models\Enums\RequesterType;
 use App\Models\Enums\UserStat;
 use Eloquent, DB, Validator, Log;
@@ -59,13 +60,6 @@ class Requester extends Eloquent
     $this->mobile = $input['mobile'];
     $this->work = $input['work'];
     $this->preferred_contact = $input['preferred_contact'];
-    if($this->type == RequesterType::Individual) {
-      $this->company_name = $input['company_name'];
-      $this->addr = $input['addr'];
-      $this->postal = $input['postal'];
-    } else {
-      $this->company_name = Company::where('company_id', $input['company_id'])->value('name');
-    }
     $this->save();
 
     return true;
@@ -96,6 +90,12 @@ class Requester extends Eloquent
 
   public function getRequesterByUsername($username)
   {
-    return DB::table('requester')->where('username', $username)->first();
+    return DB::table('requester as r')
+      ->join('company as c', 'r.company_id', '=', 'c.company_id')
+      ->join('office as o', 'r.office_id', '=', 'o.office_id')
+      ->select('r.name', 'is_admin', 'mobile', 'email', 'designation', 'username', 'r.company_id', 'r.office_id',
+        'c.name as company_name', 'uen', 'o.addr as addr', 'o.postal as postal')
+      ->where('username', $username)
+      ->where('r.stat', RequesterStat::Active)->first();
   }
 }

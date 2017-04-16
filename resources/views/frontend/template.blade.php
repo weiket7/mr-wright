@@ -154,6 +154,11 @@
                   </a>
                 </li>--}}
                 <li>
+                  <a href="{{url('about')}}" title="About">
+                    PRICING
+                  </a>
+                </li>
+                <li>
                   <a href="{{url('register')}}" title="Register">
                     REGISTER
                   </a>

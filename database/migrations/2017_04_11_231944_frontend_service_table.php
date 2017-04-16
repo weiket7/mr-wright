@@ -12,6 +12,8 @@ class FrontendServiceTable extends Migration
       $t->increments('frontend_service_id');
       $t->string('title', 100);
       $t->string('slug', 100);
+      $t->string('meta_keyword', 1000);
+      $t->string('meta_desc', 1000);
       $t->string('content', 1000);
       $t->string('image1', 50);
       $t->string('image2', 50);

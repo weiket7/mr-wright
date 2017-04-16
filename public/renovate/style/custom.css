@@ -26,7 +26,7 @@ label {
 .form-control, .btn, .alert, .panel {
   border-radius:0 !important;
 }
-.social-icons.yellow li a, .menu-container .sf-menu li ul {
+.social-icons.yellow li a, .menu-container .sf-menu li ul, :after, :before {
   box-sizing: content-box;
   -webkit-box-sizing: content-box;
 }

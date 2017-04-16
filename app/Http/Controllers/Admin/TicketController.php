@@ -26,7 +26,7 @@ class TicketController extends Controller
       $request->flash();
       $data['search_result'] = 'Showing ' . count($tickets) . ' ticket(s)';
     } else {
-      $tickets = Ticket::all(); //TODO
+      $tickets = Ticket::orderBy('requested_on', 'desc')->get(); //TODO
     }
     $data['tickets'] = $tickets;
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
@@ -40,17 +40,17 @@ class TicketController extends Controller
       $submit = $input['submit'];
       $result = "";
       if (BackendHelper::stringContains($submit, "open ticket")) {
-        $this->ticket_service->openTicket($ticket_id);
+        $ticket_id = $this->ticket_service->openTicket($ticket_id, $this->getUsername());
         $result = "Ticket opened";
       } elseif (BackendHelper::stringContains($submit, "ticket")) {
         $ticket_id = $this->ticket_service->saveTicket($ticket_id, $input, $this->getUsername());
-        if ($ticket_id === false) {
-          return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
-        }
         $result = "Ticket " . $data['action'] . "d";
       } elseif (BackendHelper::stringContains($submit, "quotation")) {
-        $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
+        $ticket_id = $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
         $result = "Quotation sent";
+      }
+      if ($ticket_id === false) {
+        return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
       }
       return redirect('admin/ticket/save/'.$ticket_id)->with('msg', $result);
     }
@@ -91,7 +91,7 @@ class TicketController extends Controller
 
     $ticket = $this->ticket_service->getTicket($ticket_id);
     $this->ticket_service->populateTicketForView($ticket);
-    $data['action'] = $request->segment(2);
+    $data['action'] = $request->segment(3);
     $data['ticket'] = $ticket;
     return view("admin/ticket/view", $data);
   }

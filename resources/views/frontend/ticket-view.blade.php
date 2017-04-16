@@ -21,6 +21,29 @@
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
+            Ticket Code
+          </label>
+          <label class="col-md-9 form-control-static">
+            {{ $ticket->ticket_code }}
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-3">
+            Status
+          </label>
+          <label class="col-md-9 form-control-static">
+            {{ TicketStat::$values[$ticket->stat] }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-3">
             Category
           </label>
           <label class="col-md-9 form-control-static">
@@ -44,16 +67,6 @@
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
-            Status
-          </label>
-          <label class="col-md-9 form-control-static">
-            {{ TicketStat::$values[$ticket->stat] }}
-          </label>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">
             Company Name
           </label>
           <label class="col-md-9 form-control-static">
@@ -61,7 +74,18 @@
           </label>
         </div>
       </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-3">
+            Quoted Price
+          </label>
+          <label class="col-md-9 form-control-static">
+            {{ ViewHelper::formatCurrency($ticket->quoted_price) }}
+          </label>
+        </div>
+      </div>
     </div>
+
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
@@ -216,8 +240,11 @@
           </div>
         </div>
       </div>
-
     @endif
+
+    <div class="text-center">
+      <input type="button" name="submit" value="BACK TO TICKETS" class="more active" onclick="location.href='{{url('ticket')}}'">
+    </div>
   </form>
 @endsection
 
