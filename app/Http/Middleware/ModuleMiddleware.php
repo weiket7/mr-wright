@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Enums\UserType;
 use Auth;
 use Closure;
 use Illuminate\Http\Request;
@@ -11,8 +12,12 @@ class ModuleMiddleware
 {
   public function handle(Request $request, Closure $next)
   {
-    $module = $request->segment(1);
-    //TODO
+    /*$user_type = Auth::user()->type;
+    if ($user_type != UserType::Operator) {
+      return redirect("admin/error")->with('error', 'Not authorised');
+    }
+    
+    $module = $request->segment(2);
     if($module == 'ticket' || $module == '' || $module == 'api' || $module = 'dashboard') {
       return $next($request);
     }

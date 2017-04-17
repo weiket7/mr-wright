@@ -48,11 +48,12 @@ class AccessService
     return in_array('ticket_respond', $access_session['accesses']);
   }
 
-  public function isRequesterAndCanAccessTicket($auth_user, $access_session, $ticket) {
-    if ($auth_user->type == UserType::User) {
-      if ($access_session['company_id'] != $ticket->company_id || $access_session['office_id'] != $ticket->office_id) {
-        return false;
-      }
+  public function requesterCanAccessTicket($username, $company_id, $office_id) {
+    $requester_service = new Requester();
+    $requester = $requester_service->getRequesterByUsername($username);
+  
+    if ($requester->company_id != $company_id || $requester->office_id != $office_id) {
+      return false;
     }
     return true;
   }

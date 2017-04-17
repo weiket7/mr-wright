@@ -24,18 +24,12 @@ class TicketRespondMiddleware
       return redirect("login")->with('msg', 'Please log in');
     }
 
-    $access_service = new AccessService();
-
     $access_session = BackendHelper::getAccessesFromSession();
-    if (! $access_service->canRespondToTicket($access_session)) {
+    if (! in_array('ticket_respond', $access_session['accesses'])) {
       return redirect("error")->with('error', 'Not authorised to accept or decline ticket');
     }
 
     $ticket = Ticket::find($ticket_id);
-    if (! $access_service->isRequesterAndCanAccessTicket(Auth::user(), $access_session, $ticket)) {
-      return redirect("error")->with('error', 'Not authorised to this ticket');
-    }
-
     if($ticket->stat != TicketStat::Quoted) {
       $action_past_tense = $action == 'accept' ? 'accepted' : 'declined';
       return redirect('error')->with('error', 'This ticket cannot be '.$action_past_tense.' because the status is '.strtolower(TicketStat::$values[$ticket->stat]));

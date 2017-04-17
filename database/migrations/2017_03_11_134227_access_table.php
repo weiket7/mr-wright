@@ -12,6 +12,7 @@ class AccessTable extends Migration
       $t->increments('access_id');
       //$t->char('user_type', 1);
       $t->string('name', 50);
+      $t->char('type', 1);
       $t->string('updated_by', 20);
       $t->dateTime('updated_on');
     });

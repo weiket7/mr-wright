@@ -31,8 +31,8 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-        'ticketrespondmiddleware'=> [
-            \App\Http\Middleware\TicketRespondMiddleware::class
+        'frontendticketmiddleware'=> [
+            \App\Http\Middleware\FrontendTicketMiddleware::class
         ],
         'modulemiddleware'=> [
             \App\Http\Middleware\ModuleMiddleware::class
