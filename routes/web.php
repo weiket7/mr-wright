@@ -12,6 +12,7 @@
 */
 
 use App\Mail\QuotationMail;
+use App\Mail\TestEmail;
 use App\Models\Enums\Role;
 use App\Models\Helpers\BackendHelper;
 use App\Models\Requester;
@@ -148,17 +149,11 @@ Route::group(['middleware'=>['auth']], function() {
 });
 
 Route::get('test', function() {
-  var_dump(Auth::user()->username);
+  Mail::to(User::first())
+    //send(new QuotationMail($ticket_id));
+    ->queue(new TestEmail());
 
-  $working_hour_service = new WorkingHourService();
-  $ticket_service = new TicketService($working_hour_service);
-  $ticket = $ticket_service->getTicket(1);
-  //Mail::to($user = Requester::where('username', $ticket->requested_by)->first())->send(new QuotationMail($ticket));
-
-  var_dump(Role::$values);
-
-  $res = BackendHelper::dateBeforeDateInclusive('2017-04-02 00:00:00', '2017-04-01');
-  var_dump($res);
+  return "Email will be sent 5 seconds later";
 });
 
 

@@ -39,19 +39,7 @@ class TicketService
     return $ticket;
   }
 
-  public function getPreferredSlots($ticket_id) {
-    $data = DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)
-      ->select('ticket_preferred_slot_id', 'date',
-        DB::raw("lower(time_format(time_start, '%H:%i')) as time_start"),
-        DB::raw("lower(time_format(time_end, '%H:%i')) as time_end"))->get();
-    return $data;
-  }
-
   public function populateTicketForView($ticket) {
-    $ticket->company = Company::where('company_id', $ticket->company_id)->first();
-    $ticket->office = Office::find($ticket->office_id);
-    $ticket->requester = Requester::where('username', $ticket->requested_by)->first();
-    $ticket->category = CategoryForTicket::where('category_for_ticket_id', $ticket->category_id)->first();
     $data = DB::table('staff_assignment as sa')
       ->join('staff as s', 'sa.staff_id', '=', 's.staff_id')
       ->where('ticket_id', $ticket->ticket_id)
@@ -66,6 +54,15 @@ class TicketService
       ->join('skill as s', 'ts.skill_id', '=', 's.skill_id')
       ->where('ticket_id', $ticket->ticket_id)->pluck('s.name');
     return $ticket;
+  }
+
+
+  public function getPreferredSlots($ticket_id) {
+    $data = DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)
+      ->select('ticket_preferred_slot_id', 'date',
+        DB::raw("lower(time_format(time_start, '%H:%i')) as time_start"),
+        DB::raw("lower(time_format(time_end, '%H:%i')) as time_end"))->get();
+    return $data;
   }
 
   private function getStaffAssignments($ticket_id) {
@@ -133,8 +130,8 @@ class TicketService
     $ticket->company_name = Company::find($input['company_id'])->value('name');
     $ticket->office_id = $input['office_id'];
     $office = Office::find($input['office_id']);
-    $ticket->addr = $office->addr;
-    $ticket->postal = $office->postal;
+    $ticket->office_addr = $office->addr;
+    $ticket->office_postal = $office->postal;
     $ticket->requester_desc = $input['requester_desc'];
     $ticket->operator_desc = $input['operator_desc'];
     $ticket->quoted_price = $input['quoted_price'];
@@ -179,8 +176,8 @@ class TicketService
     $ticket->company_id = $requester->company_id;
     $ticket->company_name = $requester->company_name;
     $ticket->office_id = $requester->office_id;
-    $ticket->addr = $requester->addr;
-    $ticket->postal = $requester->postal;
+    $ticket->office_addr = $requester->addr;
+    $ticket->office_postal = $requester->postal;
 
     $ticket->requested_by = $username;
     $ticket->requested_on = Carbon::now();
@@ -234,9 +231,9 @@ class TicketService
     $ticket->quote_valid_till = Carbon::now()->addWeekday($quote_valid_working_days);
     $ticket->save();
 
-    $ticket = $this->getTicket($ticket_id);
-    $this->populateTicketForView($ticket);
-    Mail::to($user = Requester::where('username', $ticket->requested_by)->first())->send(new QuotationMail($ticket));
+    Mail::to($user = Requester::where('username', $ticket->requested_by)->first())
+      ->send(new QuotationMail($ticket_id));
+      //->queue(new QuotationMail($ticket_id));
     return true;
   }
 

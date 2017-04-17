@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Services\TicketService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -9,28 +10,19 @@ use Illuminate\Queue\SerializesModels;
 class QuotationMail extends Mailable
 {
   use Queueable, SerializesModels;
-  protected $ticket;
 
-  /**
-   * Create a new message instance.
-   *
-   * @return void
-   */
+  public $ticket_id;
 
-  public function __construct($ticket)
+  public function __construct($ticket_id)
   {
-    $this->ticket = $ticket;
+    $this->ticket_id = $ticket_id;
   }
 
-  /**
-   * Build the message.
-   *
-   * @return $this
-   */
-  public function build()
+  public function build(TicketService $ticket_service)
   {
-    $data['ticket'] = $this->ticket;
-    $subject = "Mr Wright Quotation for ".$this->ticket->ticket_code;
+    $ticket = $ticket_service->getTicket($this->ticket_id);
+    $subject = "Mr Wright Quotation for ".$ticket->ticket_code;
+    $data['ticket'] = $ticket;
     return $this->subject($subject)->view('admin.emails.quotation', $data);
   }
 }

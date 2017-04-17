@@ -52,10 +52,14 @@ class AccessService
     $requester_service = new Requester();
     $requester = $requester_service->getRequesterByUsername($username);
   
-    if ($requester->company_id != $company_id || $requester->office_id != $office_id) {
-      return false;
+    if ($requester->is_admin && $requester->company_id == $company_id) {
+      return true;
     }
-    return true;
+    
+    if ($requester->company_id == $company_id && $requester->office_id == $office_id) {
+      return true;
+    }
+    return false;
   }
 
   public function getAvailableAccess($role_accesses) {

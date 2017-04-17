@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\TicketQuotationEmail;
 use App\Models\Enums\UserType;
 use App\Models\FrontendService;
 use App\Models\Account;
@@ -92,6 +93,10 @@ class SiteController extends Controller
   public function contact(Request $request)
   {
     return view("frontend/contact");
+  }
+
+  public function q() {
+    $this->dispatch(new TicketQuotationEmail());
   }
 
 

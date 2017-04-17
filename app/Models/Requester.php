@@ -94,7 +94,7 @@ class Requester extends Eloquent
       ->join('company as c', 'r.company_id', '=', 'c.company_id')
       ->join('office as o', 'r.office_id', '=', 'o.office_id')
       ->select('r.name', 'is_admin', 'mobile', 'email', 'designation', 'username', 'r.company_id', 'r.office_id',
-        'c.name as company_name', 'uen', 'o.addr as addr', 'o.postal as postal')
+        'c.name as company_name', 'o.name as office_name', 'uen', 'o.addr as office_addr', 'o.postal as office_postal')
       ->where('username', $username)
       ->where('r.stat', RequesterStat::Active)->first();
   }

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\QuotationMail;
+use App\Models\Requester;
 use App\Models\Services\CompanyService;
 use App\Models\Services\TicketService;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Models\Helpers\BackendHelper;
+use Log;
+use Mail;
 
 class TicketController extends Controller
 {
@@ -97,11 +101,15 @@ class TicketController extends Controller
   }
 
   public function previewQuotation($ticket_id) {
+
     $ticket = $this->ticket_service->getTicket($ticket_id);
-    $this->ticket_service->populateTicketForView($ticket);
+    Log::info("previewQuotation " . $ticket->issues);
     $data['ticket'] = $ticket;
+
+    Mail::to($user = Requester::where('username', $ticket->requested_by)->first())
+      //send(new QuotationMail($ticket_id));
+      ->queue(new QuotationMail($ticket_id));
     return view('admin/emails/quotation', $data);
-    //Mail::to($user = User::where('username', $ticket->requested_by)->first())->send(new QuotationMail($ticket));
 
   }
 

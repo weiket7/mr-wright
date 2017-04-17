@@ -65,6 +65,12 @@
             {{ var_dump(Session::get('accesses')) }}
           </td>
         </tr>
+        <tr>
+          <td>Queue Driver</td>
+          <td>
+            {{ env('QUEUE_DRIVER') }}
+          </td>
+        </tr>
       </table>
     </div>
   </div>

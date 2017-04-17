@@ -27,6 +27,7 @@
     }
   </style>
 
+
   <img src="{{asset("images/mr-wright-logo.png")}}" class="mr-wright-logo">
 
   <h3>Quotation for <b>{{ $ticket->ticket_code }}</b></h3>
@@ -40,14 +41,14 @@
   <div class="row company-header">
     <div class="col-xs-5">
       <div><b>{{ $ticket->company_name }}</b></div>
-      <div>{{ $ticket->office->name }}</div>
-      <div>{{ $ticket->office->addr }}</div>
-      <div>{{ $ticket->office->postal }}</div>
+      <div>{{ $ticket->office_name }}</div>
+      <div>{{ $ticket->requester_addr }}</div>
+      <div>{{ $ticket->requester_postal }}</div>
     </div>
     <div class="col-xs-7">
       <div>Requested by {{ $ticket->requested_by }} on {{ ViewHelper::formatDateTime($ticket->requested_on) }}</div>
-      <div>Email: {{ $ticket->requester->email }}</div>
-      <div>Mobile: {{ $ticket->requester->mobile }}</div>
+      <div>Email: {{ $ticket->requester_email }}</div>
+      <div>Mobile: {{ $ticket->requester_mobile }}</div>
     </div>
   </div>
   <br>
@@ -61,7 +62,7 @@
         <td>Issue</td>
         <td>Expected</td>
       </tr>
-      </thead>@foreach($ticket->issues as $issue)
+      </thead>@foreach($ticket['issues'] as $issue)
         <tbody>
         <tr>
           <td><img src="{{asset("images/tickets/".$issue->image)}}" class="ticket-image"></td>
@@ -82,7 +83,7 @@
         <td>Time</td>
       </tr>
       </thead>
-      @foreach($ticket->preferred_slots as $slot)
+      @foreach($ticket['preferred_slots'] as $slot)
         <tbody>
         <tr>
           <td>{{ ViewHelper::formatDate($slot->date) }}</td>

@@ -71,7 +71,6 @@ class TicketController extends Controller
     }
 
     $ticket = $this->ticket_service->getTicket($ticket_id);
-    $this->ticket_service->populateTicketForView($ticket);
     $data['action'] = $request->segment(2);
     $data['ticket'] = $ticket;
     return view("frontend/ticket-view", $data);
