@@ -67,16 +67,6 @@
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
-            Company Name
-          </label>
-          <label class="col-md-9 form-control-static">
-            {{ $ticket->company_name }}
-          </label>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">
             Quoted Price
           </label>
           <label class="col-md-9 form-control-static">
@@ -90,10 +80,33 @@
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
+            Company Name
+          </label>
+          <label class="col-md-9 form-control-static">
+            {{ $ticket->company_name }}
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-3">
+            Office Name
+          </label>
+          <label class="col-md-9 form-control-static">
+            {{ $ticket->office_name }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-3">
             Address
           </label>
           <label class="col-md-9 form-control-static">
-            {{ $ticket->addr }}
+            {{ $ticket->office_addr }}
           </label>
         </div>
       </div>
@@ -103,7 +116,7 @@
             Postal Code
           </label>
           <label class="col-md-9 form-control-static">
-            {{ $ticket->postal }}
+            {{ $ticket->office_postal }}
           </label>
         </div>
       </div>

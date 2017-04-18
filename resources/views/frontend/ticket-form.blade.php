@@ -76,16 +76,22 @@
           </label>
         </div>
       </div>
-      {{--<div class="col-md-6">
+      <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
             Office Name
           </label>
           <div class="col-md-9">
-            {{Form::text('urgency', $ticket->office_name, ['class'=>'form-control'])}}
+            @if($requester->admin)
+              {{Form::select('office_id', $offices, '', ['id'=>'office_id', 'class'=>'form-control', 'placeholder'=>''])}}
+            @else
+              <label class="form-control-static">
+                {{ $requester->office_name }}
+              </label>
+            @endif
           </div>
         </div>
-      </div>--}}
+      </div>
     </div>
     <div class="row">
       <div class="col-md-6">
@@ -93,7 +99,7 @@
           <label class="control-label col-md-3">
             Address
           </label>
-          <label class="col-md-9 form-control-static">
+          <label class="col-md-9 form-control-static" id="office_addr">
             @if($ticket->stat == null)
               {{ $requester->office_addr }}
             @else
@@ -107,7 +113,7 @@
           <label class="control-label col-md-3">
             Postal Code
           </label>
-          <label class="col-md-9 form-control-static">
+          <label class="col-md-9 form-control-static" id="office_postal">
             @if($ticket->stat == null)
               {{ $requester->office_postal }}
             @else
@@ -248,10 +254,10 @@
     <div class="text-center">
       @if($ticket->stat == null)
         <input type="submit" name="submit" value="DRAFT TICKET" class="more active">
-      @elseif($ticket->stat == TicketStat::Drafted)
+      @elseif($ticket->stat == \App\Models\Enums\TicketStat::Drafted)
         <input type="submit" name="submit" value="UPDATE TICKET" class="more active">
         <input type="submit" name="submit" value="OPEN TICKET" class="more active">
-      @elseif($ticket->stat == TicketStat::Opened)
+      @elseif($ticket->stat == \App\Models\Enums\TicketStat::Opened)
         <input type="submit" name="submit" value="UPDATE TICKET" class="more active">
         <input type="submit" name="submit" value="OPEN TICKET" class="more active">
       @endif
@@ -262,7 +268,27 @@
 @endsection
 
 @section('script')
+  <script src="{{asset('js/axios.min.js')}}" type="text/javascript"></script>
+
+
   <script>
+    $(document).ready(function() {
+
+      $("#office_id").change(function() {
+        var office_id = $(this).val();
+
+        axios.get('{{url('api/getOffice')}}?office_id='+office_id)
+        .then(function (response) {
+          var office = response.data;
+          $("#office_addr").text(office.addr);
+          $("#office_postal").text(office.postal);
+        })
+        .catch(function (error) {
+          console.log('office_id change error='+error);
+        })
+      });
+    });
+
     Vue.component('dropdown-time', {
       props: ['name', 'value'],
       data() {

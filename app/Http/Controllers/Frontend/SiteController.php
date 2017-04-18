@@ -17,6 +17,13 @@ use Log;
 
 class SiteController extends Controller
 {
+  protected $company_service;
+
+  public function __construct(CompanyService $company_service)
+  {
+    $this->company_service = $company_service;
+  }
+
   public function index()
   {
     return view("frontend/index");
@@ -55,9 +62,8 @@ class SiteController extends Controller
     $requester_service = new Requester();
     $requester = $requester_service->getRequesterByUsername($this->getUsername());
     $data['requester'] = $requester;
-    $company_service = new CompanyService();
     if ($requester->admin) {
-      $data['offices'] = $company_service->getOfficeAll($requester->company_id);
+      $data['offices'] = $this->company_service->getOfficeAll($requester->company_id);
     }
     return view('frontend/account', $data);
   }

@@ -48,7 +48,12 @@ class TicketController extends Controller
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
     $data['action'] = $action;
     $requester = new Requester();
-    $data['requester'] = $requester->getRequesterByUsername($this->getUsername());
+
+    $requester = $requester->getRequesterByUsername($this->getUsername());
+    $data['requester'] = $requester;
+    if ($data['requester']->admin) {
+      $data['offices'] = $this->company_service->getOfficeDropdown($requester->company_id);
+    }
     return view('frontend/ticket-form', $data);
   }
 

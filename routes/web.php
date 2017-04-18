@@ -136,19 +136,18 @@ Route::group(['middleware'=>['auth']], function() {
     Route::post('admin/role/save', 'Admin\RoleController@save');
     Route::get('admin/role/save/{id}', 'Admin\RoleController@save');
     Route::post('admin/role/save/{id}', 'Admin\RoleController@save');
-  
-    Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
-    Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
-    Route::get('api/getOfficeByCompany', 'ApiController@getOfficeByCompany');
-    Route::get('api/getOffice', 'ApiController@getOffice');
-    Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
-  
+
     Route::get('admin/content', 'Admin\FrontendController@content');
     Route::get('admin/banner', 'Admin\FrontendController@banner');
     Route::get('admin/service', 'Admin\FrontendController@service');
     Route::get('admin/project', 'Admin\FrontendController@project');
   });
 
+  Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
+  Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
+  Route::get('api/getOfficeByCompany', 'ApiController@getOfficeByCompany');
+  Route::get('api/getOffice', 'ApiController@getOffice');
+  Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
 });
 
 Route::get('test', function() {

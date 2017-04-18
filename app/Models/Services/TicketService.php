@@ -175,11 +175,16 @@ class TicketService
 
     $requester_service = new Requester();
     $requester = $requester_service->getRequesterByUsername($username);
+    if ($requester->admin) {
+      $ticket->office_id = $input['office_id'];
+    } else {
+      $ticket->office_id = $requester->office_id;
+    }
     $ticket->company_id = $requester->company_id;
     $ticket->company_name = $requester->company_name;
-    $ticket->office_id = $requester->office_id;
-    $ticket->office_addr = $requester->addr;
-    $ticket->office_postal = $requester->postal;
+    $office = Office::find($ticket->office_id);
+    $ticket->office_addr = $office->addr;
+    $ticket->office_postal = $office->postal;
 
     $ticket->requested_by = $username;
     $ticket->requested_on = Carbon::now();
