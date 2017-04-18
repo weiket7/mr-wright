@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Models\Office;
 use App\Models\Services\CalendarService;
 use App\Models\Services\CompanyService;
 use App\Models\Services\SkillService;
@@ -48,6 +49,7 @@ class ApiController extends Controller
     return $res;
   }
 
+  //TODO secure these 3 api, if operator can access all, if requester only those under his company and/or office
   public function getOfficeByCompany(Request $request) {
     $company_id = $request->get('company_id');
     return $this->company_service->getOfficeDropdown($company_id);
@@ -56,5 +58,9 @@ class ApiController extends Controller
   public function getRequesterByOffice(Request $request) {
     $office_id = $request->get('office_id');
     return $this->company_service->getRequesterDropdown($office_id);
+  }
+
+  public function getOffice(Request $request) {
+    return Office::find($request->get('office_id'));
   }
 }

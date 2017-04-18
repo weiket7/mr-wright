@@ -110,7 +110,7 @@
                 </li>
                 <li>
                   <a href="{{ url('account') }}" title="Account">
-                    ACCOUNT
+                    ACCOUNT ({{Auth::user()->username}})
                   </a>
                 </li>
                 <li>

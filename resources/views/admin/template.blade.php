@@ -281,6 +281,16 @@ License: You must have a valid license purchased only from themeforest(the above
         })
         .catch(function (error) {
           console.log('office_id change error='+error);
+        });
+
+        axios.get('{{url('api/getOffice')}}?office_id='+office_id)
+        .then(function (response) {
+          var office = response.data;
+          $("#office_addr").html(office.addr);
+          $("#office_postal").html(office.postal);
+        })
+        .catch(function (error) {
+          console.log('office_id change error='+error);
         })
       });
 

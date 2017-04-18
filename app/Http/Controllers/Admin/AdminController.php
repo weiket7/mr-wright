@@ -55,7 +55,7 @@ class AdminController extends Controller
     return view('admin/login');
   }
   public function error() {
-    return view('error');
+    return view('admin/error');
   }
 }
   

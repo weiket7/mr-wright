@@ -61,6 +61,7 @@ class Requester extends Eloquent
     $this->designation = $input['designation'];
     $this->email = $input['email'];
     $this->mobile = $input['mobile'];
+    $this->admin = $input['admin'];
     $this->work = $input['work'];
     $this->preferred_contact = $input['preferred_contact'];
     $this->save();

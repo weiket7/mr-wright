@@ -1,7 +1,3 @@
-<?php use App\Models\Enums\TicketStat; ?>
-<?php use App\Models\Enums\TicketUrgency; ?>
-<?php use Carbon\Carbon; ?>
-
 @extends('frontend.template', ['title'=>strtoupper($action). ' TICKET'])
 
 @section('content')
@@ -35,7 +31,7 @@
               Status
             </label>
             <label class="col-md-9 form-control-static">
-              {{ TicketStat::$values[$ticket->stat] }}
+              {{ \App\Models\Enums\TicketStat::$values[$ticket->stat] }}
             </label>
           </div>
         </div>
@@ -59,7 +55,7 @@
             Urgency
           </label>
           <div class="col-md-9">
-            {{Form::select('urgency', TicketUrgency::$values, $ticket->urgency, ['placeholder'=>'', 'class'=>'form-control'])}}
+            {{Form::select('urgency', \App\Models\Enums\TicketUrgency::$values, $ticket->urgency, ['placeholder'=>'', 'class'=>'form-control'])}}
           </div>
         </div>
       </div>
@@ -129,7 +125,7 @@
             Requested By
           </label>
           <label class="col-md-9 form-control-static">
-            Jessie on {{ ViewHelper::formatDateTime(Carbon::now()) }}
+            Jessie on {{ ViewHelper::formatDateTime(\Carbon\Carbon::now()) }}
           </label>
         </div>
       </div>

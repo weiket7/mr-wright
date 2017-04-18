@@ -17,9 +17,11 @@
             <a href="#tab-general" data-toggle="tab">
               Ticket </a>
           </li>
+          @if($action == 'update')
           <li>
             <a href="#tab-history" data-toggle="tab">History</a>
           </li>
+          @endif
         </ul>
         <div class="tab-content no-space">
           <div class="tab-pane fade active in" id="tab-general">
@@ -62,27 +64,9 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Company</label>
-                      <div class="col-md-9">
-                        {{Form::select('company_id', $companies, $ticket->company_id, ['id'=>'company_id', 'class'=>'form-control', 'placeholder'=>''])}}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
                       <label class="control-label col-md-3">Category</label>
                       <div class="col-md-9">
                         {{Form::select('category_id', $categories, $ticket->category_id, ['class'=>'form-control', 'placeholder'=>''])}}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="control-label col-md-3">Office</label>
-                      <div class="col-md-9">
-                        {{Form::select('office_id', $offices, $ticket->office_id, ['id'=>'office_id', 'class'=>'form-control', 'placeholder'=>''])}}
                       </div>
                     </div>
                   </div>
@@ -91,6 +75,42 @@
                       <label class="control-label col-md-3">Urgency</label>
                       <div class="col-md-9">
                         {{Form::select('urgency', TicketUrgency::$values, $ticket->urgency, ['id'=>'requester_id', 'class'=>'form-control', 'placeholder'=>''])}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Company</label>
+                      <div class="col-md-9">
+                        {{Form::select('company_id', $companies, $ticket->company_id, ['id'=>'company_id', 'class'=>'form-control', 'placeholder'=>''])}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Office</label>
+                      <div class="col-md-9">
+                        {{Form::select('office_id', $offices, $ticket->office_id, ['id'=>'office_id', 'class'=>'form-control', 'placeholder'=>''])}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Office Address</label>
+                      <div class="col-md-9 form-control-static">
+                        <div id="office_addr"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Office Postal</label>
+                      <div class="col-md-9 form-static-control">
+                        <div id="office_postal"></div>
                       </div>
                     </div>
                   </div>

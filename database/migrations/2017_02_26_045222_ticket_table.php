@@ -16,8 +16,9 @@ class TicketTable extends Migration
       $t->integer('company_id');
       $t->string('company_name', 50);
       $t->integer('office_id');
-      $t->integer('office_name');
+      $t->string('office_name', 50);
       $t->integer('category_id');
+      $t->string('category_name', 30);
       $t->char('urgency', 1);
       $t->string('requested_by', 20);
       $t->dateTime('requested_on');

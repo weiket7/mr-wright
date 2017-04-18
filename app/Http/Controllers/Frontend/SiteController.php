@@ -68,17 +68,22 @@ class SiteController extends Controller
     return redirect("login")->with('msg', 'Logged out');
   }
 
+  public function registerSuccess(Request $request)
+  {
+    $data['username'] = $request->session()->get('username');
+    return view("frontend/register-success", $data);
+  }
+
   public function register(Request $request)
   {
     if ($request->isMethod("post")) {
       $register = new Account();
       $input = $request->all();
-      $user_id = $register->saveRegister($input);
-      if (! $user_id) {
+      $username = $register->saveRegister($input);
+      if ($username === false) {
         return redirect()->back()->withErrors($register->getValidation())->withInput($input);
       }
-      Auth::loginUsingId($user_id);
-      return redirect('account')->with('msg', 'Welcome to Mr Wright, would you like to start by <a href='.url('ticket/save').'>creating a ticket</a>?');
+      return redirect('register-success')->with('register_username', $username);
     }
     return view("frontend/register");
   }
@@ -104,6 +109,11 @@ class SiteController extends Controller
   public function project(Request $request)
   {
     return view("frontend/project");
+  }
+
+  public function pricing(Request $request)
+  {
+    return view("frontend/pricing");
   }
 
   public function contact(Request $request)

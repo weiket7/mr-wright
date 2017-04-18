@@ -125,6 +125,7 @@ class TicketService
     $ticket = Ticket::findOrNew($ticket_id);
     $ticket->title = $input['title'];
     $ticket->category_id = $input['category_id'];
+    $ticket->category_name = CategoryForTicket::find($input['category_id'])->value('name');
     $ticket->urgency = $input['urgency'];
     $ticket->company_id = $input['company_id'];
     $ticket->company_name = Company::find($input['company_id'])->value('name');
@@ -168,6 +169,7 @@ class TicketService
     $ticket = Ticket::findOrNew($ticket_id);
     $ticket->title = $input['title'];
     $ticket->category_id = $input['category_id'];
+    $ticket->category_name = CategoryForTicket::find($input['category_id'])->value('name');
     $ticket->urgency = $input['urgency'];
     $ticket->requester_desc = $input['requester_desc'];
 

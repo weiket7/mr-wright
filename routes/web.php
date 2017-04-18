@@ -26,9 +26,11 @@ Route::get('/', 'Frontend\SiteController@index');
 Route::get('home', 'Frontend\SiteController@index');
 Route::get('register', 'Frontend\SiteController@register');
 Route::post('register', 'Frontend\SiteController@register');
+Route::get('register-success', 'Frontend\SiteController@registerSuccess');
 Route::get('contact', 'Frontend\SiteController@contact');
 Route::post('contact', 'Frontend\SiteController@contact');
 Route::get('about', 'Frontend\SiteController@about');
+Route::get('pricing', 'Frontend\SiteController@pricing');
 Route::get('services', 'Frontend\SiteController@service');
 Route::get('services/{slug}', 'Frontend\SiteController@service');
 Route::get('projects', 'Frontend\SiteController@project');
@@ -138,6 +140,7 @@ Route::group(['middleware'=>['auth']], function() {
     Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
     Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
     Route::get('api/getOfficeByCompany', 'ApiController@getOfficeByCompany');
+    Route::get('api/getOffice', 'ApiController@getOffice');
     Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
   
     Route::get('admin/content', 'Admin\FrontendController@content');

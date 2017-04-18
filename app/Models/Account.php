@@ -135,7 +135,7 @@ class Account extends Eloquent
     $user->email = $input['email'];
     $user->save();
 
-    return $user->user_id;
+    return $input['username'];
   }
 
 

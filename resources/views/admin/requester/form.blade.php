@@ -62,6 +62,23 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
+                <label class="col-md-3 control-label">Admin</label>
+                <div class="col-md-9">
+                  <div class="mt-radio-inline">
+                    <label class="mt-radio mt-radio-outline">
+                      {{Form::radio('admin', 1, $requester->admin == 1)}} Yes
+                      <span></span>
+                    </label>
+                    <label class="mt-radio mt-radio-outline">
+                      {{Form::radio('admin', 0, $requester->admin == 0)}} No
+                      <span></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
                 <label class="control-label col-md-3">Designation</label>
                 <div class="col-md-9">
                   {{Form::text('designation', $requester->designation, ['class'=>'form-control'])}}

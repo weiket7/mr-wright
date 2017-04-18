@@ -8,11 +8,11 @@ class RoleAccessSeeder extends Seeder
   public function run()
   {
     $ticket_set = [];
-    for($i=1; $i<=8; $i++) {
+    for($i=1; $i<=9; $i++) {
       $ticket_set[$i] = $i;
     }
     $module_set = [];
-    for($i=9; $i<=20; $i++) {
+    for($i=10; $i<=21; $i++) {
       $module_set[$i] = $i;
     }
 
@@ -30,8 +30,8 @@ class RoleAccessSeeder extends Seeder
     }
 
     $arr = $ticket_set;
-    unset($arr[4]); //respond
-    unset($arr[7]); //pay
+    unset($arr[5]); //respond
+    unset($arr[8]); //pay
     foreach($arr as $t) {
       DB::table('role_access')->insert([
         'role_id'=>3, //operator
@@ -42,12 +42,12 @@ class RoleAccessSeeder extends Seeder
 
     DB::table('role_access')->insert([
       'role_id'=>5, //requester
-      'access_id'=>4, //respond
+      'access_id'=>5, //respond
     ]);
 
     DB::table('role_access')->insert([
       'role_id'=>2, //finance
-      'access_id'=>7, //pay
+      'access_id'=>8, //pay
     ]);
 
   }
