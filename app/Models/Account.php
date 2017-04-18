@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Enums\RequesterStat;
 use App\Models\Enums\RequesterType;
 use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
@@ -44,13 +45,27 @@ class Account extends Eloquent
     'postal.required' => 'Postal code is required',
   ];
 
-  public function saveAccount($input, $username) {
+  public function saveAccount($input, $username)
+  {
     $requester = Requester::where('username', $username)->first();
     $requester->name = $input['name'];
     $requester->designation = $input['designation'];
     $requester->email = $input['email'];
     $requester->mobile = $input['mobile'];
     $requester->save();
+
+    if ($requester->admin) {
+      $company = Company::find($requester->company_id);
+      $company->addr = $input['company_addr'];
+      $company->postal = $input['company_postal'];
+      $company->save();
+    } else {
+      $office = Office::find($requester->office_id);
+      $office->name = $input['office_name'];
+      $office->addr = $input['office_addr'];
+      $office->postal = $input['office_postal'];
+      $office->save();
+    }
 
     $user = User::where('username', $username)->first();
     if ($input['password']) {
@@ -60,6 +75,13 @@ class Account extends Eloquent
     $user->email = $input['email'];
     $user->save();
     return true;  
+  }
+
+  public function getRequesterForLogin($username) {
+    $requester = DB::table('requester as r')
+      ->join('user as u', 'r.username', '=', 'u.username')
+      ->where('r.username', $username)->select('u.user_id', 'r.stat', 'password')->first();
+    return $requester;
   }
 
   public function saveRegister($input) {
@@ -100,6 +122,8 @@ class Account extends Eloquent
     $requester->email = $input['email'];
     $requester->mobile = $input['mobile'];
     $requester->type = RequesterType::Corporate;
+    $requester->admin = false;
+    $requester->stat = RequesterStat::PendingPayment;
     $requester->save();
 
     $user = new User();
@@ -107,7 +131,7 @@ class Account extends Eloquent
     $user->password = Hash::make($input['password']);
     $user->name = $input['name'];
     $user->type = UserType::Requester;
-    $user->stat = UserStat::Active;
+    $user->stat = UserStat::Inactive;
     $user->email = $input['email'];
     $user->save();
 

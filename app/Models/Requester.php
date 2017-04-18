@@ -6,6 +6,7 @@ use App\Models\Enums\RequesterType;
 use App\Models\Enums\UserStat;
 use Eloquent, DB, Validator, Log;
 use Hash;
+use Illuminate\Http\Request;
 
 class Requester extends Eloquent
 {
@@ -49,10 +50,12 @@ class Requester extends Eloquent
       return false;
     }
 
-    $this->saveRequesterAsUser($input);
 
     $this->name = $input['name'];
-    if (isset($input['stat'])) $this->stat = $input['stat'];
+    if (isset($input['stat'])) {
+      $this->stat = $input['stat'];
+    }
+    $this->saveRequesterAsUser($input);
     $this->company_id = $input['company_id'];
     $this->office_id = $input['office_id'];
     $this->designation = $input['designation'];
@@ -73,14 +76,18 @@ class Requester extends Eloquent
   {
     if ($this->requester_id == null) { //create
       $user = new User();
+      $user->username = $input['username'];
     } else {
       $user = User::where('username', $this->username)->first();
     }
-    if (isset($input['username'])) {
-      $user->username = $input['username'];
-    }
+
     $user->name = $input['name'];
-    $user->stat = $input['stat'];
+    if (in_array($input['stat'], [RequesterStat::PendingPayment, RequesterStat::Inactive])) {
+      $user->stat = UserStat::Inactive;
+    } else {
+      $user->stat = UserStat::Active;
+    }
+
     $user->email = $input['email'];
     if ($input['password']) {
       $user->password = Hash::make($input['password']);
@@ -93,8 +100,8 @@ class Requester extends Eloquent
     return DB::table('requester as r')
       ->join('company as c', 'r.company_id', '=', 'c.company_id')
       ->join('office as o', 'r.office_id', '=', 'o.office_id')
-      ->select('r.name', 'is_admin', 'mobile', 'email', 'designation', 'username', 'r.company_id', 'r.office_id',
-        'c.name as company_name', 'o.name as office_name', 'uen', 'o.addr as office_addr', 'o.postal as office_postal')
+      ->select('r.name', 'admin', 'mobile', 'email', 'designation', 'username', 'r.company_id', 'r.office_id',
+        'c.name as company_name', 'c.addr as company_addr', 'c.postal as company_postal', 'o.name as office_name', 'uen', 'o.addr as office_addr', 'o.postal as office_postal')
       ->where('username', $username)
       ->where('r.stat', RequesterStat::Active)->first();
   }

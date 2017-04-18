@@ -12,7 +12,7 @@
             Username
           </label>
           <label class="form-control-static col-md-9">
-            {{ $user->username }}
+            {{ $requester->username }}
           </label>
         </div>
       </div>
@@ -35,7 +35,7 @@
             Full Name *
           </label>
           <div class="col-md-9">
-            {{ Form::text('name', $user->name, ['class'=>'form-control']) }}
+            {{ Form::text('name', $requester->name, ['class'=>'form-control', 'maxlength'=>50]) }}
           </div>
         </div>
       </div>
@@ -45,7 +45,7 @@
             Designation *
           </label>
           <div class="col-md-9">
-            {{ Form::text('designation', $user->designation, ['class'=>'form-control']) }}
+            {{ Form::text('designation', $requester->designation, ['class'=>'form-control', 'maxlength'=>30]) }}
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@
             Mobile *
           </label>
           <div class="col-md-9">
-            {{ Form::text('mobile', $user->mobile, ['class'=>'form-control']) }}
+            {{ Form::text('mobile', $requester->mobile, ['class'=>'form-control', 'maxlength'=>30]) }}
           </div>
         </div>
       </div>
@@ -68,7 +68,7 @@
             Email *
           </label>
           <div class="col-md-9">
-            {{ Form::text('email', $user->email, ['class'=>'form-control']) }}
+            {{ Form::text('email', $requester->email, ['class'=>'form-control', 'maxlength'=>100]) }}
           </div>
         </div>
       </div>
@@ -81,68 +81,107 @@
             Company Name
           </label>
           <div class="col-md-9">
-            @if($user->is_admin)
-              {{ Form::text('company_name', $user->company_name, ['class'=>'form-control']) }}
-            @else
-              <label class="form-control-static">
-                {{ $user->company_name }}
-              </label>
-            @endif
+            <label class="form-control-static">
+              {{ $requester->company_name }}
+            </label>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">
-            UEN *
-          </label>
-          <div class="col-md-9">
-            @if($user->is_admin)
-              {{ Form::text('uen', $user->uen, ['class'=>'form-control']) }}
-            @else
+      @if($requester->admin)
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              UEN *
+            </label>
+            <div class="col-md-9">
               <label class="form-control-static">
-                {{ $user->uen }}
+                {{ $requester->uen }}
               </label>
-            @endif
+            </div>
           </div>
         </div>
-      </div>
+      @else
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Office Name
+            </label>
+            <div class="col-md-9">
+              {{ Form::text('office_name', $requester->office_name, ['class'=>'form-control', 'maxlength'=>200]) }}
+            </div>
+          </div>
+        </div>
+      @endif
     </div>
 
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">
-            Address *
-          </label>
-          <div class="col-md-9">
-            @if($user->is_admin)
-              {{ Form::text('addr', $user->addr, ['class'=>'form-control']) }}
-            @else
-              <label class="form-control-static">
-                {{ $user->addr }}
-              </label>
-            @endif
+    @if($requester->admin)
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Company Address *
+            </label>
+            <div class="col-md-9">
+              {{ Form::text('company_addr', $requester->company_addr, ['class'=>'form-control', 'maxlength'=>200]) }}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Company Postal Code *
+            </label>
+            <div class="col-md-9">
+              {{ Form::text('company_postal', $requester->company_postal, ['class'=>'form-control', 'maxlength'=>20]) }}
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">
-            Postal Code *
-          </label>
-          <div class="col-md-9">
-            @if($user->is_admin)
-              {{ Form::text('postal', $user->postal, ['class'=>'form-control']) }}
-            @else
-              <label class="form-control-static">
-                {{ $user->postal }}
-              </label>
-            @endif
+    @else
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Office Address *
+            </label>
+            <div class="col-md-9">
+              {{ Form::text('office_addr', $requester->office_addr, ['class'=>'form-control', 'maxlength'=>200]) }}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Office Postal Code *
+            </label>
+            <div class="col-md-9">
+              {{ Form::text('office_postal', $requester->office_postal, ['class'=>'form-control', 'maxlength'=>20]) }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    @endif
+
+    @if($requester->admin)
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Office Name</th>
+          <th>Address</th>
+          <th>Postal</th>
+        </tr>
+        </thead>
+        <tbody>
+          @foreach($offices as $office)
+            <tr>
+              <td><a href="{{ url("office/save/".$office->office_id) }}">{{ $office->name }}</a></td>
+              <td>{{ $office->addr }}</td>
+              <td>{{ $office->postal }}</td>
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
+    @endif
 
     <div class="margin-top-30">
       <div class="align-center">

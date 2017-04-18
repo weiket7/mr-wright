@@ -50,12 +50,16 @@ class CompanyService
     return DB::select($s);
   }
 
-  public function getOfficeAll()
+  public function getOfficeAll($company_id = null)
   {
-    return DB::table('office as o')
+    $offices = DB::table('office as o')
       ->join('company as c', 'o.company_id', '=', 'c.company_id')
-      ->select('o.office_id', 'o.name', 'c.company_id', 'c.name as company_name', 'o.stat')
-      ->orderBy('name')->get();
+      ->select('o.office_id', 'o.name', 'c.company_id', 'c.name as company_name', 'o.stat', 'o.addr', 'o.postal')
+      ->orderBy('name');
+    if ($company_id == null) {
+      return $offices->get();
+    }
+    return $offices->where('o.company_id', $company_id)->get();
   }
 
   public function searchRequester($input) {

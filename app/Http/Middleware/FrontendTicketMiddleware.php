@@ -23,6 +23,7 @@ class FrontendTicketMiddleware
       $ticket = Ticket::find($ticket_id);
       //TODO if admin
       if (! $access_service->requesterCanAccessTicket(Auth::user()->username, $ticket->company_id, $ticket->office_id)) {
+        Log::error('FrontendTicketMiddleware url='.$request->url(). ' username='.Auth::user()->username.' ticket_id='.$ticket->ticket_id);
         return redirect("error")->with('error', 'Not authorised to this ticket');
       }
     }

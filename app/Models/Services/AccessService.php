@@ -52,7 +52,7 @@ class AccessService
     $requester_service = new Requester();
     $requester = $requester_service->getRequesterByUsername($username);
   
-    if ($requester->is_admin && $requester->company_id == $company_id) {
+    if ($requester->admin && $requester->company_id == $company_id) {
       return true;
     }
     

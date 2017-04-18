@@ -99,9 +99,9 @@
           </label>
           <label class="col-md-9 form-control-static">
             @if($ticket->stat == null)
-              {{ $requester->addr }}
+              {{ $requester->office_addr }}
             @else
-              {{ $ticket->addr }}
+              {{ $ticket->office_addr }}
             @endif
           </label>
         </div>
@@ -113,9 +113,9 @@
           </label>
           <label class="col-md-9 form-control-static">
             @if($ticket->stat == null)
-              {{ $requester->postal }}
+              {{ $requester->office_postal }}
             @else
-              {{ $ticket->postal }}
+              {{ $ticket->office_postal }}
             @endif
           </label>
         </div>

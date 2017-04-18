@@ -33,7 +33,7 @@ class  TicketSeeder extends Seeder
       'opened_on'=>Carbon::now(),
       'requested_by'=>'Sally',
       'requester_mobile'=>'9123 4567',
-      'requester_email'=>'A@t.com',
+      'requester_email'=>'sally@unity-pharmacy.com',
       'requested_on'=>Carbon::now()->subMinute(99),
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),
@@ -55,7 +55,7 @@ class  TicketSeeder extends Seeder
       'operator_desc'=>'IMPT: Remember to clean up after completion',
       'requested_by'=>'Sally',
       'requester_mobile'=>'9123 4567',
-      'requester_email'=>'A@t.com',
+      'requester_email'=>'sally@unity-pharmacy.com',
       'requested_on'=>Carbon::now()->subMinute(98),
     ]);
 
@@ -74,7 +74,7 @@ class  TicketSeeder extends Seeder
       'operator_desc'=>'IMPT: Remember to clean up after completion',
       'requested_by'=>'Sally',
       'requester_mobile'=>'9123 4567',
-      'requester_email'=>'A@t.com',
+      'requester_email'=>'sally@unity-pharmacy.com',
       'requested_on'=>Carbon::now()->subMinute(97),
     ]);
 
@@ -94,7 +94,7 @@ class  TicketSeeder extends Seeder
       'operator_desc'=>'IMPT: Remember to clean up after completion',
       'requested_by'=>'Sally',
       'requester_mobile'=>'9123 4567',
-      'requester_email'=>'A@t.com',
+      'requester_email'=>'sally@unity-pharmacy.com',
       'requested_on'=>Carbon::now()->subMinute(96),
     ]);
 
@@ -113,7 +113,7 @@ class  TicketSeeder extends Seeder
       'operator_desc'=>'IMPT: Remember to clean up after completion',
       'requested_by'=>'Sally',
       'requester_mobile'=>'9123 4567',
-      'requester_email'=>'A@t.com',
+      'requester_email'=>'sally@unity-pharmacy.com',
       'requested_on'=>Carbon::now()->subMinute(95),
     ]);
 
@@ -133,7 +133,7 @@ class  TicketSeeder extends Seeder
       'operator_desc'=>'IMPT: Remember to clean up after completion',
       'requested_by'=>'Sally',
       'requester_mobile'=>'9123 4567',
-      'requester_email'=>'A@t.com',
+      'requester_email'=>'sally@unity-pharmacy.com',
       'requested_on'=>Carbon::now()->subMinute(94),
     ]);
 
@@ -152,7 +152,7 @@ class  TicketSeeder extends Seeder
       'operator_desc'=>'IMPT: Remember to clean up after completion',
       'requested_by'=>'Sally',
       'requester_mobile'=>'9123 4567',
-      'requester_email'=>'A@t.com',
+      'requester_email'=>'sally@unity-pharmacy.com',
       'requested_on'=>Carbon::now()->subMinute(93),
     ]);
 
@@ -162,7 +162,7 @@ class  TicketSeeder extends Seeder
       'accept_decline_reason'=>'Too expensive',
       'title'=>'Fix tap in pantry',
       'company_id'=>1,
-      'office_id'=>1,
+      'office_id'=>2,
       'office_addr'=>'Address',
       'office_postal'=>'123456',
       'category_id'=>3,
@@ -177,7 +177,7 @@ class  TicketSeeder extends Seeder
       'opened_on'=>Carbon::now(),
       'requested_by'=>'Jane',
       'requester_mobile'=>'9123 4567',
-      'requester_email'=>'A@t.com',
+      'requester_email'=>'jane@unity-pharmacy.com',
       'requested_on'=>Carbon::now()->subMinute(92),
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now(),

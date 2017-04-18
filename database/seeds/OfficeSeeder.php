@@ -12,7 +12,7 @@ class OfficeSeeder extends Seeder
       'stat'=>OfficeStat::Active,
       'name'=>'Tampines Outlet',
       'company_id'=>1,
-      'addr'=>'Address',
+      'addr'=>'Tampines Address',
       'postal'=>'123456',
       'updated_by'=>'admin',
       'updated_on'=>date('Y-m-d H:i:s')
@@ -22,7 +22,7 @@ class OfficeSeeder extends Seeder
       'stat'=>OfficeStat::Active,
       'name'=>'Bedok Outlet',
       'company_id'=>1,
-      'addr'=>'Address',
+      'addr'=>'Bedok Address',
       'postal'=>'123456',
       'updated_by'=>'admin',
       'updated_on'=>date('Y-m-d H:i:s')
@@ -32,7 +32,7 @@ class OfficeSeeder extends Seeder
       'stat'=>OfficeStat::Active,
       'name'=>'Jurong Outlet',
       'company_id'=>2,
-      'addr'=>'Address',
+      'addr'=>'Jurong Address',
       'postal'=>'123456',
       'updated_by'=>'admin',
       'updated_on'=>date('Y-m-d H:i:s')
@@ -42,7 +42,7 @@ class OfficeSeeder extends Seeder
       'stat'=>OfficeStat::Active,
       'name'=>'Ang Mo Kio Outlet',
       'company_id'=>2,
-      'addr'=>'Address',
+      'addr'=>'AMK Address',
       'postal'=>'123456',
       'updated_by'=>'admin',
       'updated_on'=>date('Y-m-d H:i:s')

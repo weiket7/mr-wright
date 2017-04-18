@@ -16,11 +16,12 @@ class RequesterTable extends Migration
       $t->string('username', 30);
       $t->char('stat', 1);
       $t->char('type', 1);
-      $t->boolean('is_admin');
+      $t->boolean('admin');
+      $t->boolean('approved');
       $t->string('designation', 30);
       $t->string('email', 100);
-      $t->string('work', 20)->nullable();
-      $t->string('mobile', 20);
+      $t->string('work', 30)->nullable();
+      $t->string('mobile', 30);
       $t->char('preferred_contact', 1)->nullable();
       $t->string('updated_by', 20);
       $t->dateTime('updated_on');

@@ -14,6 +14,8 @@ class CompanySeeder extends Seeder
         'name'=>'Unity Pharmacy',
         'uen'=>'1234-5678',
         'registered_name'=>'Unity Pharmacy Pte Ltd',
+        'addr'=>'unity address',
+        'postal'=>'123456',
         'updated_by'=>'admin',
         'updated_on'=>date('Y-m-d H:i:s')
       ]);
@@ -24,6 +26,8 @@ class CompanySeeder extends Seeder
         'name'=>'Zendesk',
         'uen'=>'3456-7890',
         'registered_name'=>'Zendesk Pte Ltd',
+        'addr'=>'zendesk address',
+        'postal'=>'123456',
         'updated_by'=>'admin',
         'updated_on'=>date('Y-m-d H:i:s')
       ]);

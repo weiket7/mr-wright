@@ -448,7 +448,12 @@ class TicketService
 
   public function getTicketAllByUsername($username)
   {
-    return DB::table('ticket')->where('requested_by', $username)->orderBy('requested_on', 'desc')->get();
+    $admin = Requester::where('username', $username)->value('admin');
+    $tickets = DB::table('ticket')->orderBy('requested_on', 'desc');
+    if ($admin) {
+      return $tickets->get();
+    }
+    return $tickets->where('requested_by', $username)->get();
   }
 
 }

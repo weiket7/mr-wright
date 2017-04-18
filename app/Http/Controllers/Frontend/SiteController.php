@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\TicketQuotationEmail;
+use App\Models\Enums\RequesterStat;
 use App\Models\Enums\UserType;
 use App\Models\FrontendService;
 use App\Models\Account;
 use App\Models\Requester;
+use App\Models\Services\CompanyService;
 use Auth;
+use Hash;
 use Illuminate\Http\Request;
 use Log;
 
@@ -23,10 +26,18 @@ class SiteController extends Controller
   {
     $input = $request->all();
     if ($request->isMethod("post")) {
-      if (Auth::attempt(['username'=>$input['username'], 'password'=>$input['password'], 'type'=>UserType::Requester])) {
-        return redirect('account')->with('msg', 'Logged in');
+      $account_service  = new Account();
+      $requester = $account_service->getRequesterForLogin($input['username']);
+      if ($requester == null
+        || ! Hash::check($input['password'], $requester->password)
+        || $requester->stat == RequesterStat::Inactive) {
+        return redirect()->back()->with('login_error', 'Wrong username/password');
       }
-      return redirect()->back()->with('login_error', 'Wrong username/password');
+      if ($requester->stat == RequesterStat::PendingPayment) {
+        return redirect()->back()->with('login_error', 'Please make payment according to the sent email and wait for operator to approve your account');
+      }
+      Auth::loginUsingId($requester->user_id);
+      return redirect('account')->with('msg', 'Logged in');
     }
 
     return view("frontend/login");
@@ -42,7 +53,12 @@ class SiteController extends Controller
       return redirect('account')->with('msg', 'Account saved');
     }
     $requester_service = new Requester();
-    $data['user'] = $requester_service->getRequesterByUsername($this->getUsername());
+    $requester = $requester_service->getRequesterByUsername($this->getUsername());
+    $data['requester'] = $requester;
+    $company_service = new CompanyService();
+    if ($requester->admin) {
+      $data['offices'] = $company_service->getOfficeAll($requester->company_id);
+    }
     return view('frontend/account', $data);
   }
 
@@ -93,6 +109,11 @@ class SiteController extends Controller
   public function contact(Request $request)
   {
     return view("frontend/contact");
+  }
+
+  public function error(Request $request)
+  {
+    return view("frontend/error");
   }
 
   public function q() {
