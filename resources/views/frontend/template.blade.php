@@ -8,28 +8,28 @@
   <meta name="format-detection" content="telephone=no" />
   <meta name="keywords" content="Construction, Renovation" />
   <meta name="description" content="Responsive Construction Renovation Template" />
-
-  <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+  
+  <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
   <link href='//fonts.googleapis.com/css?family=Raleway:100,300,400,500,600,700,900' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/reset.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/rs-plugin/css/settings.css')}}" media="screen" />
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/superfish.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/prettyPhoto.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/jquery.qtip.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/style.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/animations.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/responsive.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/odometer-theme-default.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/style/reset.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/rs-plugin/css/settings.css')}}" media="screen" />
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/style/superfish.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/style/prettyPhoto.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/style/jquery.qtip.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/style/style.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/style/animations.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/style/responsive.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/style/odometer-theme-default.css')}}">
   <!--fonts-->
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/fonts/streamline-small/styles.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/fonts/streamline-large/styles.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/fonts/template/styles.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/fonts/social/styles.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('renovate/style/custom.css')}}">
-
-  <link href="{{asset('assets/metronic/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
-
-  <link rel="shortcut icon" href="{{asset('renovate/images/favicon.ico')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/fonts/streamline-small/styles.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/fonts/streamline-large/styles.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/fonts/template/styles.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/fonts/social/styles.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/style/custom.css')}}">
+  
+  <link href="{{asset('assets/assets/metronic/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
+  
+  <link rel="shortcut icon" href="{{asset('assets/renovate/images/favicon.ico')}}">
 </head>
 <body>
 <div class="site-container">
@@ -395,7 +395,7 @@
       </div>
     </div>
   </div>
-
+  
   @if(isset($title))
     <div class="r-row gray full-width page-header vertical-align-table">
       <div class="r-row full-width padding-top-bottom-50 vertical-align-cell">
@@ -407,10 +407,10 @@
       </div>
     </div>
   @endif
-
+  
   @if(isset($title))
     <div class="r-row page-margin-top margin-bottom-40">
-
+      
       @if ($errors->any())
         <div class="alert alert-danger">
           @foreach ($errors->all() as $error)
@@ -418,20 +418,20 @@
           @endforeach
         </div>
       @endif
-
+      
       @if(Session::has('msg'))
         <div class="alert alert-success">
           {!!  Session::get('msg') !!}
         </div>
       @endif
-
+      
       @yield('content')
     </div>
   @else
     @yield('content')
-
+  
   @endif
-
+  
   <div class="r-row yellow full-width padding-top-bottom-30">
     <div class="r-row">
       <div class="column column-1-3">
@@ -509,7 +509,7 @@
         <ul class="blog small margin-top-30">
           <li>
             <a href="post.html" title="What a Difference a Few Months Make" class="post-image">
-              <img src="{{asset('renovate')}}/images/samples/90x90/image_10.jpg" alt="">
+              <img src="{{asset('assets/renovate')}}/images/samples/90x90/image_10.jpg" alt="">
             </a>
             <div class="post-content">
               <a href="post.html" title="What a Difference a Few Months Make">What a Difference a Few Months Make</a>
@@ -520,7 +520,7 @@
           </li>
           <li>
             <a href="post.html" title="Kitchen and Living Room Renovation" class="post-image">
-              <img src="{{asset('renovate')}}/images/samples/90x90/image_07.jpg" alt="">
+              <img src="{{asset('assets/renovate')}}/images/samples/90x90/image_07.jpg" alt="">
             </a>
             <div class="post-content">
               <a href="post.html" title="Kitchen and Living Room Renovation">Kitchen and Living Room Renovation</a>
@@ -539,32 +539,32 @@
 </div>
 <a href="#top" class="scroll-top animated-element template-arrow-up" title="Scroll to top"></a>
 <!--js-->
-<script type="text/javascript" src="{{asset('renovate/js/jquery-1.12.4.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery-migrate-1.4.1.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery-1.12.4.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery-migrate-1.4.1.min.js')}}"></script>
 <!--slider revolution-->
-<script type="text/javascript" src="{{asset('renovate/rs-plugin/js/jquery.themepunch.tools.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/rs-plugin/js/jquery.themepunch.revolution.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery.ba-bbq.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery-ui-1.11.4.custom.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery.ui.touch-punch.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery.isotope.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery.easing.1.3.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery.carouFredSel-6.2.1-packed.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery.touchSwipe.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery.transit.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery.hint.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery.costCalculator.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery.parallax.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery.prettyPhoto.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery.qtip.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/jquery.blockUI.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/main.js')}}"></script>
-<script type="text/javascript" src="{{asset('renovate/js/odometer.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/rs-plugin/js/jquery.themepunch.tools.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/rs-plugin/js/jquery.themepunch.revolution.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery.ba-bbq.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery-ui-1.11.4.custom.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery.ui.touch-punch.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery.isotope.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery.easing.1.3.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery.carouFredSel-6.2.1-packed.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery.touchSwipe.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery.transit.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery.hint.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery.costCalculator.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery.parallax.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery.prettyPhoto.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery.qtip.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/jquery.blockUI.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/main.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/renovate/js/odometer.min.js')}}"></script>
 
-<script src="{{asset('js/bootstrap.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/metronic/global/plugins/moment.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('js/vue.js')}}" type="text/javascript"></script>
-<script src="{{asset('js/common.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/js/bootstrap.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/assets/metronic/global/plugins/moment.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/js/vue.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/js/common.js')}}" type="text/javascript"></script>
 
 
 @section('script')

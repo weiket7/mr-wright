@@ -65,7 +65,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- BEGIN LOGO -->
     <div class="page-logo">
       <a href="index.html">
-        <img src="{{asset('images/mr-wright-logo2.png')}}" style="max-height: 14px;" alt="logo" class="logo-default" /> </a>
+        <img src="{{asset('assets/images/mr-wright-logo2.png')}}" style="max-height: 14px;" alt="logo" class="logo-default" /> </a>
       <div class="menu-toggler sidebar-toggler">
         <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
       </div>
