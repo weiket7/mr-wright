@@ -12,7 +12,7 @@
       <form action="" method="post" class="form-horizontal">
         {!! csrf_field() !!}
         <div class="form-body">
-          <div class="r-row">
+          <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">Name <span class="required">*</span></label>
@@ -34,7 +34,8 @@
               </div>
             </div>
           </div>
-          <div class="r-row">
+          
+          <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">Registered Name</label>
@@ -52,7 +53,25 @@
               </div>
             </div>
           </div>
-          <div class="r-row">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Current Number of Requesters</label>
+                <label class="col-md-9 form-control-static">
+                  {{ $company->requester_count }}
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Max Number of Requesters</label>
+                <label class="col-md-9 form-control-static">
+                  {{ $company->requester_limit }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">Address</label>
@@ -70,7 +89,7 @@
               </div>
             </div>
           </div>
-          <div class="r-row">
+          <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">State</label>
@@ -88,7 +107,7 @@
               </div>
             </div>
           </div>
-          <div class="r-row">
+          <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">Postal</label>
@@ -119,31 +138,30 @@
             </div>
           </div>-->
           @if($action == 'update')
-          <div class="r-row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">Offices</label>
-                <div class="col-md-9">
-                  <table class="table table-bordered no-margin-btm">
-                    @foreach($offices as $o)
-                      <tr>
-                        <td>{{ $o->name }}</td>
-                      </tr>
-                    @endforeach
-                  </table>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label col-md-3">Offices</label>
+                  <div class="col-md-9">
+                    <table class="table table-bordered no-margin-btm">
+                      @foreach($offices as $o)
+                        <tr>
+                          <td>{{ $o->name }}</td>
+                        </tr>
+                      @endforeach
+                    </table>
+                  </div>
                 </div>
               </div>
+              <div class="col-md-6">
+              </div>
             </div>
-            <div class="col-md-6">
-            </div>
-          </div>
           @endif
-        </div>
 
         <div class="form-actions">
-          <div class="r-row">
+          <div class="row">
             <div class="col-md-6">
-              <div class="r-row">
+              <div class="row">
                 <div class="col-md-offset-3 col-md-9">
                   <button type="submit" class="btn green">Submit</button>
                   <button type="button" class="btn default">Cancel</button>
@@ -153,6 +171,8 @@
             <div class="col-md-6"> </div>
           </div>
         </div>
+        </div>
+
       </form>
     </div>
   </div>

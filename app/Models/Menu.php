@@ -9,6 +9,7 @@ class Menu {
       ["link"=>"admin/requester", "name"=>"Requesters", "icon"=>"icon-users"],
       ["link"=>"admin/staff", "name"=>"Staffs", "icon"=>"icon-wrench"],
       ["link"=>"admin/ticket", "name"=>"Tickets", "icon"=>"icon-note"],
+      ["link"=>"admin/membership", "name"=>"Memberships", "icon"=>"icon-note"],
       /*["link"=>"admin/quotation", "name"=>"Quotations", "icon"=>""],*/
       ["link"=>"admin/invoice", "name"=>"Invoices", "icon"=>"icon-calculator"],
       ["link"=>"admin/operator", "name"=>"Operators", "icon"=>"icon-eyeglasses"],

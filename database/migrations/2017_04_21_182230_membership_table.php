@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class MembershipTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+  public function up()
+  {
+    Schema::create('membership', function (Blueprint $table) {
+      $table->increments('membership_id');
+      $table->char('stat', 1);
+      $table->string('name');
+      $table->integer('requester_limit');
+      $table->decimal('effective_price', 12, 2); //per month
+      $table->integer('pos');
+    });
+  }
+  
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down()
+  {
+    Schema::dropIfExists('membership');
+  }
+}

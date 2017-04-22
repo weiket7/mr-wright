@@ -11,7 +11,7 @@ class ProductController extends Controller
   public function index()
   {
     $data['products'] = Product::all();
-    return view("product/index", $data);
+    return view("admin/product/index", $data);
   }
 
   public function save(Request $request, $product_id = null) {
@@ -23,12 +23,12 @@ class ProductController extends Controller
       if (!$product->saveProduct($input)) {
         return redirect()->back()->withErrors($product->getValidation())->withInput($input);
       }
-      return redirect('product/save/' . $product->product_id)->with('msg', 'Product ' . $action . "d");
+      return redirect('admin/product/save/' . $product->product_id)->with('msg', 'Product ' . $action . "d");
     }
 
     $data['action'] = $action;
     $data['product'] = $product;
-    return view('product/form', $data);
+    return view('admin/product/form', $data);
   }
   
 }
