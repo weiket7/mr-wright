@@ -16,7 +16,7 @@ class MembershipTable extends Migration
     Schema::create('membership', function (Blueprint $table) {
       $table->increments('membership_id');
       $table->char('stat', 1);
-      $table->string('name');
+      $table->string('name', 50);
       $table->integer('requester_limit');
       $table->decimal('effective_price', 9, 2); //per month
       $table->integer('pos');

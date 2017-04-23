@@ -23,11 +23,15 @@ class RegistrationTable extends Migration
             $t->string('postal', 20);
             $t->boolean('register_existing_uen');
             $t->integer('membership_id');
+            $t->string('membership_name', 100);
             $t->integer('requester_limit');
             $t->decimal('effective_price', 9, 2);
             $t->char('payment_method', 1);
             $t->boolean('approved');
-            $t->dateTime('created_on');
+            $t->integer('company_id')->nullable();
+            $t->integer('office_id')->nullable();
+            $t->integer('requester_id')->nullable();
+            $t->timestamps();
         });
     }
 

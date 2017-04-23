@@ -31,7 +31,6 @@ Route::get('services', 'Frontend\SiteController@service');
 Route::get('services/{slug}', 'Frontend\SiteController@service');
 Route::get('projects', 'Frontend\SiteController@project');
 
-
 Route::get('login', 'Frontend\SiteController@login');
 Route::post('login', 'Frontend\SiteController@login');
 Route::get('logout', 'Frontend\SiteController@logout');
@@ -61,7 +60,11 @@ Route::group(['middleware'=>['auth']], function() {
     Route::post('admin/company/save', 'Admin\CompanyController@save');
     Route::get('admin/company/save/{id}', 'Admin\CompanyController@save');
     Route::post('admin/company/save/{id}', 'Admin\CompanyController@save');
-    
+
+    Route::get('admin/registration', 'Admin\RegistrationController@index');
+    Route::get('admin/registration/save/{id}', 'Admin\RegistrationController@save');
+    Route::post('admin/registration/save/{id}', 'Admin\RegistrationController@save');
+
     Route::get('admin/membership', 'Admin\MembershipController@index');
     Route::post('admin/membership', 'Admin\MembershipController@index');
     Route::get('admin/membership/save', 'Admin\MembershipController@save');

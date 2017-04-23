@@ -85,8 +85,7 @@ class SiteController extends Controller
 
       $uen_exist = $register->uenExist($input['uen']);
       if ($uen_exist) {
-        $request->session()->flash('registration_id', $registration->registration_id);
-        return redirect('register-existing-uen')->with('username', $registration->username);
+        return redirect('register-existing-uen')->with('registration_id', $registration->registration_id);
       }
       return redirect('register-success')->with('username', $registration->username);
     }
@@ -100,9 +99,13 @@ class SiteController extends Controller
       $registration_id = $request->session()->get('registration_id');
       $account_service = new Account();
       $username = $account_service->registerExistingUen($registration_id);
-      $request->session()->flash('username', $username);
+      //TODO inform admins
       return redirect('register-success')->with('username', $username);
     }
+
+    $registration_id = $request->session()->get('registration_id');
+    $request->session()->flash('registration_id', $registration_id);
+
     return view('frontend/register-existing-uen');
   }
 

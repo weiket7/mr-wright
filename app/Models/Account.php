@@ -98,7 +98,9 @@ class Account extends Eloquent
   }
 
   public function approveRegister($registration_id) {
-    $registration = DB::table('registration')->where('registration_id', $registration_id)->first();
+    $registration = Registration::find($registration_id);
+    $registration->approved = true;
+    $registration->save();
 
     $company = new Company();
     $company->name = $registration->company_name;
@@ -153,9 +155,11 @@ class Account extends Eloquent
     $registration->company_name = $input['company_name'];
     $registration->addr = $input['addr'];
     $registration->postal = $input['postal'];
+    $registration->payment_method = $input['payment_method'];
 
     $membership = Membership::find($input['membership_id']);
     $registration->membership_id = $membership->membership_id;
+    $registration->membership_name = $membership->name;
     $registration->requester_limit = $membership->requester_limit;
     $registration->effective_price = $membership->effective_price;
     $registration->save();
@@ -164,7 +168,7 @@ class Account extends Eloquent
   }
 
   public function registerExistingUen($registration_id) {
-    $registration = Registration::find($registration_id);
+    $registration = Registration::findOrFail($registration_id);
     $registration->register_existing_uen = true;
     $registration->save();
     return $registration->username;

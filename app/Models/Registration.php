@@ -6,10 +6,7 @@ class Registration extends Eloquent
 {
   public $table = 'registration';
   protected $primaryKey = 'registration_id';
-  const CREATED_AT = 'created_on';
-  const UPDATED_AT = 'updated_on';
   protected $validation;
-  public $timestamps = false;
 
   private $rules = [
     'name'=>'required',
@@ -36,5 +33,10 @@ class Registration extends Eloquent
 
   public function getValidation() {
     return $this->validation;
+  }
+
+  public function setUpdatedAtAttribute($value)
+  {
+    // to Disable updated_at
   }
 }

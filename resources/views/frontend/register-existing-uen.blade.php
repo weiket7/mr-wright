@@ -12,7 +12,7 @@
 
     <div class="margin-top-30">
       <div class="align-center">
-        <input type="submit" name="submit" value="YES" class="more active">
+        <input type="submit" name="submit" value="PROCEED" class="more active">
       </div>
     </div>
 
