@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\TicketQuotationEmail;
+use App\Models\Enums\MembershipStat;
 use App\Models\Enums\RequesterStat;
 use App\Models\Enums\UserType;
 use App\Models\FrontendService;
 use App\Models\Account;
+use App\Models\Membership;
+use App\Models\Office;
 use App\Models\Requester;
 use App\Models\Services\CompanyService;
 use Auth;
@@ -68,10 +71,39 @@ class SiteController extends Controller
     return view('frontend/account', $data);
   }
 
-  public function logout(Request $request)
-  {
-    Auth::logout();
-    return redirect("login")->with('msg', 'Logged out');
+  public function register(Request $request) {
+    $register = new Account();
+    if ($request->isMethod("post")) {
+      $input = $request->all();
+
+      $validate = $register->validateRegistration($input) == false;
+      if ($validate) {
+        return redirect()->back()->withErrors($register->getValidation())->withInput($input);
+      }
+
+      $registration = $register->saveRegistration($input);
+
+      $uen_exist = $register->uenExist($input['uen']);
+      if ($uen_exist) {
+        $request->session()->flash('registration_id', $registration->registration_id);
+        return redirect('register-existing-uen')->with('username', $registration->username);
+      }
+      return redirect('register-success')->with('username', $registration->username);
+    }
+    $data['memberships'] = Membership::where('stat', MembershipStat::Active)->pluck('name', 'membership_id');
+    $data['payment_methods'] = $register->getPaymentMethods();
+    return view("frontend/register", $data);
+  }
+
+  public function registerExistingUen(Request $request) {
+    if ($request->isMethod("post")) {
+      $registration_id = $request->session()->get('registration_id');
+      $account_service = new Account();
+      $username = $account_service->registerExistingUen($registration_id);
+      $request->session()->flash('username', $username);
+      return redirect('register-success')->with('username', $username);
+    }
+    return view('frontend/register-existing-uen');
   }
 
   public function registerSuccess(Request $request)
@@ -80,23 +112,22 @@ class SiteController extends Controller
     return view("frontend/register-success", $data);
   }
 
-  public function register(Request $request)
-  {
-    if ($request->isMethod("post")) {
-      $register = new Account();
-      $input = $request->all();
-      $username = $register->saveRegister($input);
-      if ($username === false) {
-        return redirect()->back()->withErrors($register->getValidation())->withInput($input);
-      }
-      return redirect('register-success')->with('register_username', $username);
-    }
-    return view("frontend/register");
-  }
+  public function saveOffice(Request $request, $office_id = null) {
+    $action = $office_id == null ? 'create' : 'update';
+    $office = $office_id == null ? new Office() : Office::find($office_id);
 
-  public function about(Request $request)
-  {
-    return view("frontend/about");
+    if($request->isMethod('post')) {
+      $input = $request->all();
+      if (!$office->saveOffice($input, false  )) {
+        return redirect()->back()->withErrors($office->getValidation())->withInput($input);
+      }
+      return redirect('office/save/' . $office->office_id)->with('msg', 'Office ' . $action . "d");
+    }
+
+    $data['action'] = $action;
+    $data['office'] = $office;
+    $data['requester_count'] = Requester::where('office_id', 'office_id')->count();
+    return view('frontend/office-form', $data);
   }
 
   public function service(Request $request, $slug = null)
@@ -109,7 +140,17 @@ class SiteController extends Controller
       $data['current_service'] = $data['services'][$slug];
     }
     return view("frontend/service", $data);
+  }
 
+  public function logout(Request $request)
+  {
+    Auth::logout();
+    return redirect("login")->with('msg', 'Logged out');
+  }
+
+  public function about(Request $request)
+  {
+    return view("frontend/about");
   }
 
   public function project(Request $request)

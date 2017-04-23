@@ -30,6 +30,24 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Number of Requesters</label>
+                <div class="col-md-9">
+                  {{Form::number('requester_limit', $membership->requester_limit, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Price</label>
+                <div class="col-md-9">
+                  {{Form::number('effective_price', $membership->effective_price, ['class'=>'form-control', 'step'=>0.01])}}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="form-actions">
           <div class="row">

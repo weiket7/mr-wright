@@ -175,11 +175,7 @@ class TicketService
 
     $requester_service = new Requester();
     $requester = $requester_service->getRequesterByUsername($username);
-    if ($requester->admin) {
-      $ticket->office_id = $input['office_id'];
-    } else {
-      $ticket->office_id = $requester->office_id;
-    }
+    $ticket->office_id = $requester->office_id;
     $ticket->company_id = $requester->company_id;
     $ticket->company_name = $requester->company_name;
     $office = Office::find($ticket->office_id);

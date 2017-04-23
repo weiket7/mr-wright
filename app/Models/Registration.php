@@ -2,40 +2,38 @@
 
 use Eloquent, DB, Validator, Log;
 
-class Membership extends Eloquent
+class Registration extends Eloquent
 {
-  public $table = 'membership';
-  protected $primaryKey = 'membership_id';
+  public $table = 'registration';
+  protected $primaryKey = 'registration_id';
   const CREATED_AT = 'created_on';
   const UPDATED_AT = 'updated_on';
   protected $validation;
   public $timestamps = false;
-  
+
   private $rules = [
     'name'=>'required',
     'stat'=>'required',
   ];
-  
+
   private $messages = [
     'name.required'=>'Name is required',
     'stat.required'=>'Status is required',
   ];
-  
-  public function saveMembership($input) {
+
+  public function saveRegistration($input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
     }
-    
+
     $this->name = $input['name'];
     $this->stat = $input['stat'];
-    $this->requester_limit = $input['requester_limit'];
-    $this->effective_price = $input['effective_price'];
     $this->save();
-    return $this->membership_id;
+    return true;
   }
-  
-  
+
+
   public function getValidation() {
     return $this->validation;
   }

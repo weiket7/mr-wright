@@ -14,7 +14,7 @@ class CompanyTable extends Migration
         $t->string('code', 5);
         $t->string('name', 50);
         $t->string('registered_name', 100);
-        $t->string('uen', 100);
+        $t->string('uen', 50);
         $t->string('logo', 50);
         $t->integer('office_count');
         $t->string('addr', 200);

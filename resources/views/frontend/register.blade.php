@@ -1,11 +1,7 @@
 @extends('frontend.template', ['title'=>'register'])
 
 @section('content')
-  <div class="alert alert-info">
-    Upon registration, if the company's Unity Entity Number (UEN) has been registered in Mr Wright, the company's admin will be informed to send an invite to you.
-  </div>
-
-  <form method="post" action="" class="form-horizontal">
+  <form method="post" action="" class="form-horizontal" autocomplete="off" id="app" >
     {{ csrf_field() }}
 
     <div class="row">
@@ -15,7 +11,7 @@
             Username *
           </label>
           <div class="col-md-9">
-            <input type="text" name="username" class="form-control" autofocus>
+            {{ Form::text('username', '', ['class'=>'form-control']) }}
           </div>
         </div>
       </div>
@@ -25,7 +21,7 @@
             Password *
           </label>
           <div class="col-md-9">
-            <input type="password" name="password" class="form-control">
+            {{ Form::password('password', ['class'=>'form-control']) }}
           </div>
         </div>
       </div>
@@ -38,7 +34,7 @@
             Full Name *
           </label>
           <div class="col-md-9">
-            <input type="text" name="name" class="form-control">
+            {{ Form::text('name', '', ['class'=>'form-control']) }}
           </div>
         </div>
       </div>
@@ -48,7 +44,7 @@
             Designation *
           </label>
           <div class="col-md-9">
-            <input type="text" name="designation" class="form-control">
+            {{ Form::text('designation', '', ['class'=>'form-control']) }}
           </div>
         </div>
       </div>
@@ -61,7 +57,7 @@
             Mobile *
           </label>
           <div class="col-md-9">
-            <input type="text" name="mobile" class="form-control">
+            {{ Form::text('mobile', '', ['class'=>'form-control']) }}
           </div>
         </div>
       </div>
@@ -71,30 +67,32 @@
             Email *
           </label>
           <div class="col-md-9">
-            <input type="email" name="email" class="form-control">
+            {{ Form::email('email', '', ['class'=>'form-control']) }}
           </div>
         </div>
       </div>
     </div>
 
+    <hr>
+
     <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">
-            Company Name *
-          </label>
-          <div class="col-md-9">
-            <input type="text" name="company_name" class="form-control">
-          </div>
-        </div>
-      </div>
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
             Unique Entity Number (UEN) *
           </label>
           <div class="col-md-9">
-            <input type="text" name="uen" class="form-control">
+            {{ Form::text('uen', '', ['class'=>'form-control']) }}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-3">
+            Company Name *
+          </label>
+          <div class="col-md-9">
+            {{ Form::text('company_name', '', ['class'=>'form-control']) }}
           </div>
         </div>
       </div>
@@ -117,7 +115,7 @@
             Address *
           </label>
           <div class="col-md-9">
-            <textarea name="addr" class="form-control" rows="2"></textarea>
+            {{ Form::textarea('addr', '', ['class'=>'form-control', 'rows'=>3]) }}
           </div>
         </div>
       </div>
@@ -127,12 +125,34 @@
             Postal Code *
           </label>
           <div class="col-md-9">
-            <input type="text" name="postal" class="form-control">
+            {{ Form::text('postal', '', ['class'=>'form-control']) }}
           </div>
         </div>
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-3">
+            Membership Plan *
+          </label>
+          <div class="col-md-9">
+            {{ Form::select('membership_id', $memberships, '', ['placeholder'=>'', 'class'=>'form-control']) }}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-3">
+            Payment Method *
+          </label>
+          <div class="col-md-9">
+            {{ Form::select('payment_method', $payment_methods, '', ['placeholder'=>'', 'class'=>'form-control']) }}
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="margin-top-30">
       <div class="align-center">
@@ -140,5 +160,4 @@
       </div>
     </div>
   </form>
-
 @endsection

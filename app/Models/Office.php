@@ -19,8 +19,8 @@ class Office extends Eloquent
     'name'=>'required',
     'addr'=>'required',
     'postal'=>'required',
-    'company_id'=>'required',
-    'stat'=>'required',
+    'company_id'=>'sometimes|required',
+    'stat'=>'sometimes|required',
   ];
 
   private $messages = [
@@ -31,17 +31,20 @@ class Office extends Eloquent
     'stat.required'=>'Status is required',
   ];
 
-  public function saveOffice($input) {
+  public function saveOffice($input, $backend = true) {
+
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
     }
 
     $this->name = $input['name'];
-    $this->stat = $input['stat'];
+    if ($backend) {
+      $this->stat = $input['stat'];
+      $this->company_id = $input['company_id'];
+    }
     $this->addr = $input['addr'];
     $this->postal = $input['postal'];
-    $this->company_id = $input['company_id'];
     $this->save();
     return true;
   }

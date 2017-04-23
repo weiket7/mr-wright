@@ -82,13 +82,10 @@
             Office Name
           </label>
           <div class="col-md-9">
-            @if($requester->admin)
-              {{Form::select('office_id', $offices, '', ['id'=>'office_id', 'class'=>'form-control', 'placeholder'=>''])}}
-            @else
-              <label class="form-control-static">
-                {{ $requester->office_name }}
-              </label>
-            @endif
+
+            <label class="form-control-static">
+              {{ $requester->office_name }}
+            </label>
           </div>
         </div>
       </div>
@@ -268,7 +265,7 @@
 @endsection
 
 @section('script')
-  <script src="{{asset('js/axios.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('assets/js/axios.min.js')}}" type="text/javascript"></script>
 
 
   <script>

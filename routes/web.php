@@ -11,13 +11,7 @@
 |
 */
 
-use App\Mail\QuotationMail;
 use App\Mail\TestEmail;
-use App\Models\Enums\Role;
-use App\Models\Helpers\BackendHelper;
-use App\Models\Requester;
-use App\Models\Services\TicketService;
-use App\Models\Services\WorkingHourService;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -27,6 +21,8 @@ Route::get('home', 'Frontend\SiteController@index');
 Route::get('register', 'Frontend\SiteController@register');
 Route::post('register', 'Frontend\SiteController@register');
 Route::get('register-success', 'Frontend\SiteController@registerSuccess');
+Route::get('register-existing-uen', 'Frontend\SiteController@registerExistingUen');
+Route::post('register-existing-uen', 'Frontend\SiteController@registerExistingUen');
 Route::get('contact', 'Frontend\SiteController@contact');
 Route::post('contact', 'Frontend\SiteController@contact');
 Route::get('about', 'Frontend\SiteController@about');
@@ -51,7 +47,12 @@ Route::get('admin/error', 'Admin\AdminController@error');
 Route::group(['middleware'=>['auth']], function() {
   Route::get('account', 'Frontend\SiteController@account');
   Route::post('account', 'Frontend\SiteController@account');
-  
+
+  Route::get('office/save', 'Frontend\SiteController@saveOffice');
+  Route::post('office/save', 'Frontend\SiteController@saveOffice');
+  Route::get('office/save/{id}', 'Frontend\SiteController@saveOffice');
+  Route::post('office/save/{id}', 'Frontend\SiteController@saveOffice');
+
   Route::group(['middleware'=>['modulemiddleware']], function() {
     Route::get('admin/dashboard', 'Admin\AdminController@dashboard');
     Route::get('admin/company', 'Admin\CompanyController@index');
@@ -150,13 +151,14 @@ Route::group(['middleware'=>['auth']], function() {
     Route::post('ticket/pay/{id}', 'TicketController@view');
   });
   
-  
   Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
   Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
   Route::get('api/getOfficeByCompany', 'ApiController@getOfficeByCompany');
   Route::get('api/getOffice', 'ApiController@getOffice');
   Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
 });
+
+Route::get('api/uenExist', 'ApiController@uenExist');
 
 Route::get('test', function() {
   Mail::to(User::first())

@@ -35,7 +35,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Address <span class="required">*</span></label>
                 <div class="col-md-9">
-                  {{Form::textarea('addr', $office->addr, ['class'=>'form-control', 'rows'=>3, 'maxlength'=>00])}}
+                  {{Form::textarea('addr', $office->addr, ['class'=>'form-control', 'rows'=>3, 'maxlength'=>200])}}
                 </div>
               </div>
             </div>

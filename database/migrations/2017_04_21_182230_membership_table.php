@@ -18,7 +18,7 @@ class MembershipTable extends Migration
       $table->char('stat', 1);
       $table->string('name');
       $table->integer('requester_limit');
-      $table->decimal('effective_price', 12, 2); //per month
+      $table->decimal('effective_price', 9, 2); //per month
       $table->integer('pos');
     });
   }

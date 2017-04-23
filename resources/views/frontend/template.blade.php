@@ -27,8 +27,8 @@
   <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/fonts/social/styles.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/style/custom.css')}}">
   
-  <link href="{{asset('assets/assets/metronic/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
-  
+  <link href="{{asset('assets/metronic/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
+
   <link rel="shortcut icon" href="{{asset('assets/renovate/images/favicon.ico')}}">
 </head>
 <body>
@@ -155,7 +155,7 @@
                 </li>--}}
                 <li>
                   <a href="{{url('about')}}" title="About">
-                    PRICING
+                    MEMBERSHIP
                   </a>
                 </li>
                 <li>
@@ -410,15 +410,15 @@
   
   @if(isset($title))
     <div class="r-row page-margin-top margin-bottom-40">
-      
-      @if ($errors->any())
+
+      @if (isset($errors) && $errors->any())
         <div class="alert alert-danger">
           @foreach ($errors->all() as $error)
             {{$error}}<br>
           @endforeach
         </div>
       @endif
-      
+
       @if(Session::has('msg'))
         <div class="alert alert-success">
           {!!  Session::get('msg') !!}
@@ -562,8 +562,9 @@
 <script type="text/javascript" src="{{asset('assets/renovate/js/odometer.min.js')}}"></script>
 
 <script src="{{asset('assets/js/bootstrap.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/assets/metronic/global/plugins/moment.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/metronic/global/plugins/moment.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/js/vue.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/js/axios.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/js/common.js')}}" type="text/javascript"></script>
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Models\Account;
 use App\Models\Office;
 use App\Models\Services\CalendarService;
 use App\Models\Services\CompanyService;
@@ -47,6 +48,14 @@ class ApiController extends Controller
     $res = $this->calendar_service->getStaffCalendar($date, $staff_ids);
 
     return $res;
+  }
+
+  //TODO secure API
+  public function uenExist(Request $request) {
+    $uen = trim($request->get('uen'));
+    $account_service = new Account();
+    Log::info($uen);
+    return $account_service->uenExist($uen) ? "true" : "false";
   }
 
   //TODO secure these 3 api, if operator can access all, if requester only those under his company and/or office

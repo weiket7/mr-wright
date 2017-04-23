@@ -1,11 +1,13 @@
 <?php namespace App\Models;
 
+use App\Mail\RegisterExistingUenMail;
 use App\Models\Enums\RequesterStat;
 use App\Models\Enums\RequesterType;
 use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
 use Eloquent, DB, Validator, Log;
 use Hash;
+use Mail;
 
 class Account extends Eloquent
 {
@@ -24,6 +26,7 @@ class Account extends Eloquent
     'uen' => 'required',
     'addr' => 'required',
     'postal' => 'required',
+    'membership_id' => 'required',
   ];
 
   private $messages = [
@@ -43,6 +46,7 @@ class Account extends Eloquent
     'mobile.required' => 'Mobile is required',
     'addr.required' => 'Address is required',
     'postal.required' => 'Postal code is required',
+    'membership_id.required' => 'Membership plan is required',
   ];
 
   public function saveAccount($input, $username)
@@ -84,66 +88,112 @@ class Account extends Eloquent
     return $requester;
   }
 
-  public function saveRegister($input) {
+  public function validateRegistration($input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
-    if ( $this->validation->fails() ) {
+    if ( $this->validation->fails()) {
       return false;
     }
 
-    $input = array_map('trim', $input);
+    return true;
+  }
 
-    $exist = Company::where('uen', $input['uen'])->count();
-    if ($exist) {
-      //TODO
-      $this->informAdmin();
-      return false;
-    }
+  public function approveRegister($registration_id) {
+    $registration = DB::table('registration')->where('registration_id', $registration_id)->first();
 
     $company = new Company();
-    $company->name = $input['company_name'];
-    $company->uen = $input['uen'];
-    $company->addr = $input['addr'];
-    $company->postal = $input['postal'];
+    $company->name = $registration->company_name;
+    $company->uen = $registration->uen;
+    $company->addr = $registration->addr;
+    $company->postal = $registration->postal;
     $company->save();
 
     $office = new Office();
     $office->company_id = $company->company_id;
-    $office->name = $input['company_name'];
-    $office->addr = $input['addr'];
-    $office->postal = $input['postal'];
+    $office->name = $registration->company_name;
+    $office->addr = $registration->addr;
+    $office->postal = $registration->postal;
     $office->save();
 
     $requester = new Requester();
     $requester->office_id = $office->office_id;
     $requester->company_id = $company->company_id;
-    $requester->name = $input['name'];
-    $requester->username = $input['username'];
-    $requester->designation = $input['designation'];
-    $requester->email = $input['email'];
-    $requester->mobile = $input['mobile'];
+    $requester->name = $registration->name;
+    $requester->username = $registration->username;
+    $requester->designation = $registration->designation;
+    $requester->email = $registration->email;
+    $requester->mobile = $registration->mobile;
     $requester->type = RequesterType::Corporate;
     $requester->admin = false;
     $requester->stat = RequesterStat::PendingPayment;
     $requester->save();
 
     $user = new User();
-    $user->username = $input['username'];
-    $user->password = Hash::make($input['password']);
-    $user->name = $input['name'];
+    $user->username = $registration->username;
+    $user->password = Hash::make($registration->password);
+    $user->name = $registration->name;
     $user->type = UserType::Requester;
     $user->stat = UserStat::Inactive;
-    $user->email = $input['email'];
+    $user->email = $registration->email;
     $user->save();
 
-    return $input['username'];
+    return $registration->username;
   }
 
+  public function saveRegistration($input) {
+    $input = array_map('trim', $input);
+
+    $registration = new Registration();
+    $registration->username = $input['username'];
+    $registration->name = $input['name'];
+    $registration->password = Hash::make($input['password']);
+    $registration->designation = $input['designation'];
+    $registration->mobile = $input['mobile'];
+    $registration->email = $input['email'];
+    $registration->uen = $input['uen'];
+    $registration->company_name = $input['company_name'];
+    $registration->addr = $input['addr'];
+    $registration->postal = $input['postal'];
+
+    $membership = Membership::find($input['membership_id']);
+    $registration->membership_id = $membership->membership_id;
+    $registration->requester_limit = $membership->requester_limit;
+    $registration->effective_price = $membership->effective_price;
+    $registration->save();
+
+    return $registration;
+  }
+
+  public function registerExistingUen($registration_id) {
+    $registration = Registration::find($registration_id);
+    $registration->register_existing_uen = true;
+    $registration->save();
+    return $registration->username;
+  }
 
   public function getValidation() {
     return $this->validation;
   }
 
-  private function informAdmin()
+  public function checkCompanyExistAndEmailCompanyAdmin($uen)
   {
+    $company = Company::where('uen', $uen)->select('company_id')->first();
+    if ($company) {
+
+      Mail::to($user = Requester::where('username', $company->company_id)->get())
+        ->send(new RegisterExistingUenMail($company->company_id));
+        //->queue(new RegisterExistingUenMail($company->company_id));
+      return false;
+    }
+    return true;
   }
+
+  public function uenExist($uen) {
+    return Company::where('uen', $uen)->count() > 0;
+  }
+
+  public function getPaymentMethods()
+  {
+    return PaymentMethod::pluck('name', 'value');
+  }
+
 }

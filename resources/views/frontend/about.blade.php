@@ -4,7 +4,7 @@
   <div class="r-row">
     <div class="column column-1-2 align-center re-preload">
       <div class="image-wrapper">
-        <img src="{{asset('images/frontend/about.jpg')}}" alt="" class="radius">
+        <img src="{{asset('assets/images/frontend/about.jpg')}}" alt="" class="radius">
       </div>
     </div>
     <div class="column column-1-2">
