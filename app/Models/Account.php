@@ -199,25 +199,4 @@ class Account extends Eloquent
     return PaymentMethod::pluck('name', 'value');
   }
 
-  public function saveInvite($email) {
-    $invite = new Invite();
-    $invite->email = $email;
-    $invite->token = str_random();
-    $invite->save();
-    return $invite;
-  }
-
-  public function acceptInvite($input, $token) {
-    $invite = Invite::where('token', $token)->first();
-    $invite->name = $input['name'];
-    $invite->designation = $input['designation'];
-    $invite->mobile = $input['mobile'];
-    $invite->email = $input['email'];
-    $invite->accepted = true;
-
-    
-    $invite->save();
-    
-  }
-
 }

@@ -13,10 +13,8 @@ use App\Models\Membership;
 use App\Models\Office;
 use App\Models\Registration;
 use App\Models\Requester;
-use App\Models\Services\AccessService;
 use App\Models\Services\CompanyService;
 use Auth;
-use Foo\Bar\A;
 use Hash;
 use Illuminate\Http\Request;
 use Log;
@@ -156,20 +154,23 @@ class SiteController extends Controller
   public function invite(Request $request) {
     if($request->isMethod('post')) {
       $email = $request->get('email');
-      $account_service = new Account();
-      $invite = $account_service->saveInvite($email);
+      $invite_service = new Invite();
+      $invite = $invite_service->saveInvite($email);
       Mail::to($email)->send(new InviteMail($invite->token));
+      $request->session()->flash('invite', $email);
     }
     $requester = Requester::where('username', $this->getUsername())->first();
     $data['registrations'] = Registration::where('company_id', $requester->company_id)->get();
+    $data['offices'] = $this->company_service->getOfficeDropdown($requester->company_id);
     return view('frontend/invite', $data);
   }
 
   public function inviteAccept(Request $request, $token) {
     if($request->isMethod('post')) {
-      $account_service = new Account();
       $input = $request->all();
-      $account_service->acceptInvite($input, $token);
+      $invite_service = new Invite();
+      $invite_service->acceptInvite($input, $token);
+      $request->session()->flash('invite', true);
     }
     $invite = Invite::where('token', $token)->firstOrFail();
       $data['invite'] = $invite;
