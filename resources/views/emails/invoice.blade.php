@@ -1,11 +1,7 @@
-@extends("admin.emails.email-template")
+@extends("emails.email-template")
 
 @section('content')
   <style>
-    .mr-wright-logo {
-      height: 40px;
-      margin-bottom: 20px;
-    }
     .title {
       margin-bottom: 40px;
     }
@@ -27,10 +23,7 @@
     }
   </style>
 
-
-  <img src="{{asset("images/mr-wright-logo.png")}}" class="mr-wright-logo">
-
-  <h3>Quotation for <b>{{ $ticket->ticket_code }}</b></h3>
+  <h3>Invoice for <b>{{ $ticket->ticket_code }}</b></h3>
 
   <div class="title">
     <blockquote>
@@ -41,14 +34,14 @@
   <div class="row company-header">
     <div class="col-xs-5">
       <div><b>{{ $ticket->company_name }}</b></div>
-      <div>{{ $ticket->office_name }}</div>
-      <div>{{ $ticket->requester_addr }}</div>
-      <div>{{ $ticket->requester_postal }}</div>
+      <div>{{ $ticket->office->name }}</div>
+      <div>{{ $ticket->office->addr }}</div>
+      <div>{{ $ticket->office->postal }}</div>
     </div>
     <div class="col-xs-7">
       <div>Requested by {{ $ticket->requested_by }} on {{ ViewHelper::formatDateTime($ticket->requested_on) }}</div>
-      <div>Email: {{ $ticket->requester_email }}</div>
-      <div>Mobile: {{ $ticket->requester_mobile }}</div>
+      <div>Email: {{ $ticket->requester->email }}</div>
+      <div>Mobile: {{ $ticket->requester->mobile }}</div>
     </div>
   </div>
   <br>
@@ -62,10 +55,10 @@
         <td>Issue</td>
         <td>Expected</td>
       </tr>
-      </thead>@foreach($ticket['issues'] as $issue)
+      </thead>@foreach($ticket->issues as $issue)
         <tbody>
         <tr>
-          <td><img src="{{asset("images/tickets/".$issue->image)}}" class="ticket-image"></td>
+          <td><img src="{{asset("assets/images/tickets/".$issue->image)}}" class="ticket-image"></td>
           <td>{{ $issue->issue_desc }}</td>
           <td>{{ $issue->expected_desc }}</td>
         </tr>
@@ -83,7 +76,7 @@
         <td>Time</td>
       </tr>
       </thead>
-      @foreach($ticket['preferred_slots'] as $slot)
+      @foreach($ticket->preferred_slots as $slot)
         <tbody>
         <tr>
           <td>{{ ViewHelper::formatDate($slot->date) }}</td>
@@ -104,17 +97,11 @@
     <div class="panel-heading">
       <h3 class="panel-title text-center">
         <b class="quoted-price">{{ ViewHelper::formatCurrency($ticket->quoted_price) }}</b><br>
-        Quoted by {{ $ticket->quoted_by }} on {{ ViewHelper::formatDateTime($ticket->quoted_on)}}
+
       </h3>
     </div>
     <div class="panel-body text-center">
-      <button type="button" class="btn btn-lg btn-success" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'">
-        Accept
-      </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button type="button" class="btn btn-lg btn-danger" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'">
-        Decline
-      </button>
+      To make payment, please <a href="{{url('ticket/pay/'.$ticket->ticket_id)}}">log in to Mr Wright</a>
     </div>
-    <div class="panel-footer text-center">Valid till {{ ViewHelper::formatDate($ticket->quote_valid_till) }} (inclusive)</div>
   </div>
 @endsection

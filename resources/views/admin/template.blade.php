@@ -230,10 +230,10 @@ License: You must have a valid license purchased only from themeforest(the above
   <script src="{{asset('assets/metronic/layouts/global/scripts/quick-sidebar.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/layouts/global/scripts/quick-nav.min.js')}}" type="text/javascript"></script>
   <!-- END THEME LAYOUT SCRIPTS -->
-  <script src="{{asset('js/vue.js')}}" type="text/javascript"></script>
-  <script src="{{asset('js/common.js')}}" type="text/javascript"></script>
-  <script src="{{asset('js/axios.min.js')}}" type="text/javascript"></script>
-  <script src="{{asset('js/lodash.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('assets/js/vue.js')}}" type="text/javascript"></script>
+  <script src="{{asset('assets/js/common.js')}}" type="text/javascript"></script>
+  <script src="{{asset('assets/js/axios.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('assets/js/lodash.min.js')}}" type="text/javascript"></script>
 
   <script>
     $(document).ready(function() {

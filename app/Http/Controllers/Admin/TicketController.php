@@ -100,26 +100,4 @@ class TicketController extends Controller
     return view("admin/ticket/view", $data);
   }
 
-  public function previewQuotation($ticket_id) {
-
-    $ticket = $this->ticket_service->getTicket($ticket_id);
-    Log::info("previewQuotation " . $ticket->issues);
-    $data['ticket'] = $ticket;
-
-    Mail::to($user = Requester::where('username', $ticket->requested_by)->first())
-      //send(new QuotationMail($ticket_id));
-      ->queue(new QuotationMail($ticket_id));
-    return view('admin/emails/quotation', $data);
-
-  }
-
-  public function previewInvoice($ticket_id) {
-    $ticket = $this->ticket_service->getTicket($ticket_id);
-    $this->ticket_service->populateTicketForView($ticket);
-    $data['ticket'] = $ticket;
-    return view('admin/emails/invoice', $data);
-    //Mail::to($user = User::where('username', $ticket->requested_by)->first())->send(new QuotationMail($ticket));
-
-  }
-  
 }

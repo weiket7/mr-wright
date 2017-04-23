@@ -227,9 +227,9 @@
                         </td>
                         <td>
                           <div v-bind:id="'preview-image' + index">
-                            <img v-if="isImage(issue.image)" :src="'{{asset('images/tickets')}}/'+ issue.image" v-if="issue.image" class="ticket-image"/>
+                            <img v-if="isImage(issue.image)" :src="'{{asset('assets/images/tickets')}}/'+ issue.image" v-if="issue.image" class="ticket-image"/>
                             <video v-else-if="isVideo(issue.image)" width="320" height="240" controls>
-                              <source :src="'{{asset('images/tickets')}}/'+ issue.image">
+                              <source :src="'{{asset('assets/images/tickets')}}/'+ issue.image">
                               Your browser does not support the video tag.
                             </video>
                           </div>

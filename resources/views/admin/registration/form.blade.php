@@ -24,7 +24,11 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Status</label>
                 <label class="col-md-9 form-control-static">
-                  <span class="label label-primary"> {{ $registration->approved ? 'Approved' : 'Pending' }} </span>
+                  @if($registration->approved)
+                    <span class="label label-primary"> Approved </span>
+                  @else
+                    <span class="label label-warning"> Pending </span>
+                  @endif
                 </label>
               </div>
             </div>

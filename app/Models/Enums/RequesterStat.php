@@ -6,7 +6,6 @@ abstract class RequesterStat {
   const Inactive = 'I';
 
   static $values = [
-    self::PendingPayment=>'Pending Payment',
     self::Active=>'Active',
     self::Inactive=>'Inactive',
   ];

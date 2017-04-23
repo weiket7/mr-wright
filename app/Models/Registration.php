@@ -35,8 +35,4 @@ class Registration extends Eloquent
     return $this->validation;
   }
 
-  public function setUpdatedAtAttribute($value)
-  {
-    // to Disable updated_at
-  }
 }

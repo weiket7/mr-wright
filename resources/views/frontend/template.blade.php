@@ -114,6 +114,11 @@
                   </a>
                 </li>
                 <li>
+                  <a href="{{ url('invite') }}" title="Invite">
+                    INVITE
+                  </a>
+                </li>
+                <li>
                   <a href="{{ url('ticket') }}" title="Tickets">
                     TICKETS
                   </a>

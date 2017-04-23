@@ -11,10 +11,11 @@
 |
 */
 
+use App\Mail\RegisterExistingUenMail;
 use App\Mail\TestEmail;
+use App\Models\Requester;
 use App\Models\User;
 use Carbon\Carbon;
-
 
 Route::get('/', 'Frontend\SiteController@index');
 Route::get('home', 'Frontend\SiteController@index');
@@ -30,6 +31,8 @@ Route::get('pricing', 'Frontend\SiteController@pricing');
 Route::get('services', 'Frontend\SiteController@service');
 Route::get('services/{slug}', 'Frontend\SiteController@service');
 Route::get('projects', 'Frontend\SiteController@project');
+Route::get('invite/accept/{token}', 'Frontend\SiteController@inviteAccept');
+Route::post('invite/accept/{token}', 'Frontend\SiteController@inviteAccept');
 
 Route::get('login', 'Frontend\SiteController@login');
 Route::post('login', 'Frontend\SiteController@login');
@@ -43,14 +46,32 @@ Route::post('admin/login', 'Admin\AdminController@login');
 Route::get('admin/logout', 'Admin\AdminController@logout');
 Route::get('admin/error', 'Admin\AdminController@error');
 
+
 Route::group(['middleware'=>['auth']], function() {
   Route::get('account', 'Frontend\SiteController@account');
   Route::post('account', 'Frontend\SiteController@account');
+  Route::get('ticket', 'Frontend\TicketController@index');
+  Route::get('ticket/save', 'Frontend\TicketController@save');
+  Route::post('ticket/save', 'Frontend\TicketController@save');
+  Route::get('invite', 'Frontend\SiteController@invite');
+  Route::post('invite', 'Frontend\SiteController@invite');
 
-  Route::get('office/save', 'Frontend\SiteController@saveOffice');
-  Route::post('office/save', 'Frontend\SiteController@saveOffice');
-  Route::get('office/save/{id}', 'Frontend\SiteController@saveOffice');
-  Route::post('office/save/{id}', 'Frontend\SiteController@saveOffice');
+  Route::group(['middleware'=>['frontendticketmiddleware']], function() {
+    Route::get('invite/registration/{id}', 'Frontend\SiteController@inviteRegistration');
+    Route::post('invite/registration/{id}', 'Frontend\SiteController@inviteRegistration');
+
+    Route::get('office/save', 'Frontend\SiteController@officeSave');
+    Route::post('office/save', 'Frontend\SiteController@officeSave');
+    Route::get('office/save/{id}', 'Frontend\SiteController@officeSave');
+    Route::post('office/save/{id}', 'Frontend\SiteController@officeSave');
+
+    Route::get('ticket/save/{id}', 'Frontend\TicketController@save');
+    Route::post('ticket/save/{id}', 'Frontend\TicketController@save');
+    Route::get('ticket/view/{id}', 'Frontend\TicketController@view');
+    Route::post('ticket/view/{id}', 'Frontend\TicketController@view');
+    Route::get('ticket/pay/{id}', 'TicketController@view');
+    Route::post('ticket/pay/{id}', 'TicketController@view');
+  });
 
   Route::group(['middleware'=>['modulemiddleware']], function() {
     Route::get('admin/dashboard', 'Admin\AdminController@dashboard');
@@ -100,9 +121,7 @@ Route::group(['middleware'=>['auth']], function() {
     Route::post('admin/ticket/view/{id}', 'Admin\TicketController@view');
     Route::get('admin/ticket/save/{id}', 'Admin\TicketController@save');
     Route::post('admin/ticket/save/{id}', 'Admin\TicketController@save');
-    Route::get('admin/ticket/preview-quotation/{id}', 'Admin\TicketController@previewQuotation');
-    Route::get('admin/ticket/preview-invoice/{id}', 'Admin\TicketController@previewInvoice');
-    
+
     Route::get('admin/staff', 'Admin\StaffController@index');
     Route::get('admin/staff/save', 'Admin\StaffController@save');
     Route::post('admin/staff/save', 'Admin\StaffController@save');
@@ -140,19 +159,7 @@ Route::group(['middleware'=>['auth']], function() {
     Route::get('admin/service', 'Admin\FrontendController@service');
     Route::get('admin/project', 'Admin\FrontendController@project');
   });
-  
-  Route::group(['middleware'=>['frontendticketmiddleware']], function() {
-    Route::get('ticket', 'Frontend\TicketController@index');
-    Route::get('ticket/save', 'Frontend\TicketController@save');
-    Route::post('ticket/save', 'Frontend\TicketController@save');
-    Route::get('ticket/save/{id}', 'Frontend\TicketController@save');
-    Route::post('ticket/save/{id}', 'Frontend\TicketController@save');
-    Route::get('ticket/view/{id}', 'Frontend\TicketController@view');
-    Route::post('ticket/view/{id}', 'Frontend\TicketController@view');
-    
-    Route::get('ticket/pay/{id}', 'TicketController@view');
-    Route::post('ticket/pay/{id}', 'TicketController@view');
-  });
+
   
   Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
   Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
@@ -161,14 +168,21 @@ Route::group(['middleware'=>['auth']], function() {
   Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
 });
 
-Route::get('api/uenExist', 'ApiController@uenExist');
+//TODO remove
+Route::get('preview/quotation/{id}', 'PreviewController@previewQuotation');
+Route::get('preview/invoice/{id}', 'PreviewController@previewInvoice');
+Route::get('preview/register-existing-uen/{id}', 'PreviewController@registerExistingUen');
+Route::get('preview/invite', 'PreviewController@invite');
+
 
 Route::get('test', function() {
-  Mail::to(User::first())
-    //send(new QuotationMail($ticket_id));
-    ->queue(new TestEmail());
+  $registration = \App\Models\Registration::findOrFail(2);
+  $users = Requester::where('company_id', $registration->company_id)->get();
+  var_dump($users);
+  Mail::to($user = Requester::where('company_id', $registration->company_id)->get())
+    ->send(new RegisterExistingUenMail($registration->company_id));
   
-  return "Email will be sent 5 seconds later";
+  return "Email will be sen t 5 seconds later";
 });
 
 

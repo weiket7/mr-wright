@@ -7,6 +7,7 @@ use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
 use Eloquent, DB, Validator, Log;
 use Hash;
+use Illuminate\Validation\Rules\In;
 use Mail;
 
 class Account extends Eloquent
@@ -99,8 +100,6 @@ class Account extends Eloquent
 
   public function approveRegister($registration_id) {
     $registration = Registration::find($registration_id);
-    $registration->approved = true;
-    $registration->save();
 
     $company = new Company();
     $company->name = $registration->company_name;
@@ -126,17 +125,24 @@ class Account extends Eloquent
     $requester->mobile = $registration->mobile;
     $requester->type = RequesterType::Corporate;
     $requester->admin = false;
-    $requester->stat = RequesterStat::PendingPayment;
+    $requester->stat = RequesterStat::Active;
     $requester->save();
 
     $user = new User();
     $user->username = $registration->username;
-    $user->password = Hash::make($registration->password);
+    $user->password = $registration->password;
     $user->name = $registration->name;
     $user->type = UserType::Requester;
     $user->stat = UserStat::Inactive;
     $user->email = $registration->email;
     $user->save();
+
+    $registration->approved = true;
+    $registration->company_id = $company->company_id;
+    $registration->office_id = $office->office_id;
+    $registration->requester_id = $requester->requester_id;
+    $registration->approved = true;
+    $registration->save();
 
     return $registration->username;
   }
@@ -167,28 +173,21 @@ class Account extends Eloquent
     return $registration;
   }
 
-  public function registerExistingUen($registration_id) {
+  public function registerExistingUenAndEmailAdmin($registration_id) {
     $registration = Registration::findOrFail($registration_id);
     $registration->register_existing_uen = true;
+    $company = Company::where('uen', $registration->uen)->first();
+    $registration->company_id = $company->company_id;
     $registration->save();
+
+    Mail::to($user = Requester::where('company_id', $registration->company_id)->get())
+      ->send(new RegisterExistingUenMail($registration->company_id));
+
     return $registration->username;
   }
 
   public function getValidation() {
     return $this->validation;
-  }
-
-  public function checkCompanyExistAndEmailCompanyAdmin($uen)
-  {
-    $company = Company::where('uen', $uen)->select('company_id')->first();
-    if ($company) {
-
-      Mail::to($user = Requester::where('username', $company->company_id)->get())
-        ->send(new RegisterExistingUenMail($company->company_id));
-        //->queue(new RegisterExistingUenMail($company->company_id));
-      return false;
-    }
-    return true;
   }
 
   public function uenExist($uen) {
@@ -198,6 +197,27 @@ class Account extends Eloquent
   public function getPaymentMethods()
   {
     return PaymentMethod::pluck('name', 'value');
+  }
+
+  public function saveInvite($email) {
+    $invite = new Invite();
+    $invite->email = $email;
+    $invite->token = str_random();
+    $invite->save();
+    return $invite;
+  }
+
+  public function acceptInvite($input, $token) {
+    $invite = Invite::where('token', $token)->first();
+    $invite->name = $input['name'];
+    $invite->designation = $input['designation'];
+    $invite->mobile = $input['mobile'];
+    $invite->email = $input['email'];
+    $invite->accepted = true;
+
+    
+    $invite->save();
+    
   }
 
 }

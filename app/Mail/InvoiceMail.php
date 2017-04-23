@@ -31,6 +31,6 @@ class InvoiceMail extends Mailable
     {
         $data['ticket'] = $this->ticket;
         $subject = "Mr Wright Invoice for ".$this->ticket->ticket_code;
-        return $this->subject($subject)->markdown('admin.emails.invoice', $data);
+        return $this->subject($subject)->markdown('emails.invoice', $data);
     }
 }

@@ -18,7 +18,7 @@ class RegistrationTable extends Migration
             $t->string('email', 100);
             $t->string('uen', 50);
             $t->string('company_name', 100);
-            $t->string('office_name', 100);
+            //$t->string('office_name', 100);
             $t->string('addr', 200);
             $t->string('postal', 20);
             $t->boolean('register_existing_uen');

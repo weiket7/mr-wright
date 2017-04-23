@@ -3,20 +3,24 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\TicketQuotationEmail;
+use App\Mail\InviteMail;
 use App\Models\Enums\MembershipStat;
 use App\Models\Enums\RequesterStat;
-use App\Models\Enums\UserType;
 use App\Models\FrontendService;
 use App\Models\Account;
+use App\Models\Invite;
 use App\Models\Membership;
 use App\Models\Office;
+use App\Models\Registration;
 use App\Models\Requester;
+use App\Models\Services\AccessService;
 use App\Models\Services\CompanyService;
 use Auth;
+use Foo\Bar\A;
 use Hash;
 use Illuminate\Http\Request;
 use Log;
+use Mail;
 
 class SiteController extends Controller
 {
@@ -47,6 +51,10 @@ class SiteController extends Controller
         return redirect()->back()->with('login_error', 'Please make payment according to the sent email and wait for operator to approve your account');
       }
       Auth::loginUsingId($requester->user_id);
+      $referral = $request->get('referral');
+      if (! empty($referral)) {
+        return redirect($referral)->with('msg', 'Logged in');
+      }
       return redirect('account')->with('msg', 'Logged in');
     }
 
@@ -98,8 +106,8 @@ class SiteController extends Controller
     if ($request->isMethod("post")) {
       $registration_id = $request->session()->get('registration_id');
       $account_service = new Account();
-      $username = $account_service->registerExistingUen($registration_id);
-      //TODO inform admins
+      $username = $account_service->registerExistingUenAndEmailAdmin($registration_id);
+
       return redirect('register-success')->with('username', $username);
     }
 
@@ -109,13 +117,25 @@ class SiteController extends Controller
     return view('frontend/register-existing-uen');
   }
 
+  public function inviteRegistration(Request $request, $registration_id) {
+    $registration = Registration::findOrFail($registration_id);
+    if ($request->isMethod("post")) {
+      $account_service = new Account();
+      $account_service->approveRegister($registration_id);
+
+    }
+    $data['requester'] = Requester::where('company_id', $registration->company_id)->first();
+    $data['registration'] = $registration;
+    return view('frontend/invite-registration', $data);
+  }
+
   public function registerSuccess(Request $request)
   {
     $data['username'] = $request->session()->get('username');
     return view("frontend/register-success", $data);
   }
 
-  public function saveOffice(Request $request, $office_id = null) {
+  public function officeSave(Request $request, $office_id = null) {
     $action = $office_id == null ? 'create' : 'update';
     $office = $office_id == null ? new Office() : Office::find($office_id);
 
@@ -133,8 +153,30 @@ class SiteController extends Controller
     return view('frontend/office-form', $data);
   }
 
-  public function service(Request $request, $slug = null)
-  {
+  public function invite(Request $request) {
+    if($request->isMethod('post')) {
+      $email = $request->get('email');
+      $account_service = new Account();
+      $invite = $account_service->saveInvite($email);
+      Mail::to($email)->send(new InviteMail($invite->token));
+    }
+    $requester = Requester::where('username', $this->getUsername())->first();
+    $data['registrations'] = Registration::where('company_id', $requester->company_id)->get();
+    return view('frontend/invite', $data);
+  }
+
+  public function inviteAccept(Request $request, $token) {
+    if($request->isMethod('post')) {
+      $account_service = new Account();
+      $input = $request->all();
+      $account_service->acceptInvite($input, $token);
+    }
+    $invite = Invite::where('token', $token)->firstOrFail();
+      $data['invite'] = $invite;
+    return view('frontend/invite-accept', $data);
+  }
+
+  public function service(Request $request, $slug = null) {
     $frontend_service = new FrontendService();
     $data['services'] = $frontend_service->getServiceAll();
     if ($slug == null) {
@@ -174,10 +216,6 @@ class SiteController extends Controller
   public function error(Request $request)
   {
     return view("frontend/error");
-  }
-
-  public function q() {
-    $this->dispatch(new TicketQuotationEmail());
   }
 
 
