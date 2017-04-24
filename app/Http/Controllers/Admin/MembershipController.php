@@ -10,7 +10,7 @@ class MembershipController extends Controller
 {
   public function index()
   {
-    $data['memberships'] = Membership::all();
+    $data['memberships'] = Membership::orderBy('created_on', 'desc')->get();
     return view("admin/membership/index", $data);
   }
   

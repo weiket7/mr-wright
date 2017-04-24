@@ -7,6 +7,8 @@ class Registration extends Eloquent
   public $table = 'registration';
   protected $primaryKey = 'registration_id';
   protected $validation;
+  const CREATED_AT = 'created_on';
+  const UPDATED_AT = 'updated_on';
 
   private $rules = [
     'name'=>'required',

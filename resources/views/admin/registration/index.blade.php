@@ -19,8 +19,7 @@
             <th>Designation</th>
             <th>Company Name</th>
             <th>Membership Plan</th>
-            <th>Number of Requesters</th>
-            <th>Price</th>
+            <th>Registered On</th>
           </tr>
           </thead>
           <tbody>
@@ -38,8 +37,7 @@
               <td>{{ $registration->designation }}</td>
               <td>{{ $registration->company_name }}</td>
               <td>{{ $registration->membership_name }}</td>
-              <td>{{ $registration->requester_limit }}</td>
-              <td>{{ $registration->effective_price }}</td>
+              <td>{{ ViewHelper::formatDateTime($registration->created_on) }}</td>
             </tr>
           @endforeach
           </tbody>

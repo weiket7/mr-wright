@@ -128,6 +128,12 @@
               </div>
             </div>
           </div>
+          
+          @if($will_be_admin)
+            <div class="alert alert-info">
+              As this registration is the first for this company, upon approval, he will be an admin of the company.
+            </div>
+          @endif
 
           @if($registration->approved == false)
             <div class="form-actions">

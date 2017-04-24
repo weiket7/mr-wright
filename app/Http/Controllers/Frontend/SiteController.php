@@ -93,11 +93,27 @@ class SiteController extends Controller
       if ($uen_exist) {
         return redirect('register-existing-uen')->with('registration_id', $registration->registration_id);
       }
-      return redirect('register-success')->with('username', $registration->username);
+      return redirect('register-membership')->with('registration_id', $registration->registration_id);
     }
-    $data['memberships'] = Membership::where('stat', MembershipStat::Active)->pluck('name', 'membership_id');
-    $data['payment_methods'] = $register->getPaymentMethods();
-    return view("frontend/register", $data);
+    
+    return view("frontend/register");
+  }
+  
+  public function registerMembership(Request $request) {
+    $registration_id = $request->session()->get('registration_id');
+    if (empty($registration_id)) {
+      Log::error('SiteController->registerMembership - Registration id is empty');
+      return redirect('error');
+    }
+    $account_service = new Account();
+    if ($request->isMethod("post")) {
+      $registration = $account_service->saveRegistrationMembership($registration_id, $request->all());
+      return redirect('register-success')->with('registration_id', $registration->registration_id);
+    }
+    $request->session()->flash('registration_id', $registration_id);
+    $data['memberships'] = Membership::where('stat', MembershipStat::Active)->orderBy('pos')->pluck('name', 'membership_id');
+    $data['payment_methods'] = $account_service->getPaymentMethods();
+    return view('frontend/register-membership', $data);
   }
 
   public function registerExistingUen(Request $request) {
@@ -119,7 +135,7 @@ class SiteController extends Controller
     $registration = Registration::findOrFail($registration_id);
     if ($request->isMethod("post")) {
       $account_service = new Account();
-      $account_service->approveRegister($registration_id);
+      $account_service->approveRegistration($registration_id);
 
     }
     $data['requester'] = Requester::where('company_id', $registration->company_id)->first();

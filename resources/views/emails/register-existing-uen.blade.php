@@ -9,22 +9,22 @@
 
   <div class="div-registration">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-xs-6">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-xs-3">
             Name
           </div>
-          <div class="col-md-9">
+          <div class="col-xs-9">
             {{ $registration->name }}
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-xs-6">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-xs-3">
             Designation
           </div>
-          <div class="col-md-9">
+          <div class="col-xs-9">
             {{ $registration->designation }}
           </div>
         </div>
@@ -32,22 +32,22 @@
     </div>
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-xs-6">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-xs-3">
             Mobile
           </div>
-          <div class="col-md-9">
+          <div class="col-xs-9">
             {{ $registration->mobile }}
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-xs-6">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-xs-3">
             Email
           </div>
-          <div class="col-md-9">
+          <div class="col-xs-9">
             {{ $registration->email }}
           </div>
         </div>
@@ -55,22 +55,22 @@
     </div>
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-xs-6">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-xs-3">
             Company Name
           </div>
-          <div class="col-md-9">
+          <div class="col-xs-9">
             {{ $registration->company_name }}
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-xs-6">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-xs-3">
             UEN
           </div>
-          <div class="col-md-9">
+          <div class="col-xs-9">
             {{ $registration->uen }}
           </div>
         </div>
@@ -78,22 +78,22 @@
     </div>
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-xs-6">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-xs-3">
             Address
           </div>
-          <div class="col-md-9">
+          <div class="col-xs-9">
             {{ $registration->addr }}
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-xs-6">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-xs-3">
             Postal
           </div>
-          <div class="col-md-9">
+          <div class="col-xs-9">
             {{ $registration->postal }}
           </div>
         </div>

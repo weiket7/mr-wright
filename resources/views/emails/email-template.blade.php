@@ -7,7 +7,7 @@
 
     .mr-wright-logo {
       height: 40px;
-      margin-top: 3 0px;
+      margin-top: 30px;
       margin-bottom: 20px;
     }
   </style>

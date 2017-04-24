@@ -27,7 +27,6 @@ class Account extends Eloquent
     'uen' => 'required',
     'addr' => 'required',
     'postal' => 'required',
-    'membership_id' => 'required',
   ];
 
   private $messages = [
@@ -47,7 +46,6 @@ class Account extends Eloquent
     'mobile.required' => 'Mobile is required',
     'addr.required' => 'Address is required',
     'postal.required' => 'Postal code is required',
-    'membership_id.required' => 'Membership plan is required',
   ];
 
   public function saveAccount($input, $username)
@@ -81,6 +79,33 @@ class Account extends Eloquent
     $user->save();
     return true;  
   }
+  
+  public function saveRegistrationMembership($registration_id, $input) {
+    $rules = [
+      'membership_id' => 'required',
+      'payment_method'=>'required'
+    ];
+    $messages = [
+      'membership_id.required' => 'Membership plan is required',
+      'payment_method.required' => 'Payment methodis required'
+    ];
+    $this->validation = Validator::make($input, $rules, $messages );
+    if ( $this->validation->fails()) {
+      return false;
+    }
+  
+    $registration = Registration::find($registration_id);
+    $registration->payment_method = $input['payment_method'];
+  
+    $membership = Membership::find($input['membership_id']);
+    $registration->membership_id = $membership->membership_id;
+    $registration->membership_name = $membership->name;
+    $registration->requester_limit = $membership->requester_limit;
+    $registration->effective_price = $membership->effective_price;
+    $registration->save();
+    
+    return $registration;
+  }
 
   public function getRequesterForLogin($username) {
     $requester = DB::table('requester as r')
@@ -98,7 +123,7 @@ class Account extends Eloquent
     return true;
   }
 
-  public function approveRegister($registration_id) {
+  public function approveRegistration($registration_id, $will_be_admin) {
     $registration = Registration::find($registration_id);
 
     $company = new Company();
@@ -126,6 +151,7 @@ class Account extends Eloquent
     $requester->type = RequesterType::Corporate;
     $requester->admin = false;
     $requester->stat = RequesterStat::Active;
+    $requester->admin = $will_be_admin;
     $requester->save();
 
     $user = new User();
@@ -161,13 +187,7 @@ class Account extends Eloquent
     $registration->company_name = $input['company_name'];
     $registration->addr = $input['addr'];
     $registration->postal = $input['postal'];
-    $registration->payment_method = $input['payment_method'];
-
-    $membership = Membership::find($input['membership_id']);
-    $registration->membership_id = $membership->membership_id;
-    $registration->membership_name = $membership->name;
-    $registration->requester_limit = $membership->requester_limit;
-    $registration->effective_price = $membership->effective_price;
+    
     $registration->save();
 
     return $registration;
@@ -180,9 +200,16 @@ class Account extends Eloquent
     $registration->company_id = $company->company_id;
     $registration->save();
 
-    Mail::to($user = Requester::where('company_id', $registration->company_id)->get())
-      ->send(new RegisterExistingUenMail($registration->company_id));
-
+    
+    $requesters = DB::table('requester as r')
+      ->join('company as c', 'r.company_id', '=', 'c.company_id')
+      ->where('company_id', $registration->company_id)
+      ->select('')->get();
+    foreach($requesters as $requester) {
+      Mail::to($requester->email)
+        ->send(new RegisterExistingUenMail($registration, $requester));
+    }
+    
     return $registration->username;
   }
 
