@@ -3,7 +3,30 @@
 @section('content')
   <form method="post" action="" class="margin-top-40 form-horizontal">
     {{csrf_field()}}
-
+  
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-3">
+            Username *
+          </label>
+          <div class="col-md-9">
+            {{ Form::text('username', '', ['class'=>'form-control', 'autofocus']) }}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-3">
+            Password *
+          </label>
+          <div class="col-md-9">
+            {{ Form::password('password', ['class'=>'form-control']) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">

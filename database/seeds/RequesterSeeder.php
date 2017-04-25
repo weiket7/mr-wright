@@ -45,8 +45,6 @@ class RequesterSeeder extends Seeder
 
     DB::table('requester')->insert([
       'stat'=>RequesterStat::Active,
-      'company_id'=>1,
-      'office_id'=>2,
       'name'=>'Olivia',
       'username'=>'olivia',
       'admin'=>true,

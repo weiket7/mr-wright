@@ -95,14 +95,16 @@ class Requester extends Eloquent
     }
     $user->save();
   }
-
+  
   public function getRequesterByUsername($username)
   {
     return DB::table('requester as r')
       ->join('company as c', 'r.company_id', '=', 'c.company_id')
       ->join('office as o', 'r.office_id', '=', 'o.office_id')
       ->select('r.name', 'admin', 'mobile', 'email', 'designation', 'username', 'r.company_id', 'r.office_id',
-        'c.name as company_name', 'c.addr as company_addr', 'c.postal as company_postal', 'o.name as office_name', 'uen', 'o.addr as office_addr', 'o.postal as office_postal')
+        'c.name as company_name', 'c.addr as company_addr', 'c.postal as company_postal', 'o.name as office_name', 'uen',
+        'membership_name', 'requester_limit', 'effective_price', 'c.requester_count',
+        'o.addr as office_addr', 'o.postal as office_postal')
       ->where('username', $username)
       ->where('r.stat', RequesterStat::Active)->first();
   }

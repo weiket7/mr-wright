@@ -28,5 +28,6 @@ class AccessSeeder extends Seeder
     DB::table('access')->insert(['access_id'=>19, 'name'=>'skill', 'type'=>AccessType::Module]);
     DB::table('access')->insert(['access_id'=>20, 'name'=>'role', 'type'=>AccessType::Module]);
     DB::table('access')->insert(['access_id'=>21, 'name'=>'access', 'type'=>AccessType::Module]);
+    DB::table('access')->insert(['access_id'=>22, 'name'=>'category-for-ticket', 'type'=>AccessType::Module]);
   }
 }

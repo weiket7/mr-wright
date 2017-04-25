@@ -10,7 +10,7 @@ class UserTable extends Migration
   {
     Schema::create('user', function(Blueprint $t) {
       $t->increments('user_id');
-      $t->string('username', 20);
+      $t->string('username', 30);
       $t->string('password', 60);
       $t->string('email', 100);
       $t->string('name', 50);

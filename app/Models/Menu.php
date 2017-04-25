@@ -28,6 +28,7 @@ class Menu {
         ["link"=>"admin/skill", "name"=>"Skills"],
         ["link"=>"admin/role", "name"=>"Roles"],
         ["link"=>"admin/access", "name"=>"Accesses"],
+        ["link"=>"admin/payment-method", "name"=>"Payment Methods"],
         ["link"=>"admin/category-for-ticket", "name"=>"Categories for Ticket"],
         ["link"=>"admin/working-day-time", "name"=>"Working Day Times"],
         ["link"=>"admin/blocked-date", "name"=>"Blocked Dates"],

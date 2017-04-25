@@ -1,7 +1,12 @@
 @extends('frontend.template', ['title'=>'account'])
 
 @section('content')
-
+  @if(session()->has('welcome'))
+    <div class="alert alert-info">
+      Welcome to Mr Wright, would you like to start by <a href="{{url('ticket/create')}}">creating a ticket</a>?
+    </div>
+  @endif
+  
   <form method="post" action="" class="form-horizontal">
     {{ csrf_field() }}
 
@@ -122,7 +127,7 @@
               Company Address *
             </label>
             <div class="col-md-9">
-              {{ Form::text('company_addr', $requester->company_addr, ['class'=>'form-control', 'maxlength'=>200]) }}
+              {{ Form::textarea('company_addr', $requester->company_addr, ['rows'=>2, 'class'=>'form-control', 'maxlength'=>200]) }}
             </div>
           </div>
         </div>
@@ -133,6 +138,33 @@
             </label>
             <div class="col-md-9">
               {{ Form::text('company_postal', $requester->company_postal, ['class'=>'form-control', 'maxlength'=>20]) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Membership Plan
+            </label>
+            <div class="col-md-9">
+              <label class="form-control-static">
+                {{ $requester->membership_name }}
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Number of Requesters
+            </label>
+            <div class="col-md-9">
+              <label class="form-control-static">
+                {{ $requester->requester_count }}
+              </label>
             </div>
           </div>
         </div>
@@ -163,12 +195,13 @@
     @endif
 
     @if($requester->admin)
-      <table class="table table-bordered">
+      <table class="table table-bordered tbl-office">
         <thead>
         <tr>
           <th>Office Name</th>
           <th>Address</th>
           <th>Postal</th>
+          <th>Number of Requesters</th>
         </tr>
         </thead>
         <tbody>
@@ -177,6 +210,7 @@
               <td><a href="{{ url("office/save/".$office->office_id) }}">{{ $office->name }}</a></td>
               <td>{{ $office->addr }}</td>
               <td>{{ $office->postal }}</td>
+              <td>{{ $office->requester_count }}</td>
             </tr>
           @endforeach
         </tbody>

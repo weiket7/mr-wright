@@ -14,6 +14,7 @@ class OfficeSeeder extends Seeder
       'company_id'=>1,
       'addr'=>'Tampines Address',
       'postal'=>'123456',
+      'requester_count'=>1,
       'updated_by'=>'admin',
       'updated_on'=>date('Y-m-d H:i:s')
     ]);
@@ -24,6 +25,7 @@ class OfficeSeeder extends Seeder
       'company_id'=>1,
       'addr'=>'Bedok Address',
       'postal'=>'123456',
+      'requester_count'=>1,
       'updated_by'=>'admin',
       'updated_on'=>date('Y-m-d H:i:s')
     ]);

@@ -54,7 +54,7 @@ class CompanyService
   {
     $offices = DB::table('office as o')
       ->join('company as c', 'o.company_id', '=', 'c.company_id')
-      ->select('o.office_id', 'o.name', 'c.company_id', 'c.name as company_name', 'o.stat', 'o.addr', 'o.postal')
+      ->select('o.office_id', 'o.name', 'c.company_id', 'c.name as company_name', 'o.stat', 'o.addr', 'o.postal', 'o.requester_count')
       ->orderBy('name');
     if ($company_id == null) {
       return $offices->get();

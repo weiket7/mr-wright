@@ -21,7 +21,8 @@ class ModuleMiddleware
     }
     
     $module = $request->segment(2);
-    if($module == '' || $module == 'api' || $module = 'dashboard') {
+    Log::info($module);
+    if($module == '' || $module == 'api' || $module == 'dashboard') {
       return $next($request);
     }
 

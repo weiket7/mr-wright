@@ -29,8 +29,7 @@ class SiteController extends Controller
     $this->company_service = $company_service;
   }
 
-  public function index()
-  {
+  public function index() {
     return view("frontend/index");
   }
 
@@ -169,11 +168,14 @@ class SiteController extends Controller
 
   public function invite(Request $request) {
     if($request->isMethod('post')) {
-      $email = $request->get('email');
+      $input = $request->all();
       $invite_service = new Invite();
-      $invite = $invite_service->saveInvite($email);
-      Mail::to($email)->send(new InviteMail($invite->token));
-      $request->session()->flash('invite', $email);
+      $invite = $invite_service->saveInvite($input, $this->getUsername());
+      if ($invite == false) {
+        return redirect('invite')->withErrors($invite_service->getValidation())->withInput($input);
+      }
+      Mail::to($invite->email)->send(new InviteMail($invite->token));
+      $request->session()->flash('invite', $invite->email);
     }
     $requester = Requester::where('username', $this->getUsername())->first();
     $data['registrations'] = Registration::where('company_id', $requester->company_id)->get();
@@ -185,11 +187,12 @@ class SiteController extends Controller
     if($request->isMethod('post')) {
       $input = $request->all();
       $invite_service = new Invite();
-      $invite_service->acceptInvite($input, $token);
-      $request->session()->flash('invite', true);
+      $user = $invite_service->acceptInvite($input, $token);
+      Auth::login($user);
+      return redirect('account')->with('welcome', true);
     }
     $invite = Invite::where('token', $token)->firstOrFail();
-      $data['invite'] = $invite;
+    $data['invite'] = $invite;
     return view('frontend/invite-accept', $data);
   }
 
