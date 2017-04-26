@@ -17,9 +17,9 @@ class Menu {
         ["link"=>"admin/report/ticket", "name"=>"Tickets", "icon"=>""],
       ]], 
       ["name"=>"Frontend", "icon"=>"icon-settings", "sub"=>[
-        ["link"=>"admin/content", "name"=>"Content"],
-        ["link"=>"admin/banner", "name"=>"Banners"],
-        ["link"=>"admin/service", "name"=>"Services"],
+        ["link"=>"admin/frontend/content", "name"=>"Content"],
+        ["link"=>"admin/frontend/banner", "name"=>"Banners"],
+        ["link"=>"admin/frontend/service", "name"=>"Services"],
         /*["link"=>"admin/project", "name"=>"Projects"],
         ["link"=>"admin/project", "name"=>"Blog"],*/
       ]],

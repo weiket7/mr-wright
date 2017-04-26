@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use App\Mail\RegisterExistingUenMail;
+use App\Models\Enums\PaymentMethodStat;
 use App\Models\Enums\RequesterStat;
 use App\Models\Enums\RequesterType;
 use App\Models\Enums\UserStat;
@@ -131,6 +132,9 @@ class Account extends Eloquent
     $company->uen = $registration->uen;
     $company->addr = $registration->addr;
     $company->postal = $registration->postal;
+    $company->membership_name = $registration->membership_name;
+    $company->requester_limit = $registration->requester_limit;
+    $company->effective_price = $registration->effective_price;
     $company->save();
 
     $office = new Office();
@@ -170,7 +174,20 @@ class Account extends Eloquent
     $registration->approved = true;
     $registration->save();
 
-    return $registration->username;
+    return $registration;
+  }
+  
+  public function updateCompanyOfficeRequesterCount($company_id) {
+    $company = Company::findOrFail($company_id);
+    $company->requester_count = Requester::where('company_id', $company_id)->count();
+    $company->save();
+    
+    $offices = Office::where('company_id', $company_id)->get();
+    foreach($offices as $office) {
+      $office->requester_count = Requester::where('office_id', $office->office_id)->count();
+      $office->save();
+    }
+    return true;
   }
 
   public function saveRegistration($input) {
@@ -221,9 +238,12 @@ class Account extends Eloquent
     return Company::where('uen', $uen)->count() > 0;
   }
 
-  public function getPaymentMethods()
-  {
-    return PaymentMethod::pluck('name', 'value');
+  public function getPaymentMethods($active = false) {
+    $payment_methods = PaymentMethod::orderBy('pos');
+    if ($active) {
+      $payment_methods->where('stat', PaymentMethodStat::Active);
+    }
+    return $payment_methods->pluck('name', 'value');
   }
 
 }

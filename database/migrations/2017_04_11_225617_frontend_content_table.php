@@ -18,7 +18,7 @@ class FrontendContentTable extends Migration
     /*GENERAL*/
     $data = [
       ['key'=>'contact', 'value'=>'+65 3222 3512'],
-      ['key'=>'email', 'value'=>'renovate@mail.com'],
+      ['key'=>'email', 'value'=>'support@mrwright.sg'],
       ['key'=>'opening_hours', 'value'=>'Mon - Fri: 08.00 - 17.00'],
       ['key'=>'facebook', 'value'=>'http://facebook.com'],
       ['key'=>'twitter', 'value'=>'http://twitter.com'],

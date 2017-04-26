@@ -17,6 +17,12 @@
   <form method="post" action="" class="form-horizontal" autocomplete="off">
     {{ csrf_field() }}
   
+    <div class="alert alert-info">
+      By making successful payment via preferred NETS or credit card, you will be able to create a ticket immediately.
+      <br><br>
+      For cash, bank transfer and cheque, there will be some lead time before you will be able to create a ticket.
+    </div>
+    
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">

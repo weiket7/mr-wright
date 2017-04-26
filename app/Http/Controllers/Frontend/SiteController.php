@@ -107,12 +107,24 @@ class SiteController extends Controller
     $account_service = new Account();
     if ($request->isMethod("post")) {
       $registration = $account_service->saveRegistrationMembership($registration_id, $request->all());
-      return redirect('register-success')->with('registration_id', $registration->registration_id);
+      $payment_method = $request->get('payment_method');
+      if ($payment_method == 'R') { //credit card
+        //TODO paydollar
+      }
+      return redirect('register-payment')->with('registration_id', $registration->registration_id);
     }
     $request->session()->flash('registration_id', $registration_id);
     $data['memberships'] = Membership::where('stat', MembershipStat::Active)->orderBy('pos')->pluck('name', 'membership_id');
-    $data['payment_methods'] = $account_service->getPaymentMethods();
+    $data['payment_methods'] = $account_service->getPaymentMethods(true);
     return view('frontend/register-membership', $data);
+  }
+  
+  public function registerPayment(Request $request) {
+    $registration_id = $request->session()->get('registration_id');
+    $registration = Registration::findOrFail($registration_id);
+    $data['payment_method'] = $registration->payment_method;
+    //TODO paydollar
+    return view('frontend/register-payment', $data);
   }
 
   public function registerExistingUen(Request $request) {
@@ -134,16 +146,14 @@ class SiteController extends Controller
     $registration = Registration::findOrFail($registration_id);
     if ($request->isMethod("post")) {
       $account_service = new Account();
-      $account_service->approveRegistration($registration_id);
-
+      $account_service->approveRegistration($registration_id, false);
     }
     $data['requester'] = Requester::where('company_id', $registration->company_id)->first();
     $data['registration'] = $registration;
     return view('frontend/invite-registration', $data);
   }
 
-  public function registerSuccess(Request $request)
-  {
+  public function registerSuccess(Request $request) {
     $data['username'] = $request->session()->get('username');
     return view("frontend/register-success", $data);
   }

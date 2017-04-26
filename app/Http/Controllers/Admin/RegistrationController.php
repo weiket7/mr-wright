@@ -23,7 +23,11 @@ class RegistrationController extends Controller
 
     if($request->isMethod('post')) {
       $account_service = new Account();
-      $account_service->approveRegistration($registration_id, $will_be_admin);
+      $registration = $account_service->approveRegistration($registration_id, $will_be_admin);
+      //update company and office requester count
+      $account_service->updateCompanyOfficeRequesterCount($registration->company_id);
+      //TODO
+      //$account_service->emailApproveRegistration($registration_id, $will_be_admin);
       return redirect('admin/registration/save/' . $registration->registration_id)->with('msg', "Registration approved");
     }
   
