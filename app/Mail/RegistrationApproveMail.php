@@ -7,18 +7,19 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TestEmail extends Mailable
+class RegistrationApproveMail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $registration;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($registration)
     {
-        //
+        $this->registration = $registration;
     }
 
     /**
@@ -28,6 +29,7 @@ class TestEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('admin.emails.test');
+        return $this->subject('Mr Wright - Registration Approved')
+          ->view('emails/registration-approve');
     }
 }

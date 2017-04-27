@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use App\Mail\RegisterExistingUenMail;
+use App\Mail\RegistrationApproveMail;
 use App\Models\Enums\PaymentMethodStat;
 use App\Models\Enums\RequesterStat;
 use App\Models\Enums\RequesterType;
@@ -216,18 +217,20 @@ class Account extends Eloquent
     $company = Company::where('uen', $registration->uen)->first();
     $registration->company_id = $company->company_id;
     $registration->save();
+    return $registration;
+  }
 
-    
+  public function emailRegisterExistingUen($registration) {
     $requesters = DB::table('requester as r')
       ->join('company as c', 'r.company_id', '=', 'c.company_id')
-      ->where('company_id', $registration->company_id)
-      ->select('')->get();
+      ->where('c.company_id', $registration->company_id)
+      ->select('r.name', 'c.name as company_name', 'email')->get();
     foreach($requesters as $requester) {
       Mail::to($requester->email)
         ->send(new RegisterExistingUenMail($registration, $requester));
-    }
-    
-    return $registration->username;
+  }
+
+return $registration->username;
   }
 
   public function getValidation() {
@@ -244,6 +247,13 @@ class Account extends Eloquent
       $payment_methods->where('stat', PaymentMethodStat::Active);
     }
     return $payment_methods->pluck('name', 'value');
+  }
+
+  public function emailApproveRegistration($registration)
+  {
+    $user = User::where('username', $registration->username)->firstOrFail();
+    Mail::to($user)
+      ->send(new RegistrationApproveMail($registration));
   }
 
 }

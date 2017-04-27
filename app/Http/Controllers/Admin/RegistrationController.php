@@ -26,8 +26,7 @@ class RegistrationController extends Controller
       $registration = $account_service->approveRegistration($registration_id, $will_be_admin);
       //update company and office requester count
       $account_service->updateCompanyOfficeRequesterCount($registration->company_id);
-      //TODO
-      //$account_service->emailApproveRegistration($registration_id, $will_be_admin);
+      $account_service->emailApproveRegistration($registration);
       return redirect('admin/registration/save/' . $registration->registration_id)->with('msg', "Registration approved");
     }
   

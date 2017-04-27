@@ -25,6 +25,7 @@ Route::get('register-existing-uen', 'Frontend\SiteController@registerExistingUen
 Route::post('register-existing-uen', 'Frontend\SiteController@registerExistingUen');
 Route::get('register-membership', 'Frontend\SiteController@registerMembership');
 Route::post('register-membership', 'Frontend\SiteController@registerMembership');
+Route::get('register-payment', 'Frontend\SiteController@registerPayment');
 Route::get('register-success', 'Frontend\SiteController@registerSuccess');
 Route::get('contact', 'Frontend\SiteController@contact');
 Route::post('contact', 'Frontend\SiteController@contact');

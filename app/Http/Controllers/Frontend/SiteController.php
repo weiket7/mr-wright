@@ -80,7 +80,6 @@ class SiteController extends Controller
     $register = new Account();
     if ($request->isMethod("post")) {
       $input = $request->all();
-
       $validate = $register->validateRegistration($input) == false;
       if ($validate) {
         return redirect()->back()->withErrors($register->getValidation())->withInput($input);
@@ -131,9 +130,9 @@ class SiteController extends Controller
     if ($request->isMethod("post")) {
       $registration_id = $request->session()->get('registration_id');
       $account_service = new Account();
-      $username = $account_service->registerExistingUenAndEmailAdmin($registration_id);
-
-      return redirect('register-success')->with('username', $username);
+      $registration = $account_service->registerExistingUenAndEmailAdmin($registration_id);
+      $account_service->emailRegisterExistingUen($registration);
+      return redirect('register-success')->with('register-existing-uen', true);
     }
 
     $registration_id = $request->session()->get('registration_id');
@@ -196,7 +195,8 @@ class SiteController extends Controller
   public function inviteAccept(Request $request, $token) {
     if($request->isMethod('post')) {
       $input = $request->all();
-      $invite_service = new Invite();
+      $invite_service = new Invite
+      ();
       $user = $invite_service->acceptInvite($input, $token);
       Auth::login($user);
       return redirect('account')->with('welcome', true);
