@@ -8,9 +8,16 @@ use Illuminate\Http\Request;
 
 class MembershipController extends Controller
 {
-  public function index()
+  public function index(Request $request)
   {
-    $data['memberships'] = Membership::orderBy('created_on', 'desc')->get();
+    $membership_service = new Membership();
+    $memberships = $membership_service->getMembershipAll();
+    $data['memberships'] = $memberships;
+    if($request->isMethod("post")) {
+      $input = $request->all();
+      $membership_service->saveMemberships($memberships, $input);
+      return redirect("admin/membership")->with("msg", "Memberships updated");
+    }
     return view("admin/membership/index", $data);
   }
   

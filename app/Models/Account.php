@@ -212,7 +212,7 @@ class Account extends Eloquent
     return $registration;
   }
 
-  public function registerExistingUenAndEmailAdmin($registration_id) {
+  public function registerExistingUen($registration_id) {
     $registration = Registration::findOrFail($registration_id);
     $registration->register_existing_uen = true;
     $company = Company::where('uen', $registration->uen)->first();
@@ -242,10 +242,10 @@ return $registration->username;
     return Company::where('uen', $uen)->count() > 0;
   }
 
-  public function getPaymentMethods($active = false) {
-    $payment_methods = PaymentMethod::orderBy('pos');
-    if ($active) {
-      $payment_methods->where('stat', PaymentMethodStat::Active);
+  public function getPaymentMethods($stat = null) {
+    $payment_methods = PaymentMethod::orderBy('position');
+    if ($stat) {
+      $payment_methods->where('stat', $stat);
     }
     return $payment_methods->pluck('name', 'value');
   }

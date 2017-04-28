@@ -31,7 +31,7 @@
 <body class="login">
 <!-- BEGIN LOGO -->
 <div class="logo">
-  <img src="{!! asset('images/mr-wright-logo.png') !!}" class="login-logo" alt="">
+  <img src="{!! asset('assets/images/mr-wright-logo.png') !!}" class="login-logo" alt="">
 </div>
 <!-- END LOGO -->
 

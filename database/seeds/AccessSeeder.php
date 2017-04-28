@@ -31,5 +31,7 @@ class AccessSeeder extends Seeder
     DB::table('access')->insert(['access_id'=>22, 'name'=>'category-for-ticket', 'type'=>AccessType::Module]);
     DB::table('access')->insert(['access_id'=>23, 'name'=>'frontend', 'type'=>AccessType::Module]);
     DB::table('access')->insert(['access_id'=>24, 'name'=>'registration', 'type'=>AccessType::Module]);
+    DB::table('access')->insert(['access_id'=>25, 'name'=>'payment-method', 'type'=>AccessType::Module]);
+    DB::table('access')->insert(['access_id'=>26, 'name'=>'membership', 'type'=>AccessType::Module]);
   }
 }

@@ -148,6 +148,7 @@ Route::group(['middleware'=>['auth']], function() {
     Route::get('admin/blocked-date-time', 'Admin\WorkingHourController@blockedDateTime');
     Route::get('admin/category-for-ticket', 'Admin\SettingController@categoryForTicket');
     Route::get('admin/payment-method', 'Admin\SettingController@paymentMethod');
+    Route::post('admin/payment-method', 'Admin\SettingController@paymentMethod');
     Route::get('admin/system', 'Admin\SettingController@system');
     Route::get('admin/setting', 'Admin\SettingController@setting');
     Route::get('admin/access', 'Admin\SettingController@access');

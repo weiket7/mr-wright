@@ -207,6 +207,8 @@ License: You must have a valid license purchased only from themeforest(the above
   <![endif]-->
   <!-- BEGIN CORE PLUGINS -->
   <script src="{{asset('assets/metronic/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('assets/js/jquery-ui.min.js')}}" type="text/javascript"></script>
+
   <script src="{{asset('assets/metronic/global/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/global/plugins/js.cookie.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js')}}" type="text/javascript"></script>

@@ -11,14 +11,32 @@ class Membership extends Eloquent
   protected $validation;
   public $timestamps = false;
   
+  public function getMembershipAll() {
+    return Membership::orderBy('position')->get();
+  }
+  
+  public function getMembershipDropdown($stat = null) {
+    $memberships = Membership::orderBy('position');
+    if ($stat) {
+      $memberships->where('stat', $stat);
+    }
+    return $memberships->pluck('name', 'membership_id');
+  }
+  
   private $rules = [
     'name'=>'required',
     'stat'=>'required',
+    'requester_limit'=>'required|numeric',
+    'effective_price'=>'required|numeric',
   ];
   
   private $messages = [
     'name.required'=>'Name is required',
     'stat.required'=>'Status is required',
+    'requester_limit.required'=>'Number of requesters is required',
+    'requester_limit.numeric'=>'Number of requesters must be numeric',
+    'effective_price.required'=>'Price is required',
+    'effective_price.numeric'=>'Price must be numeric',
   ];
   
   public function saveMembership($input) {
@@ -38,5 +56,13 @@ class Membership extends Eloquent
   
   public function getValidation() {
     return $this->validation;
+  }
+  
+  public function saveMemberships($memberships, $input) {
+    foreach($memberships as $pm) {
+      $pm->position = $input['position'.$pm->membership_id];
+      $pm->save();
+    }
+    return true;
   }
 }

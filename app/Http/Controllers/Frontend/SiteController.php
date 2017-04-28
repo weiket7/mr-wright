@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Mail\InviteMail;
 use App\Models\Enums\MembershipStat;
+use App\Models\Enums\PaymentMethodStat;
 use App\Models\Enums\RequesterStat;
 use App\Models\FrontendService;
 use App\Models\Account;
@@ -88,7 +89,6 @@ class SiteController extends Controller
       $registration = $register->saveRegistration($input, $request->ip());
       $request->session()->put('registration_id', $registration->registration_id);
 
-      Log::info($input['uen']);
       $uen_exist = $register->uenExist($input['uen']);
       if ($uen_exist) {
         return redirect('register-existing-uen');
@@ -101,10 +101,8 @@ class SiteController extends Controller
   
   public function registerMembership(Request $request) {
     $registration_id = $request->session()->get('registration_id');
-    if (empty($registration_id)) {
-      return redirect('error');
-    }
-
+    if (empty($registration_id)) { return redirect('error'); }
+  
     $account_service = new Account();
     if ($request->isMethod("post")) {
       $registration = $account_service->saveRegistrationMembership($registration_id, $request->all());
@@ -114,16 +112,15 @@ class SiteController extends Controller
       }
       return redirect('register-payment');
     }
-    $data['memberships'] = Membership::where('stat', MembershipStat::Active)->orderBy('pos')->pluck('name', 'membership_id');
-    $data['payment_methods'] = $account_service->getPaymentMethods(true);
+    $membership_service = new Membership();
+    $data['memberships'] = $membership_service->getMembershipDropdown(MembershipStat::Active);
+    $data['payment_methods'] = $account_service->getPaymentMethods(PaymentMethodStat::Active);
     return view('frontend/register-membership', $data);
   }
   
   public function registerPayment(Request $request) {
     $registration_id = $request->session()->get('registration_id');
-    if (empty($registration_id)) {
-      return redirect('error');
-    }
+    if (empty($registration_id)) { return redirect('error'); }
 
     $registration = Registration::findOrFail($registration_id);
     $data['payment_method'] = $registration->payment_method;
@@ -135,11 +132,17 @@ class SiteController extends Controller
     $registration_id = $request->session()->get('registration_id');
     if ($request->isMethod("post")) {
       $account_service = new Account();
-      $registration = $account_service->registerExistingUenAndEmailAdmin($registration_id);
+      $registration = $account_service->registerExistingUen($registration_id);
       $account_service->emailRegisterExistingUen($registration);
-      return redirect('register-success')->with('register-existing-uen', true);
+      return redirect('register-success');
     }
     return view('frontend/register-existing-uen');
+  }
+  
+  public function registerSuccess(Request $request) {
+    $registration = Registration::findOrFail($request->session()->get('registration_id'));
+    $data['registration'] = $registration;
+    return view("frontend/register-success", $data);
   }
 
   public function inviteRegistration(Request $request, $registration_id) {
@@ -151,12 +154,6 @@ class SiteController extends Controller
     $data['requester'] = Requester::where('company_id', $registration->company_id)->first();
     $data['registration'] = $registration;
     return view('frontend/invite-registration', $data);
-  }
-
-  public function registerSuccess(Request $request) {
-    $registration = Registration::findOrFail($request->session()->get('registration_id'));
-    $data['registration'] = $registration;
-    return view("frontend/register-success", $data);
   }
 
   public function officeSave(Request $request, $office_id = null) {

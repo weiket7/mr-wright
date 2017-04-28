@@ -18,7 +18,7 @@ class PaymentMethodTable extends Migration
             $table->char('stat', 1);
             $table->string('name');
             $table->string('value');
-            $table->integer('pos');
+            $table->integer('position');
             $table->dateTime('updated_on');
         });
     }

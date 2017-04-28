@@ -19,7 +19,7 @@ class MembershipTable extends Migration
       $table->string('name', 50);
       $table->integer('requester_limit');
       $table->decimal('effective_price', 9, 2); //per month
-      $table->integer('pos');
+      $table->integer('position');
     });
   }
   

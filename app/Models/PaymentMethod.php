@@ -19,5 +19,15 @@ class PaymentMethod extends Eloquent
     $this->save();
     return true;
   }
-
+  
+  public function savePaymentMethods($payment_methods, $input)
+  {
+    foreach($payment_methods as $pm) {
+      $pm->position = $input['position'.$pm->payment_method_id];
+      $pm->stat = $input['stat'.$pm->payment_method_id];
+      $pm->save();
+    }
+    return true;
+  }
+  
 }

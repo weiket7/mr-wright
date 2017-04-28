@@ -13,6 +13,7 @@ class MembershipSeeder extends Seeder
         'name'=>'Tier 1 - 1 requesters at $30/month',
         'requester_limit'=>1,
         'effective_price'=>30,
+        'position'=>1,
       ]);
   
       DB::table('membership')->insert([
@@ -21,6 +22,7 @@ class MembershipSeeder extends Seeder
         'name'=>'Tier 2 - 3 requesters at $40/month',
         'requester_limit'=>3,
         'effective_price'=>40,
+        'position'=>2,
       ]);
   
       DB::table('membership')->insert([
@@ -29,6 +31,7 @@ class MembershipSeeder extends Seeder
         'name'=>'Tier 3 - 5 requesters at $50/month',
         'requester_limit'=>5,
         'effective_price'=>50,
+        'position'=>3,
       ]);
   
       DB::table('membership')->insert([
@@ -37,6 +40,7 @@ class MembershipSeeder extends Seeder
         'name'=>'Tier 4 - 10 requesters at $60/month',
         'requester_limit'=>10,
         'effective_price'=>60,
+        'position'=>4,
       ]);
     }
 }

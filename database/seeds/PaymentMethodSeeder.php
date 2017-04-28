@@ -8,19 +8,19 @@ class PaymentMethodSeeder extends Seeder
   public function run()
   {
     DB::table('payment_method')->insert(
-      ['stat'=>PaymentMethodStat::Active, 'name'=>'Cash', 'value'=>'C', 'pos'=>3,
+      ['stat'=>PaymentMethodStat::Active, 'name'=>'Cash', 'value'=>'C', 'position'=>3,
     ]);
     DB::table('payment_method')->insert(
-      ['stat'=>PaymentMethodStat::Active, 'name'=>'NETS', 'value'=>'N', 'pos'=>2,
+      ['stat'=>PaymentMethodStat::Inactive, 'name'=>'NETS', 'value'=>'N', 'position'=>2,
     ]);
     DB::table('payment_method')->insert(
-      ['stat'=>PaymentMethodStat::Active, 'name'=>'Credit Card', 'value'=>'R', 'pos'=>1,
+      ['stat'=>PaymentMethodStat::Active, 'name'=>'Credit Card', 'value'=>'R', 'position'=>1,
     ]);
     DB::table('payment_method')->insert(
-      ['stat'=>PaymentMethodStat::Active, 'name'=>'Bank', 'value'=>'B', 'pos'=>4,
+      ['stat'=>PaymentMethodStat::Active, 'name'=>'Bank', 'value'=>'B', 'position'=>4,
     ]);
     DB::table('payment_method')->insert(
-      ['stat'=>PaymentMethodStat::Active, 'name'=>'Cheque', 'value'=>'Q', 'pos'=>5,
+      ['stat'=>PaymentMethodStat::Active, 'name'=>'Cheque', 'value'=>'Q', 'position'=>5,
     ]);
   }
 }

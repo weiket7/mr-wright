@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Access;
+use App\Models\PaymentMethod;
 use App\Models\Services\AccessService;
 use App\Models\Services\TicketService;
 use App\Models\Setting;
@@ -19,6 +20,19 @@ class SettingController extends Controller
     $this->access_service = $access_service;
     $this->ticket_service = $ticket_service;
   }
+  
+  public function paymentMethod(Request $request) {
+    $payment_methods = PaymentMethod::orderBy("position")->get();
+    if($request->isMethod("post")) {
+      $input = $request->all();
+      $payment_method_service = new PaymentMethod();
+      $payment_method_service->savePaymentMethods($payment_methods, $input);
+      return redirect("admin/payment-method")->with("msg", "Payment methods updated");
+    }
+    $data['payment_methods'] = $payment_methods;
+    return view("admin/setting/payment-method", $data);
+  }
+  
 
   public function setting(Request $request) {
     $data['settings'] = Setting::all();
