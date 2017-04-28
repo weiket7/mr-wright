@@ -7,6 +7,7 @@ use App\Mail\InviteMail;
 use App\Models\Enums\MembershipStat;
 use App\Models\Enums\PaymentMethodStat;
 use App\Models\Enums\RequesterStat;
+use App\Models\ForgotPassword;
 use App\Models\FrontendService;
 use App\Models\Account;
 use App\Models\Invite;
@@ -214,6 +215,18 @@ class SiteController extends Controller
       $data['current_service'] = $data['services'][$slug];
     }
     return view("frontend/service", $data);
+  }
+  
+  public function forgotPassword(Request $request) {
+    if ($request->isMethod('post')) {
+      $forgot_password = new ForgotPassword();
+      $input = $request->all();
+      if (! $forgot_password->saveForgotPassword($input)) {
+        return redirect('forgot-password')->withErrors($forgot_password->getValidation())->withInput($input);
+      }
+      return redirect('forgot-password')->with('msg', 'If the email is valid, a new password will be emailed to you shortly');
+    }
+    return view('frontend/forgot-password');
   }
 
   public function logout(Request $request)

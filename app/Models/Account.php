@@ -256,5 +256,4 @@ return $registration->username;
     Mail::to($user)
       ->send(new RegistrationApproveMail($registration));
   }
-
 }

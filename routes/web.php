@@ -39,6 +39,8 @@ Route::post('invite/accept/{token}', 'Frontend\SiteController@inviteAccept');
 
 Route::get('login', 'Frontend\SiteController@login');
 Route::post('login', 'Frontend\SiteController@login');
+Route::get('forgot-password', 'Frontend\SiteController@forgotPassword');
+Route::post('forgot-password', 'Frontend\SiteController@forgotPassword');
 Route::get('logout', 'Frontend\SiteController@logout');
 Route::get('error', 'Frontend\SiteController@error');
 

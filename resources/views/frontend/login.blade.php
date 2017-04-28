@@ -17,5 +17,6 @@
     <br><br>
 
     <input type="submit" name="submit" value="LOG IN" class="more active">
+    &nbsp;&nbsp;<a href="{{url('forgot-password')}}">Forgot password</a>
   </form>
 @endsection

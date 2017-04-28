@@ -40,7 +40,7 @@ https://test.paydollar.com/b2c2/eng/payment/payForm.jsp">
     
     After payment has been received, an email will be sent to you.
     <br><br><br>
-    
-    If you have questions or encounter any issues, please email {{$frontend['contents']['email']}}.
+
+    If you have questions or encounter any issues, please email us at {{$frontend['contents']['email']}}.
   @endif
 @endsection
