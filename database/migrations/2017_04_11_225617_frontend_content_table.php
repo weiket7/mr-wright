@@ -74,6 +74,18 @@ Winter Park, FL 32789']
       ]);
     }
 
+    /*PAYMENT*/
+    $data = [
+      ['key'=>'payment_cheque', 'value'=>'For cheque payment, please make it payable: <br>Mr Wright Pte Ltd'],
+      ['key'=>'payment_cash', 'value'=>'For cash payment, please make payment at:<br>Mr Wright<br>Blk 100, #01-1345<br>123 Toa Payoh Rd, S123456'],
+      ['key'=>'payment_banktransfer', 'value'=>'For bank transfer, please transfer to: <br>OCBC Corporate Current Account, 123-456-789<br>Bank Code: 1234 | Branch Code 4567'],
+      ['key'=>'payment_nets', 'value'=>'For NETS, upon submitting, you will be prompted for payment.'],
+      ['key'=>'payment_creditcard', 'value'=>'For credit card, upon submitting, you will be prompted for payment.'],
+    ];
+    foreach($data as $d) {
+      DB::table('frontend_content')->insert(['page'=>'payment', 'key'=>$d['key'], 'value'=>$d['value']]);
+    }
+
     /*HOME WHY CHOOSE*/
     DB::table('frontend_content')->insert([
       'page'=>'home',

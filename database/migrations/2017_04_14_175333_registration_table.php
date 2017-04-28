@@ -28,6 +28,7 @@ class RegistrationTable extends Migration
       $t->decimal('effective_price', 9, 2);
       $t->char('payment_method', 1);
       $t->boolean('approved');
+      $t->string('ip', 40);
       $t->integer('company_id')->nullable();
       $t->integer('office_id')->nullable();
       $t->integer('requester_id')->nullable();

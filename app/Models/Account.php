@@ -89,7 +89,7 @@ class Account extends Eloquent
     ];
     $messages = [
       'membership_id.required' => 'Membership plan is required',
-      'payment_method.required' => 'Payment methodis required'
+      'payment_method.required' => 'Payment method is required'
     ];
     $this->validation = Validator::make($input, $rules, $messages );
     if ( $this->validation->fails()) {
@@ -191,7 +191,7 @@ class Account extends Eloquent
     return true;
   }
 
-  public function saveRegistration($input) {
+  public function saveRegistration($input, $ip) {
     $input = array_map('trim', $input);
 
     $registration = new Registration();
@@ -205,7 +205,8 @@ class Account extends Eloquent
     $registration->company_name = $input['company_name'];
     $registration->addr = $input['addr'];
     $registration->postal = $input['postal'];
-    
+    $registration->ip = $ip;
+
     $registration->save();
 
     return $registration;

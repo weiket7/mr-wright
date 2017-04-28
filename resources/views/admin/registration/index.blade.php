@@ -18,6 +18,7 @@
             <th>Username</th>
             <th>Designation</th>
             <th>Company Name</th>
+            <th>UEN</th>
             <th>Membership Plan</th>
             <th>Registered On</th>
           </tr>
@@ -36,6 +37,7 @@
               <td>{{ $registration->username }}</td>
               <td>{{ $registration->designation }}</td>
               <td>{{ $registration->company_name }}</td>
+              <td>{{ $registration->uen }}</td>
               <td>{{ $registration->membership_name }}</td>
               <td>{{ ViewHelper::formatDateTime($registration->created_on) }}</td>
             </tr>

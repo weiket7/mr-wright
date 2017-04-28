@@ -85,13 +85,15 @@ class SiteController extends Controller
         return redirect()->back()->withErrors($register->getValidation())->withInput($input);
       }
 
-      $registration = $register->saveRegistration($input);
+      $registration = $register->saveRegistration($input, $request->ip());
+      $request->session()->put('registration_id', $registration->registration_id);
 
+      Log::info($input['uen']);
       $uen_exist = $register->uenExist($input['uen']);
       if ($uen_exist) {
-        return redirect('register-existing-uen')->with('registration_id', $registration->registration_id);
+        return redirect('register-existing-uen');
       }
-      return redirect('register-membership')->with('registration_id', $registration->registration_id);
+      return redirect('register-membership');
     }
     
     return view("frontend/register");
@@ -100,9 +102,9 @@ class SiteController extends Controller
   public function registerMembership(Request $request) {
     $registration_id = $request->session()->get('registration_id');
     if (empty($registration_id)) {
-      Log::error('SiteController->registerMembership - Registration id is empty');
       return redirect('error');
     }
+
     $account_service = new Account();
     if ($request->isMethod("post")) {
       $registration = $account_service->saveRegistrationMembership($registration_id, $request->all());
@@ -110,9 +112,8 @@ class SiteController extends Controller
       if ($payment_method == 'R') { //credit card
         //TODO paydollar
       }
-      return redirect('register-payment')->with('registration_id', $registration->registration_id);
+      return redirect('register-payment');
     }
-    $request->session()->flash('registration_id', $registration_id);
     $data['memberships'] = Membership::where('stat', MembershipStat::Active)->orderBy('pos')->pluck('name', 'membership_id');
     $data['payment_methods'] = $account_service->getPaymentMethods(true);
     return view('frontend/register-membership', $data);
@@ -120,6 +121,10 @@ class SiteController extends Controller
   
   public function registerPayment(Request $request) {
     $registration_id = $request->session()->get('registration_id');
+    if (empty($registration_id)) {
+      return redirect('error');
+    }
+
     $registration = Registration::findOrFail($registration_id);
     $data['payment_method'] = $registration->payment_method;
     //TODO paydollar
@@ -127,17 +132,13 @@ class SiteController extends Controller
   }
 
   public function registerExistingUen(Request $request) {
+    $registration_id = $request->session()->get('registration_id');
     if ($request->isMethod("post")) {
-      $registration_id = $request->session()->get('registration_id');
       $account_service = new Account();
       $registration = $account_service->registerExistingUenAndEmailAdmin($registration_id);
       $account_service->emailRegisterExistingUen($registration);
       return redirect('register-success')->with('register-existing-uen', true);
     }
-
-    $registration_id = $request->session()->get('registration_id');
-    $request->session()->flash('registration_id', $registration_id);
-
     return view('frontend/register-existing-uen');
   }
 
@@ -153,7 +154,8 @@ class SiteController extends Controller
   }
 
   public function registerSuccess(Request $request) {
-    $data['username'] = $request->session()->get('username');
+    $registration = Registration::findOrFail($request->session()->get('registration_id'));
+    $data['registration'] = $registration;
     return view("frontend/register-success", $data);
   }
 

@@ -13,13 +13,14 @@ class RegistrationController extends Controller
 {
   public function index()
   {
-    $data['registrations'] = Registration::all();
+    $data['registrations'] = Registration::orderBy('created_on', 'desc')->get();
     return view("admin/registration/index", $data);
   }
 
   public function save(Request $request, $registration_id) {
     $registration = Registration::findOrFail($registration_id);
     $will_be_admin = Requester::where('company_id', $registration->company_id)->count() == 0;
+    //TODO when there are 5 registrations and approve one, need to void the rest?
 
     if($request->isMethod('post')) {
       $account_service = new Account();

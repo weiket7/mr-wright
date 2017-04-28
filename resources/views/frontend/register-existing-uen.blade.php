@@ -1,4 +1,4 @@
-@extends('frontend.template', ['title'=>'Registration Success'])
+@extends('frontend.template', ['title'=>'Register Existing UEN'])
 
 @section('content')
 
