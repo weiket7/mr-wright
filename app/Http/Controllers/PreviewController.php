@@ -49,5 +49,12 @@ class PreviewController extends Controller
     return view('emails/invite', $data);
   }
 
+  public function forgotPassword() {
+    $data['email'] = 'wei_ket@hotmail.com';
+    $data['name'] = 'Wei Ket';
+    $data['new_password'] = str_random(8);
+    return view('emails/forgot-password', $data);
+  }
+
 
 }

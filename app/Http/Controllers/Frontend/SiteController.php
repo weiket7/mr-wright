@@ -1,11 +1,7 @@
-<?php
-
-namespace App\Http\Controllers\Frontend;
+<?php namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Mail\InviteMail;
-use App\Models\Enums\MembershipStat;
-use App\Models\Enums\PaymentMethodStat;
 use App\Models\Enums\RequesterStat;
 use App\Models\ForgotPassword;
 use App\Models\FrontendService;
@@ -76,74 +72,6 @@ class SiteController extends Controller
       $data['offices'] = $this->company_service->getOfficeAll($requester->company_id);
     }
     return view('frontend/account', $data);
-  }
-
-  public function register(Request $request) {
-    $register = new Account();
-    if ($request->isMethod("post")) {
-      $input = $request->all();
-      $validate = $register->validateRegistration($input) == false;
-      if ($validate) {
-        return redirect()->back()->withErrors($register->getValidation())->withInput($input);
-      }
-
-      $registration = $register->saveRegistration($input, $request->ip());
-      $request->session()->put('registration_id', $registration->registration_id);
-
-      $uen_exist = $register->uenExist($input['uen']);
-      if ($uen_exist) {
-        return redirect('register-existing-uen');
-      }
-      return redirect('register-membership');
-    }
-    
-    return view("frontend/register");
-  }
-  
-  public function registerMembership(Request $request) {
-    $registration_id = $request->session()->get('registration_id');
-    if (empty($registration_id)) { return redirect('error'); }
-  
-    $account_service = new Account();
-    if ($request->isMethod("post")) {
-      $registration = $account_service->saveRegistrationMembership($registration_id, $request->all());
-      $payment_method = $request->get('payment_method');
-      if ($payment_method == 'R') { //credit card
-        //TODO paydollar
-      }
-      return redirect('register-payment');
-    }
-    $membership_service = new Membership();
-    $data['memberships'] = $membership_service->getMembershipDropdown(MembershipStat::Active);
-    $data['payment_methods'] = $account_service->getPaymentMethods(PaymentMethodStat::Active);
-    return view('frontend/register-membership', $data);
-  }
-  
-  public function registerPayment(Request $request) {
-    $registration_id = $request->session()->get('registration_id');
-    if (empty($registration_id)) { return redirect('error'); }
-
-    $registration = Registration::findOrFail($registration_id);
-    $data['payment_method'] = $registration->payment_method;
-    //TODO paydollar
-    return view('frontend/register-payment', $data);
-  }
-
-  public function registerExistingUen(Request $request) {
-    $registration_id = $request->session()->get('registration_id');
-    if ($request->isMethod("post")) {
-      $account_service = new Account();
-      $registration = $account_service->registerExistingUen($registration_id);
-      $account_service->emailRegisterExistingUen($registration);
-      return redirect('register-success');
-    }
-    return view('frontend/register-existing-uen');
-  }
-  
-  public function registerSuccess(Request $request) {
-    $registration = Registration::findOrFail($request->session()->get('registration_id'));
-    $data['registration'] = $registration;
-    return view("frontend/register-success", $data);
   }
 
   public function inviteRegistration(Request $request, $registration_id) {
@@ -221,7 +149,7 @@ class SiteController extends Controller
     if ($request->isMethod('post')) {
       $forgot_password = new ForgotPassword();
       $input = $request->all();
-      if (! $forgot_password->saveForgotPassword($input)) {
+      if (! $forgot_password->saveForgotPasswordAndEmail($input)) {
         return redirect('forgot-password')->withErrors($forgot_password->getValidation())->withInput($input);
       }
       return redirect('forgot-password')->with('msg', 'If the email is valid, a new password will be emailed to you shortly');
@@ -240,14 +168,16 @@ class SiteController extends Controller
     return view("frontend/about");
   }
 
+
   public function project(Request $request)
   {
     return view("frontend/project");
   }
 
-  public function pricing(Request $request)
-  {
-    return view("frontend/pricing");
+  public function membership(Request $request) {
+    $membership_service = new Membership();
+    $data['memberships'] = $membership_service->getMembershipAll();
+    return view("frontend/membership", $data);
   }
 
   public function contact(Request $request)

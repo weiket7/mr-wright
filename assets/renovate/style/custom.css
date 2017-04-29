@@ -9,6 +9,7 @@
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
 /*custom*/
 .ticket-image {
   max-height: 250px;
@@ -30,7 +31,7 @@ label {
   margin: 0;
 }
 .form-control, .btn, .alert, .panel {
-  border-radius:0 !important;
+  border-radius: 0 !important;
 }
 .social-icons.yellow li a, .menu-container .sf-menu li ul, :after, :before {
   box-sizing: content-box;
@@ -40,28 +41,35 @@ label {
   margin-top: 0px;
   margin-bottom: 20px;
 }
+.membership-header {
+  background-color: #F4BC16;
+}
+.list-group-item:first-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.list-group-item:last-child {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
 
 /*step wizard*/
 /*http://bootsnipp.com/snippets/featured/form-wizard-and-validation*/
 .stepwizard-step p {
   margin-top: 10px;
 }
-
 .stepwizard-row {
   display: table-row;
 }
-
 .stepwizard {
   display: table;
   width: 100%;
   position: relative;
 }
-
 .stepwizard-step button[disabled] {
   opacity: 1 !important;
   filter: alpha(opacity=100) !important;
 }
-
 .stepwizard-row:before {
   top: 14px;
   bottom: 0;
@@ -72,13 +80,11 @@ label {
   background-color: #ccc;
   z-order: 0;
 }
-
 .stepwizard-step {
   display: table-cell;
   text-align: center;
   position: relative;
 }
-
 .btn-circle {
   width: 30px;
   height: 30px;

@@ -2,6 +2,10 @@
 
 @section('content')
   <div class="alert alert-danger margin-top-40">
-    An error occurred!
+    @if(session()->has('error'))
+      {{session()->get('error')}}
+    @else
+      An error occurred!
+    @endif
   </div>
 @endsection

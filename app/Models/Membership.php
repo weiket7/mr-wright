@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use Eloquent, DB, Validator, Log;
+use ViewHelper;
 
 class Membership extends Eloquent
 {
@@ -11,16 +12,28 @@ class Membership extends Eloquent
   protected $validation;
   public $timestamps = false;
   
-  public function getMembershipAll() {
-    return Membership::orderBy('position')->get();
+  public function getMembershipAll($stat = null) {
+    if ($stat) {
+      $memberships = Membership::orderBy('position')->where('stat', $stat)->get();
+    } else {
+      $memberships = Membership::orderBy('position')->get();
+    }
+    foreach($memberships as $m) {
+      $m->full_name = $m->title . ' - ' . $m->requester_limit . ' at ' . $m->effective_price . ' / month';
+    }
+    return $memberships;
   }
   
   public function getMembershipDropdown($stat = null) {
-    $memberships = Membership::orderBy('position');
     if ($stat) {
-      $memberships->where('stat', $stat);
+      $memberships = Membership::orderBy('position')->where('stat', $stat)->get();
+    } else {
+      $memberships = Membership::orderBy('position')->get();
     }
-    return $memberships->pluck('name', 'membership_id');
+    foreach($memberships as $m) {
+      $m->full_name = $m->name . ' - ' . $m->requester_limit . ' user'. ($m->requester_limit == 1 ? '' : 's') . ' at ' . ViewHelper::formatCurrency($m->effective_price) . ' / month';
+    }
+    return $memberships->pluck('full_name', 'membership_id');
   }
   
   private $rules = [

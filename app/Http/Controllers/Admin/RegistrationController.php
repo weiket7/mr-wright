@@ -19,12 +19,12 @@ class RegistrationController extends Controller
 
   public function save(Request $request, $registration_id) {
     $registration = Registration::findOrFail($registration_id);
-    $will_be_admin = Requester::where('company_id', $registration->company_id)->count() == 0;
+    $account_service = new Account();
+    $will_be_admin = $account_service->willBeAdmin($registration->company_id);
     //TODO when there are 5 registrations and approve one, need to void the rest?
 
     if($request->isMethod('post')) {
-      $account_service = new Account();
-      $registration = $account_service->approveRegistration($registration_id, $will_be_admin);
+      $registration = $account_service->approveRegistration($registration_id);
       //update company and office requester count
       $account_service->updateCompanyOfficeRequesterCount($registration->company_id);
       $account_service->emailApproveRegistration($registration);

@@ -30,7 +30,7 @@
             Membership Plan *
           </label>
           <div class="col-md-9">
-            {{ Form::select('membership_id', $memberships, '', ['placeholder'=>'', 'class'=>'form-control']) }}
+            {{ Form::select('membership_id', $memberships, session()->has('membership_id') ? session()->get('membership_id') : '', ['placeholder'=>'', 'class'=>'form-control']) }}
           </div>
         </div>
       </div>
@@ -45,7 +45,6 @@
         </div>
       </div>
     </div>
-
 
     <div class="alert alert-info" v-show="payment_method">
       <div v-show="payment_method == 'C'">

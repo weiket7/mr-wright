@@ -10,9 +10,9 @@ class ForgotPasswordTable extends Migration
   {
     Schema::create('forgot_password', function(Blueprint $t) {
       $t->increments('forgot_password_id');
+      $t->char('stat', 1);
       $t->string('email', 100);
       $t->string('token', 30);
-      $t->boolean('consumed');
       $t->dateTime('created_on');
       $t->dateTime('updated_on');
     });

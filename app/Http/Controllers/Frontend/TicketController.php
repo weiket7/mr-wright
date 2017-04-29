@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Entities\TransactionRequest;
+use App\Models\Enums\PaymentMethodStat;
+use App\Models\Enums\TransactionStat;
+use App\Models\Enums\TransactionType;
 use App\Models\FrontendService;
 use App\Models\Helpers\BackendHelper;
 use App\Models\Requester;
 use App\Models\Services\CompanyService;
+use App\Models\Services\PaymentService;
 use App\Models\Services\TicketService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,10 +63,12 @@ class TicketController extends Controller
   }
 
   public function view(Request $request, $ticket_id = null) {
+    $ticket = $this->ticket_service->getTicket($ticket_id);
     if($request->isMethod("post")) {
       $input = $request->all();
       $submit = $input['submit'];
       $result = "";
+
       if (BackendHelper::stringContains($submit, "accept")) {
         $this->ticket_service->acceptTicket($ticket_id, $input, $this->getUsername());
         $result = "Ticket accepted";
@@ -69,15 +76,20 @@ class TicketController extends Controller
         $this->ticket_service->declineTicket($ticket_id, $input);
         $result = "Ticket declined";
       } elseif (BackendHelper::stringContains($submit, "payment")) {
-        $this->ticket_service->paidTicket($input, $ticket_id, $this->getUsername());
-        $result = "Ticket paid";
+        $transaction_request = new TransactionRequest();
+        $transaction_request->code = $ticket->ticket_code;
+        $transaction_request->type = TransactionType::Ticket;
+        $transaction_request->stat = TransactionStat::Pending;
+        $transaction_request->amount = $ticket->quoted_price;
+        return redirect('payment')->with('transaction_request', $transaction_request);
       }
       return redirect('ticket/view/'.$ticket_id)->with('msg', $result);
     }
 
-    $ticket = $this->ticket_service->getTicket($ticket_id);
     $data['action'] = $request->segment(2);
     $data['ticket'] = $ticket;
+    $payment_service = new PaymentService();
+    $data['payment_methods'] = $payment_service->getPaymentMethods(PaymentMethodStat::Active);
     return view("frontend/ticket-view", $data);
   }
 

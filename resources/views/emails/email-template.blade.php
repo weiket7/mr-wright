@@ -18,6 +18,15 @@
     <br><br>
 
     @yield('content')
+
+
+    <br><br>
+    If you have any questions or encounter any issues, please email us at {{$frontend['contents']['email']}}.
+    <br><br>
+
+    Regards,<br>
+    Mr Wright
+    </p>
   </div>
 </body>
 </html>

@@ -7,6 +7,7 @@ use App\Models\Enums\RequesterStat;
 use App\Models\Enums\RequesterType;
 use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
+use Carbon\Carbon;
 use Eloquent, DB, Validator, Log;
 use Hash;
 use Illuminate\Validation\Rules\In;
@@ -98,7 +99,7 @@ class Account extends Eloquent
   
     $registration = Registration::find($registration_id);
     $registration->payment_method = $input['payment_method'];
-  
+
     $membership = Membership::find($input['membership_id']);
     $registration->membership_id = $membership->membership_id;
     $registration->membership_name = $membership->name;
@@ -107,6 +108,22 @@ class Account extends Eloquent
     $registration->save();
     
     return $registration;
+  }
+
+  public function getRegistrationCode() {
+    $latest_registration_code = DB::table('registration')
+      ->whereYear('created_on', '=', Carbon::now()->year)
+      ->orderBy('created_on', 'desc')
+      ->value('registration_code');
+
+    if ($latest_registration_code == null) {
+      $year = Carbon::now()->year;
+      return 'REG_'.$year.'_00001';
+    }
+
+    $arr = explode('_' , $latest_registration_code);
+    $number = $arr[2];
+    return $arr[0].'_'.$arr[1].'_'.str_pad($number+1, 5, '0', STR_PAD_LEFT);
   }
 
   public function getRequesterForLogin($username) {
@@ -125,7 +142,7 @@ class Account extends Eloquent
     return true;
   }
 
-  public function approveRegistration($registration_id, $will_be_admin) {
+  public function approveRegistration($registration_id) {
     $registration = Registration::find($registration_id);
 
     $company = new Company();
@@ -156,7 +173,7 @@ class Account extends Eloquent
     $requester->type = RequesterType::Corporate;
     $requester->admin = false;
     $requester->stat = RequesterStat::Active;
-    $requester->admin = $will_be_admin;
+    $requester->admin = $this->willBeAdmin($registration->company_id);
     $requester->save();
 
     $user = new User();
@@ -176,6 +193,10 @@ class Account extends Eloquent
     $registration->save();
 
     return $registration;
+  }
+
+  public function willBeAdmin($company_id) {
+    return Requester::where('company_id', $registration->company_id)->count() == 0;
   }
   
   public function updateCompanyOfficeRequesterCount($company_id) {
@@ -206,6 +227,7 @@ class Account extends Eloquent
     $registration->addr = $input['addr'];
     $registration->postal = $input['postal'];
     $registration->ip = $ip;
+    $registration->registration_code = $this->getRegistrationCode();
 
     $registration->save();
 
@@ -240,14 +262,6 @@ return $registration->username;
 
   public function uenExist($uen) {
     return Company::where('uen', $uen)->count() > 0;
-  }
-
-  public function getPaymentMethods($stat = null) {
-    $payment_methods = PaymentMethod::orderBy('position');
-    if ($stat) {
-      $payment_methods->where('stat', $stat);
-    }
-    return $payment_methods->pluck('name', 'value');
   }
 
   public function emailApproveRegistration($registration)

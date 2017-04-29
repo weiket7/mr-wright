@@ -1,6 +1,11 @@
 <?php namespace App\Models;
 
+use App\Mail\ForgotPasswordMail;
+use App\Models\Enums\ForgotPasswordStat;
+use App\Models\Enums\UserType;
 use Eloquent, DB, Validator, Log;
+use Hash;
+use Mail;
 
 class ForgotPassword extends Eloquent
 {
@@ -18,7 +23,7 @@ class ForgotPassword extends Eloquent
     'email.required'=>'Email is required',
   ];
   
-  public function saveForgotPassword($input) {
+  public function saveForgotPasswordAndEmail($input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
@@ -26,14 +31,25 @@ class ForgotPassword extends Eloquent
   
     $this->token = str_random(20);
     $this->email = $input['email'];
-    $this->consumed = false;
+    $user = User::where('email', $input['email'])->where('type', UserType::Requester)->first();
+    if ($user == null) {
+      $this->stat = ForgotPasswordStat::Invalid;
+    } else {
+      $new_password = str_random(8);
+      $this->stat = ForgotPasswordStat::Valid;
+      $user->password = Hash::make($new_password);
+      $user->save();
+
+      Mail::to($user)->send(new ForgotPasswordMail($user->name, $user->email, $new_password));
+    }
     $this->save();
-  
-    return true;
+
+    return $this;
   }
-  
-  
+
+
   public function getValidation() {
     return $this->validation;
   }
+
 }

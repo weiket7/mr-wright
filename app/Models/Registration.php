@@ -32,6 +32,10 @@ class Registration extends Eloquent
     return true;
   }
 
+  public function paymentMethodIsCreditCard() {
+    return $this->payment_method == 'R';
+  }
+
 
   public function getValidation() {
     return $this->validation;

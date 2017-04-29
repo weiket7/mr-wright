@@ -225,30 +225,13 @@
       </div>
     @elseif($ticket->stat == TicketStat::Invoiced)
       <div class="panel panel-default">
-        <div class="panel-heading">Panel heading without title</div>
-
         <div class="panel-body">
+          @foreach($payment_methods as $value => $name)
           <label class="lbl-radio">
-            <input type="radio" name="payment_method" value="R" @click="selectPaymentMethod('R')"> Credit Card
+            <input type="radio" name="payment_method" value="{{$value}}" @click="selectPaymentMethod('{{$value}}')"> {{ $name }}
             <span></span>
           </label><br>
-          <label class="lbl-radio">
-            <input type="radio" name="payment_method" value="C" @click="selectPaymentMethod('C')"> Cash
-            <span></span>
-          </label><br>
-          <label class="lbl-radio">
-            <input type="radio" name="payment_method" value="N" @click="selectPaymentMethod('N')"> NETS
-            <span></span>
-          </label><br>
-          <label class="lbl-radio">
-            <input type="radio" name="payment_method" value="B" @click="selectPaymentMethod('B')"> Bank Transfer
-            <span></span>
-          </label><br>
-          <label class="lbl-radio">
-            <input type="radio" name="payment_method" value="Q" @click="selectPaymentMethod('Q')"> Cheque
-            <span></span>
-          </label>
-          <br>
+          @endforeach
           <input type="text" name="ref_no" v-show="showRefNo" class="form-control" placeholder="Ref No">
           <br>
           <div><button type="submit" name="submit" class="btn btn-primary" value="Payment">
@@ -272,7 +255,7 @@
       data: {
         issues: {!! $ticket->issues !!},
         preferred_slots: {!! $ticket->preferred_slots !!},
-        currentDate: moment()
+        currentDate: moment(),
       },
       methods: {
         addPreferredSlot: function() {

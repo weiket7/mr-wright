@@ -34,7 +34,14 @@ class Setting extends Eloquent
   }
 
   public static function getSetting($name) {
-    return Setting::where('name', $name)->value('value');
+    return Setting::whereIn('name', $name)->value('value');
+  }
+
+  public static function getPaydollarSetting() {
+    $settings = Setting::whereIn('name', ['paydollar_merchant_id', 'paydollar_post_url'])->pluck('value', 'name');
+    $res['merchant_id'] = $settings['paydollar_merchant_id'];
+    $res['post_url'] = $settings['paydollar_post_url'];
+    return $res;
   }
 
   public function getValidation() {

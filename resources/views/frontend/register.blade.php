@@ -17,6 +17,10 @@
   <form method="post" action="" class="form-horizontal" autocomplete="off">
     {{ csrf_field() }}
 
+    @if($membership_id)
+      {{ Form::hidden('membership_id', $membership_id) }}
+    @endif
+
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">

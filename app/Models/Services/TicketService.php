@@ -25,11 +25,6 @@ class TicketService
 {
   protected $validation;
 
-  public function __construct(WorkingHourService $working_hour_service)
-  {
-    $this->working_hour_service = $working_hour_service;
-  }
-
   public function getTicket($ticket_id) {
     $ticket = Ticket::findOrNew($ticket_id);
     $ticket->issues = DB::table('ticket_issue')->where('ticket_id', $ticket_id)->orderBy('ticket_issue_id')->get();
@@ -69,7 +64,8 @@ class TicketService
     $data = DB::table('staff_assignment')->where('ticket_id', $ticket_id)->get();
     $res = [];
     foreach($data as $d) {
-      $intervals = $this->working_hour_service->splitTimeRangeIntoInterval($d->time_start, $d->time_end);
+      $working_hour_service = new WorkingHourService();
+      $intervals = $working_hour_service->splitTimeRangeIntoInterval($d->time_start, $d->time_end);
       if (isset($res[$d->staff_id][$d->date])) {
         foreach($intervals as $i) {
           array_push($res[$d->staff_id][$d->date], $i);
@@ -204,7 +200,7 @@ class TicketService
   public function getNextTicketCode($company_id = null) {
     $start_of_month = Carbon::now()->startOfMonth();
     $start_of_next_month = Carbon::now()->startOfMonth()->addMonth(1);
-    Log::info($start_of_month.$start_of_next_month);
+    //Log::info($start_of_month.$start_of_next_month);
     $latest_ticket_code = DB::table('ticket')
       ->where('company_id', $company_id)
       ->where('requested_on', '>=', $start_of_month)
@@ -325,7 +321,8 @@ class TicketService
     $staff_assignments = json_decode($input['staff_assignments'], true);
     foreach($staff_assignments as $staff_id => $date_assignments) {
       foreach($date_assignments as $date => $assignments) {
-        $periods = $this->working_hour_service->mergeIntervalsIntoTimeRange($assignments);
+        $working_hour_service = new WorkingHourService();
+        $periods = $working_hour_service->mergeIntervalsIntoTimeRange($assignments);
         foreach($periods as $p) {
           $staff_assignment = [
             'ticket_id'=>$ticket_id,
@@ -420,16 +417,16 @@ class TicketService
   }
 
 
-  public function paidTicket($input, $ticket_id, $username = 'admin') {
+  public function paidTicket($ticket_id, $payment_method, $ref_no, $username = 'admin') {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Paid;
     $ticket->paid_by = $username;
     $ticket->paid_on = Carbon::now();
     $ticket->updated_on = Carbon::now();
     $ticket->recent_action = 'pay';
-    $ticket->payment_method = $input['payment_method'];
-    if (in_array($ticket->payment_method, [PaymentMethod::Bank, PaymentMethod::Cheque])) {
-      $ticket->ref_no = $input['ref_no'];
+    $ticket->payment_method = $payment_method;
+    if (in_array($ticket->payment_method, ['B', 'Q'])) {
+      $ticket->ref_no = $ref_no;
     }
     return $ticket->save();
   }

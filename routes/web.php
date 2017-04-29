@@ -19,18 +19,26 @@ use Carbon\Carbon;
 
 Route::get('/', 'Frontend\SiteController@index');
 Route::get('home', 'Frontend\SiteController@index');
-Route::get('register', 'Frontend\SiteController@register');
-Route::post('register', 'Frontend\SiteController@register');
-Route::get('register-existing-uen', 'Frontend\SiteController@registerExistingUen');
-Route::post('register-existing-uen', 'Frontend\SiteController@registerExistingUen');
-Route::get('register-membership', 'Frontend\SiteController@registerMembership');
-Route::post('register-membership', 'Frontend\SiteController@registerMembership');
-Route::get('register-payment', 'Frontend\SiteController@registerPayment');
-Route::get('register-success', 'Frontend\SiteController@registerSuccess');
+
+Route::get('register', 'Frontend\RegistrationController@index');
+Route::post('register', 'Frontend\RegistrationController@index');
+Route::get('register/existing-uen', 'Frontend\RegistrationController@existingUen');
+Route::post('register/existing-uen', 'Frontend\RegistrationController@existingUen');
+Route::get('register/membership', 'Frontend\RegistrationController@membership');
+Route::post('register/membership', 'Frontend\RegistrationController@membership');
+Route::get('register/payment', 'Frontend\RegistrationController@payment');
+Route::get('register/success', 'Frontend\RegistrationController@success');
+
+Route::get('payment', 'Frontend\PaymentController@index');
+Route::get('payment/success', 'Frontend\PaymentController@success');
+Route::get('payment/callback', 'Frontend\PaymentController@success');
+Route::get('payment/cancel', 'Frontend\PaymentController@cancel');
+Route::get('payment/fail', 'Frontend\PaymentController@fail');
+
 Route::get('contact', 'Frontend\SiteController@contact');
 Route::post('contact', 'Frontend\SiteController@contact');
 Route::get('about', 'Frontend\SiteController@about');
-Route::get('pricing', 'Frontend\SiteController@pricing');
+Route::get('membership', 'Frontend\SiteController@membership');
 Route::get('services', 'Frontend\SiteController@service');
 Route::get('services/{slug}', 'Frontend\SiteController@service');
 Route::get('projects', 'Frontend\SiteController@project');
@@ -180,6 +188,7 @@ Route::get('preview/quotation/{id}', 'PreviewController@previewQuotation');
 Route::get('preview/invoice/{id}', 'PreviewController@previewInvoice');
 Route::get('preview/register-existing-uen/{id}', 'PreviewController@registerExistingUen');
 Route::get('preview/invite', 'PreviewController@invite');
+Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 
 
 Route::get('test', function() {

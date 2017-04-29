@@ -12,10 +12,12 @@ class SettingSeeder extends Seeder
       'value'=>7,
     ]);
     DB::table('setting')->insert([
-    'name'=>'invoice_payment_to',
-    'value'=>'Please make payment to Mr Wright via:
-      1.
-      2.'
+      'name'=>'paydollar_merchant_id',
+      'value'=>12104485,
+    ]);
+    DB::table('setting')->insert([
+    'name'=>'paydollar_post_url',
+    'value'=>'https://test.paydollar.com/b2cDemo/eng/payment/payForm.jsp',
   ]);
   }
 }

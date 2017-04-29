@@ -10,6 +10,7 @@ class RegistrationTable extends Migration
   {
     Schema::create('registration', function(Blueprint $t) {
       $t->increments('registration_id');
+      $t->string('registration_code', 15);
       $t->string('username', 20);
       $t->string('password', 60);
       $t->string('name', 50);
