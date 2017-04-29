@@ -76,12 +76,18 @@ class TicketController extends Controller
         $this->ticket_service->declineTicket($ticket_id, $input);
         $result = "Ticket declined";
       } elseif (BackendHelper::stringContains($submit, "payment")) {
-        $transaction_request = new TransactionRequest();
-        $transaction_request->code = $ticket->ticket_code;
-        $transaction_request->type = TransactionType::Ticket;
-        $transaction_request->stat = TransactionStat::Pending;
-        $transaction_request->amount = $ticket->quoted_price;
-        return redirect('payment')->with('transaction_request', $transaction_request);
+        $payment_method = $input['payment_method'];
+        if ($payment_method == 'R') {
+          $transaction_request = new TransactionRequest();
+          $transaction_request->code = $ticket->ticket_code;
+          $transaction_request->type = TransactionType::Ticket;
+          $transaction_request->stat = TransactionStat::Pending;
+          $transaction_request->amount = $ticket->quoted_price;
+          return redirect('payment')->with('transaction_request', $transaction_request);
+        } else if($payment_method == 'B' || $payment_method == 'Q') {
+          $this->ticket_service->savePaymentRefNo($ticket_id, $input['ref_no']);
+        }
+
       }
       return redirect('ticket/view/'.$ticket_id)->with('msg', $result);
     }

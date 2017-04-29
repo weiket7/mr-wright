@@ -29,17 +29,11 @@ class  TicketSeeder extends Seeder
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
 
-      //'drafted_by'=>'Misty',
-      //'drafted_on'=>Carbon::now(),
-      'opened_by'=>'Jessica',
-      'opened_on'=>Carbon::now(),
       'requested_by'=>'Sally',
       'requester_mobile'=>'9123 4567',
       'requester_email'=>'sally@unity-pharmacy.com',
       'requested_on'=>Carbon::now()->subMinute(99),
-      'updated_by'=>'admin',
-      'updated_on'=>Carbon::now(),
-      'recent_action'=>'open',
+      
     ]);
 
     DB::table('ticket')->insert([
@@ -173,17 +167,11 @@ class  TicketSeeder extends Seeder
       'requester_desc'=>'Inform Sally at reception when done',
       'operator_desc'=>'IMPT: Remember to clean up after completion',
 
-      //'drafted_by'=>'Misty',
-      //'drafted_on'=>Carbon::now(),
-      'opened_by'=>'Jessica',
-      'opened_on'=>Carbon::now(),
+
       'requested_by'=>'Jane',
       'requester_mobile'=>'9123 4567',
       'requester_email'=>'jane@unity-pharmacy.com',
       'requested_on'=>Carbon::now()->subMinute(92),
-      'updated_by'=>'admin',
-      'updated_on'=>Carbon::now(),
-      'recent_action'=>'open',
     ]);
 
   }

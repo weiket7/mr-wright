@@ -336,26 +336,27 @@
           </div>
           <div class="tab-pane fade" id="tab-history">
             <ul class="list-group">
-              <?php $history = [];
-              if ($ticket->paid_by)
-                $history[] = "Paid by ".$ticket->paid_by." on " . ViewHelper::formatDateTime($ticket->paid_on);
-              if ($ticket->invoiced_by)
-                $history[] = "Invoiced by ".$ticket->invoiced_by." on " . ViewHelper::formatDateTime($ticket->invoiced_on);
-              if ($ticket->completed_by)
-                $history[] = "Completed by ".$ticket->completed_by." on " . ViewHelper::formatDateTime($ticket->completed_on);
-              if ($ticket->declined_by)
-                $history[] = "Declined by ".$ticket->declined_by." on " . ViewHelper::formatDateTime($ticket->declined_on);
-              if ($ticket->accepted_by)
-                $history[] = "Accepted by ".$ticket->accepted_by." on " . ViewHelper::formatDateTime($ticket->accepted_on);
-              if ($ticket->quoted_by)
-                $history[] = "Quoted by ".$ticket->quoted_by." on " . ViewHelper::formatDateTime($ticket->quoted_on);
-              if ($ticket->opened_by)
-                $history[] = "Opened by ".$ticket->opened_by." on " . ViewHelper::formatDateTime($ticket->opened_on);
-              if ($ticket->drafted_by)
-                $history[] = "Drafted by ".$ticket->drafted_by." on " . ViewHelper::formatDateTime($ticket->drafted_on);
-              ?>
-              @foreach($history as $h)
-                <li class="list-group-item"> {{ $h }} </li>
+              @foreach($ticket->history as $h)
+                <li class="list-group-item">
+                  @if ($h->action == 'pay')
+                    Paid
+                  @elseif ($h->action == 'invoice')
+                    Invoiced
+                  @elseif ($h->action == 'complete')
+                    Completed
+                  @elseif ($h->action == 'decline')
+                    Declined
+                  @elseif ($h->action == 'accept')
+                    Accepted
+                  @elseif ($h->action == 'quote')
+                    Quoted
+                  @elseif ($h->action == 'open')
+                    Opened
+                  @elseif ($h->action == 'draft')
+                    Drafted
+                  @endif
+                  by {{ $h->action_by }} on {{ ViewHelper::formatDateTime($ticket->action_on) }}
+                </li>
               @endforeach
             </ul>
           </div>

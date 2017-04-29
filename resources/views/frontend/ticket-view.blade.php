@@ -256,6 +256,7 @@
         issues: {!! $ticket->issues !!},
         preferred_slots: {!! $ticket->preferred_slots !!},
         currentDate: moment(),
+        showRefNo: false,
       },
       methods: {
         addPreferredSlot: function() {
@@ -308,6 +309,9 @@
         },
         isVideo: function(file_name) {
           return fileExtensionIsVideo(file_name);
+        },
+        selectPaymentMethod: function(payment_method) {
+          this.showRefNo = payment_method == 'Q' || payment_method == 'B';
         }
       },
       filters: {

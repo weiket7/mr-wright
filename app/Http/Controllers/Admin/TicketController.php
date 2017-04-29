@@ -30,7 +30,7 @@ class TicketController extends Controller
       $request->flash();
       $data['search_result'] = 'Showing ' . count($tickets) . ' ticket(s)';
     } else {
-      $tickets = Ticket::orderBy('requested_on', 'desc')->get(); //TODO
+      $tickets = Ticket::orderBy('updated_on', 'desc')->get();
     }
     $data['tickets'] = $tickets;
     $data['categories'] = $this->ticket_service->getCategoryDropdown();

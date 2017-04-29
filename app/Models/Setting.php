@@ -34,7 +34,7 @@ class Setting extends Eloquent
   }
 
   public static function getSetting($name) {
-    return Setting::whereIn('name', $name)->value('value');
+    return Setting::where('name', $name)->value('value');
   }
 
   public static function getPaydollarSetting() {

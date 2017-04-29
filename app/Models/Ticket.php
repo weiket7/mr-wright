@@ -9,9 +9,10 @@ class Ticket extends Eloquent
   public $table = 'ticket';
   protected $primaryKey = 'ticket_id';
   protected $validation;
-  public $timestamps = false;
+  const UPDATED_AT = 'updated_on';
 
-  public function getValidation() {
-    return $this->validation;
+  public function setCreatedAtAttribute($value)
+  {
+    //disable created_at
   }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Enums\UserType;
 use App\Models\Registration;
 use App\Models\Requester;
 use App\Models\Services\AccessService;
@@ -21,6 +22,9 @@ class FrontendTicketMiddleware
     $username = Auth::user()->username;
 
     if ($module == 'ticket' && !empty($action) && !empty($request->id)) {
+      if (Auth::check() == false || Auth::user()->type == UserType::Operator) {
+        return redirect('login?referral='.$module.'/'.$action.'/'.$request->id);
+      }
       $ticket_id = $request->id;
       $access_service = new AccessService();
       $ticket = Ticket::find($ticket_id);

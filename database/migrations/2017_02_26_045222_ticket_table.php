@@ -36,26 +36,8 @@ class TicketTable extends Migration
       $t->string('operator_desc', 250);
       $t->string('quotation_desc', 250);
       $t->string('accept_decline_reason', 250);
-
-      //$t->string('drafted_by', 20);
-      //$t->dateTime('drafted_on');
-      $t->string('opened_by', 20);
-      $t->dateTime('opened_on');
-      $t->string('quoted_by', 20);
-      $t->dateTime('quoted_on');
-      $t->string('accepted_by', 20);
-      $t->dateTime('accepted_on');
-      $t->string('declined_by', 20);
-      $t->dateTime('declined_on');
-      $t->string('completed_by', 20);
-      $t->dateTime('completed_on');
-      $t->string('invoiced_by', 20);
-      $t->dateTime('invoiced_on');
-      $t->string('paid_by', 20);
-      $t->dateTime('paid_on');
-      $t->string('updated_by', 20);
       $t->dateTime('updated_on');
-      $t->string('recent_action', 15);
+
     });
   }
   
