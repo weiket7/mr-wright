@@ -1,7 +1,7 @@
 @extends('frontend.template', ['title'=>'accept invite'])
 
 @section('content')
-  <form method="post" action="" class="margin-top-40 form-horizontal">
+  <form method="post" action="" class="form-horizontal">
     {{csrf_field()}}
   
     <div class="row">

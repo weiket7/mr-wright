@@ -30,9 +30,6 @@ class Membership extends Eloquent
     } else {
       $memberships = Membership::orderBy('position')->get();
     }
-    foreach($memberships as $m) {
-      $m->full_name = $m->name . ' - ' . $m->requester_limit . ' user'. ($m->requester_limit == 1 ? '' : 's') . ' at ' . ViewHelper::formatCurrency($m->effective_price) . ' / month';
-    }
     return $memberships->pluck('full_name', 'membership_id');
   }
   
@@ -62,6 +59,8 @@ class Membership extends Eloquent
     $this->stat = $input['stat'];
     $this->requester_limit = $input['requester_limit'];
     $this->effective_price = $input['effective_price'];
+    $this->full_name = $this->name . ' - ' . $this->requester_limit . ' user'. ($this->requester_limit == 1 ? '' : 's') . ' at ' . ViewHelper::formatCurrency($this->effective_price) . ' / month';
+
     $this->save();
     return $this->membership_id;
   }

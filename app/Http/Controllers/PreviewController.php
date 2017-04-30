@@ -16,9 +16,18 @@ class PreviewController extends Controller
   protected $company_service;
   protected $ticket_service;
 
+
   public function __construct(CompanyService $company_service, TicketService $ticket_service) {
     $this->company_service = $company_service;
     $this->ticket_service = $ticket_service;
+  }
+
+  public function index() {
+    return "<a href='".url('preview/quotation/1')."'>Quotation</a><br>".
+    "<a href='".url('preview/invoice/1')."'>Invoice</a><br>".
+    "<a href='".url('preview/register-existing-uen/1')."'>Register Existing UEN</a><br>".
+    "<a href='".url('preview/register-success/1')."'>Register Success</a><br>".
+    "<a href='".url('preview/register-approve/1')."'>Register Approve</a><br>";
   }
 
   public function previewQuotation($ticket_id) {
@@ -40,6 +49,18 @@ class PreviewController extends Controller
     $data['requester'] = Requester::where('company_id', $registration->company_id)->first();
     $data['registration'] = $registration;
     return view('emails/register-existing-uen', $data);
+  }
+
+  public function registerSuccess($registration_id) {
+    $registration = Registration::findOrFail($registration_id);
+    $data['registration'] = $registration;
+    return view('emails/registration-success', $data);
+  }
+
+  public function registerApprove($registration_id) {
+    $registration = Registration::findOrFail($registration_id);
+    $data['registration'] = $registration;
+    return view('emails/registration-approve', $data);
   }
 
   public function invite() {

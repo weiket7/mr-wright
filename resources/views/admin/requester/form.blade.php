@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Status</label>
+                <label class="control-label col-md-3">Status *</label>
                 <div class="col-md-9">
                   {{Form::select('stat', RequesterStat::$values, $requester->stat, ['class'=>'form-control'])}}
                 </div>
@@ -135,7 +135,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Preferred Contact</label>
                 <div class="col-md-9">
-                  {{Form::select('preferred_contact', PreferredContact::$values, $requester->preferred_contact, ['class'=>'form-control', 'placeholder'=>''])}}
+                  {{Form::select('preferred_contact', \App\Models\Enums\PreferredContact::$values, $requester->preferred_contact, ['class'=>'form-control', 'placeholder'=>''])}}
                 </div>
               </div>
             </div>

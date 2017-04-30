@@ -35,7 +35,7 @@ class OfficeController extends Controller
 
     if($request->isMethod('post')) {
       $input = $request->all();
-      if (!$office->saveOffice($input)) {
+      if (!$office->saveOffice($input, $this->getUsername())) {
         return redirect()->back()->withErrors($office->getValidation())->withInput($input);
       }
       return redirect('admin/office/save/' . $office->office_id)->with('msg', 'Office ' . $action . "d");

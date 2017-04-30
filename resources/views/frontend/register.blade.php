@@ -116,16 +116,17 @@
     </div>
 
     <div class="row">
-      {{--<div class="col-md-6">
+      <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
-            Office  Name *
+            Company Code *
           </label>
           <div class="col-md-9">
-            <input type="text" name="office_name" class="form-control">
+            {{ Form::text('company_code', '', ['class'=>'form-control']) }}
+            <div class="help-block">2 to 5 letters, this will be prefixed in ticket codes, e.g. <em>MR</em>_1704_00001</div>
           </div>
         </div>
-      </div>--}}
+      </div>
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
@@ -136,6 +137,9 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="row">
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">

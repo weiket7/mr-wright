@@ -20,7 +20,7 @@
     @yield('content')
 
 
-    <br><br>
+    <br><br><br>
     If you have any questions or encounter any issues, please email us at {{$frontend['contents']['email']}}.
     <br><br>
 

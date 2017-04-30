@@ -10,15 +10,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class RegistrationSuccessMail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $registration;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($registration)
     {
-        //
+        $this->registration = $registration;
     }
 
     /**

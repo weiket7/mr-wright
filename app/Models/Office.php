@@ -31,20 +31,48 @@ class Office extends Eloquent
     'stat.required'=>'Status is required',
   ];
 
-  public function saveOffice($input, $backend = true) {
-
+  public function saveOffice($input, $username) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
     }
 
     $this->name = $input['name'];
-    if ($backend) {
-      $this->stat = $input['stat'];
-      $this->company_id = $input['company_id'];
-    }
+    $this->stat = $input['stat'];
+    $this->company_id = $input['company_id'];
     $this->addr = $input['addr'];
     $this->postal = $input['postal'];
+    $this->updated_by = $username;
+    $this->save();
+    return true;
+  }
+
+  public function saveOfficeFrontEnd($input, $username, $company_id) {
+    $rules = [
+      'name'=>'required',
+      'addr'=>'required',
+      'postal'=>'required',
+    ];
+
+    $messages = [
+      'name.required'=>'Name is required',
+      'addr.required'=>'Address is required',
+      'postal.required'=>'Postal is required',
+    ];
+
+    $this->validation = Validator::make($input, $rules, $messages );
+    if ( $this->validation->fails() ) {
+      return false;
+    }
+
+    if ($this->office_id == null) { //create
+      $this->company_id = $company_id;
+      $this->stat = OfficeStat::Active;
+    }
+    $this->name = $input['name'];
+    $this->addr = $input['addr'];
+    $this->postal = $input['postal'];
+    $this->updated_by = $username;
     $this->save();
     return true;
   }

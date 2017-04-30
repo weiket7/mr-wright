@@ -58,7 +58,10 @@ class RegistrationController extends Controller
         $transaction_request->stat = TransactionStat::Pending;
         $transaction_request->amount = $registration->effective_price;
         return redirect('payment')->with('transaction_request', $transaction_request);
+      } else {
+        $account_service->emailRegistration($registration);
       }
+      
       return redirect('register/success');
     }
     $membership_service = new Membership();
@@ -74,6 +77,7 @@ class RegistrationController extends Controller
       $account_service = new Account();
       $registration = $account_service->registerExistingUen($registration_id);
       $account_service->emailRegisterExistingUen($registration);
+      $account_service->emailRegistration($registration);
       return redirect('register/success');
     }
     return view('frontend/register-existing-uen');

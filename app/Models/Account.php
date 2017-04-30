@@ -2,7 +2,8 @@
 
 use App\Mail\RegisterExistingUenMail;
 use App\Mail\RegistrationApproveMail;
-use App\Models\Enums\PaymentMethodStat;
+use App\Mail\RegistrationSuccessMail;
+use App\Models\Enums\RegistrationStat;
 use App\Models\Enums\RequesterStat;
 use App\Models\Enums\RequesterType;
 use App\Models\Enums\UserStat;
@@ -10,46 +11,12 @@ use App\Models\Enums\UserType;
 use Carbon\Carbon;
 use Eloquent, DB, Validator, Log;
 use Hash;
-use Illuminate\Validation\Rules\In;
 use Mail;
 
 class Account extends Eloquent
 {
   protected $validation;
 
-  private $rules = [
-    'username'=>"required|min:6|unique:user,username",
-    'password'=>'required|min:6',
-    //'password'=>'required|min:6|confirmed',
-    'name'=>"required",
-    'designation'=>"required",
-    'email' =>'required|email',
-    'mobile' => 'required',
-    'company_name' => 'required',
-    //'office_name' => 'required',
-    'uen' => 'required',
-    'addr' => 'required',
-    'postal' => 'required',
-  ];
-
-  private $messages = [
-    'username.required'=>'Username is required',
-    'username.unique'=>'Username is not available',
-    'username.min'=>'Username must be at least 6 characters',
-    'password.required'=>'Password is required',
-    'password.min'=>'Password must be at least 6 characters',
-    //'password.confirmed'=>'Password must be confirmed',
-    'name.required'=>'Name is required',
-    'designation.required'=>'Designation is required',
-    'company_name.required'=>'Company registered name is required',
-    'uen.required'=>'Unique Entity Number (UEN) is required',
-    //'office_name.required'=>'Office name is required',
-    'email.required'=>'Email is required',
-    'email.email'=>'Email must be valid email',
-    'mobile.required' => 'Mobile is required',
-    'addr.required' => 'Address is required',
-    'postal.required' => 'Postal code is required',
-  ];
 
   public function saveAccount($input, $username)
   {
@@ -80,7 +47,7 @@ class Account extends Eloquent
     $user->name = $input['name'];
     $user->email = $input['email'];
     $user->save();
-    return true;  
+    return true;
   }
   
   public function saveRegistrationMembership($registration_id, $input) {
@@ -96,12 +63,13 @@ class Account extends Eloquent
     if ( $this->validation->fails()) {
       return false;
     }
-  
+
     $registration = Registration::find($registration_id);
     $registration->payment_method = $input['payment_method'];
 
     $membership = Membership::find($input['membership_id']);
     $registration->membership_id = $membership->membership_id;
+    $registration->membership_full_name = $membership->full_name;
     $registration->membership_name = $membership->name;
     $registration->requester_limit = $membership->requester_limit;
     $registration->effective_price = $membership->effective_price;
@@ -126,15 +94,56 @@ class Account extends Eloquent
     return $arr[0].'_'.$arr[1].'_'.str_pad($number+1, 5, '0', STR_PAD_LEFT);
   }
 
-  public function getRequesterForLogin($username) {
-    $requester = DB::table('requester as r')
-      ->join('user as u', 'r.username', '=', 'u.username')
-      ->where('r.username', $username)->select('u.user_id', 'r.stat', 'password')->first();
-    return $requester;
+  public function login($email, $password) {
+    $user = DB::table('user')
+      ->where('email', $email)->select('user_id', 'stat', 'password')->first();
+
+    if ($user == null
+      || ! Hash::check($password, $user->password)
+      || $user->stat == UserStat::Inactive) {
+      return false;
+    }
+    return true;
   }
 
   public function validateRegistration($input) {
-    $this->validation = Validator::make($input, $this->rules, $this->messages );
+    $rules = [
+      'username'=>"required|min:6|unique:user,username",
+      'email' =>'required|email|unique:user,email',
+      'password'=>'required|min:6',
+      'name'=>"required",
+      'designation'=>"required",
+      'mobile' => 'required',
+      'company_name' => 'required',
+      'uen' => 'required',
+      'company_code' => 'min:2|max:5|alpha|required',
+      'addr' => 'required',
+      'postal' => 'required',
+    ];
+
+    $messages = [
+      'username.required'=>'Username is required',
+      'username.unique'=>'Username is not available',
+      'username.min'=>'Username must be at least 6 characters',
+      'email.required'=>'Email is required',
+      'email.email'=>'Email must be valid email',
+      'email.unique'=>'Email has been registered',
+      'password.required'=>'Password is required',
+      'password.min'=>'Password must be at least 6 characters',
+      'name.required'=>'Name is required',
+      'designation.required'=>'Designation is required',
+      'mobile.required' => 'Mobile is required',
+      'company_name.required'=>'Company registered name is required',
+      'uen.required'=>'Unique Entity Number (UEN) is required',
+      'company_code.required'=>'Company code is required',
+      'company_code.min'=>'Company code must be between 2 and 5 letters',
+      'company_code.max'=>'Company code must be between 2 and 5 letters',
+      'company_code.alpha'=>'Company code must be alphabets',
+      'addr.required' => 'Address is required',
+      'postal.required' => 'Postal code is required',
+    ];
+
+    $this->validation = Validator::make($input, $rules, $messages);
     if ( $this->validation->fails()) {
       return false;
     }
@@ -142,25 +151,39 @@ class Account extends Eloquent
     return true;
   }
 
-  public function approveRegistration($registration_id) {
+  public function approveRegistration($registration_id, $input) {
     $registration = Registration::find($registration_id);
 
-    $company = new Company();
-    $company->name = $registration->company_name;
-    $company->uen = $registration->uen;
-    $company->addr = $registration->addr;
-    $company->postal = $registration->postal;
-    $company->membership_name = $registration->membership_name;
-    $company->requester_limit = $registration->requester_limit;
-    $company->effective_price = $registration->effective_price;
-    $company->save();
+    $rules = ['office_id'=>'sometimes|required'];
+    $messages = ['office_id.required'=>'Office is required'];
+    $this->validation = Validator::make($input, $rules, $messages );
+    if ( $this->validation->fails()) {
+      return false;
+    }
 
-    $office = new Office();
-    $office->company_id = $company->company_id;
-    $office->name = $registration->company_name;
-    $office->addr = $registration->addr;
-    $office->postal = $registration->postal;
-    $office->save();
+    if($registration->existing_uen) {
+
+      $company = Company::find($registration->company_id);
+      $office = Office::find($input['office_id']);
+    } else {
+      $company = new Company();
+      $company->name = $registration->company_name;
+      $company->code = $registration->company_code;
+      $company->uen = $registration->uen;
+      $company->addr = $registration->addr;
+      $company->postal = $registration->postal;
+      $company->membership_name = $registration->membership_name;
+      $company->requester_limit = $registration->requester_limit;
+      $company->effective_price = $registration->effective_price;
+      $company->save();
+
+      $office = new Office();
+      $office->company_id = $company->company_id;
+      $office->name = $registration->company_name;
+      $office->addr = $registration->addr;
+      $office->postal = $registration->postal;
+      $office->save();
+    }
 
     $requester = new Requester();
     $requester->office_id = $office->office_id;
@@ -181,22 +204,21 @@ class Account extends Eloquent
     $user->password = $registration->password;
     $user->name = $registration->name;
     $user->type = UserType::Requester;
-    $user->stat = UserStat::Inactive;
+    $user->stat = UserStat::Active;
     $user->email = $registration->email;
     $user->save();
 
-    $registration->approved = true;
     $registration->company_id = $company->company_id;
     $registration->office_id = $office->office_id;
     $registration->requester_id = $requester->requester_id;
-    $registration->approved = true;
+    $registration->stat = RegistrationStat::Approved;
     $registration->save();
 
     return $registration;
   }
 
   public function willBeAdmin($company_id) {
-    return Requester::where('company_id', $registration->company_id)->count() == 0;
+    return Requester::where('company_id', $company_id)->count() == 0;
   }
   
   public function updateCompanyOfficeRequesterCount($company_id) {
@@ -216,6 +238,7 @@ class Account extends Eloquent
     $input = array_map('trim', $input);
 
     $registration = new Registration();
+    $registration->stat = RegistrationStat::Pending;
     $registration->username = $input['username'];
     $registration->name = $input['name'];
     $registration->password = Hash::make($input['password']);
@@ -224,6 +247,7 @@ class Account extends Eloquent
     $registration->email = $input['email'];
     $registration->uen = $input['uen'];
     $registration->company_name = $input['company_name'];
+    $registration->company_code = $input['company_code'];
     $registration->addr = $input['addr'];
     $registration->postal = $input['postal'];
     $registration->ip = $ip;
@@ -236,11 +260,15 @@ class Account extends Eloquent
 
   public function registerExistingUen($registration_id) {
     $registration = Registration::findOrFail($registration_id);
-    $registration->register_existing_uen = true;
+    $registration->existing_uen = true;
     $company = Company::where('uen', $registration->uen)->first();
     $registration->company_id = $company->company_id;
     $registration->save();
     return $registration;
+  }
+
+  public function getPendingRegistrations($company_id) {
+    return Registration::where('company_id', $company_id)->where('stat', RegistrationStat::Pending)->get();
   }
 
   public function emailRegisterExistingUen($registration) {
@@ -248,12 +276,18 @@ class Account extends Eloquent
       ->join('company as c', 'r.company_id', '=', 'c.company_id')
       ->where('c.company_id', $registration->company_id)
       ->select('r.name', 'c.name as company_name', 'email')->get();
+
     foreach($requesters as $requester) {
       Mail::to($requester->email)
         ->send(new RegisterExistingUenMail($registration, $requester));
+    }
+
+    return $registration->username;
   }
 
-return $registration->username;
+  public function emailRegistration($registration) {
+    Mail::to($registration->email)
+      ->send(new RegistrationSuccessMail($registration));
   }
 
   public function getValidation() {
@@ -266,8 +300,17 @@ return $registration->username;
 
   public function emailApproveRegistration($registration)
   {
-    $user = User::where('username', $registration->username)->firstOrFail();
+    $user = User::where('email', $registration->email)->firstOrFail();
     Mail::to($user)
       ->send(new RegistrationApproveMail($registration));
+  }
+
+  public function registrationPending($email)
+  {
+    $registration = Registration::where('email', $email)->first();
+    if ($registration != null && $registration->stat == RegistrationStat::Pending) {
+      return true;
+    }
+    return false;
   }
 }

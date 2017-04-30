@@ -28,10 +28,9 @@
     @endif
     <br><br><br>
 
-    After payment has been received, an email will be sent to you.
+    After payment has been received, an email will be sent to you and you will be able to log in to create tickets.
   @endif
 
   <br><br><br>
-
   If you have questions or encounter issues, please email us at {{$frontend['contents']['email']}}.
 @endsection

@@ -1,7 +1,7 @@
 @extends("emails.email-template")
 
 @section('content')
-  <h3>Mr Wright - Registration Approved</h3>
+  <blockquote>Registration Approved</blockquote>
 
   Hi {{$registration->name}},
   <br><br>
@@ -10,9 +10,7 @@
   <br><br>
 
   Please log in to begin creating ticket(s).
-  <br>
+  <br><br>
 
-  <div class="text-center">
-    <button type='button' class="btn btn-primary" onclick="window.open('{{url('login')}}')">Log In</button>
-  </div>
+  <button type='button' class="btn btn-primary" onclick="window.open('{{url('login')}}')">Log In</button>
 @endsection

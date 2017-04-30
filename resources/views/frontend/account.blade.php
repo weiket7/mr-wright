@@ -3,7 +3,7 @@
 @section('content')
   @if(session()->has('welcome'))
     <div class="alert alert-info">
-      Welcome to Mr Wright, would you like to start by <a href="{{url('ticket/create')}}">creating a ticket</a>?
+      Welcome to Mr Wright, would you like to start by <a href="{{url('ticket/save')}}">creating a ticket</a>?
     </div>
   @endif
   
@@ -142,7 +142,7 @@
           </div>
         </div>
       </div>
-    
+
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
@@ -194,8 +194,18 @@
       </div>
     @endif
 
+    <div class="text-center">
+      <input type="submit" name="submit" value="SAVE" class="more active">
+    </div>
+
     @if($requester->admin)
-      <table class="table table-bordered tbl-office">
+      <h3>Offices</h3>
+      <br>
+
+      <a href="{{url('office/save')}}">Create Office</a>
+      <br><br>
+
+      <table class="table table-bordered">
         <thead>
         <tr>
           <th>Office Name</th>
@@ -205,23 +215,18 @@
         </tr>
         </thead>
         <tbody>
-          @foreach($offices as $office)
-            <tr>
-              <td><a href="{{ url("office/save/".$office->office_id) }}">{{ $office->name }}</a></td>
-              <td>{{ $office->addr }}</td>
-              <td>{{ $office->postal }}</td>
-              <td>{{ $office->requester_count }}</td>
-            </tr>
-          @endforeach
+        @foreach($offices as $office)
+          <tr>
+            <td><a href="{{ url("office/save/".$office->office_id) }}">{{ $office->name }}</a></td>
+            <td>{{ $office->addr }}</td>
+            <td>{{ $office->postal }}</td>
+            <td>{{ $office->requester_count }}</td>
+          </tr>
+        @endforeach
         </tbody>
       </table>
     @endif
 
-    <div class="margin-top-30">
-      <div class="align-center">
-        <input type="submit" name="submit" value="SAVE" class="more active">
-      </div>
-    </div>
 
   </form>
 @endsection

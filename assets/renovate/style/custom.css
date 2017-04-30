@@ -9,6 +9,9 @@
   margin-top: 5px;
   margin-bottom: 5px;
 }
+.r-text {
+  font-family: "Raleway";
+}
 
 /*custom*/
 .ticket-image {
@@ -51,6 +54,9 @@ label {
 .list-group-item:last-child {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+.help-block {
+  font-size: 12px;
 }
 
 /*step wizard*/

@@ -54,6 +54,7 @@
             <th width="70px">Status</th>
             <th width="70px">Code</th>
             <th>Name</th>
+            <th>Requesters</th>
           </tr>
           </thead>
           <tbody>
@@ -62,6 +63,7 @@
               <td>{{CompanyStat::$values[$company->stat]}}</td>
               <td>{{$company->code}}</td>
               <td><a href="{{url("admin/company/save/".$company->company_id)}}">{{ $company->name }}</a></td>
+              <td>{{$company->requester_count}}</td>
             </tr>
           @endforeach
           </tbody>

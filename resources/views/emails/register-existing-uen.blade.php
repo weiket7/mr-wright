@@ -1,6 +1,8 @@
 @extends("emails.email-template")
 
 @section('content')
+  <blockquote>Registration using {{$requester->company_name}}'s UEN</blockquote>
+
   Hi {{$requester->name}},
   <br><br>
 
@@ -103,14 +105,12 @@
 
   <hr>
 
-    If you approve this registration, he/she will be added under your company's membership plan.
-    <br><br>
+  If you approve this registration, he/she will be added under your company's membership plan.
+  <br><br>
 
-    Please log in to approve or decline this registration.
-    <br>
+  Please log in to approve or decline this registration.
+  <br><br>
 
-    <div class="text-center">
-      <button type='button' class="btn btn-primary" onclick="window.open('{{url('login?referral=invite/registration/'.$registration->registration_id)}}')">Log In</button>
-    </div>
+  <button type='button' class="btn btn-primary" onclick="window.open('{{url('login?referral=invite/registration/'.$registration->registration_id)}}')">Log In</button>
 
 @endsection

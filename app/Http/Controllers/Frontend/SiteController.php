@@ -3,6 +3,7 @@
 use App\Http\Controllers\Controller;
 use App\Mail\InviteMail;
 use App\Models\Enums\RequesterStat;
+use App\Models\Enums\UserStat;
 use App\Models\ForgotPassword;
 use App\Models\FrontendService;
 use App\Models\Account;
@@ -31,21 +32,16 @@ class SiteController extends Controller
     return view("frontend/index");
   }
 
-  public function login(Request $request)
-  {
+  public function login(Request $request) {
     $input = $request->all();
     if ($request->isMethod("post")) {
-      $account_service  = new Account();
-      $requester = $account_service->getRequesterForLogin($input['username']);
-      if ($requester == null
-        || ! Hash::check($input['password'], $requester->password)
-        || $requester->stat == RequesterStat::Inactive) {
+      /*$account_service = new Account();
+      if ($account_service->registrationPending($input['username'])) {
+        return redirect()->back()->with('login_error', 'Please make payment according to the sent email and wait for operator to approve your account');
+      }*/
+      if (! Auth::attempt(['username' => $input['username'], 'password' => $input['password'], 'stat' => UserStat::Active])) {
         return redirect()->back()->with('login_error', 'Wrong username/password');
       }
-      if ($requester->stat == RequesterStat::PendingPayment) {
-        return redirect()->back()->with('login_error', 'Please make payment according to the sent email and wait for operator to approve your account');
-      }
-      Auth::loginUsingId($requester->user_id);
       $referral = $request->get('referral');
       if (! empty($referral)) {
         return redirect($referral)->with('msg', 'Logged in');
@@ -74,24 +70,14 @@ class SiteController extends Controller
     return view('frontend/account', $data);
   }
 
-  public function inviteRegistration(Request $request, $registration_id) {
-    $registration = Registration::findOrFail($registration_id);
-    if ($request->isMethod("post")) {
-      $account_service = new Account();
-      $account_service->approveRegistration($registration_id, false);
-    }
-    $data['requester'] = Requester::where('company_id', $registration->company_id)->first();
-    $data['registration'] = $registration;
-    return view('frontend/invite-registration', $data);
-  }
-
   public function officeSave(Request $request, $office_id = null) {
     $action = $office_id == null ? 'create' : 'update';
     $office = $office_id == null ? new Office() : Office::find($office_id);
 
     if($request->isMethod('post')) {
       $input = $request->all();
-      if (!$office->saveOffice($input, false  )) {
+      $requester = $this->getLoggedInRequester();
+      if (!$office->saveOfficeFrontEnd($input, $this->getUsername(), $requester->company_id)) {
         return redirect()->back()->withErrors($office->getValidation())->withInput($input);
       }
       return redirect('office/save/' . $office->office_id)->with('msg', 'Office ' . $action . "d");
@@ -103,24 +89,60 @@ class SiteController extends Controller
     return view('frontend/office-form', $data);
   }
 
-  public function invite(Request $request) {
+  public function members(Request $request) {
     if($request->isMethod('post')) {
       $input = $request->all();
       $invite_service = new Invite();
       $invite = $invite_service->saveInvite($input, $this->getUsername());
       if ($invite == false) {
-        return redirect('invite')->withErrors($invite_service->getValidation())->withInput($input);
+        return redirect('members')->withErrors($invite_service->getValidation())->withInput($input);
       }
       Mail::to($invite->email)->send(new InviteMail($invite->token));
       $request->session()->flash('invite', $invite->email);
     }
-    $requester = Requester::where('username', $this->getUsername())->first();
-    $data['registrations'] = Registration::where('company_id', $requester->company_id)->get();
-    $data['offices'] = $this->company_service->getOfficeDropdown($requester->company_id);
-    return view('frontend/invite', $data);
+    $logged_in_requester = Requester::where('username', $this->getUsername())->first();
+    $data['requesters'] = $this->company_service->getRequesterByCompany($logged_in_requester->company_id);
+    $account_service = new Account();
+    $data['registrations'] = $account_service->getPendingRegistrations($logged_in_requester->company_id);
+    $data['offices'] = $this->company_service->getOfficeDropdown($logged_in_requester->company_id);
+    return view('frontend/members', $data);
   }
 
-  public function inviteAccept(Request $request, $token) {
+  public function membersSave(Request $request, $requester_id = null) {
+    $action = $requester_id == null ? 'create' : 'update';
+    $requester = $requester_id == null ? new Requester() : Requester::find($requester_id);
+
+    if($request->isMethod('post')) {
+      $input = $request->all();
+      if (!$requester->saveRequesterFrontend($input, $this->getUsername())) {
+        return redirect()->back()->withErrors($requester->getValidation())->withInput($input);
+      }
+      return redirect('members/save/' . $requester->requester_id)->with('msg', 'Member ' . $action . "d");
+    }
+
+    $data['action'] = $action;
+    $data['requester'] = $requester;
+    $data['offices'] = $this->company_service->getOfficeDropdown($requester->company_id);
+    return view('frontend/member-form', $data);
+  }
+
+  public function membersRegistration(Request $request, $registration_id) {
+    $registration = Registration::findOrFail($registration_id);
+    if ($request->isMethod("post")) {
+      $account_service = new Account();
+      $account_service->approveRegistration($registration_id, $request->all());
+      return redirect('members/registration/'.$registration_id)->with('msg', 'Registration approved');
+    }
+    $logged_in_requester = $this->getLoggedInRequester();
+    $data['registration'] = $registration;
+    $data['offices'] = $this->company_service->getOfficeDropdown($logged_in_requester->company_id);
+    return view('frontend/member-registration', $data);
+  }
+
+  public function membersInvite(Request $request, $token) {
+    $invite = Invite::where('token', $token)->first();
+    if($invite == null) { return redirect('error')->with('error', 'Invitation does not exist'); }
+
     if($request->isMethod('post')) {
       $input = $request->all();
       $invite_service = new Invite
@@ -129,7 +151,6 @@ class SiteController extends Controller
       Auth::login($user);
       return redirect('account')->with('welcome', true);
     }
-    $invite = Invite::where('token', $token)->firstOrFail();
     $data['invite'] = $invite;
     return view('frontend/invite-accept', $data);
   }
@@ -190,5 +211,8 @@ class SiteController extends Controller
     return view("frontend/error");
   }
 
+  private function getLoggedInRequester() {
+    return Requester::where('username', $this->getUsername())->first();
+  }
 
 }

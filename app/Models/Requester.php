@@ -95,6 +95,49 @@ class Requester extends Eloquent
     }
     $user->save();
   }
+
+  public function saveRequesterFrontend($input, $username) {
+    $rules = [
+      'name'=>"required",
+      'stat'=>'required',
+      'office_id'=>'required',
+      'email' =>'required|email',
+      'mobile' => 'required',
+    ];
+
+    $messages = [
+      'name.required'=>'Name is required',
+      'stat.required'=>'Status is required',
+      'office_id.required'=>'Office is required',
+      'email.required'=>'Email is required',
+      'email.email'=>'Email must be valid email',
+      'mobile.required' => 'Mobile is required',
+    ];
+
+    $this->validation = Validator::make($input, $rules, $messages );
+    $create_password_required = $this->requester_id == null && $input['password'] == '';
+    if ( $this->validation->fails() || $create_password_required ) {
+      if ($create_password_required) {
+        $this->validation->errors()->add("password", "Password is required");
+      }
+      return false;
+    }
+
+
+    $this->name = $input['name'];
+    if (isset($input['stat'])) {
+      $this->stat = $input['stat'];
+    }
+    $this->saveRequesterAsUser($input);
+    $this->office_id = $input['office_id'];
+    $this->designation = $input['designation'];
+    $this->email = $input['email'];
+    $this->mobile = $input['mobile'];
+    $this->work = $input['work'];
+    $this->preferred_contact = $input['preferred_contact'];
+    $this->save();
+    return true;
+  }
   
   public function getRequesterByUsername($username)
   {

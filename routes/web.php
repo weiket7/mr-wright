@@ -66,12 +66,18 @@ Route::group(['middleware'=>['auth']], function() {
   Route::get('ticket', 'Frontend\TicketController@index');
   Route::get('ticket/save', 'Frontend\TicketController@save');
   Route::post('ticket/save', 'Frontend\TicketController@save');
-  Route::get('invite', 'Frontend\SiteController@invite');
-  Route::post('invite', 'Frontend\SiteController@invite');
 
   Route::group(['middleware'=>['frontendticketmiddleware']], function() {
-    Route::get('invite/registration/{id}', 'Frontend\SiteController@inviteRegistration');
-    Route::post('invite/registration/{id}', 'Frontend\SiteController@inviteRegistration');
+    Route::get('members', 'Frontend\SiteController@members');
+    Route::post('members', 'Frontend\SiteController@members');
+    Route::get('members/save', 'Frontend\SiteController@membersSave');
+    Route::post('members/save', 'Frontend\SiteController@membersSave');
+    Route::get('members/save/{id}', 'Frontend\SiteController@membersSave');
+    Route::post('members/save/{id}', 'Frontend\SiteController@membersSave');
+    Route::get('members/registration/{id}', 'Frontend\SiteController@membersRegistration');
+    Route::post('members/registration/{id}', 'Frontend\SiteController@membersRegistration');
+    Route::get('members/invite/{id}', 'Frontend\SiteController@membersInvite');
+    Route::post('members/invite/{id}', 'Frontend\SiteController@membersInvite');
 
     Route::get('office/save', 'Frontend\SiteController@officeSave');
     Route::post('office/save', 'Frontend\SiteController@officeSave');
@@ -184,9 +190,12 @@ Route::group(['middleware'=>['auth']], function() {
 });
 
 //TODO remove
+Route::get('preview', 'PreviewController@index');
 Route::get('preview/quotation/{id}', 'PreviewController@previewQuotation');
 Route::get('preview/invoice/{id}', 'PreviewController@previewInvoice');
 Route::get('preview/register-existing-uen/{id}', 'PreviewController@registerExistingUen');
+Route::get('preview/register-success/{id}', 'PreviewController@registerSuccess');
+Route::get('preview/register-approve/{id}', 'PreviewController@registerApprove');
 Route::get('preview/invite', 'PreviewController@invite');
 Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 

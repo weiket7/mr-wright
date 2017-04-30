@@ -16,14 +16,16 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">
-            Number of Requesters
-          </label>
-          <label class="form-control-static col-md-9">
-            {{ $requester_count }}
-          </label>
-        </div>
+        @if($action == 'update')
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Number of Requesters
+            </label>
+            <label class="form-control-static col-md-9">
+              {{ $requester_count }}
+            </label>
+          </div>
+        @endif
       </div>
     </div>
 

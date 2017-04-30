@@ -85,7 +85,11 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Company Name</label>
                 <label class="col-md-9 form-control-static">
-                  {{ $registration->company_name }}
+                  @if($registration->approved == false)
+                    {{ $registration->company_name }}
+                  @else
+                    <a href="{{url('admin/company/save/'.$company->company_id)}}">{{ $company->name }}</a>
+                  @endif
                 </label>
               </div>
             </div>
@@ -110,25 +114,53 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">Membership Plan</label>
-                <label class="col-md-9 form-control-static">
-                  {{ $registration->membership_name }}
-                </label>
+          @if($registration->existing_uen == true)
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label col-md-3">Existing UEN</label>
+                  <label class="col-md-9 form-control-static">
+                    Yes
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label col-md-3">Office</label>
+                    @if($registration->approved == false)
+                      <div class="col-md-9">
+                        {{Form::select('office_id', $offices, '', ['placeholder'=>'', 'class'=>'form-control'])}}
+                      </div>
+                    @else
+                      <label class="col-md-9 form-control-static">
+                        <a href="{{url('admin/office/save/'.$office->office_id)}}">{{ $office->name }}</a>
+                      </label>
+                    @endif
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">Payment Method</label>
-                <label class="col-md-9 form-control-static">
-                  {{ $registration->payment_method }}
-                </label>
+          @else
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label col-md-3">Membership Plan</label>
+                  <label class="col-md-9 form-control-static">
+                    {{ $registration->membership_full_name }}
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label col-md-3">Payment Method</label>
+                  <label class="col-md-9 form-control-static">
+                    {{ isset($payment_methods[$registration->payment_method]) ? $payment_methods[$registration->payment_method] : '' }}
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
-          
+          @endif
+
           @if($will_be_admin)
             <div class="alert alert-info">
               As this registration is the first for this company, upon approval, he will be an admin of the company.
