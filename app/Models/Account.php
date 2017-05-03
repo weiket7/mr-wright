@@ -18,8 +18,29 @@ class Account extends Eloquent
   protected $validation;
 
 
-  public function saveAccount($input, $username)
-  {
+  public function saveAccount($input, $username) {
+    $rules = [
+      'name'=>'required',
+      'designation'=>'required',
+      'mobile'=>'required',
+      'email'=>'required|email',
+      'company_addr'=>'sometimes|required',
+      'company_postal'=>'sometimes|required',
+    ];
+    $messages = [
+      'name.required' => 'Name is required',
+      'designation.required' => 'Designation is required',
+      'mobile.required' => 'Mobile is required',
+      'email.required' => 'Email is required',
+      'email.email'=>'Email must be valid email',
+      'company_addr.required' => 'Company address is required',
+      'company_postal.required' => 'Company postal is required',
+    ];
+    $this->validation = Validator::make($input, $rules, $messages );
+    if ( $this->validation->fails()) {
+      return false;
+    }
+    
     $requester = Requester::where('username', $username)->first();
     $requester->name = $input['name'];
     $requester->designation = $input['designation'];
@@ -309,6 +330,15 @@ class Account extends Eloquent
   {
     $registration = Registration::where('email', $email)->first();
     if ($registration != null && $registration->stat == RegistrationStat::Pending) {
+      return true;
+    }
+    return false;
+  }
+  
+  public function hitRequesterLimit($company_id) {
+    $company = Company::find($company_id);
+    $requester_count = Requester::where('company_id', $company_id)->count();
+    if ($requester_count >= $company->requester_limit) {
       return true;
     }
     return false;

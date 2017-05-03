@@ -13,6 +13,7 @@
 
 use App\Mail\RegisterExistingUenMail;
 use App\Mail\TestEmail;
+use App\Models\Account;
 use App\Models\Requester;
 use App\Models\User;
 use Carbon\Carbon;
@@ -201,13 +202,8 @@ Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 
 
 Route::get('test', function() {
-  $registration = \App\Models\Registration::findOrFail(2);
-  $users = Requester::where('company_id', $registration->company_id)->get();
-  var_dump($users);
-  Mail::to($user = Requester::where('company_id', $registration->company_id)->get())
-    ->send(new RegisterExistingUenMail($registration->company_id));
-  
-  return "Email will be sen t 5 seconds later";
+  $account_service = new Account();
+  $account_service->updateCompanyOfficeRequesterCount(1);
 });
 
 

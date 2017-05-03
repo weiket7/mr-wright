@@ -28,7 +28,7 @@
             Username *
           </label>
           <div class="col-md-9">
-            {{ Form::text('username', '', ['class'=>'form-control']) }}
+            {{ Form::text('username', '', ['class'=>'form-control', 'maxlength'=>20]) }}
           </div>
         </div>
       </div>
@@ -51,7 +51,7 @@
             Full Name *
           </label>
           <div class="col-md-9">
-            {{ Form::text('name', '', ['class'=>'form-control']) }}
+            {{ Form::text('name', '', ['class'=>'form-control', 'maxlength'=>50]) }}
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@
             Designation *
           </label>
           <div class="col-md-9">
-            {{ Form::text('designation', '', ['class'=>'form-control']) }}
+            {{ Form::text('designation', '', ['class'=>'form-control', 'maxlength'=>30]) }}
           </div>
         </div>
       </div>
@@ -74,7 +74,7 @@
             Mobile *
           </label>
           <div class="col-md-9">
-            {{ Form::text('mobile', '', ['class'=>'form-control']) }}
+            {{ Form::text('mobile', '', ['class'=>'form-control', 'maxlength'=>30]) }}
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@
             Email *
           </label>
           <div class="col-md-9">
-            {{ Form::email('email', '', ['class'=>'form-control']) }}
+            {{ Form::email('email', '', ['class'=>'form-control', 'maxlength'=>100]) }}
           </div>
         </div>
       </div>
@@ -99,7 +99,7 @@
             Unique Entity Number (UEN) *
           </label>
           <div class="col-md-9">
-            {{ Form::text('uen', '', ['class'=>'form-control']) }}
+            {{ Form::text('uen', '', ['class'=>'form-control', 'maxlength'=>50]) }}
           </div>
         </div>
       </div>
@@ -109,7 +109,7 @@
             Company Name *
           </label>
           <div class="col-md-9">
-            {{ Form::text('company_name', '', ['class'=>'form-control']) }}
+            {{ Form::text('company_name', '', ['class'=>'form-control', 'maxlength'=>50]) }}
           </div>
         </div>
       </div>
@@ -122,7 +122,7 @@
             Company Code *
           </label>
           <div class="col-md-9">
-            {{ Form::text('company_code', '', ['class'=>'form-control']) }}
+            {{ Form::text('company_code', '', ['class'=>'form-control', 'maxlength'=>5]) }}
             <div class="help-block">2 to 5 letters, this will be prefixed in ticket codes, e.g. <em>MR</em>_1704_00001</div>
           </div>
         </div>
@@ -133,7 +133,7 @@
             Address *
           </label>
           <div class="col-md-9">
-            {{ Form::textarea('addr', '', ['class'=>'form-control', 'rows'=>3]) }}
+            {{ Form::textarea('addr', '', ['class'=>'form-control', 'rows'=>3, 'maxlength'=>200]) }}
           </div>
         </div>
       </div>
@@ -146,7 +146,7 @@
             Postal Code *
           </label>
           <div class="col-md-9">
-            {{ Form::text('postal', '', ['class'=>'form-control']) }}
+            {{ Form::text('postal', '', ['class'=>'form-control', 'maxlength'=>20]) }}
           </div>
         </div>
       </div>

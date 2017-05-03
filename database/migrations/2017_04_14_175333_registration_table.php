@@ -16,10 +16,10 @@ class RegistrationTable extends Migration
       $t->string('email', 100);
       $t->string('password', 60);
       $t->string('name', 50);
-      $t->string('designation', 50);
+      $t->string('designation', 30);
       $t->string('mobile', 100);
       $t->string('uen', 50);
-      $t->string('company_name', 100);
+      $t->string('company_name', 50);
       $t->string('company_code', 5);
       //$t->string('office_name', 100);
       $t->string('addr', 200);

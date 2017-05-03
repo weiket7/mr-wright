@@ -63,7 +63,7 @@
         <div class="form-group">
           <label class="control-label col-md-3">Designation</label>
           <div class="col-md-9">
-            {{Form::text('designation', $requester->designation, ['class'=>'form-control'])}}
+            {{Form::text('designation', $requester->designation, ['class'=>'form-control', 'maxlength'=>30])}}
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@
         <div class="form-group">
           <label class="control-label col-md-3">Work</label>
           <div class="col-md-9">
-            {{Form::text('work', $requester->work, ['class'=>'form-control', 'maxlength'=>20])}}
+            {{Form::text('work', $requester->work, ['class'=>'form-control', 'maxlength'=>30])}}
           </div>
         </div>
       </div>
@@ -99,17 +99,17 @@
         <div class="form-group">
           <label class="control-label col-md-3">Mobile <span class="required">*</span></label>
           <div class="col-md-9">
-            {{Form::text('mobile', $requester->mobile, ['class'=>'form-control', 'maxlength'=>20])}}
+            {{Form::text('mobile', $requester->mobile, ['class'=>'form-control', 'maxlength'=>30])}}
           </div>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="form-group">
+        {{--<div class="form-group">
           <label class="control-label col-md-3">Preferred Contact</label>
           <div class="col-md-9">
             {{Form::select('preferred_contact', PreferredContact::$values, $requester->preferred_contact, ['class'=>'form-control', 'placeholder'=>''])}}
           </div>
-        </div>
+        </div>--}}
       </div>
     </div>
 

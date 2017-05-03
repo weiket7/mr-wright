@@ -134,7 +134,7 @@ class Requester extends Eloquent
     $this->email = $input['email'];
     $this->mobile = $input['mobile'];
     $this->work = $input['work'];
-    $this->preferred_contact = $input['preferred_contact'];
+    //$this->preferred_contact = $input['preferred_contact'];
     $this->save();
     return true;
   }

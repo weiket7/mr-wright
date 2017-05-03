@@ -1,7 +1,9 @@
 <?php namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactMail;
 use App\Mail\InviteMail;
+use App\Models\Company;
 use App\Models\Enums\RequesterStat;
 use App\Models\Enums\UserStat;
 use App\Models\ForgotPassword;
@@ -22,9 +24,11 @@ use Mail;
 class SiteController extends Controller
 {
   protected $company_service;
-
-  public function __construct(CompanyService $company_service)
+  protected $account_service;
+  
+  public function __construct(Account $account_service, CompanyService $company_service)
   {
+    $this->account_service = $account_service;
     $this->company_service = $company_service;
   }
 
@@ -54,10 +58,9 @@ class SiteController extends Controller
 
   public function account(Request $request) {
     if ($request->isMethod("post")) {
-      $account_service  = new Account();
       $input = $request->all();
-      if (! $account_service->saveAccount($input, $this->getUsername())) {
-        return redirect()->back()->withErrors($account_service->getValidation())->withInput($input);
+      if (! $this->account_service->saveAccount($input, $this->getUsername())) {
+        return redirect()->back()->withErrors($this->account_service->getValidation())->withInput($input);
       }
       return redirect('account')->with('msg', 'Account saved');
     }
@@ -85,7 +88,6 @@ class SiteController extends Controller
 
     $data['action'] = $action;
     $data['office'] = $office;
-    $data['requester_count'] = Requester::where('office_id', 'office_id')->count();
     return view('frontend/office-form', $data);
   }
 
@@ -102,9 +104,10 @@ class SiteController extends Controller
     }
     $logged_in_requester = Requester::where('username', $this->getUsername())->first();
     $data['requesters'] = $this->company_service->getRequesterByCompany($logged_in_requester->company_id);
-    $account_service = new Account();
-    $data['registrations'] = $account_service->getPendingRegistrations($logged_in_requester->company_id);
+    $data['registrations'] = $this->account_service->getPendingRegistrations($logged_in_requester->company_id);
     $data['offices'] = $this->company_service->getOfficeDropdown($logged_in_requester->company_id);
+    $data['hit_requester_limit'] = $this->account_service->hitRequesterLimit($logged_in_requester->company_id);
+    $data['company'] = Company::find($logged_in_requester->company_id);
     return view('frontend/members', $data);
   }
 
@@ -117,6 +120,7 @@ class SiteController extends Controller
       if (!$requester->saveRequesterFrontend($input, $this->getUsername())) {
         return redirect()->back()->withErrors($requester->getValidation())->withInput($input);
       }
+      $this->account_service->updateCompanyOfficeRequesterCount($requester->company_id);
       return redirect('members/save/' . $requester->requester_id)->with('msg', 'Member ' . $action . "d");
     }
 
@@ -203,6 +207,11 @@ class SiteController extends Controller
 
   public function contact(Request $request)
   {
+    if($request->isMethod('post')) {
+      $input = $request->all();
+      Mail::to(config('mail.from.address'))->send(new ContactMail());
+      return redirect('account')->with('welcome', true);
+    }
     return view("frontend/contact");
   }
 

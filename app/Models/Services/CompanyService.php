@@ -104,7 +104,7 @@ class CompanyService
       ->join('company as c', 'c.company_id', '=', 'r.company_id')
       ->where('r.company_id', $company_id)
       ->select('requester_id', 'r.name', 'r.stat', 'r.type', 'r.company_id', 'r.office_id', 'c.name as company_name', 'o.name as office_name')
-      ->orderBy('name')->get();
+      ->orderBy('o.name')->orderBy('r.name')->get();
   }
 
   public function getRequesterAll()

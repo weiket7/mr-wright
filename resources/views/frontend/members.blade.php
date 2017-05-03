@@ -46,34 +46,43 @@
 
   <br>
   <h3>INVITE</h3>
-  <form method="post" action="" class="form-horizontal">
-    {{csrf_field()}}
-
-    <div class="r-row">
-      <div class="form-group">
-        <label class="control-label col-md-2">
-          Email
-        </label>
-        <div class="col-md-10">
-          {{ Form::email('email', '', ['class'=>'form-control', 'maxlength'=>100, 'required']) }}
+  @if($hit_requester_limit)
+    <div class="alert alert-info">
+      The current number of requesters has hit the limit from the membership plan {{ $company->membership_name }}.
+      <br>
+      Would you like to <a href="{{url('membership/upgrade')}}">upgrade the membership plan</a>?
+    </div>
+  @else
+    <form method="post" action="" class="form-horizontal">
+      {{csrf_field()}}
+  
+      <div class="r-row">
+        <div class="form-group">
+          <label class="control-label col-md-2">
+            Email
+          </label>
+          <div class="col-md-10">
+            {{ Form::email('email', '', ['class'=>'form-control', 'maxlength'=>100, 'required']) }}
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="r-row">
-      <div class="form-group">
-        <label class="control-label col-md-2">
-          Office
-        </label>
-        <div class="col-md-10">
-          {{ Form::select('office_id', $offices, '', ['placeholder'=>'', 'class'=>'form-control', 'required']) }}
+  
+      <div class="r-row">
+        <div class="form-group">
+          <label class="control-label col-md-2">
+            Office
+          </label>
+          <div class="col-md-10">
+            {{ Form::select('office_id', $offices, '', ['placeholder'=>'', 'class'=>'form-control', 'required']) }}
+          </div>
+        </div>
+  
+        <div class="text-center">
+          <input type="submit" name="submit" value="INVITE" class="more active">
         </div>
       </div>
-
-      <div class="text-center">
-        <input type="submit" name="submit" value="INVITE" class="more active">
-      </div>
-    </div>
-  </form>
+    </form>
+  @endif
+  
 
 @endsection
