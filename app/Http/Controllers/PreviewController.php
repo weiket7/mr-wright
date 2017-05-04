@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Company;
+use App\Models\Invite;
 use App\Models\Registration;
 use App\Models\Requester;
 use App\Models\Services\CompanyService;
@@ -64,8 +65,10 @@ class PreviewController extends Controller
   }
 
   public function invite() {
-    $account_service = new Account();
-    $invite = $account_service->saveInvite('wei_ket@hotmail.com');
+    $input['email'] = 'wei_ket@hotmail.com';
+    $input['office_id'] = 1;
+    $invite_service = new Invite();
+    $invite = $invite_service->saveInvite($input, $this->getUsername());
     $data['token'] = $invite->token;
     return view('emails/invite', $data);
   }

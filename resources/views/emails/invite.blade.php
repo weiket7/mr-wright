@@ -8,7 +8,5 @@
   Upon accepting, you will be able to create tickets requesting for repair services from Mr Wright.
   <br><br>
 
-  <div class="text-center">
-    <button type='button' class="btn btn-primary" onclick="window.open('{{url('invite/accept/'.$token)}}')">Accept Invite</button>
-  </div>
+  <button type='button' class="btn btn-primary" onclick="window.open('{{url('members/invite/'.$token)}}')">Accept Invite</button>
 @endsection

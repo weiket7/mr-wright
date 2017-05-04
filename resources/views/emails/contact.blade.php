@@ -1,7 +1,12 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: weiket.ong38
- * Date: 3/5/2017
- * Time: 10:59 AM
- */
+@extends("emails.email-template", ['hide_footer'=>true])
+
+@section('content')
+  
+  <p>Name: {{$contact->name}}<br>
+    Email: {{$contact->email}}<br>
+    Mobile: {{$contact->mobile}}<br>
+    <br>
+    {{$contact->message}}
+  </p>
+
+@endsection

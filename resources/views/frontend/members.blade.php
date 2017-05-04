@@ -53,6 +53,12 @@
       Would you like to <a href="{{url('membership/upgrade')}}">upgrade the membership plan</a>?
     </div>
   @else
+    @if(session()->has('invited_email'))
+      <div class="alert alert-success">
+        Invite has been sent to {{ session()->get('invited_email') }}
+      </div>
+    @endif
+    
     <form method="post" action="" class="form-horizontal">
       {{csrf_field()}}
   

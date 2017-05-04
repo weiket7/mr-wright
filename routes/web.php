@@ -67,8 +67,10 @@ Route::group(['middleware'=>['auth']], function() {
   Route::get('ticket', 'Frontend\TicketController@index');
   Route::get('ticket/save', 'Frontend\TicketController@save');
   Route::post('ticket/save', 'Frontend\TicketController@save');
-
+  
   Route::group(['middleware'=>['frontendticketmiddleware']], function() {
+    Route::get('membership/upgrade', 'Frontend\SiteController@membershipUpgrade');
+    
     Route::get('members', 'Frontend\SiteController@members');
     Route::post('members', 'Frontend\SiteController@members');
     Route::get('members/save', 'Frontend\SiteController@membersSave');

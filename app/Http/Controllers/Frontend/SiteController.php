@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\ContactMail;
 use App\Mail\InviteMail;
 use App\Models\Company;
+use App\Models\Contact;
 use App\Models\Enums\RequesterStat;
 use App\Models\Enums\UserStat;
 use App\Models\ForgotPassword;
@@ -100,7 +101,7 @@ class SiteController extends Controller
         return redirect('members')->withErrors($invite_service->getValidation())->withInput($input);
       }
       Mail::to($invite->email)->send(new InviteMail($invite->token));
-      $request->session()->flash('invite', $invite->email);
+      return redirect('members')->with('invited_email', $invite->email);
     }
     $logged_in_requester = Requester::where('username', $this->getUsername())->first();
     $data['requesters'] = $this->company_service->getRequesterByCompany($logged_in_requester->company_id);
@@ -149,8 +150,7 @@ class SiteController extends Controller
 
     if($request->isMethod('post')) {
       $input = $request->all();
-      $invite_service = new Invite
-      ();
+      $invite_service = new Invite();
       $user = $invite_service->acceptInvite($input, $token);
       Auth::login($user);
       return redirect('account')->with('welcome', true);
@@ -182,20 +182,20 @@ class SiteController extends Controller
     return view('frontend/forgot-password');
   }
 
-  public function logout(Request $request)
-  {
+  public function membershipUpgrade(Request $request) {
+    
+  }
+  
+  public function logout(Request $request) {
     Auth::logout();
     return redirect("login")->with('msg', 'Logged out');
   }
 
-  public function about(Request $request)
-  {
+  public function about(Request $request) {
     return view("frontend/about");
   }
 
-
-  public function project(Request $request)
-  {
+  public function project(Request $request) {
     return view("frontend/project");
   }
 
@@ -205,18 +205,20 @@ class SiteController extends Controller
     return view("frontend/membership", $data);
   }
 
-  public function contact(Request $request)
-  {
+  public function contact(Request $request) {
     if($request->isMethod('post')) {
       $input = $request->all();
-      Mail::to(config('mail.from.address'))->send(new ContactMail());
-      return redirect('account')->with('welcome', true);
+      $contact = new Contact();
+      if (! $contact->saveContact($input)) {
+        return redirect('contact')->withErrors($contact->getValidation())->withInput($input);
+      }
+      Mail::to(config('mail.from.address'))->send(new ContactMail($contact));
+      return redirect('contact')->with('sent', true);
     }
     return view("frontend/contact");
   }
 
-  public function error(Request $request)
-  {
+  public function error(Request $request) {
     return view("frontend/error");
   }
 

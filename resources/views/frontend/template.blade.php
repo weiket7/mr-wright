@@ -86,7 +86,7 @@
         <div class="menu-container clearfix vertical-align-cell">
           <nav>
             <ul class="sf-menu">
-              @if(Auth::check() && Auth::user()->type == \App\Models\Enums\UserType::Requester)
+            @if(isset($frontend['logged_in_requester']))
                 <li class="selected">
                   <a href="{{ url('/') }}" title="Services">
                     HOME
@@ -114,11 +114,13 @@
                     ACCOUNT ({{Auth::user()->username}})
                   </a>
                 </li>
-                <li>
-                  <a href="{{ url('members') }}" title="Invite">
-                    MEMBERS
-                  </a>
-                </li>
+                @if($frontend['logged_in_requester']->admin)
+                  <li>
+                    <a href="{{ url('members') }}" title="Invite">
+                      MEMBERS
+                    </a>
+                  </li>
+                @endif
                 <li>
                   <a href="{{ url('ticket') }}" title="Tickets">
                     TICKETS

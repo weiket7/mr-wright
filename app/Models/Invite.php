@@ -84,6 +84,7 @@ class Invite extends Eloquent
     $user->type = UserType::Requester;
     $user->stat = UserStat::Active;
     $user->email = $invite->email;
+    $user->admin = false;
     $user->save();
     return $user;
   }

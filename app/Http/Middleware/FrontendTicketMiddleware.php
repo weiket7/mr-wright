@@ -34,25 +34,18 @@ class FrontendTicketMiddleware
       }
     }
 
-    if ($module == 'office') {
+    if ($module == 'office'
+      || ($module == 'members' && empty($action))
+      || ($module == 'members' && $action == 'save')
+      || ($module == 'membership' && $action == 'upgrade')) {
       $office_id = $request->id;
       $requester = Requester::where('username', $username)->first();
       if ($requester->admin == false) {
         Log::error('FrontendTicketMiddleware url='.$request->url().' username='.Auth::user()->username.' office_id='.$office_id);
-        return redirect("error")->with('error', 'Not authorised to this office');
+        return redirect("error")->with('error', 'Not authorised to this module');
       }
     }
 
-    if ($module == 'invite' && $action == 'registration' && !empty($request->id)) {
-      $registration_id = $request->id;
-      $registration = Registration::findOrFail($registration_id);
-      $requester = Requester::where('username', $username)->first();
-      if ($requester->company_id != $registration->company_id) {
-        Log::error('FrontendTicketMiddleware url='.$request->url().' username='.Auth::user()->username.' registration_id='.$registration->registration_id);
-        return redirect("error")->with('error', 'Not authorised to this registration');
-      }
-    }
     return $next($request);
-
   }
 }

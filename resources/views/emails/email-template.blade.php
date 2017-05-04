@@ -20,12 +20,14 @@
     @yield('content')
 
 
-    <br><br><br>
-    If you have any questions or encounter any issues, please email us at {{$frontend['contents']['email']}}.
-    <br><br>
-
-    Regards,<br>
-    Mr Wright
+    @if(! isset($hide_footer))
+      <br><br><br>
+      If you have any questions or encounter any issues, please email us at {{$frontend['contents']['email']}}.
+      <br><br>
+  
+      Regards,<br>
+      Mr Wright
+    @endif
     </p>
   </div>
 </body>

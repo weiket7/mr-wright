@@ -75,7 +75,7 @@
 
     <div class="margin-top-30">
       <div class="align-center">
-        <input type="submit" name="submit" value="INVITE" class="more active">
+        <input type="submit" name="submit" value="ACCEPT INVITE" class="more active">
       </div>
     </div>
 
