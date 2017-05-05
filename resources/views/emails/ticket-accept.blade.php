@@ -9,5 +9,8 @@
     </blockquote>
   </div>
 
-  @include('emails.ticket-content', ['show_staff_assignments'=>true])
+  @include('emails.ticket-content', [
+    'show_staff_assignments'=>true,
+    'show_otp'=>true,
+  ])
 @endsection

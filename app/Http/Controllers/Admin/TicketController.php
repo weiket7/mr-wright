@@ -42,22 +42,27 @@ class TicketController extends Controller
     if($request->isMethod("post")) {
       $input = $request->all();
       $submit_action = $input['submit_action'];
+      //var_dump($submit_action); exit;
       $result = "";
+      if ($submit_action == "quote") {
+        $ticket = $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
+        $this->ticket_service->emailQuotation($ticket);
+        $result = "Quotation sent";
+        return redirect('admin/ticket/view/'.$ticket_id)->with('msg', $result);
+      }
+
       if ($submit_action == "open") {
         $ticket_id = $this->ticket_service->openTicket($ticket_id, $this->getUsername());
         $result = "Ticket opened";
       } elseif ($submit_action == "draft" || $submit_action == "update") {
         $ticket_id = $this->ticket_service->saveTicket($ticket_id, $input, $this->getUsername());
         $result = "Ticket " . $data['action'] . "d";
-      } elseif ($submit_action == "quote") {
-        $ticket = $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
-        $this->ticket_service->emailQuotation($ticket);
-        $result = "Quotation sent";
-      }
+      } else
       if ($ticket_id === false) {
         return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
       }
       return redirect('admin/ticket/save/'.$ticket_id)->with('msg', $result);
+
     }
     $ticket = $this->ticket_service->getTicket($ticket_id);
     $data['ticket'] = $ticket;
@@ -76,16 +81,18 @@ class TicketController extends Controller
       $submit = $input['submit'];
       $result = "";
       if (BackendHelper::stringContains($submit, "accept")) {
-        $this->ticket_service->acceptTicket($ticket_id, $input, $this->getUsername);
+        $ticket = $this->ticket_service->acceptTicket($ticket_id, $input, $this->getUsername());
+        $this->ticket_service->emailTicketAccept($ticket);
         $result = "Ticket accepted";
       } elseif (BackendHelper::stringContains($submit, "decline")) {
-        $this->ticket_service->declineTicket($ticket_id, $input);
+        $this->ticket_service->declineTicket($ticket_id, $input, $this->getUsername());
         $result = "Ticket declined";
       } elseif (BackendHelper::stringContains($submit, "complete")) {
         $this->ticket_service->completeTicket($ticket_id, $this->getUsername());
         $result = "Ticket completed";
       } elseif (BackendHelper::stringContains($submit, "invoice")) {
-        $this->ticket_service->sendInvoice($ticket_id, $this->getUsername());
+        $ticket = $this->ticket_service->sendInvoice($ticket_id, $this->getUsername());
+        $this->ticket_service->emailTicketInvoice($ticket);
         $result = "Invoice sent";
       } elseif (BackendHelper::stringContains($submit, "paid")) {
         $this->ticket_service->paidTicket($input, $ticket_id, $this->getUsername());

@@ -60,7 +60,6 @@ Route::post('admin/login', 'Admin\AdminController@login');
 Route::get('admin/logout', 'Admin\AdminController@logout');
 Route::get('admin/error', 'Admin\AdminController@error');
 
-
 Route::group(['middleware'=>['auth']], function() {
   Route::get('account', 'Frontend\SiteController@account');
   Route::post('account', 'Frontend\SiteController@account');
@@ -91,8 +90,8 @@ Route::group(['middleware'=>['auth']], function() {
     Route::post('ticket/save/{id}', 'Frontend\TicketController@save');
     Route::get('ticket/view/{id}', 'Frontend\TicketController@view');
     Route::post('ticket/view/{id}', 'Frontend\TicketController@view');
-    Route::get('ticket/pay/{id}', 'TicketController@view');
-    Route::post('ticket/pay/{id}', 'TicketController@view');
+    Route::get('ticket/pay/{id}', 'Frontend\TicketController@view');
+    Route::post('ticket/pay/{id}', 'Frontend\TicketController@view');
   });
   
   Route::group(['middleware'=>['modulemiddleware']], function() {
@@ -205,27 +204,7 @@ Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 
 
 Route::get('test', function() {
-  $bot_token = '365091640:AAEU1alx_nWSgx4dt8WcZZpuDeoKY0mEbow';
-  $api_url = 'https://api.telegram.org/bot'.$bot_token.'/';
-  $parameters = ['message'=>'Hi'];
-  
-  $handle = curl_init($api_url);
-  curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-  curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 5);
-  curl_setopt($handle, CURLOPT_TIMEOUT, 60);
-  curl_setopt($handle, CURLOPT_POSTFIELDS, json_encode($parameters));
-  curl_setopt($handle, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
-  
-  $response = curl_exec($handle);
-  var_dump($response);
-  if ($response == false) {
-    $errno = curl_errno($handle);
-    $error = curl_error($handle);
-    echo "Curl returned error $errno: $error\n";
-    curl_close($handle);
-    return "false";
-  }
-  curl_close($handle);
+  vaR_dump(Carbon::createFromFormat('Y-m-d', '2017-05-16')->gt(Carbon::now()));
 });
 
 

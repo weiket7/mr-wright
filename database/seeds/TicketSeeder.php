@@ -53,6 +53,7 @@ class  TicketSeeder extends Seeder
       'requester_mobile'=>'9123 4567',
       'requester_email'=>'sally@unity-pharmacy.com',
       'requested_on'=>Carbon::now()->subMinute(98),
+      'quote_valid_till'=>Carbon::now()->addWeekday(7),
     ]);
 
     DB::table('ticket')->insert([

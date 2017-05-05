@@ -24,7 +24,7 @@ class StaffAssignmentSeeder extends Seeder
       'staff_mobile'=>'91234567',
       'ticket_id'=>1,
       'ticket_code'=>'UP_0317_001',
-      'date'=>Carbon::parse('next tuesday'),
+      'date'=>Carbon::parse('next wednesday'),
       'time_start'=>'14:00:00',
       'time_end'=>'15:00:00',
     ]);

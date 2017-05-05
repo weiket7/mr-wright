@@ -4,11 +4,9 @@ namespace App\Models\Services;
 
 use App\Mail\InvoiceMail;
 use App\Mail\QuotationMail;
-use App\Mail\TicketFirstOtpMail;
+use App\Mail\TicketAcceptMail;
 use App\Models\CategoryForTicket;
 use App\Models\Company;
-use App\Models\Enums\PaymentMethod;
-use App\Models\Enums\RequesterType;
 use App\Models\Enums\TicketStat;
 use App\Models\Helpers\BackendHelper;
 use App\Models\Office;
@@ -18,7 +16,6 @@ use App\Models\Staff;
 use App\Models\Ticket;
 use App\Models\TicketHistory;
 use App\Models\TicketOtp;
-use App\Models\User;
 use Carbon\Carbon;
 use DB;
 use Log;
@@ -36,6 +33,7 @@ class TicketService
     $ticket->skills = $this->getTicketSkills($ticket_id);
     $ticket->history = $this->getTicketHistory($ticket_id);
     $ticket->preferred_slots = $this->getPreferredSlots($ticket_id);
+    $ticket->otps = $this->getOtps($ticket_id);
     return $ticket;
   }
 
@@ -53,6 +51,10 @@ class TicketService
       ->join('skill as s', 'ts.skill_id', '=', 's.skill_id')
       ->where('ticket_id', $ticket->ticket_id)->pluck('s.name');
     return $ticket;
+  }
+
+  private function getOtps($ticket_id) {
+    return DB::table('ticket_otp')->where('ticket_id', $ticket_id)->get();
   }
 
   public function getPreferredSlots($ticket_id) {
@@ -243,16 +245,24 @@ class TicketService
     $ticket->stat = TicketStat::Accepted;
     $ticket->accept_decline_reason = $input['accept_decline_reason'];
     $ticket->save();
-  
+
+    $dates = DB::table('staff_assignment')->where('ticket_id', $ticket_id)->distinct()->pluck('date');
+    foreach($dates as $d) {
+      $this->generateOtp($ticket_id, $d, 1);
+    }
+
     $this->saveTicketHistory($ticket_id, 'accept', $username);
     return $ticket;
   }
   
-  public function generateFirstOtp($ticket_id) {
+  private function generateOtp($ticket_id, $date, $type) {
     $ticket_otp = new TicketOtp();
     $ticket_otp->ticket_id = $ticket_id;
     $ticket_otp->otp = rand(000000, 999999);
-    $ticket_otp->type = 1;
+    $ticket_otp->type = $type;
+    $ticket_otp->date = $date;
+    $ticket_otp->entered = false;
+    $ticket_otp->created_on = Carbon::now();
     $ticket_otp->save();
   }
 
@@ -433,8 +443,7 @@ class TicketService
     $this->populateTicketForView($ticket);
 
     $this->saveTicketHistory($ticket_id, 'invoice', $username);
-    Mail::to($user = Requester::where('username', $ticket->requested_by)->first())->send(new InvoiceMail($ticket));
-    return true;
+    return $ticket;
   }
 
   public function getTicketAllByUsername($username)
@@ -478,8 +487,13 @@ class TicketService
   
   public function emailTicketAccept($ticket) {
     Mail::to($user = Requester::where('username', $ticket->requested_by)->first())
-      ->send(new TicketFirstOtpMail($ticket->ticket_id));
-    //->queue(new QuotationMail($ticket_id));
+      ->send(new TicketAcceptMail($ticket->ticket_id));
+    //->queue(new TicketAcceptMail($ticket_id));
+  }
+
+  public function emailTicketInvoice($ticket) {
+    Mail::to($user = Requester::where('username', $ticket->requested_by)->first())
+      ->send(new InvoiceMail($ticket->ticket_id));
   }
   
   

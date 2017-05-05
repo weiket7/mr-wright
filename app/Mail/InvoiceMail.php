@@ -24,7 +24,7 @@ class InvoiceMail extends Mailable
   {
     $ticket = $ticket_service->getTicket($this->ticket_id);
     $data['ticket'] = $ticket;
-    $subject = "Mr Wright Invoice for ".$this->ticket->ticket_code;
+    $subject = "Mr Wright Invoice for ".$ticket->ticket_code;
     return $this->subject($subject)->markdown('emails.invoice', $data);
   }
 }

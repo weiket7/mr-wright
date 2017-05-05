@@ -6,11 +6,9 @@ class TicketOtp extends Eloquent
 {
   public $table = 'ticket_otp';
   protected $primaryKey = 'ticket_otp_id';
-  const CREATED_AT = 'created_on';
-  const UPDATED_AT = 'updated_on';
   protected $validation;
   public $timestamps = false;
-  
+
   private $rules = [
     'name'=>'required',
     'stat'=>'required',

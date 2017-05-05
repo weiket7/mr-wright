@@ -16,7 +16,7 @@ class ModuleMiddleware
     $user_type = Auth::user()->type;
     if ($user_type != UserType::Operator) {
       Auth::logout();
-      Log::error('ModuleMiddleware - '.Auth::user()->username.' is not operator');
+      //Log::error('ModuleMiddleware - '.Auth::user()->username.' is not operator');
       return redirect("admin/error")->with('error', 'Not authorised');
     }
     

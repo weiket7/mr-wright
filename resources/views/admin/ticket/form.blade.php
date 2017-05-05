@@ -373,30 +373,7 @@
             </form>
           </div>
           <div class="tab-pane fade" id="tab-history">
-            <ul class="list-group">
-              @foreach($ticket->history as $h)
-                <li class="list-group-item">
-                  @if ($h->action == 'pay')
-                    Paid
-                  @elseif ($h->action == 'invoice')
-                    Invoiced
-                  @elseif ($h->action == 'complete')
-                    Completed
-                  @elseif ($h->action == 'decline')
-                    Declined
-                  @elseif ($h->action == 'accept')
-                    Accepted
-                  @elseif ($h->action == 'quote')
-                    Quoted
-                  @elseif ($h->action == 'open')
-                    Opened
-                  @elseif ($h->action == 'draft')
-                    Drafted
-                  @endif
-                  by {{ $h->action_by }} on {{ ViewHelper::formatDateTime($ticket->action_on) }}
-                </li>
-              @endforeach
-            </ul>
+            @include('admin.ticket.history', ['ticket'=>$ticket])
           </div>
         </div>
       </div>
@@ -725,9 +702,9 @@
         },
         submitForm: function() {
           var validate = validateForm();
-          console.log('val'+validate);
+          ///console.log('val'+validate);
           if (validate) {
-            console.log(document.getElementById("form-ticket"));
+            //console.log(document.getElementById("form-ticket"));
             document.getElementById("form-ticket").submit();
           }
         }

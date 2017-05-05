@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Entities\TransactionRequest;
 use App\Models\Enums\PaymentMethodStat;
+use App\Models\Enums\TicketStat;
 use App\Models\Enums\TransactionStat;
 use App\Models\Enums\TransactionType;
 use App\Models\FrontendService;
@@ -13,6 +14,7 @@ use App\Models\Requester;
 use App\Models\Services\CompanyService;
 use App\Models\Services\PaymentService;
 use App\Models\Services\TicketService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;
@@ -97,6 +99,9 @@ class TicketController extends Controller
     $data['ticket'] = $ticket;
     $payment_service = new PaymentService();
     $data['payment_methods'] = $payment_service->getPaymentMethods(PaymentMethodStat::Active);
+    if ($ticket->stat == TicketStat::Quoted) {
+      $data['quote_valid'] = Carbon::createFromFormat('Y-m-d', $ticket->quote_valid_till)->greaterThanOrEqualTo(Carbon::now() );
+    }
     return view("frontend/ticket-view", $data);
   }
 

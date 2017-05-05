@@ -257,10 +257,32 @@
                         @foreach($assignments as $a)
                           <tr>
                             <td>{{ ViewHelper::formatDate($date) }}</td>
-                            <td>{{ $a->name }}</td>
+                            <td>{{ $a->staff_name }}</td>
                             <td>{{ ViewHelper::formatTime($a->time_start) }} to {{ ViewHelper::formatTime($a->time_end) }}</td>
                           </tr>
                         @endforeach
+                      @endforeach
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-2">One time passwords</label>
+                  <div class="col-md-10">
+                    <table class="table table-bordered no-margin-btm">
+                      <thead>
+                      <tr>
+                        <th width="120px">Date</th>
+                        <th>OTP</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      @foreach($ticket->otps as $otp)
+                        <tr>
+                          <td>{{ ViewHelper::formatDate($otp->date) }}</td>
+                          <td>{{ $otp->otp }}</td>
+                        </tr>
                       @endforeach
                       </tbody>
                     </table>
@@ -335,30 +357,7 @@
             </form>
           </div>
           <div class="tab-pane fade" id="tab-history">
-            <ul class="list-group">
-              @foreach($ticket->history as $h)
-                <li class="list-group-item">
-                  @if ($h->action == 'pay')
-                    Paid
-                  @elseif ($h->action == 'invoice')
-                    Invoiced
-                  @elseif ($h->action == 'complete')
-                    Completed
-                  @elseif ($h->action == 'decline')
-                    Declined
-                  @elseif ($h->action == 'accept')
-                    Accepted
-                  @elseif ($h->action == 'quote')
-                    Quoted
-                  @elseif ($h->action == 'open')
-                    Opened
-                  @elseif ($h->action == 'draft')
-                    Drafted
-                  @endif
-                  by {{ $h->action_by }} on {{ ViewHelper::formatDateTime($ticket->action_on) }}
-                </li>
-              @endforeach
-            </ul>
+            @include('admin.ticket.history', ['ticket'=>$ticket])
           </div>
 
         </div>

@@ -55,6 +55,9 @@ class AdminController extends Controller
     return view('admin/login');
   }
   public function error() {
+    if (! Auth::check()) {
+      return redirect('admin/login');
+    }
     return view('admin/error');
   }
 }

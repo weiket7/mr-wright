@@ -105,6 +105,32 @@
 </div>
 @endif
 
+
+@if(isset($show_otp) && $show_otp)
+  <div class="div-staff-assignments">
+    <h4>One time passwords</h4>
+
+    <p>Please provide the OTP to the service staff on the day itself so that he can indicate his attendance in the system.</p>
+
+    <table class="table table-bordered no-margin-btm">
+      <thead>
+      <tr>
+        <th width="120px">Date</th>
+        <th>OTP</th>
+      </tr>
+      </thead>
+      <tbody>
+      @foreach($ticket->otps as $otp)
+        <tr>
+          <td>{{ ViewHelper::formatDate($otp->date) }}</td>
+          <td>{{ $otp->otp }}</td>
+        </tr>
+      @endforeach
+      </tbody>
+    </table>
+  </div>
+@endif
+
 <div class="div-requester-desc">
   <h4>Description</h4>
   <div>{{ $ticket->requester_desc }}</div>

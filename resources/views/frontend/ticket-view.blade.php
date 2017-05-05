@@ -162,13 +162,12 @@
           <tr v-for="(issue, index) in issues" v-bind:class="'row-'+issue.stat">
             <td>
               <div v-bind:id="'preview-image' + index">
-                <img v-if="isImage(issue.image)" :src="'{{asset('images/tickets')}}/'+ issue.image" v-if="issue.image" class="ticket-image"/>
+                <img v-if="isImage(issue.image)" :src="'{{asset('assets/images/tickets')}}/'+ issue.image" v-if="issue.image" class="ticket-image"/>
                 <video v-else-if="isVideo(issue.image)" width="320" height="240" controls>
-                  <source :src="'{{asset('images/tickets')}}/'+ issue.image">
+                  <source :src="'{{asset('assets/images/tickets')}}/'+ issue.image">
                   Your browser does not support the video tag.
                 </video>
               </div>
-              <input type="file" v-bind:name="'image' + index" v-on:change="previewImage(index,$event)">
             </td>
             <td>
               @{{ issue.issue_desc }}
@@ -190,18 +189,17 @@
         <table class="table table-bordered">
           <thead>
           <tr>
-            <th>Date</th>
+            <th width="120px">Date</th>
             <th>Time</th>
           </tr>
           </thead>
           <tbody>
           <tr v-for="(slot, index) in preferred_slots" v-bind:class="'row-'+slot.stat">
             <td>
-              <input type="text" v-bind:name="'preferred_slot_date'+index" v-bind:value="slot.date | formatDate" class="form-control datepicker">
+              @{{ slot.date | formatDate }}
             </td>
             <td>
-              <input type="text" v-bind:name="'preferred_slot_time_start'+index" v-model="slot.time_start" class="form-control time" placeholder="HH:MM am/pm">
-              <input type="text" v-bind:name="'preferred_slot_time_end'+index" v-model="slot.time_end" class="form-control time" placeholder="HH:MM am/pm">
+              @{{ slot.time_start | formatTime }} to @{{ slot.time_end | formatTime }}
             </td>
           </tr>
           </tbody>
@@ -210,19 +208,25 @@
     </div>
 
     @if($ticket->stat == TicketStat::Quoted)
-      <div style="margin-bottom: 10px;">
-          <textarea name="accept_decline_reason" title="" class="form-control txt-decline-reason" placeholder="[Optional] Please share with us the reason for accepting or declining">
-          </textarea>
-      </div>
+      @if($quote_valid)
+        <div style="margin-bottom: 10px;">
+            <textarea name="accept_decline_reason" title="" class="form-control txt-decline-reason" placeholder="[Optional] Please share with us the reason for accepting or declining">
+            </textarea>
+        </div>
 
-      <div>
-        <button type="submit" name="submit" class="btn btn-primary" value="Accept">
-          Accept
-        </button>
-        <button type="submit" name="submit" class="btn btn-primary" value="Decline">
-          Decline
-        </button>
-      </div>
+        <div>
+          <button type="submit" name="submit" class="btn btn-primary" value="Accept">
+            Accept
+          </button>
+          <button type="submit" name="submit" class="btn btn-primary" value="Decline">
+            Decline
+          </button>
+        </div>
+      @else
+        <div class="alert alert-danger">
+          Sorry, the quotation has expired. Please <a href="{{url('ticket/save')}}">create another ticket</a>.
+        </div>
+      @endif
     @elseif($ticket->stat == TicketStat::Invoiced)
       <div class="panel panel-default">
         <div class="panel-body">
