@@ -50,7 +50,8 @@ class TicketController extends Controller
         $ticket_id = $this->ticket_service->saveTicket($ticket_id, $input, $this->getUsername());
         $result = "Ticket " . $data['action'] . "d";
       } elseif ($submit_action == "quote") {
-        $ticket_id = $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
+        $ticket = $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
+        $this->ticket_service->emailQuotation($ticket);
         $result = "Quotation sent";
       }
       if ($ticket_id === false) {

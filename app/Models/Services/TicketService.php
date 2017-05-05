@@ -4,6 +4,7 @@ namespace App\Models\Services;
 
 use App\Mail\InvoiceMail;
 use App\Mail\QuotationMail;
+use App\Mail\TicketFirstOtpMail;
 use App\Models\CategoryForTicket;
 use App\Models\Company;
 use App\Models\Enums\PaymentMethod;
@@ -13,8 +14,10 @@ use App\Models\Helpers\BackendHelper;
 use App\Models\Office;
 use App\Models\Requester;
 use App\Models\Setting;
+use App\Models\Staff;
 use App\Models\Ticket;
 use App\Models\TicketHistory;
+use App\Models\TicketOtp;
 use App\Models\User;
 use Carbon\Carbon;
 use DB;
@@ -38,9 +41,8 @@ class TicketService
 
   public function populateTicketForView($ticket) {
     $data = DB::table('staff_assignment as sa')
-      ->join('staff as s', 'sa.staff_id', '=', 's.staff_id')
       ->where('ticket_id', $ticket->ticket_id)
-      ->select('s.name', 'date', 'time_start', 'time_end')
+      ->select('staff_name', 'date', 'staff_mobile', 'time_start', 'time_end')
       ->get();
     $res = [];
     foreach($data as $d) {
@@ -52,7 +54,6 @@ class TicketService
       ->where('ticket_id', $ticket->ticket_id)->pluck('s.name');
     return $ticket;
   }
-
 
   public function getPreferredSlots($ticket_id) {
     $data = DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)
@@ -142,8 +143,6 @@ class TicketService
     if ($ticket_id == null) {
       $ticket->ticket_code = $this->getNextTicketCode($ticket->company_id);
       $ticket->stat = TicketStat::Drafted;
-      //$ticket->drafted_by = $username;
-      //$ticket->drafted_on = Carbon::now();
     }
     $ticket->save();
 
@@ -186,8 +185,6 @@ class TicketService
     if ($ticket_id == null) {
       $ticket->ticket_code = $this->getNextTicketCode($ticket->company_id);
       $ticket->stat = TicketStat::Drafted;
-      //$ticket->drafted_by = $username;
-      //$ticket->drafted_on = Carbon::now();
     }
     $ticket->save();
 
@@ -229,10 +226,7 @@ class TicketService
 
     $this->saveTicketHistory($ticket_id, 'quote', $username);
 
-    Mail::to($user = Requester::where('username', $ticket->requested_by)->first())
-      ->send(new QuotationMail($ticket_id));
-      //->queue(new QuotationMail($ticket_id));
-    return true;
+    return $ticket;
   }
 
   public function openTicket($ticket_id, $username = 'admin') {
@@ -249,9 +243,17 @@ class TicketService
     $ticket->stat = TicketStat::Accepted;
     $ticket->accept_decline_reason = $input['accept_decline_reason'];
     $ticket->save();
-
+  
     $this->saveTicketHistory($ticket_id, 'accept', $username);
-    return true;
+    return $ticket;
+  }
+  
+  public function generateFirstOtp($ticket_id) {
+    $ticket_otp = new TicketOtp();
+    $ticket_otp->ticket_id = $ticket_id;
+    $ticket_otp->otp = rand(000000, 999999);
+    $ticket_otp->type = 1;
+    $ticket_otp->save();
   }
 
   public function declineTicket($ticket_id, $input, $username = 'admin') {
@@ -312,6 +314,7 @@ class TicketService
 
     $staff_assignments = json_decode($input['staff_assignments'], true);
     foreach($staff_assignments as $staff_id => $date_assignments) {
+      $staff = Staff::findOrFail($staff_id);
       foreach($date_assignments as $date => $assignments) {
         $working_hour_service = new WorkingHourService();
         $periods = $working_hour_service->mergeIntervalsIntoTimeRange($assignments);
@@ -320,6 +323,8 @@ class TicketService
             'ticket_id'=>$ticket_id,
             'date'=>$date,
             'staff_id'=>$staff_id,
+            'staff_name'=>$staff->name,
+            'staff_mobile'=>$staff->mobile,
             'time_start'=>$p['time_start'],
             'time_end'=>$p['time_end'],
           ];
@@ -464,5 +469,18 @@ class TicketService
   private function getTicketHistory($ticket_id) {
     return TicketHistory::where('ticket_id', $ticket_id)->orderBy('action_on', 'desc')->get();
   }
-
+  
+  public function emailQuotation($ticket) {
+    Mail::to($user = Requester::where('username', $ticket->requested_by)->first())
+      ->send(new QuotationMail($ticket->ticket_id));
+    //->queue(new QuotationMail($ticket_id));
+  }
+  
+  public function emailTicketAccept($ticket) {
+    Mail::to($user = Requester::where('username', $ticket->requested_by)->first())
+      ->send(new TicketFirstOtpMail($ticket->ticket_id));
+    //->queue(new QuotationMail($ticket_id));
+  }
+  
+  
 }

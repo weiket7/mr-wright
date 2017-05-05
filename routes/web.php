@@ -81,12 +81,12 @@ Route::group(['middleware'=>['auth']], function() {
     Route::post('members/registration/{id}', 'Frontend\SiteController@membersRegistration');
     Route::get('members/invite/{id}', 'Frontend\SiteController@membersInvite');
     Route::post('members/invite/{id}', 'Frontend\SiteController@membersInvite');
-
+    
     Route::get('office/save', 'Frontend\SiteController@officeSave');
     Route::post('office/save', 'Frontend\SiteController@officeSave');
     Route::get('office/save/{id}', 'Frontend\SiteController@officeSave');
     Route::post('office/save/{id}', 'Frontend\SiteController@officeSave');
-
+    
     Route::get('ticket/save/{id}', 'Frontend\TicketController@save');
     Route::post('ticket/save/{id}', 'Frontend\TicketController@save');
     Route::get('ticket/view/{id}', 'Frontend\TicketController@view');
@@ -94,7 +94,7 @@ Route::group(['middleware'=>['auth']], function() {
     Route::get('ticket/pay/{id}', 'TicketController@view');
     Route::post('ticket/pay/{id}', 'TicketController@view');
   });
-
+  
   Route::group(['middleware'=>['modulemiddleware']], function() {
     Route::get('admin/dashboard', 'Admin\AdminController@dashboard');
     Route::get('admin/company', 'Admin\CompanyController@index');
@@ -103,11 +103,11 @@ Route::group(['middleware'=>['auth']], function() {
     Route::post('admin/company/save', 'Admin\CompanyController@save');
     Route::get('admin/company/save/{id}', 'Admin\CompanyController@save');
     Route::post('admin/company/save/{id}', 'Admin\CompanyController@save');
-
+    
     Route::get('admin/registration', 'Admin\RegistrationController@index');
     Route::get('admin/registration/save/{id}', 'Admin\RegistrationController@save');
     Route::post('admin/registration/save/{id}', 'Admin\RegistrationController@save');
-
+    
     Route::get('admin/membership', 'Admin\MembershipController@index');
     Route::post('admin/membership', 'Admin\MembershipController@index');
     Route::get('admin/membership/save', 'Admin\MembershipController@save');
@@ -143,7 +143,7 @@ Route::group(['middleware'=>['auth']], function() {
     Route::post('admin/ticket/view/{id}', 'Admin\TicketController@view');
     Route::get('admin/ticket/save/{id}', 'Admin\TicketController@save');
     Route::post('admin/ticket/save/{id}', 'Admin\TicketController@save');
-
+    
     Route::get('admin/staff', 'Admin\StaffController@index');
     Route::get('admin/staff/save', 'Admin\StaffController@save');
     Route::post('admin/staff/save', 'Admin\StaffController@save');
@@ -183,7 +183,7 @@ Route::group(['middleware'=>['auth']], function() {
     Route::get('admin/service', 'Admin\FrontendController@service');
     Route::get('admin/project', 'Admin\FrontendController@project');
   });
-
+  
   
   Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
   Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
@@ -199,13 +199,33 @@ Route::get('preview/invoice/{id}', 'PreviewController@previewInvoice');
 Route::get('preview/register-existing-uen/{id}', 'PreviewController@registerExistingUen');
 Route::get('preview/register-success/{id}', 'PreviewController@registerSuccess');
 Route::get('preview/register-approve/{id}', 'PreviewController@registerApprove');
+Route::get('preview/ticket-accept/{id}', 'PreviewController@ticketAccept');
 Route::get('preview/invite', 'PreviewController@invite');
 Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 
 
 Route::get('test', function() {
-  $account_service = new Account();
-  $account_service->updateCompanyOfficeRequesterCount(1);
+  $bot_token = '365091640:AAEU1alx_nWSgx4dt8WcZZpuDeoKY0mEbow';
+  $api_url = 'https://api.telegram.org/bot'.$bot_token.'/';
+  $parameters = ['message'=>'Hi'];
+  
+  $handle = curl_init($api_url);
+  curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 5);
+  curl_setopt($handle, CURLOPT_TIMEOUT, 60);
+  curl_setopt($handle, CURLOPT_POSTFIELDS, json_encode($parameters));
+  curl_setopt($handle, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+  
+  $response = curl_exec($handle);
+  var_dump($response);
+  if ($response == false) {
+    $errno = curl_errno($handle);
+    $error = curl_error($handle);
+    echo "Curl returned error $errno: $error\n";
+    curl_close($handle);
+    return "false";
+  }
+  curl_close($handle);
 });
 
 

@@ -200,7 +200,7 @@
                       @foreach($ticket->issues as $issue)
                         <tr>
                           <td>
-                            <img src="{{asset('images/tickets/'.$issue->image)}}" class="ticket-image"/>
+                            <img src="{{asset('assets/images/tickets/'.$issue->image)}}" class="ticket-image"/>
                           </td>
                           <td>
                             {{ $issue->issue_desc }}

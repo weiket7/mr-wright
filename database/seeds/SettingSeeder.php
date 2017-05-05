@@ -12,6 +12,10 @@ class SettingSeeder extends Seeder
       'value'=>7,
     ]);
     DB::table('setting')->insert([
+      'name'=>'otp_first_valid_minutes',
+      'value'=>30,
+    ]);
+    DB::table('setting')->insert([
       'name'=>'paydollar_merchant_id',
       'value'=>12104485,
     ]);

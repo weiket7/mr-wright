@@ -15,10 +15,16 @@ class Staff extends Eloquent
 
   private $rules = [
     'name'=>'required',
+    'stat'=>'required',
+    'mobile'=>'required',
+    'email'=>'required',
   ];
 
   private $messages = [
     'name.required'=>'Name is required',
+    'stat.required'=>'Status is required',
+    'mobile.required'=>'Mobile is required',
+    'email.required'=>'Email is required',
   ];
 
   public static function getStaffAll()
@@ -28,7 +34,7 @@ class Staff extends Eloquent
     $data = DB::table('skill as sk')
       ->join('staff_skill as ss', 'ss.skill_id', '=', 'sk.skill_id')->select('ss.staff_id', 'ss.skill_id', 'sk.name')->get();
     $res = [];
-    //var_dump($data); exit;
+
     foreach($data as $d) {
       $res[$d->staff_id][] = $d->name;
     }
@@ -44,15 +50,18 @@ class Staff extends Eloquent
     if ( $this->validation->fails() ) {
       return false;
     }
-
+  
     $this->name = $input['name'];
+    $this->stat = $input['stat'];
+    $this->mobile = $input['mobile'];
+    $this->email = $input['email'];
     $this->save();
 
     $this->saveStaffSkills($input, $operator);
     return true;
   }
 
-  private function saveStaffSkills($input, $operator = 'admin') {
+  private function saveStaffSkills($input, $username = 'admin') {
     DB::table('staff_skill')->where('staff_id', $this->staff_id)->delete();
     foreach(json_decode($input['staff_skills']) as $a) {
       DB::table('staff_skill')->insert([

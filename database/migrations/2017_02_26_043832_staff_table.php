@@ -11,6 +11,8 @@ class StaffTable extends Migration
     Schema::create('staff', function(Blueprint $t) {
       $t->increments('staff_id');
       $t->string('name', 50);
+      $t->string('mobile', 30);
+      $t->string('email', 100);
       $t->char('stat', 1);
       $t->string('updated_by', 20);
       $t->dateTime('updated_on');

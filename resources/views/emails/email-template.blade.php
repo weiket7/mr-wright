@@ -10,6 +10,9 @@
       margin-top: 30px;
       margin-bottom: 20px;
     }
+    .title {
+      margin-bottom: 40px;
+    }
   </style>
 </head>
 <body>

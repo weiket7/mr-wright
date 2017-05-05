@@ -37,7 +37,6 @@ class TicketTable extends Migration
       $t->string('quotation_desc', 250);
       $t->string('accept_decline_reason', 250);
       $t->dateTime('updated_on');
-
     });
   }
   

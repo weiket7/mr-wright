@@ -70,7 +70,8 @@ class TicketController extends Controller
       $result = "";
 
       if (BackendHelper::stringContains($submit, "accept")) {
-        $this->ticket_service->acceptTicket($ticket_id, $input, $this->getUsername());
+        $ticket = $this->ticket_service->acceptTicket($ticket_id, $input, $this->getUsername());
+        $this->ticket_service->emailTicketAccept($ticket);
         $result = "Ticket accepted";
       } elseif (BackendHelper::stringContains($submit, "decline")) {
         $this->ticket_service->declineTicket($ticket_id, $input);

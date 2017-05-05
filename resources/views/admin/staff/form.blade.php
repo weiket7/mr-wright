@@ -6,7 +6,7 @@
   <h1 class="page-title">
     {{ucfirst($action)}} Staff
   </h1>
-
+  
   <div class="portlet light bordered" id="app">
     <div class="portlet-body form">
       <form action="" method="post" class="form-horizontal">
@@ -20,6 +20,8 @@
                   {{Form::text('name', $staff->name, ['class'=>'form-control'])}}
                 </div>
               </div>
+            </div>
+            <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">Status</label>
                 <div class="col-md-9">
@@ -28,13 +30,33 @@
               </div>
             </div>
           </div>
+  
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Mobile</label>
+                <div class="col-md-9">
+                  {{Form::text('mobile', $staff->mobile, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Email</label>
+                <div class="col-md-9">
+                  {{Form::text('email', $staff->email, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+          </div>
+          
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">Skill</label>
                 <div class="col-md-9">
                   <input type="hidden" name="staff_skills" :value="JSON.stringify(staff_skills)">
-  
+                  
                   <div class="row">
                     <div class="col-md-5">
                       <ul class="list-group">
@@ -67,7 +89,7 @@
             </div>
           </div>
         </div>
-
+        
         <div class="form-actions">
           <div class="row">
             <div class="col-md-6">
@@ -105,7 +127,7 @@
         },
         addSkill: function() {
           var obj = this.available_skills;
-
+          
           for (var key in obj) {
             if (obj.hasOwnProperty(key)) {
               if (obj[key].selected === true) {
@@ -117,7 +139,7 @@
         },
         removeSkill: function() {
           var obj = this.staff_skills;
-
+          
           for (var key in obj) {
             if (obj.hasOwnProperty(key)) {
               if (obj[key].selected === true) {

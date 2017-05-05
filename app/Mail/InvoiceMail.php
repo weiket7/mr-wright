@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Services\TicketService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -9,28 +10,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class InvoiceMail extends Mailable
 {
-    use Queueable, SerializesModels;
-    protected $ticket;
-
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct($ticket)
-    {
-        $this->ticket = $ticket;
-    }
-
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        $data['ticket'] = $this->ticket;
-        $subject = "Mr Wright Invoice for ".$this->ticket->ticket_code;
-        return $this->subject($subject)->markdown('emails.invoice', $data);
-    }
+  use Queueable, SerializesModels;
+  protected $ticket;
+  
+  public $ticket_id;
+  
+  public function __construct($ticket_id)
+  {
+    $this->ticket_id = $ticket_id;
+  }
+  
+  public function build(TicketService $ticket_service)
+  {
+    $ticket = $ticket_service->getTicket($this->ticket_id);
+    $data['ticket'] = $ticket;
+    $subject = "Mr Wright Invoice for ".$this->ticket->ticket_code;
+    return $this->subject($subject)->markdown('emails.invoice', $data);
+  }
 }

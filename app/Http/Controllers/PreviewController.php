@@ -36,6 +36,13 @@ class PreviewController extends Controller
     $data['ticket'] = $ticket;
     return view('emails/quotation', $data);
   }
+  
+  public function ticketAccept($ticket_id) {
+    $ticket = $this->ticket_service->getTicket($ticket_id);
+    $this->ticket_service->populateTicketForView($ticket);
+    $data['ticket'] = $ticket;
+    return view('emails/ticket-accept', $data);
+  }
 
   public function previewInvoice($ticket_id) {
     $ticket = $this->ticket_service->getTicket($ticket_id);

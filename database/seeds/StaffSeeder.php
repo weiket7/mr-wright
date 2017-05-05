@@ -10,6 +10,7 @@ class StaffSeeder extends Seeder
     DB::table('staff')->insert([
       'staff_id'=>1,
       'name'=>'Tom',
+      'mobile'=>91234567,
       'stat'=>StaffStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>date('Y-m-d H:i:s')
@@ -18,6 +19,7 @@ class StaffSeeder extends Seeder
     DB::table('staff')->insert([
       'staff_id'=>2,
       'name'=>'Jerry',
+      'mobile'=>91234567,
       'stat'=>StaffStat::Active,
       'updated_by'=>'admin',
       'updated_on'=>date('Y-m-d H:i:s')
@@ -26,6 +28,7 @@ class StaffSeeder extends Seeder
     DB::table('staff')->insert([
       'staff_id'=>3,
       'name'=>'Sam',
+      'mobile'=>91234567,
       'stat'=>StaffStat::Inactive,
       'updated_by'=>'admin',
       'updated_on'=>date('Y-m-d H:i:s')
