@@ -32,7 +32,7 @@
               <td>{{ $banner->content }}</td>
               <td>{{ $banner->button_text }}</td>
               <td>{{ $banner->link }}</td>
-              <td><img src="{{ asset('images/frontend/services/'.$banner->image) }}" style="max-height: 200px; max-width: 300px;">
+              <td><img src="{{ asset('assets/images/frontend/services/'.$banner->image) }}" style="max-height: 200px; max-width: 300px;">
             </tr>
           @endforeach
           </tbody>

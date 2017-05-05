@@ -146,47 +146,39 @@
     </div>
 
     <div class="form-group">
-      <label class="control-label col-md-2">
-        Issues
-      </label>
+      <label class="control-label col-md-2">Issues</label>
       <div class="col-md-10">
-        <table class="table table-bordered">
+        <table class="table table-bordered no-margin-btm">
           <thead>
           <tr>
-            <th>Image / Video</th>
+            <th width="255px">Image / Video</th>
             <th>Issue</th>
             <th>Expected</th>
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(issue, index) in issues" v-bind:class="'row-'+issue.stat">
-            <td>
-              <div v-bind:id="'preview-image' + index">
-                <img v-if="isImage(issue.image)" :src="'{{asset('assets/images/tickets')}}/'+ issue.image" v-if="issue.image" class="ticket-image"/>
-                <video v-else-if="isVideo(issue.image)" width="320" height="240" controls>
-                  <source :src="'{{asset('assets/images/tickets')}}/'+ issue.image">
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            </td>
-            <td>
-              @{{ issue.issue_desc }}
-            </td>
-            <td>
-              @{{ issue.expected_desc }}
-            </td>
-          </tr>
+          @foreach($ticket->issues as $issue)
+            <tr>
+              <td>
+                <img src="{{asset('assets/images/tickets/'.$issue->image)}}" class="ticket-image"/>
+              </td>
+              <td>
+                {{ $issue->issue_desc }}
+              </td>
+              <td>
+                {{ $issue->expected_desc }}
+              </td>
+            </tr>
+          @endforeach
           </tbody>
         </table>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="control-label col-md-2">
-        Preferred Slots
-      </label>
+      <label class="control-label col-md-2">Preferred Slots</label>
       <div class="col-md-10">
-        <table class="table table-bordered">
+        <table class="table table-bordered no-margin-btm">
           <thead>
           <tr>
             <th width="120px">Date</th>
@@ -194,14 +186,16 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(slot, index) in preferred_slots" v-bind:class="'row-'+slot.stat">
-            <td>
-              @{{ slot.date | formatDate }}
-            </td>
-            <td>
-              @{{ slot.time_start | formatTime }} to @{{ slot.time_end | formatTime }}
-            </td>
-          </tr>
+          @foreach($ticket->preferred_slots as $slot)
+            <tr>
+              <td>
+                {{ ViewHelper::formatDate($slot->date)}}
+              </td>
+              <td>
+                {{ ViewHelper::formatTime($slot->time_start) }} to {{ ViewHelper::formatTime($slot->time_end) }}
+              </td>
+            </tr>
+          @endforeach
           </tbody>
         </table>
       </div>
@@ -250,91 +244,4 @@
       <input type="button" name="submit" value="BACK TO TICKETS" class="more active" onclick="location.href='{{url('ticket')}}'">
     </div>
   </form>
-@endsection
-
-@section('script')
-  <script>
-    var vm = new Vue({
-      el: "#app",
-      data: {
-        issues: {!! $ticket->issues !!},
-        preferred_slots: {!! $ticket->preferred_slots !!},
-        currentDate: moment(),
-        showRefNo: false,
-      },
-      methods: {
-        addPreferredSlot: function() {
-          var slot = {date: this.currentDate.format('YYYY-MM-DD'), time_start: '', time_end: '', stat:'add'};
-          this.preferred_slots.push(slot);
-        },
-        deletePreferredSlot: function(index) {
-          var slot = this.preferred_slots[index];
-          if (slot.stat === 'add') {
-            this.preferred_slots.splice(index, 1);
-          }
-
-          if (slot.stat == 'delete') {
-            slot.stat = '';
-          } else {
-            Vue.set(slot, 'stat', 'delete');
-            this.preferred_slots_delete.push(slot.ticket_issue_id);
-          }
-        },
-        addIssue: function() {
-          this.issues.push({image:'', issue_desc:'', expected_desc:'', stat:'add'});
-        },
-        deleteIssue: function(index) {
-          var issue = this.issues[index];
-          if (issue.stat === 'add') {
-            this.issues.splice(index, 1);
-          }
-
-          if (issue.stat == 'delete') {
-            issue.stat = '';
-          } else {
-            Vue.set(issue, 'stat', 'delete');
-          }
-        },
-        previewImage: function(index,e) {
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            var img = $('<img/>', {
-              width:250,
-              height:200,
-              src: e.target.result
-            });
-            $('#preview-image'+index).html(img);
-          };
-          var file = e.target.files[0];
-          reader.readAsDataURL(file);
-        },
-        isImage: function(file_name) {
-          return fileExtensionIsImage(file_name);
-        },
-        isVideo: function(file_name) {
-          return fileExtensionIsVideo(file_name);
-        },
-        selectPaymentMethod: function(payment_method) {
-          this.showRefNo = payment_method == 'Q' || payment_method == 'B';
-        }
-      },
-      filters: {
-        formatDate: function (value) {
-          if (value instanceof moment === false) {
-            value = moment(value, "YYYY-MM-DD");
-          }
-          return value.format('DD MMM YYYY');
-        },
-        formatTime: function(value) {
-          if (typeof value === "undefined" || value === "") {
-            return '';
-          }
-          if (value instanceof moment === false) {
-            value = moment(value, "HH:mm:ss");
-          }
-          return value.format('h:mma');
-        }
-      }
-    });
-  </script>
 @endsection

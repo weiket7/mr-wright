@@ -177,10 +177,10 @@ Route::group(['middleware'=>['auth']], function() {
     Route::get('admin/role/save/{id}', 'Admin\RoleController@save');
     Route::post('admin/role/save/{id}', 'Admin\RoleController@save');
     
-    Route::get('admin/content', 'Admin\FrontendController@content');
-    Route::get('admin/banner', 'Admin\FrontendController@banner');
-    Route::get('admin/service', 'Admin\FrontendController@service');
-    Route::get('admin/project', 'Admin\FrontendController@project');
+    Route::get('admin/frontend/content', 'Admin\FrontendController@content');
+    Route::get('admin/frontend/banner', 'Admin\FrontendController@banner');
+    Route::get('admin/frontend/service', 'Admin\FrontendController@service');
+    Route::get('admin/frontend/project', 'Admin\FrontendController@project');
   });
   
   
@@ -204,7 +204,10 @@ Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 
 
 Route::get('test', function() {
-  vaR_dump(Carbon::createFromFormat('Y-m-d', '2017-05-16')->gt(Carbon::now()));
+  $data = "mrwright/members";
+  $length = strlen("mrwright/");
+  $whatIWant = substr($data, $length);
+  echo $whatIWant;
 });
 
 

@@ -25,8 +25,9 @@
   <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/fonts/streamline-large/styles.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/fonts/template/styles.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/fonts/social/styles.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/css/jquery-ui.min.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/style/custom.css')}}">
-  
+
   <link href="{{asset('assets/metronic/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
 
   <link rel="shortcut icon" href="{{asset('assets/renovate/images/favicon.ico')}}">
@@ -46,25 +47,9 @@
           {{$frontend['contents']['opening_hours']}}
         </li>
       </ul>
-      <div class="search-container">
-        <a class="template-search" href="#" title="Search"></a>
-        <form class="search" action="search.html">
-          <input type="text" name="s" placeholder="Search..." value="Search..." class="search-input hint">
-          <fieldset class="search-submit-container">
-            <span class="template-search"></span>
-            <input type="submit" class="search-submit" value="">
-          </fieldset>
-        </form>
-      </div>
       <ul class="social-icons">
         <li>
-          <a target="_blank" href="http://facebook.com/QuanticaLabs" class="social-facebook" title="facebook"></a>
-        </li>
-        <li>
-          <a target="_blank" href="https://twitter.com/QuanticaLabs" class="social-twitter" title="twitter"></a>
-        </li>
-        <li>
-          <a href="https://pinterest.com/quanticalabs/" class="social-pinterest" title="pinterest"></a>
+          <a target="_blank" href="{{$frontend['contents']['facebook']}}" class="social-facebook" title="facebook"></a>
         </li>
       </ul>
     </div>
@@ -424,6 +409,7 @@
 <a href="#top" class="scroll-top animated-element template-arrow-up" title="Scroll to top"></a>
 <!--js-->
 <script type="text/javascript" src="{{asset('assets/renovate/js/jquery-1.12.4.min.js')}}"></script>
+<script src="{{asset('assets/js/jquery-ui.min.js')}}" type="text/javascript"></script>
 <script type="text/javascript" src="{{asset('assets/renovate/js/jquery-migrate-1.4.1.min.js')}}"></script>
 <!--slider revolution-->
 <script type="text/javascript" src="{{asset('assets/renovate/rs-plugin/js/jquery.themepunch.tools.min.js')}}"></script>
@@ -450,6 +436,36 @@
 <script src="{{asset('assets/js/vue.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/js/axios.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/js/common.js')}}" type="text/javascript"></script>
+
+<script>
+  $(document).ready(function() {
+    initDatepicker();
+  });
+
+  Vue.filter('formatDate', function(value) {
+    if (value instanceof moment === false) {
+      value = moment(value, "YYYY-MM-DD");
+    }
+    return value.format('DD MMM YYYY');
+  });
+
+  Vue.filter('formatTime', function(value) {
+    if (typeof value === "undefined" || value === "") {
+      return '';
+    }
+    if (value instanceof moment === false) {
+      value = moment(value, "HH:mm:ss");
+    }
+    return value.format('h:mma');
+  });
+
+  function initDatepicker() {
+    $(".datepicker").datepicker({
+      dateFormat: "dd M yy"
+    });
+  }
+
+</script>
 
 
 @section('script')

@@ -172,9 +172,9 @@
             </td>
             <td>
               <div v-bind:id="'preview-image' + index">
-                <img v-if="isImage(issue.image)" :src="'{{asset('images/tickets')}}/'+ issue.image" v-if="issue.image" class="ticket-image"/>
+                <img v-if="isImage(issue.image)" :src="'{{asset('assets/images/tickets')}}/'+ issue.image" v-if="issue.image" class="ticket-image"/>
                 <video v-else-if="isVideo(issue.image)" width="320" height="240" controls>
-                  <source :src="'{{asset('images/tickets')}}/'+ issue.image">
+                  <source :src="'{{asset('assets/images/tickets')}}/'+ issue.image">
                   Your browser does not support the video tag.
                 </video>
               </div>
@@ -336,6 +336,9 @@
         addPreferredSlot: function() {
           var slot = {date: this.currentDate.format('YYYY-MM-DD'), time_start: '', time_end: '', stat:'add'};
           this.preferred_slots.push(slot);
+          Vue.nextTick(function() {
+            initDatepicker();
+          });
         },
         deletePreferredSlot: function(index) {
           var slot = this.preferred_slots[index];
@@ -388,23 +391,6 @@
         },
         isVideo: function(file_name) {
           return fileExtensionIsVideo(file_name);
-        }
-      },
-      filters: {
-        formatDate: function (value) {
-          if (value instanceof moment === false) {
-            value = moment(value, "YYYY-MM-DD");
-          }
-          return value.format('DD MMM YYYY');
-        },
-        formatTime: function(value) {
-          if (typeof value === "undefined" || value === "") {
-            return '';
-          }
-          if (value instanceof moment === false) {
-            value = moment(value, "HH:mm:ss");
-          }
-          return value.format('h:mma');
         }
       }
     });

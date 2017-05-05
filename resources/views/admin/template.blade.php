@@ -78,7 +78,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- DOC: Remove "hide" class to enable the page header actions -->
     <div class="page-actions">
       <div class="btn-group">
-        <button type="button" class="btn btn-circle btn-outline red" onclick="location.href='{{url('ticket/save')}}'">
+        <button type="button" class="btn btn-circle btn-outline red" onclick="location.href='{{url('admin/ticket/save')}}'">
           <i class="fa fa-plus"></i>&nbsp;
           <span class="hidden-sm hidden-xs">Create Ticket&nbsp;</span>&nbsp;
         </button>
@@ -248,7 +248,6 @@ License: You must have a valid license purchased only from themeforest(the above
       $.fn.select2.defaults.set("theme", "bootstrap");
 
       initDatepicker();
-      //initTimepicker();
 
       $("#company_id").change(function() {
         var company_id = $(this).val();
@@ -319,12 +318,22 @@ License: You must have a valid license purchased only from themeforest(the above
       });
     }
 
-    function initTimepicker() {
-      $('.timepicker-default').timepicker({
-        autoclose: true,
-        minuteStep: 15
-      });
-    }
+    Vue.filter('formatDate', function(value) {
+      if (value instanceof moment === false) {
+        value = moment(value, "YYYY-MM-DD");
+      }
+      return value.format('DD MMM YYYY');
+    });
+
+    Vue.filter('formatTime', function(value) {
+      if (typeof value === "undefined" || value === "") {
+        return '';
+      }
+      if (value instanceof moment === false) {
+        value = moment(value, "HH:mm:ss");
+      }
+      return value.format('h:mma');
+    });
   </script>
 
   @section('script')

@@ -709,23 +709,7 @@
           }
         }
       },
-      filters: {
-        formatDate: function (value) {
-          if (value instanceof moment === false) {
-            value = moment(value, "YYYY-MM-DD");
-          }
-          return value.format('DD MMM YYYY');
-        },
-        formatTime: function(value) {
-          if (typeof value === "undefined" || value === "") {
-            return '';
-          }
-          if (value instanceof moment === false) {
-            value = moment(value, "HH:mm:ss");
-          }
-          return value.format('h:mma');
-        }
-      }
+
     });
 
     function pushToCalendarObject(obj, staff_id, date, time) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App;
 use App\Models\Enums\UserType;
 use App\Models\Registration;
 use App\Models\Requester;
@@ -21,10 +22,11 @@ class FrontendTicketMiddleware
 
     $username = Auth::user()->username;
 
+    if (Auth::check() == false || Auth::user()->type == UserType::Operator) {
+      return redirect('login?referral='.$this->getReferral($request));
+    }
+
     if ($module == 'ticket' && !empty($action) && !empty($request->id)) {
-      if (Auth::check() == false || Auth::user()->type == UserType::Operator) {
-        return redirect('login?referral='.$module.'/'.$action.'/'.$request->id);
-      }
       $ticket_id = $request->id;
       $access_service = new AccessService();
       $ticket = Ticket::find($ticket_id);
@@ -35,8 +37,7 @@ class FrontendTicketMiddleware
     }
 
     if ($module == 'office'
-      || ($module == 'members' && empty($action))
-      || ($module == 'members' && $action == 'save')
+      || ($module == 'members')
       || ($module == 'membership' && $action == 'upgrade')) {
       $office_id = $request->id;
       $requester = Requester::where('username', $username)->first();
@@ -47,5 +48,14 @@ class FrontendTicketMiddleware
     }
 
     return $next($request);
+  }
+
+  private function getReferral(Request $request) {
+    $requestUri = $request->getRequestUri();
+    if (App::environment("local")) {
+      $start = strlen("mrwright/")+1;
+      return substr($requestUri, $start);
+    }
+    return $requestUri;
   }
 }

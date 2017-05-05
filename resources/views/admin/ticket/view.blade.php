@@ -191,7 +191,7 @@
                     <table class="table table-bordered no-margin-btm">
                       <thead>
                       <tr>
-                        <th width="255px">Image</th>
+                        <th width="255px">Image / Video</th>
                         <th>Issue</th>
                         <th>Expected</th>
                       </tr>

@@ -17,7 +17,7 @@ class Staff extends Eloquent
     'name'=>'required',
     'stat'=>'required',
     'mobile'=>'required',
-    'email'=>'required',
+    'email'=>'required|email',
   ];
 
   private $messages = [
@@ -25,6 +25,7 @@ class Staff extends Eloquent
     'stat.required'=>'Status is required',
     'mobile.required'=>'Mobile is required',
     'email.required'=>'Email is required',
+    'email.email'=>'Email must be valid email',
   ];
 
   public static function getStaffAll()
