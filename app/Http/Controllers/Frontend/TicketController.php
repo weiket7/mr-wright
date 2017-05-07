@@ -96,6 +96,7 @@ class TicketController extends Controller
     }
 
     $data['action'] = $request->segment(2);
+    $this->ticket_service->populateTicketForView($ticket);
     $data['ticket'] = $ticket;
     $payment_service = new PaymentService();
     $data['payment_methods'] = $payment_service->getPaymentMethods(PaymentMethodStat::Active);

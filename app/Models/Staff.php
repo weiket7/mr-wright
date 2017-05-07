@@ -14,6 +14,7 @@ class Staff extends Eloquent
   protected $attributes = ['stat'=>StaffStat::Active];
 
   private $rules = [
+    'username'=>'required|sometimes',
     'name'=>'required',
     'stat'=>'required',
     'mobile'=>'required',
@@ -21,6 +22,7 @@ class Staff extends Eloquent
   ];
 
   private $messages = [
+    'username.required'=>'Username is required',
     'name.required'=>'Name is required',
     'stat.required'=>'Status is required',
     'mobile.required'=>'Mobile is required',
@@ -51,7 +53,10 @@ class Staff extends Eloquent
     if ( $this->validation->fails() ) {
       return false;
     }
-  
+
+    if($this->staff_id == null) {
+      $this->username = $input['username'];
+    }
     $this->name = $input['name'];
     $this->stat = $input['stat'];
     $this->mobile = $input['mobile'];

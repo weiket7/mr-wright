@@ -12,7 +12,9 @@ class StaffAssignmentTable extends Migration
       $t->increments('staff_assignment_id');
       $t->integer('ticket_id');
       $t->string('ticket_code', 15);
+      $t->char('stat', 1);
       $t->integer('staff_id');
+      $t->string('staff_username', 30);
       $t->string('staff_name', 50);
       $t->string('staff_mobile', 30);
       $t->date('date');

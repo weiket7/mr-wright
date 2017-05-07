@@ -22,7 +22,6 @@ class FrontendComposer
     $data['services'] =  $frontend_service->getServiceAll();
     if (Auth::check() && Auth::user()->type == UserType::Requester) {
       $username = Auth::user()->username;
-      Log::info($username);
       $data['logged_in_requester'] = Requester::where('username', $username)->first();
     }
 

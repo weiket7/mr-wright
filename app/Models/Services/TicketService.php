@@ -28,13 +28,17 @@ class TicketService
 
   public function getTicket($ticket_id) {
     $ticket = Ticket::findOrNew($ticket_id);
-    $ticket->issues = DB::table('ticket_issue')->where('ticket_id', $ticket_id)->orderBy('ticket_issue_id')->get();
+    $ticket->issues = $this->getTicketIssues($ticket_id);
     $ticket->staff_assignments = $this->getStaffAssignments($ticket_id);
     $ticket->skills = $this->getTicketSkills($ticket_id);
     $ticket->history = $this->getTicketHistory($ticket_id);
     $ticket->preferred_slots = $this->getPreferredSlots($ticket_id);
     $ticket->otps = $this->getOtps($ticket_id);
     return $ticket;
+  }
+
+  public function getTicketIssues($ticket_id) {
+    return DB::table('ticket_issue')->where('ticket_id', $ticket_id)->orderBy('ticket_issue_id')->get();
   }
 
   public function populateTicketForView($ticket) {
@@ -53,7 +57,7 @@ class TicketService
     return $ticket;
   }
 
-  private function getOtps($ticket_id) {
+  public function getOtps($ticket_id) {
     return DB::table('ticket_otp')->where('ticket_id', $ticket_id)->get();
   }
 
@@ -65,7 +69,7 @@ class TicketService
     return $data;
   }
 
-  private function getStaffAssignments($ticket_id) {
+  public function getStaffAssignments($ticket_id) {
     $data = DB::table('staff_assignment')->where('ticket_id', $ticket_id)->get();
     $res = [];
     foreach($data as $d) {
@@ -333,6 +337,7 @@ class TicketService
             'ticket_id'=>$ticket_id,
             'date'=>$date,
             'staff_id'=>$staff_id,
+            'staff_username'=>$staff->username,
             'staff_name'=>$staff->name,
             'staff_mobile'=>$staff->mobile,
             'time_start'=>$p['time_start'],
@@ -494,6 +499,37 @@ class TicketService
   public function emailTicketInvoice($ticket) {
     Mail::to($user = Requester::where('username', $ticket->requested_by)->first())
       ->send(new InvoiceMail($ticket->ticket_id));
+  }
+
+  public function enterOtp($ticket_otp_id, $type, $otp, $username = 'admin') {
+    $ticket_otp = DB::table('ticket_otp')
+      ->where('ticket_otp_id', $ticket_otp_id)
+      ->first();
+    if ($ticket_otp == null) {
+       return false;
+    }
+
+    if ($type == 'first') {
+      $valid_otp = $ticket_otp->first_otp == $otp;
+    } else {
+      $valid_otp = $ticket_otp->second_otp == $otp;
+    }
+
+    if ($valid_otp) {
+      if ($type == 'first') {
+        DB::table('ticket_otp')
+          ->where('ticket_otp_id', $ticket_otp_id)
+          ->update(['first_entered' => true, 'first_entered_on'=>Carbon::now()]);
+      } else if ($type == 'second') {
+        DB::table('ticket_otp')
+          ->where('ticket_otp_id', $ticket_otp_id)
+          ->update(['second_entered' => true, 'second_entered_on'=>Carbon::now()]);
+
+        $ticket_id = DB::table('ticket_otp')->where('ticket_otp_id', $ticket_otp_id)->value('ticket_id');
+        $this->completeTicket($ticket_id, $username);
+      }
+    }
+    return $valid_otp;
   }
   
   

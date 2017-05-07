@@ -95,6 +95,7 @@ Route::group(['middleware'=>['auth']], function() {
   });
   
   Route::group(['middleware'=>['modulemiddleware']], function() {
+
     Route::get('admin/dashboard', 'Admin\AdminController@dashboard');
     Route::get('admin/company', 'Admin\CompanyController@index');
     Route::post('admin/company', 'Admin\CompanyController@index');
@@ -160,14 +161,16 @@ Route::group(['middleware'=>['auth']], function() {
     
     Route::get('admin/report/ticket', 'Admin\ReportController@ticket');
     Route::post('admin/report/ticket', 'Admin\ReportController@ticket');
-    
+
+    Route::get('admin/dashboard/staff', 'Admin\AdminController@dashboardStaff');
+    Route::post('admin/dashboard/staff', 'Admin\AdminController@dashboardStaff');
+
     Route::get('admin/working-day-time', 'Admin\WorkingHourController@workingDaytime');
     Route::get('admin/blocked-date', 'Admin\WorkingHourController@blockedDate');
     Route::get('admin/blocked-date-time', 'Admin\WorkingHourController@blockedDateTime');
     Route::get('admin/category-for-ticket', 'Admin\SettingController@categoryForTicket');
     Route::get('admin/payment-method', 'Admin\SettingController@paymentMethod');
     Route::post('admin/payment-method', 'Admin\SettingController@paymentMethod');
-    Route::get('admin/system', 'Admin\SettingController@system');
     Route::get('admin/setting', 'Admin\SettingController@setting');
     Route::get('admin/access', 'Admin\SettingController@access');
     
@@ -182,8 +185,9 @@ Route::group(['middleware'=>['auth']], function() {
     Route::get('admin/frontend/service', 'Admin\FrontendController@service');
     Route::get('admin/frontend/project', 'Admin\FrontendController@project');
   });
-  
-  
+  Route::get('admin/system', 'Admin\SettingController@system');
+
+  Route::get('api/enterOtp', 'ApiController@enterOtp');
   Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');
   Route::get('api/getStaffWithSkills', 'ApiController@getStaffWithSkills');
   Route::get('api/getOfficeByCompany', 'ApiController@getOfficeByCompany');

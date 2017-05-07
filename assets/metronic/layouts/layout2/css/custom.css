@@ -26,7 +26,7 @@
 .ticket-image {
   max-height: 250px;
 }
-.txt-decline-reason {
+.textarea-ticket-submit {
   margin-bottom: 10px;
 }
 .txt-error {
@@ -58,6 +58,9 @@
 }
 .txt-num {
   max-width: 50px;
+}
+.txt-otp {
+  max-width: 100px;
 }
 .txt-num-short {
   max-width: 50px;

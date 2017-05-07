@@ -201,6 +201,55 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label class="control-label col-md-2">Staff Assignments</label>
+      <div class="col-md-10">
+        <table class="table table-bordered no-margin-btm">
+          <thead>
+          <tr>
+            <th width="120px">Date</th>
+            <th width="200px">Staff</th>
+            <th>Time</th>
+          </tr>
+          </thead>
+          <tbody>
+          @foreach($ticket->staff_assignments as $date => $assignments)
+            @foreach($assignments as $a)
+              <tr>
+                <td>{{ ViewHelper::formatDate($date) }}</td>
+                <td>{{ $a->staff_name }}</td>
+                <td>{{ ViewHelper::formatTime($a->time_start) }} to {{ ViewHelper::formatTime($a->time_end) }}</td>
+              </tr>
+            @endforeach
+          @endforeach
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-md-2">One time passwords</label>
+      <div class="col-md-10">
+
+        <table class="table table-bordered no-margin-btm">
+          <thead>
+          <tr>
+            <th width="120px">Date</th>
+            <th>OTP</th>
+          </tr>
+          </thead>
+          <tbody>
+          @foreach($ticket->otps as $otp)
+            <tr>
+              <td>{{ ViewHelper::formatDate($otp->date) }}</td>
+              <td>{{ $otp->otp }}</td>
+            </tr>
+          @endforeach
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     @if($ticket->stat == TicketStat::Quoted)
       @if($quote_valid)
         <div style="margin-bottom: 10px;">

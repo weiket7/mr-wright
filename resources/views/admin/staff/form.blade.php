@@ -15,9 +15,15 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Name</label>
+                <label class="control-label col-md-3">Username</label>
                 <div class="col-md-9">
-                  {{Form::text('name', $staff->name, ['class'=>'form-control'])}}
+                  @if($action == 'create')
+                    {{Form::text('username', $staff->username, ['class'=>'form-control'])}}
+                  @else
+                    <div class="form-control-static">
+                      {{ $staff->username }}
+                    </div>
+                  @endif
                 </div>
               </div>
             </div>
@@ -30,7 +36,19 @@
               </div>
             </div>
           </div>
-  
+
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Name</label>
+                <div class="col-md-9">
+                  {{Form::text('name', $staff->name, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">

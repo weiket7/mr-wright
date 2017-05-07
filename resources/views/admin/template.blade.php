@@ -152,7 +152,7 @@ License: You must have a valid license purchased only from themeforest(the above
       <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
 
       <ul class="page-sidebar-menu page-header-fixed page-sidebar-menu-hover-submenu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-        <?php $menu = Menu::getMenu(); ?>
+        <?php $menu = Menu::getMenu(Auth::user()->type); ?>
         @foreach($menu as $m)
           <li class="nav-item">
             <?php $link = isset($m['link']) ? url($m['link']) : "javascript:;"; ?>

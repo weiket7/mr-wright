@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
       $this->call(TicketHistorySeeder::class);
       $this->call(TicketPreferredSlotSeeder::class);
       $this->call(TicketSkillSeeder::class);
+      $this->call(TicketOtpSeeder::class);
       $this->call(StaffAssignmentSeeder::class);
       $this->call(CategoryForTicketSeeder::class);
       $this->call(RoleSeeder::class);

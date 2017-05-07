@@ -1,7 +1,17 @@
 <?php namespace App\Models;
 
+use App\Models\Enums\UserType;
+
 class Menu {
-  public static function getMenu() {
+  public static function getMenu($user_type) {
+    if ($user_type == UserType::Staff) {
+      return self::getStaffMenu();
+    } else if ($user_type == UserType::Operator) {
+      return self::getOperatorMenu();
+    }
+  }
+
+  private static function getOperatorMenu() {
     $menu = [
       ["link"=>"admin/dashboard", "name"=>"Dashboard", "icon"=>"icon-home"],
       ["link"=>"admin/registration", "name"=>"Registrations", "icon"=>"icon-eyeglasses"],
@@ -15,7 +25,7 @@ class Menu {
       ["link"=>"admin/operator", "name"=>"Operators", "icon"=>"icon-eyeglasses"],
       ["name"=>"Reports", "icon"=>"icon-bar-chart", "sub"=>[
         ["link"=>"admin/report/ticket", "name"=>"Tickets", "icon"=>""],
-      ]], 
+      ]],
       ["name"=>"Frontend", "icon"=>"icon-settings", "sub"=>[
         ["link"=>"admin/frontend/content", "name"=>"Content"],
         ["link"=>"admin/frontend/banner", "name"=>"Banners"],
@@ -39,4 +49,12 @@ class Menu {
     ];
     return $menu;
   }
+
+  private static function getStaffMenu() {
+    $menu = [
+      ["link"=>"admin/dashboard/staff", "name"=>"Dashboard", "icon"=>"icon-home"],
+    ];
+    return $menu;
+  }
+
 }

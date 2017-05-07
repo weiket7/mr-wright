@@ -10,6 +10,7 @@ class StaffTable extends Migration
   {
     Schema::create('staff', function(Blueprint $t) {
       $t->increments('staff_id');
+      $t->string('username', 30);
       $t->string('name', 50);
       $t->string('mobile', 30);
       $t->string('email', 100);

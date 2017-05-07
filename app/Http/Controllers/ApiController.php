@@ -8,6 +8,7 @@ use App\Models\Office;
 use App\Models\Services\CalendarService;
 use App\Models\Services\CompanyService;
 use App\Models\Services\SkillService;
+use App\Models\Services\TicketService;
 use App\Models\Services\WorkingHourService;
 use DB;
 use Illuminate\Http\Request;
@@ -48,6 +49,15 @@ class ApiController extends Controller
     $res = $this->calendar_service->getStaffCalendar($date, $staff_ids);
 
     return $res;
+  }
+
+  public function enterOtp(Request $request) {
+    $ticket_otp_id = $request->get('ticket_otp_id');
+    $otp = $request->get('otp');
+    $type = $request->get('type');
+    $ticket_service = new TicketService();
+    $res = $ticket_service->enterOtp($ticket_otp_id, $type, $otp, $this->getUsername());
+    return $res ? 'true' : 'false';
   }
 
   //TODO secure these 3 api, if operator can access all, if requester only those under his company and/or office

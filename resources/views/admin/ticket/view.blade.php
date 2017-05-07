@@ -167,28 +167,31 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="control-label col-md-3">Quoted Price</label>
-                      <label class="col-md-9 form-control-static">
-                        {{ ViewHelper::formatCurrency($ticket->quoted_price) }}
-                      </label>
+                @if(Auth::user()->type == \App\Models\Enums\UserType::Operator)
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Quoted Price</label>
+                        <label class="col-md-9 form-control-static">
+                          {{ ViewHelper::formatCurrency($ticket->quoted_price) }}
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Quotation Description</label>
+                        <label class="col-md-9 form-control-static">
+                          {{ $ticket->quotation_desc }}
+                        </label>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="control-label col-md-3">Quotation Description</label>
-                      <label class="col-md-9 form-control-static">
-                        {{ $ticket->quotation_desc }}
-                      </label>
-                    </div>
-                  </div>
-                </div>
+                @endif
+
                 <div class="form-group">
                   <label class="control-label col-md-2">Issues</label>
                   <div class="col-md-10">
-                    <table class="table table-bordered no-margin-btm">
+                    <table class="table table-bordered no-margin-btm table-responsive">
                       <thead>
                       <tr>
                         <th width="255px">Image / Video</th>
@@ -215,40 +218,43 @@
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label class="control-label col-md-2">Preferred Slots</label>
-                  <div class="col-md-10">
-                    <table class="table table-bordered no-margin-btm">
-                      <thead>
-                      <tr>
-                        <th width="120px">Date</th>
-                        <th>Time</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      @foreach($ticket->preferred_slots as $slot)
+                <!--TODO-->
+                @if(Auth::user()->type == \App\Models\Enums\UserType::Operator)
+                  <div class="form-group">
+                    <label class="control-label col-md-2">Preferred Slots</label>
+                    <div class="col-md-10">
+                      <table class="table table-bordered no-margin-btm table-responsive">
+                        <thead>
                         <tr>
-                          <td>
-                            {{ ViewHelper::formatDate($slot->date)}}
-                          </td>
-                          <td>
-                            {{ ViewHelper::formatTime($slot->time_start) }} to {{ ViewHelper::formatTime($slot->time_end) }}
-                          </td>
+                          <th width="120px">Date</th>
+                          <th>Time</th>
                         </tr>
-                      @endforeach
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                        @foreach($ticket->preferred_slots as $slot)
+                          <tr>
+                            <td>
+                              {{ ViewHelper::formatDate($slot->date)}}
+                            </td>
+                            <td>
+                              {{ ViewHelper::formatTime($slot->time_start) }} to {{ ViewHelper::formatTime($slot->time_end) }}
+                            </td>
+                          </tr>
+                        @endforeach
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
+                @endif
 
                 <div class="form-group">
                   <label class="control-label col-md-2">Staff Assignments</label>
                   <div class="col-md-10">
-                    <table class="table table-bordered no-margin-btm">
+                    <table class="table table-bordered no-margin-btm table-responsive">
                       <thead>
                       <tr>
                         <th width="120px">Date</th>
-                        <th width="200px">Staff</th>
+                        <th>Staff</th>
                         <th>Time</th>
                       </tr>
                       </thead>
@@ -270,20 +276,24 @@
                 <div class="form-group">
                   <label class="control-label col-md-2">One time passwords</label>
                   <div class="col-md-10">
-                    <table class="table table-bordered no-margin-btm">
+                    <table class="table table-bordered no-margin-btm table-responsive">
                       <thead>
                       <tr>
                         <th width="120px">Date</th>
-                        <th>OTP</th>
+                        <th width="200px">First OTP</th>
+                        <th>Second OTP</th>
                       </tr>
                       </thead>
                       <tbody>
-                      @foreach($ticket->otps as $otp)
-                        <tr>
-                          <td>{{ ViewHelper::formatDate($otp->date) }}</td>
-                          <td>{{ $otp->otp }}</td>
-                        </tr>
-                      @endforeach
+                      @if(ViewHelper::hasAccess('ticket_view_otp'))
+                        @foreach($ticket->otps as $otp)
+                          <tr>
+                            <td>{{ ViewHelper::formatDate($otp->date) }}</td>
+                            <td>{{ $otp->first_otp }}</td>
+                            <td>{{ $otp->second_otp }}</td>
+                          </tr>
+                        @endforeach
+                      @endif
                       </tbody>
                     </table>
                   </div>
@@ -298,7 +308,7 @@
                         <div>
                           @if($ticket->stat == TicketStat::Quoted && ViewHelper::hasAccess('ticket_respond'))
                             <div>
-                              <textarea name="accept_decline_reason" title="" class="form-control txt-decline-reason" placeholder="[Optional] Please share with us the reason for accepting or declining">
+                              <textarea name="accept_decline_reason" title="" class="form-control textarea-ticket-submit" placeholder="[Optional] Please share with us the reason for accepting or declining">
                               </textarea>
                             </div>
 
@@ -378,23 +388,6 @@
           this.showRefNo = pm == 'B' || pm == 'Q';
         }
       },
-      filters: {
-        formatDate: function (value) {
-          if (value instanceof moment === false) {
-            value = moment(value, "YYYY-MM-DD");
-          }
-          return value.format('DD MMM YYYY');
-        },
-        formatTime: function(value) {
-          if (typeof value === "undefined" || value === "") {
-            return '';
-          }
-          if (value instanceof moment === false) {
-            value = moment(value, "HH:mm:ss");
-          }
-          return value.format('HH:mm');
-        }
-      }
     });
   </script>
 @endsection

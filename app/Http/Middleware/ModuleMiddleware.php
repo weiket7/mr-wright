@@ -14,14 +14,18 @@ class ModuleMiddleware
   public function handle(Request $request, Closure $next)
   {
     $user_type = Auth::user()->type;
-    if ($user_type != UserType::Operator) {
+    if ($user_type == UserType::Requester) {
       Auth::logout();
-      //Log::error('ModuleMiddleware - '.Auth::user()->username.' is not operator');
+      Log::error('ModuleMiddleware - '.Auth::user()->username.' is requester');
       return redirect("admin/error")->with('error', 'Not authorised');
     }
-    
+
+    if ($request->segment(1) == 'api') {
+      return $next($request);
+    }
+
     $module = $request->segment(2);
-    if($module == '' || $module == 'api' || $module == 'dashboard') {
+    if($module == '' || $module == 'dashboard') {
       return $next($request);
     }
 

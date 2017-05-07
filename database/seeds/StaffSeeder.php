@@ -9,6 +9,7 @@ class StaffSeeder extends Seeder
   {
     DB::table('staff')->insert([
       'staff_id'=>1,
+      'username'=>'tom',
       'name'=>'Tom',
       'mobile'=>91234567,
       'email'=>'tom@mrwright.sg',
@@ -19,6 +20,7 @@ class StaffSeeder extends Seeder
 
     DB::table('staff')->insert([
       'staff_id'=>2,
+      'username'=>'jerry',
       'name'=>'Jerry',
       'mobile'=>91234567,
       'email'=>'jerry@mrwright.sg',
@@ -29,6 +31,7 @@ class StaffSeeder extends Seeder
 
     DB::table('staff')->insert([
       'staff_id'=>3,
+      'username'=>'sam',
       'name'=>'Sam',
       'mobile'=>91234567,
       'email'=>'sam@mrwright.sg',
