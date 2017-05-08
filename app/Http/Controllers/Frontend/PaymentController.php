@@ -51,7 +51,7 @@ class PaymentController extends Controller
       if ($transaction->type == TransactionType::Registration) {
         $account_service = new Account();
         $registration = Registration::where('registration_code', $code)->first('registration_id');
-        $input = ['office_id'] = $registration->office_id;
+        $input['office_id'] = $registration->office_id;
         $registration = $account_service->approveRegistration($registration->registration_id, $input);
       } elseif ($transaction->type == TransactionType::Ticket) {
         $ticket_service = new TicketService();
