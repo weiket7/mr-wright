@@ -1,9 +1,12 @@
 <?php namespace App\Models;
 
 use App\Models\Enums\StaffStat;
+use App\Models\Enums\UserStat;
+use App\Models\Enums\UserType;
 use Carbon\Carbon;
 
 use Eloquent, DB, Validator, Log;
+use Hash;
 
 class Staff extends Eloquent
 {
@@ -64,7 +67,32 @@ class Staff extends Eloquent
     $this->save();
 
     $this->saveStaffSkills($input, $operator);
+    $this->saveStaffAsUser($input);
     return true;
+  }
+
+  private function saveStaffAsUser($input)
+  {
+    if ($this->requester_id == null) { //create
+      $user = new User();
+      $user->username = $input['username'];
+    } else {
+      $user = User::where('username', $this->username)->first();
+    }
+
+    $user->name = $input['name'];
+    if ($input['stat'] == StaffStat::Active) {
+      $user->stat = UserStat::Active;
+    } else if ($input['stat'] == StaffStat::Inactive) {
+      $user->stat = UserStat::Inactive;
+    }
+
+    $user->email = $input['email'];
+    if ($input['password']) {
+      $user->password = Hash::make($input['password']);
+    }
+    $user->type = UserType::Staff;
+    $user->save();
   }
 
   private function saveStaffSkills($input, $username = 'admin') {

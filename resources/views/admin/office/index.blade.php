@@ -54,6 +54,7 @@
             <th width="70px">Status</th>
             <th width="200px">Company</th>
             <th>Name</th>
+            <th>Requesters</th>
           </tr>
           </thead>
           <tbody>
@@ -62,6 +63,7 @@
               <td>{{OfficeStat::$values[$office->stat]}}</td>
               <td>{{$office->company_name}}</td>
               <td><a href="{{url("admin/office/save/".$office->office_id)}}">{{ $office->name }}</a></td>
+              <td>{{ $office->requester_count }}</td>
             </tr>
           @endforeach
           </tbody>

@@ -4,6 +4,7 @@
 use App\Models\Enums\RequesterStat;
 use App\Models\Enums\RequesterType;
 use App\Models\Enums\UserStat;
+use App\Models\Enums\UserType;
 use Eloquent, DB, Validator, Log;
 use Hash;
 use Illuminate\Http\Request;
@@ -85,7 +86,7 @@ class Requester extends Eloquent
     $user->name = $input['name'];
     if (in_array($input['stat'], [RequesterStat::PendingPayment, RequesterStat::Inactive])) {
       $user->stat = UserStat::Inactive;
-    } else {
+    } else if ($input['stat'] == RequesterStat::Active) {
       $user->stat = UserStat::Active;
     }
 
@@ -93,6 +94,7 @@ class Requester extends Eloquent
     if ($input['password']) {
       $user->password = Hash::make($input['password']);
     }
+    $user->type = UserType::Requester;
     $user->save();
   }
 

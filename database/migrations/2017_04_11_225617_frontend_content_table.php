@@ -86,64 +86,6 @@ Winter Park, FL 32789']
       DB::table('frontend_content')->insert(['page'=>'payment', 'key'=>$d['key'], 'value'=>$d['value']]);
     }
 
-    /*HOME WHY CHOOSE*/
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'whychoose_title',
-      'value'=>'WHY CHOOSE RENOVATE',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'whychoose_content',
-      'value'=>'Founded by Kevin Smith back in 2000, Renovate has established itself as one of the greatest and prestigious
-providers of construction focused interior renovation services and building.',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'whychoose_column1_icon',
-      'value'=>'house-1',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'whychoose_column1_title',
-      'value'=>'OVER 15 YEARS EXPERIENCE',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'whychoose_column1_content',
-      'value'=>'Morbi nulla tortor, dignissim est node cursus euismod est arcu. Nomad at vehicula novum justo magna.',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'whychoose_column2_icon',
-      'value'=>'eco',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'whychoose_column2_title',
-      'value'=>'BEST MATERIALS',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'whychoose_column2_content',
-      'value'=>'Morbi nulla tortor, dignissim est node cursus euismod est arcu. Nomad at vehicula novum justo magna.',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'whychoose_column3_icon',
-      'value'=>'garage',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'whychoose_column3_title',
-      'value'=>'PROFESSIONAL STANDARDS',
-    ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'home',
-      'key'=>'whychoose_column3_content',
-      'value'=>'Morbi nulla tortor, dignissim est node cursus euismod est arcu. Nomad at vehicula novum justo magna.',
-    ]);
-
 
     /*FOOTER*/
     DB::table('frontend_content')->insert([

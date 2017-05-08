@@ -11,9 +11,11 @@
 |
 */
 
+use App\Mail\ContactMail;
 use App\Mail\RegisterExistingUenMail;
 use App\Mail\TestEmail;
 use App\Models\Account;
+use App\Models\Contact;
 use App\Models\Requester;
 use App\Models\User;
 use Carbon\Carbon;
@@ -179,11 +181,19 @@ Route::group(['middleware'=>['auth']], function() {
     Route::post('admin/role/save', 'Admin\RoleController@save');
     Route::get('admin/role/save/{id}', 'Admin\RoleController@save');
     Route::post('admin/role/save/{id}', 'Admin\RoleController@save');
-    
+
     Route::get('admin/frontend/content', 'Admin\FrontendController@content');
+    Route::get('admin/frontend/content/save/{id}', 'Admin\FrontendController@contentSave');
+    Route::post('admin/frontend/content/save/{id}', 'Admin\FrontendController@contentSave');
     Route::get('admin/frontend/banner', 'Admin\FrontendController@banner');
+    Route::get('admin/frontend/banner/save/{id}', 'Admin\FrontendController@bannerSave');
+    Route::post('admin/frontend/banner/save/{id}', 'Admin\FrontendController@bannerSave');
     Route::get('admin/frontend/service', 'Admin\FrontendController@service');
+    Route::get('admin/frontend/service/save/{id}', 'Admin\FrontendController@serviceSave');
+    Route::post('admin/frontend/service/save/{id}', 'Admin\FrontendController@serviceSave');
     Route::get('admin/frontend/project', 'Admin\FrontendController@project');
+    Route::get('admin/frontend/project/save/{id}', 'Admin\FrontendController@projectSave');
+    Route::post('admin/frontend/project/save/{id}', 'Admin\FrontendController@projectSave');
   });
   Route::get('admin/system', 'Admin\SettingController@system');
 
@@ -208,10 +218,12 @@ Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 
 
 Route::get('test', function() {
-  $data = "mrwright/members";
-  $length = strlen("mrwright/");
-  $whatIWant = substr($data, $length);
-  echo $whatIWant;
+  $contact = new Contact();
+  $contact->name = 'test name';
+  $contact->email = "test@email.com";
+  $contact->mobile = 91234567;
+  $contact->message = "hello world";
+  Mail::to(config('mail.from.address'))->send(new ContactMail($contact));
 });
 
 

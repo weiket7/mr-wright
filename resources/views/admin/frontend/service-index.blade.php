@@ -27,7 +27,7 @@
           @foreach($services as $service)
             <tr>
               <td>{{ $service->position }}</td>
-              <td><a href="{{url("admin/service/save/".$service->frontend_service_id)}}">{{ $service->title }}</a></td>
+              <td><a href="{{url("admin/frontend/service/save/".$service->frontend_service_id)}}">{{ $service->title }}</a></td>
               <td>{{ $service->content }}</td>
               <td><img src="{{ asset('assets/images/frontend/services/'.$service->image1) }}" style="max-height: 200px; max-width: 300px;">
               <td><img src="{{ asset('assets/images/frontend/services/'.$service->image2) }}" style="max-height: 200px; max-width: 300px;">

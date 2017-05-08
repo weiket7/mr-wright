@@ -147,8 +147,8 @@
                   </a>
                 </li>
                 <li>
-                  <a href="{{url('register')}}" title="Register">
-                    REGISTER
+                  <a href="{{url('rewards')}}" title="Rewards">
+                    REWARDS
                   </a>
                 </li>
                 <li>
@@ -330,80 +330,8 @@
       </div>
     </div>
   </div>
-  <div class="r-row gray full-width page-padding-top padding-bottom-50">
-    <div class="r-row row-4-4">
-      <div class="column column-1-4">
-        <h6 class="box-header">About Us</h6>
-        <p class="description t1">{{$frontend['contents']['footer_about']}}</p>
-        <ul class="social-icons yellow margin-top-26">
-          <li>
-            <a target="_blank" href="http://facebook.com/QuanticaLabs" class="social-facebook" title="facebook"></a>
-          </li>
-          <li>
-            <a target="_blank" href="https://twitter.com/QuanticaLabs" class="social-twitter" title="twitter"></a>
-          </li>
-          <li>
-            <a target="_blank" href="http://themeforest.net/user/QuanticaLabs/portfolio?ref=QuanticaLabs" class="social-linkedin" title="linkedin"></a>
-          </li>
-          <li>
-            <a href="https://pinterest.com/quanticalabs/" class="social-pinterest" title="pinterest"></a>
-          </li>
-        </ul>
-      </div>
-      <div class="column column-1-4">
-        <h6 class="box-header">Our Services</h6>
-        <ul class="list margin-top-20">
-          @foreach($frontend['services'] as $service)
-            <li class="template-bullet">{{ $service->title }}</li>
-          @endforeach
-        </ul>
-      </div>
-      <div class="column column-1-4">
-        <h6 class="box-header">Categories</h6>
-        <ul class="taxonomies margin-top-30">
-          <li><a href="category.html" title="BUILD">BUILD</a></li>
-          <li><a href="category.html" title="DESIGN">DESIGN</a></li>
-          <li><a href="category.html" title="FLOORING">FLOORING</a></li>
-          <li><a href="category.html" title="PAINTING">PAINTING</a></li>
-          <li><a href="category.html" title="PAVERS">PAVERS</a></li>
-          <li><a href="category.html" title="PLUMBING">PLUMBING</a></li>
-          <li><a href="category.html" title="RENOVATION">RENOVATION</a></li>
-          <li><a href="category.html" title="REPAIRS">REPAIRS</a></li>
-          <li><a href="category.html" title="SOLAR SYSTEMS">SOLAR SYSTEMS</a></li>
-          <li><a href="category.html" title="TILING">TILING</a></li>
-        </ul>
-      </div>
-      <div class="column column-1-4">
-        <h6 class="box-header">Latest Posts</h6>
-        <ul class="blog small margin-top-30">
-          <li>
-            <a href="post.html" title="What a Difference a Few Months Make" class="post-image">
-              <img src="{{asset('assets/renovate')}}/images/samples/90x90/image_10.jpg" alt="">
-            </a>
-            <div class="post-content">
-              <a href="post.html" title="What a Difference a Few Months Make">What a Difference a Few Months Make</a>
-              <ul class="post-details">
-                <li class="date">April 25, 2015</li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <a href="post.html" title="Kitchen and Living Room Renovation" class="post-image">
-              <img src="{{asset('assets/renovate')}}/images/samples/90x90/image_07.jpg" alt="">
-            </a>
-            <div class="post-content">
-              <a href="post.html" title="Kitchen and Living Room Renovation">Kitchen and Living Room Renovation</a>
-              <ul class="post-details">
-                <li class="date">April 17, 2015</li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
   <div class="r-row align-center padding-top-bottom-30">
-    <span class="copyright">© Copyright 2015 <a href="http://themeforest.net/item/renovate-construction-renovation-template/11313006?ref=QuanticaLabs" title="Renovate Template" target="_blank">Renovate Template</a> by <a href="http://quanticalabs.com" title="QuanticaLabs" target="_blank">QuanticaLabs</a></span>
+    <span class="copyright">© Copyright {{ date('Y') }} <a href="{{ url('/') }}">{{ config('app.name') }}</a></span>
   </div>
 </div>
 <a href="#top" class="scroll-top animated-element template-arrow-up" title="Scroll to top"></a>

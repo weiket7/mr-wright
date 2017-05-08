@@ -28,7 +28,7 @@
           @foreach($banners as $banner)
             <tr>
               <td><input type="text" class="form-control txt-num-short" value="{{$banner->position}}"></td>
-              <td><a href="{{url("admin/banner/save/".$banner->frontend_banner_id)}}">{{ $banner->title }}</a></td>
+              <td><a href="{{url("admin/frontend/banner/save/".$banner->frontend_banner_id)}}">{{ $banner->title }}</a></td>
               <td>{{ $banner->content }}</td>
               <td>{{ $banner->button_text }}</td>
               <td>{{ $banner->link }}</td>
@@ -37,7 +37,29 @@
           @endforeach
           </tbody>
         </table>
+
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+@endsection
+
+@section('script')
+  <script>
+    $(document).ready(function() {
+      $("tbody").sortable({
+        stop: function(event, ui) {
+          var i = 1;
+          $('tbody > tr').each(function() {
+            $(this).find("input[type='text']").val(i);
+            i++;
+          });
+        }
+      });
+    });
+  </script>
 @endsection

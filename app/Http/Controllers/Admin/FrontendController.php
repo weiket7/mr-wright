@@ -31,5 +31,17 @@ class FrontendController extends Controller
     return view('admin/frontend/service-index', $data);
   }
 
+  public function contentSave(Request $request, $key) {
+    $frontend_content = new FrontendContent();
+    if ($request->isMethod('post')) {
+      $frontend_content->saveContent($key, $request->get('value'));
+      return redirect("admin/frontend/content/save/".$key)->with("msg", "Content updated");
+    }
+
+    $data['key'] = $key;
+    $data['value'] = $frontend_content->getContent($key);
+    return view('admin/frontend/content-form', $data);
+  }
+
 
 }

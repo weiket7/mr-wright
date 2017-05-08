@@ -42,4 +42,23 @@ class FrontendContent extends Eloquent
   {
     return DB::table('frontend_content')->pluck('value', 'key');
   }
+
+  public function getContent($key) {
+    return DB::table('frontend_content')->where('key', $key)->value('value');
+  }
+
+  public function getBanner($key) {
+    return DB::table('frontend_banner')->where('key', $key)->first();
+  }
+
+  public function getService($key) {
+    return DB::table('frontend_service')->where('key', $key)->first();
+  }
+
+  public function saveContent($key, $value)
+  {
+    DB::table('frontend_content')->where('key', $key)->update([
+      'value'=>$value
+    ]);
+  }
 }

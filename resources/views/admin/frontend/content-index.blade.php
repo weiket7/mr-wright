@@ -20,23 +20,23 @@
         <table class="table table-bordered table-hover">
           <tr>
             <td>Contact</td>
-            <td>{{ $contents['contact'] }}</td>
+            <td><a href="{{ url('admin/frontend/content/save/contact') }}">{{ $contents['contact'] }}</a></td>
           </tr>
           <tr>
             <td>Email</td>
-            <td>{{ $contents['email'] }}</td>
+            <td><a href="{{ url('admin/frontend/content/save/email') }}">{{ $contents['email'] }}</a></td>
           </tr>
           <tr>
             <td>Opening Hours</td>
-            <td>{{ $contents['opening_hours'] }}</td>
+            <td><a href="{{ url('admin/frontend/content/save/opening_hours') }}">{{ $contents['opening_hours'] }}</a></td>
           </tr>
           <tr>
             <td>Address</td>
-            <td>{{ $contents['address'] }}</td>
+            <td><a href="{{ url('admin/frontend/content/save/address') }}">{{ $contents['address'] }}</a></td>
           </tr>
           <tr>
             <td>Facebook</td>
-            <td>{{ $contents['facebook'] }}</td>
+            <td><a href="{{ url('admin/frontend/content/save/facebook') }}">{{ $contents['facebook'] }}</a></td>
           </tr>
         </table>
 
@@ -50,27 +50,27 @@
           </tr>
           <tr>
             <td>Column 1</td>
-            <td>{{$contents['about_column1_icon']}}</td>
-            <td>{{$contents['about_column1_title']}}</td>
-            <td>{{$contents['about_column1_content']}}</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_column1_icon') }}">{{$contents['about_column1_icon']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/about_column1_title') }}">{{$contents['about_column1_title']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/about_column1_content') }}">{{$contents['about_column1_content']}}</a></td>
           </tr>
           <tr>
             <td>Column 2</td>
-            <td>{{$contents['about_column2_icon']}}</td>
-            <td>{{$contents['about_column2_title']}}</td>
-            <td>{{$contents['about_column2_content']}}</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_column2_icon') }}">{{$contents['about_column2_icon']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/about_column2_title') }}">{{$contents['about_column2_title']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/about_column2_content') }}">{{$contents['about_column2_content']}}</a></td>
           </tr>
           <tr>
             <td>Column 3</td>
-            <td>{{$contents['about_column3_icon']}}</td>
-            <td>{{$contents['about_column3_title']}}</td>
-            <td>{{$contents['about_column3_content']}}</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_column3_icon') }}">{{$contents['about_column3_icon']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/about_column3_title') }}">{{$contents['about_column3_title']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/about_column3_content') }}">{{$contents['about_column3_content']}}</a></td>
           </tr>
           <tr>
             <td>Column 4</td>
-            <td>{{$contents['about_column4_icon']}}</td>
-            <td>{{$contents['about_column4_title']}}</td>
-            <td>{{$contents['about_column4_content']}}</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_column4_icon') }}">{{$contents['about_column4_icon']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/about_column4_title') }}">{{$contents['about_column4_title']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/about_column4_content') }}">{{$contents['about_column4_content']}}</a></td>
           </tr>
         </table>
 
@@ -84,21 +84,21 @@
           </tr>
           <tr>
             <td>Column 1</td>
-            <td>{{$contents['service_column1_image']}}</td>
-            <td>{{$contents['service_column1_title']}}</td>
-            <td>{{$contents['service_column1_content']}}</td>
+            <td><a href="{{ url('admin/frontend/content/save/service_column1_image') }}">{{$contents['service_column1_image']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/service_column1_title') }}">{{$contents['service_column1_title']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/service_column1_content') }}">{{$contents['service_column1_content']}}</a></td>
           </tr>
           <tr>
             <td>Column 2</td>
-            <td>{{$contents['service_column2_image']}}</td>
-            <td>{{$contents['service_column2_title']}}</td>
-            <td>{{$contents['service_column2_content']}}</td>
+            <td><a href="{{ url('admin/frontend/content/save/service_column2_image') }}">{{$contents['service_column2_image']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/service_column2_title') }}">{{$contents['service_column2_title']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/service_column2_content') }}">{{$contents['service_column2_content']}}</a></td>
           </tr>
           <tr>
             <td>Column 3</td>
-            <td>{{$contents['service_column3_image']}}</td>
-            <td>{{$contents['service_column3_title']}}</td>
-            <td>{{$contents['service_column3_content']}}</td>
+            <td><a href="{{ url('admin/frontend/content/save/service_column3_image') }}">{{$contents['service_column3_image']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/service_column3_title') }}">{{$contents['service_column3_title']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/service_column3_content') }}">{{$contents['service_column3_content']}}</a></td>
           </tr>
         </table>
 
