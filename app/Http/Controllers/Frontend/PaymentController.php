@@ -45,20 +45,21 @@ class PaymentController extends Controller
     $ipCountry = $request->get('ipCountry');
     $payMethod = $request->get('payMethod');
     $cardIssuingCountry = $request->get('cardIssuingCountry');
-    Log::info('callback - Ref=' . $code . ' Amount='.$Amt . ' successcode=' . $response_code);
+    Log::info('payment/callback - Ref=' . $code . ' Amount='.$Amt . ' successcode=' . $response_code);
     $transaction = $this->payment_service->saveTransaction($code, $response_code);
     if ($transaction->stat == TransactionStat::Success) {
       if ($transaction->type == TransactionType::Registration) {
         $account_service = new Account();
-        $registration_id = Registration::where('registration_code', $code)->value('registration_id');
-        $registration = $account_service->approveRegistration($registration_id);
+        $registration = Registration::where('registration_code', $code)->first('registration_id');
+        $input = ['office_id'] = $registration->office_id;
+        $registration = $account_service->approveRegistration($registration->registration_id, $input);
       } elseif ($transaction->type == TransactionType::Ticket) {
         $ticket_service = new TicketService();
         $ticket_id = Ticket::where('ticket_code', $code)->value('ticket_id');
         $ticket_service->paidTicket($ticket_id, 'Q', $PayRef, $this->getUsername());
       }
     }
-
+    return "OK";
   }
 
   public function success(Request $request) {

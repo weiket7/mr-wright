@@ -34,7 +34,7 @@ Route::get('register/success', 'Frontend\RegistrationController@success');
 
 Route::get('payment', 'Frontend\PaymentController@index');
 Route::get('payment/success', 'Frontend\PaymentController@success');
-Route::get('payment/callback', 'Frontend\PaymentController@success');
+Route::post('payment/callback', 'Frontend\PaymentController@callback');
 Route::get('payment/cancel', 'Frontend\PaymentController@cancel');
 Route::get('payment/fail', 'Frontend\PaymentController@fail');
 
