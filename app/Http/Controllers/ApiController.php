@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Models\Account;
+use App\Models\Enums\TransactionStat;
 use App\Models\Office;
 use App\Models\Services\CalendarService;
 use App\Models\Services\CompanyService;
+use App\Models\Services\PaymentService;
 use App\Models\Services\SkillService;
 use App\Models\Services\TicketService;
 use App\Models\Services\WorkingHourService;
@@ -73,5 +75,13 @@ class ApiController extends Controller
 
   public function getOffice(Request $request) {
     return Office::find($request->get('office_id'));
+  }
+  
+  public function transactionSuccess(Request $request) {
+    $code = $request->get('code');
+    $payment_service = new PaymentService();
+    $transaction = $payment_service->getTransaction($code);
+    $success = $transaction->stat == TransactionStat::Success;
+    return $success ? 'true' : 'false';
   }
 }

@@ -19,6 +19,7 @@ class Staff extends Eloquent
   private $rules = [
     'username'=>'required|sometimes',
     'name'=>'required',
+    'password'=>'sometimes|min:6',
     'stat'=>'required',
     'mobile'=>'required',
     'email'=>'required|email',
@@ -27,6 +28,7 @@ class Staff extends Eloquent
   private $messages = [
     'username.required'=>'Username is required',
     'name.required'=>'Name is required',
+    'password.min'=>'Password must be at least 6 characters',
     'stat.required'=>'Status is required',
     'mobile.required'=>'Mobile is required',
     'email.required'=>'Email is required',

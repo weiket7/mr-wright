@@ -17,8 +17,8 @@ class RegistrationController extends Controller
   public function index(Request $request)
   {
     $membership_id = $request->get('membership_id');
-    if (empty($membership_id) == false && Membership::where('membership_id', $membership_id)->count() == 0) {
-      return redirect('error')->with('error', 'Membership does not exist');
+    if (! empty($membership_id) && Membership::where('membership_id', $membership_id)->count() == 0) {
+      return view('frontend/error', ['error'=>'Membership does not exist']);
     }
 
     $register = new Account();
@@ -84,8 +84,10 @@ class RegistrationController extends Controller
   }
 
   public function success(Request $request) {
+    $code = $request->get('code');
     $registration = Registration::findOrFail($request->session()->get('registration_id'));
     $data['registration'] = $registration;
+    $data['code'] = $code;
     return view("frontend/register-success", $data);
   }
 }

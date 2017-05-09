@@ -5,7 +5,6 @@ use App\Mail\ContactMail;
 use App\Mail\InviteMail;
 use App\Models\Company;
 use App\Models\Contact;
-use App\Models\Enums\RequesterStat;
 use App\Models\Enums\UserStat;
 use App\Models\ForgotPassword;
 use App\Models\FrontendService;
@@ -17,7 +16,6 @@ use App\Models\Registration;
 use App\Models\Requester;
 use App\Models\Services\CompanyService;
 use Auth;
-use Hash;
 use Illuminate\Http\Request;
 use Log;
 use Mail;
@@ -135,7 +133,8 @@ class SiteController extends Controller
     $registration = Registration::findOrFail($registration_id);
     if ($request->isMethod("post")) {
       $account_service = new Account();
-      $account_service->approveRegistration($registration_id, $request->all());
+      $registration = $account_service->approveRegistration($registration_id, $request->all());
+      $account_service->emailApproveRegistration($registration);
       return redirect('members/registration/'.$registration_id)->with('msg', 'Registration approved');
     }
     $logged_in_requester = $this->getLoggedInRequester();
@@ -160,6 +159,11 @@ class SiteController extends Controller
   }
 
   public function service(Request $request, $slug = null) {
+    Log::info($slug);
+    if (! empty($slug) && FrontendService::where('slug', $slug)->count() == 0) {
+      return view('frontend/error', ['error'=>'Service does not exist']);
+    }
+    
     $frontend_service = new FrontendService();
     $data['services'] = $frontend_service->getServiceAll();
     if ($slug == null) {

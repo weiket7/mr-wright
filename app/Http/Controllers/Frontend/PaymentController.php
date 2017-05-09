@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Enums\TransactionStat;
@@ -26,6 +27,9 @@ class PaymentController extends Controller
   public function index(Request $request) {
     $transaction_request = $request->session()->get('transaction_request');
     $this->payment_service->createTransaction($transaction_request);
+    if(App::environment("local")) {
+      $transaction_request->amount = 1;
+    }
     $data['transaction_request'] = $transaction_request;
     $data['paydollar_setting'] = Setting::getPaydollarSetting();
     return view('frontend/payment', $data);
@@ -45,14 +49,14 @@ class PaymentController extends Controller
     $ipCountry = $request->get('ipCountry');
     $payMethod = $request->get('payMethod');
     $cardIssuingCountry = $request->get('cardIssuingCountry');
-    Log::info('payment/callback - Ref=' . $code . ' Amount='.$Amt . ' successcode=' . $response_code);
+    Log::info('payment/callback - Entry point ref=' . $code . ' Amount='.$Amt . ' successcode=' . $response_code);
     $transaction = $this->payment_service->saveTransaction($code, $response_code);
     if ($transaction->stat == TransactionStat::Success) {
       if ($transaction->type == TransactionType::Registration) {
         $account_service = new Account();
-        $registration = Registration::where('registration_code', $code)->first('registration_id');
-        $input['office_id'] = $registration->office_id;
-        $registration = $account_service->approveRegistration($registration->registration_id, $input);
+        $registration = Registration::where('registration_code', $code)->first();
+        $registration = $account_service->approveRegistration($registration->registration_id);
+        Log::info("payment/callback - Registration approve " . ($registration == false ? "failed" : "success") . " ref=".$code);
       } elseif ($transaction->type == TransactionType::Ticket) {
         $ticket_service = new TicketService();
         $ticket_id = Ticket::where('ticket_code', $code)->value('ticket_id');
@@ -62,16 +66,19 @@ class PaymentController extends Controller
     return "OK";
   }
 
-  public function success(Request $request) {
+  public function process(Request $request) {
     $code = $request->get('Ref');
     $transaction = $this->payment_service->getTransaction($code);
+    $url = "";
     if ($transaction->type = TransactionType::Registration) {
-      return redirect('register/success');
-    }
-    if ($transaction->type = TransactionType::Ticket) {
+      $url = 'register/success?code='.$code;
+    } else if ($transaction->type = TransactionType::Ticket) {
       $ticket_id = Ticket::where('ticket_code', $code)->value('ticket_id');
-      return redirect('ticket/view/'.$ticket_id)->with('Ticket paid');
+      $url = 'ticket/view/'.$ticket_id;
     }
+    $data['url'] = $url;
+    $data['code'] = $code;
+    return view('frontend/payment-process', $data);
   }
 
   public function fail(Request $request) {

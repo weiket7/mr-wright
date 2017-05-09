@@ -33,7 +33,7 @@ Route::get('register/payment', 'Frontend\RegistrationController@payment');
 Route::get('register/success', 'Frontend\RegistrationController@success');
 
 Route::get('payment', 'Frontend\PaymentController@index');
-Route::get('payment/success', 'Frontend\PaymentController@success');
+Route::get('payment/process', 'Frontend\PaymentController@process');
 Route::post('payment/callback', 'Frontend\PaymentController@callback');
 Route::get('payment/cancel', 'Frontend\PaymentController@cancel');
 Route::get('payment/fail', 'Frontend\PaymentController@fail');
@@ -203,6 +203,7 @@ Route::group(['middleware'=>['auth']], function() {
   Route::get('api/getOfficeByCompany', 'ApiController@getOfficeByCompany');
   Route::get('api/getOffice', 'ApiController@getOffice');
   Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
+  Route::get('api/transactionSuccess', 'ApiController@transactionSuccess');
 });
 
 //TODO remove
@@ -218,6 +219,10 @@ Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 
 
 Route::get('test', function() {
+  if (App::environment("local")) {
+    return "MR_REG_".date('YmdHis');
+  }
+  
   $contact = new Contact();
   $contact->name = 'test name';
   $contact->email = "test@email.com";

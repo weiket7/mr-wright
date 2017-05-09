@@ -8,7 +8,13 @@
   <div class="portlet light bordered">
     <div class="portlet-body form">
       <div class="alert alert-danger">
-        {{ Session::get('error') }}
+        @if(session()->has('error'))
+          {{session()->get('error')}}
+        @elseif(isset($error))
+          {{ $error }}
+        @else
+          An error occurred
+        @endif
       </div>
     </div>
   </div>

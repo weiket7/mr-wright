@@ -122,7 +122,7 @@
             Company Code *
           </label>
           <div class="col-md-9">
-            {{ Form::text('company_code', '', ['class'=>'form-control', 'maxlength'=>5]) }}
+            {{ Form::text('company_code', '', ['class'=>'form-control txt-code', 'maxlength'=>5]) }}
             <div class="help-block">2 to 5 letters, this will be prefixed in ticket codes, e.g. <em>MR</em>_1704_00001</div>
           </div>
         </div>

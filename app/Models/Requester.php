@@ -22,6 +22,7 @@ class Requester extends Eloquent
   private $rules = [
     'username'=>"sometimes|required|unique:user,username",
     'name'=>"required",
+    'password'=>'sometimes|min:6',
     'stat'=>'required',
     'company_id'=>'required',
     'office_id'=>'required',
@@ -33,6 +34,7 @@ class Requester extends Eloquent
     'username.required'=>'Username is required',
     'username.unique'=>'Username is not available',
     'name.required'=>'Name is required',
+    'password.min'=>'Password must be at least 6 characters',
     'stat.required'=>'Status is required',
     'company_id.required'=>'Company is required',
     'office_id.required'=>'Office is required',

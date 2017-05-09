@@ -4,7 +4,7 @@
   <h3>Thank you for registering membership with Mr Wright.</h3>
   <br><br>
 
-  @if($registration->register_existing_uen)
+  @if($registration->existing_uen)
     The admin of UEN {{$registration->uen}} has been informed and he will verify your identify and approve or reject your registration.
     <br><br>
 
@@ -17,7 +17,6 @@
     <div>
       <input type="submit" name="submit" value="CREATE TICKET" class="more active">
     </div>
-
   @else
     @if($registration->payment_method == 'Q')
       {!! nl2br($frontend['contents']['payment_cheque']) !!}

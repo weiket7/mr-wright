@@ -20,22 +20,6 @@ class Registration extends Eloquent
     'stat.required'=>'Status is required',
   ];
 
-  public function saveRegistration($input) {
-    $this->validation = Validator::make($input, $this->rules, $this->messages );
-    if ( $this->validation->fails() ) {
-      return false;
-    }
-
-    $this->name = $input['name'];
-    $this->stat = $input['stat'];
-    $this->save();
-    return true;
-  }
-
-  public function paymentMethodIsCreditCard() {
-    return $this->payment_method == 'R';
-  }
-
 
   public function getValidation() {
     return $this->validation;

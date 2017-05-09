@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App;
 use App\Mail\RegisterExistingUenMail;
 use App\Mail\RegistrationApproveMail;
 use App\Mail\RegistrationSuccessMail;
@@ -100,6 +101,9 @@ class Account extends Eloquent
   }
 
   public function getRegistrationCode() {
+    if (App::environment("local")) { //avoid paydollar duplicate merchant ref no
+      return "MR_REG_".date('YmdHis');
+    }
     $latest_registration_code = DB::table('registration')
       ->whereYear('created_on', '=', Carbon::now()->year)
       ->orderBy('created_on', 'desc')
@@ -172,18 +176,19 @@ class Account extends Eloquent
     return true;
   }
 
-  public function approveRegistration($registration_id, $input) {
+  public function approveRegistration($registration_id, $input = null) {
     $registration = Registration::find($registration_id);
 
-    $rules = ['office_id'=>'sometimes|required'];
-    $messages = ['office_id.required'=>'Office is required'];
-    $this->validation = Validator::make($input, $rules, $messages );
-    if ( $this->validation->fails()) {
-      return false;
+    if ($input) {
+      $rules = ['office_id'=>'required'];
+      $messages = ['office_id.required'=>'Office is required'];
+      $this->validation = Validator::make($input, $rules, $messages );
+      if ( $this->validation->fails()) {
+        return false;
+      }
     }
 
     if($registration->existing_uen) {
-
       $company = Company::find($registration->company_id);
       $office = Office::find($input['office_id']);
     } else {
@@ -268,7 +273,7 @@ class Account extends Eloquent
     $registration->email = $input['email'];
     $registration->uen = $input['uen'];
     $registration->company_name = $input['company_name'];
-    $registration->company_code = $input['company_code'];
+    $registration->company_code = strtoupper($input['company_code']);
     $registration->addr = $input['addr'];
     $registration->postal = $input['postal'];
     $registration->ip = $ip;

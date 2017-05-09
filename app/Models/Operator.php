@@ -15,6 +15,7 @@ class Operator extends Eloquent
 
   private $rules = [
     'username'=>"sometimes|required|unique:user,username",
+    'password'=>'sometimes|min:6',
     'stat'=>'required',
     'name'=>'required',
     'role_id'=>'required',
@@ -23,6 +24,7 @@ class Operator extends Eloquent
   private $messages = [
     'username.required'=>'Username is required',
     'username.unique'=>'Username is not available',
+    'password.min'=>'Password must be at least 6 characters',
     'stat.required'=>'Status is required',
     'name.required'=>'Name is required',
     'role_id.required'=>'Role is required',
