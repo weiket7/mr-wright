@@ -204,7 +204,6 @@ Route::group(['middleware'=>['auth']], function() {
   Route::get('api/getOfficeByCompany', 'ApiController@getOfficeByCompany');
   Route::get('api/getOffice', 'ApiController@getOffice');
   Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
-  Route::get('api/transactionSuccess', 'ApiController@transactionSuccess');
 });
 
 //TODO remove
@@ -218,14 +217,16 @@ Route::get('preview/ticket-accept/{id}', 'PreviewController@ticketAccept');
 Route::get('preview/invite', 'PreviewController@invite');
 Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 
+//TODO secure this api
+Route::get('api/transactionSuccess', 'ApiController@transactionSuccess');
 
 Route::get('test', function() {
   echo date('d M Y');
   Carbon::createFromFormat('d M Y', '04 May 2017');
 
-  if (App::environment("local")) {
+  /*if (App::environment("local")) {
     return "MR_REG_".date('YmdHis');
-  }
+  }*/
   
   $contact = new Contact();
   $contact->name = 'test name';
