@@ -9,19 +9,17 @@
   
   <script>
     function checkTransactionDone() {
-      
       var url = '{{url('api/transactionSuccess?code='.$code)}}';
       //console.log(url);
       axios.get(url)
         .then(function (response) {
           var result = response.data;
-          console.log('result='+result);
           if (result) {
             location.href = '{{url($url)}}';
           } else {
             if (statusCheckingCount >= maxStatusCheckingCount) {
               clearInterval(statusCheckingIdentifier);
-              location.href = '{{url('payment/fail')}}';
+              location.href = '{{url('payment/fail?code='.$code)}}';
             }
           }
         })
@@ -32,7 +30,7 @@
       statusCheckingCount++;
       if (statusCheckingCount >= maxStatusCheckingCount) {
         clearInterval(statusCheckingIdentifier);
-        location.href = "{{ url('payment/fail?Ref=') }}"
+        location.href = "{{ url('payment/fail?code=') }}"
       }
     }
     

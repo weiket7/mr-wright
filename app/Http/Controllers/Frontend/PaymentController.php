@@ -83,12 +83,18 @@ class PaymentController extends Controller
 
   public function fail(Request $request) {
     $code = $request->get('Ref');
+    if ($code == null) {
+      $code = $request->get('code');
+    }
     $data['transaction'] = $this->payment_service->getTransaction($code);
     return view('frontend/payment-fail', $data);
   }
 
   public function cancel(Request $request) {
     $code = $request->get('Ref');
+    if ($code == null) {
+      $code = $request->get('code');
+    }
     $data['transaction'] = $this->payment_service->getTransaction($code);
     return view('frontend/payment-cancel', $data);
   }
