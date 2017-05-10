@@ -7,7 +7,7 @@
     <input type="hidden" name="orderRef" value="{{ $transaction_request->code }}">
     <input type="hidden" name="currCode" value="702" > {{--SGD--}}
     <input type="hidden" name="mpsMode" value="NIL" >
-    <input type="hidden" name="successUrl" value="{{url('payment/success')}}">
+    <input type="hidden" name="successUrl" value="{{url('payment/process')}}">
     <input type="hidden" name="failUrl" value="{{url('payment/fail')}}">
     <input type="hidden" name="cancelUrl" value="{{url('payment/cancel')}}">
     <input type="hidden" name="payType" value="N"> {{--normal--}}

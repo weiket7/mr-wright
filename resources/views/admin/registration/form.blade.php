@@ -1,3 +1,4 @@
+<?php use App\Models\Enums\RegistrationStat; ?>
 
 @extends("admin.template")
 
@@ -24,11 +25,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Status</label>
                 <label class="col-md-9 form-control-static">
-                  @if($registration->approved)
-                    <span class="label label-primary"> Approved </span>
-                  @else
-                    <span class="label label-warning"> Pending </span>
-                  @endif
+                  <span class="label label-primary"> {{ RegistrationStat::$values[$registration->stat] }} </span>
                 </label>
               </div>
             </div>
@@ -127,61 +124,76 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="control-label col-md-3">Office</label>
-                    @if($registration->approved == false)
-                      <div class="col-md-9">
-                        {{Form::select('office_id', $offices, '', ['placeholder'=>'', 'class'=>'form-control'])}}
-                      </div>
-                    @else
-                      <label class="col-md-9 form-control-static">
-                        <a href="{{url('admin/office/save/'.$office->office_id)}}">{{ $office->name }}</a>
-                      </label>
-                    @endif
-                  </div>
+                  @if($registration->approved == false)
+                    <div class="col-md-9">
+                      {{Form::select('office_id', $offices, '', ['placeholder'=>'', 'class'=>'form-control'])}}
+                    </div>
+                  @else
+                    <label class="col-md-9 form-control-static">
+                      <a href="{{url('admin/office/save/'.$office->office_id)}}">{{ $office->name }}</a>
+                    </label>
+                  @endif
                 </div>
               </div>
             </div>
-          @else
+        </div>
+        @else
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Membership Plan</label>
+                <label class="col-md-9 form-control-static">
+                  {{ $registration->membership_full_name }}
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Payment Method</label>
+                <label class="col-md-9 form-control-static">
+                  {{ isset($payment_methods[$registration->payment_method]) ? $payment_methods[$registration->payment_method] : '' }}
+                </label>
+              </div>
+            </div>
+          </div>
+
+          @if($registration->payment_method == 'Q' || $registration->payment_method == 'B')
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="control-label col-md-3">Membership Plan</label>
+                  <label class="control-label col-md-3">Ref No</label>
                   <label class="col-md-9 form-control-static">
-                    {{ $registration->membership_full_name }}
+                    {{ $registration->ref_no }}
                   </label>
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group">
-                  <label class="control-label col-md-3">Payment Method</label>
-                  <label class="col-md-9 form-control-static">
-                    {{ isset($payment_methods[$registration->payment_method]) ? $payment_methods[$registration->payment_method] : '' }}
-                  </label>
-                </div>
               </div>
             </div>
           @endif
+        @endif
 
-          @if($will_be_admin)
-            <div class="alert alert-info">
-              As this registration is the first for this company, upon approval, he will be an admin of the company.
-            </div>
-          @endif
+        @if($will_be_admin)
+          <div class="alert alert-info">
+            As this registration is the first for this company, upon approval, he will be an admin of the company.
+          </div>
+        @endif
 
-          @if($registration->approved == false)
-            <div class="form-actions">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="row">
-                    <div class="col-md-offset-3 col-md-9">
-                      <button type="submit" class="btn green">Approve</button>
-                    </div>
+        @if($registration->stat == RegistrationStat::Pending || $registration->stat == RegistrationStat::Paid)
+          <div class="form-actions">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-offset-3 col-md-9">
+                    <button name="submit" type="submit" class="btn green" value="Approve">Approve</button>
+                    <button name="submit" type="submit" class="btn red" value="Reject">Reject</button>
                   </div>
                 </div>
-                <div class="col-md-6"> </div>
               </div>
+              <div class="col-md-6"> </div>
             </div>
-          @endif
-        </div>
+          </div>
+        @endif
       </form>
     </div>
   </div>

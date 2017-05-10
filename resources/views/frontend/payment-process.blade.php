@@ -24,7 +24,7 @@
           }
         })
         .catch(function (error) {
-          console.log('payment-process error='+error);
+          console.log('payment-process error='+JSON.stringify(error));
         });
       
       statusCheckingCount++;

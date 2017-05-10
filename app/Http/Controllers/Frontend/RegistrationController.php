@@ -46,11 +46,14 @@ class RegistrationController extends Controller
   public function membership(Request $request)
   {
     $registration_id = $request->session()->get('registration_id');
-    $registration = Registration::findOrFail($registration_id);
 
     $account_service = new Account();
     if ($request->isMethod("post")) {
-      $registration = $account_service->saveRegistrationMembership($registration_id, $request->all());
+      $input = $request->all();
+      $registration = $account_service->saveRegistrationMembership($registration_id, $input);
+      if($registration == false) {
+        return redirect()->back()->withErrors($account_service->getValidation())->withInput($input);
+      }
       if ($registration->payment_method == 'R') { //credit card
         $transaction_request = new TransactionRequest();
         $transaction_request->code = $registration->registration_code;
@@ -67,7 +70,7 @@ class RegistrationController extends Controller
     $membership_service = new Membership();
     $data['memberships'] = $membership_service->getMembershipDropdown(MembershipStat::Active);
     $payment_service = new PaymentService();
-    $data['payment_methods'] = $payment_service->getPaymentMethods(PaymentMethodStat::Active);
+    $data['payment_methods'] = $payment_service->getPaymentMethods(PaymentMethodStat::Active)->prepend('');
     return view('frontend/register-membership', $data);
   }
 

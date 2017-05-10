@@ -17,12 +17,6 @@
   <form method="post" action="" class="form-horizontal" autocomplete="off" id="app">
     {{ csrf_field() }}
 
-    {{--<div class="alert alert-info">
-      By making successful payment via preferred NETS or credit card, you will be able to create a ticket immediately.
-      <br><br>
-      For cash, bank transfer and cheque, there will be some lead time before you will be able to create a ticket.
-    </div>--}}
-
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
@@ -40,30 +34,43 @@
             Payment Method *
           </label>
           <div class="col-md-9">
-            {{ Form::select('payment_method', $payment_methods, '', ['placeholder'=>'', 'class'=>'form-control', "v-model"=>'payment_method']) }}
+            {{ Form::select('payment_method', $payment_methods, '', ['class'=>'form-control', "v-model"=>'payment_method']) }}
           </div>
         </div>
       </div>
     </div>
 
-    <div class="alert alert-info" v-show="payment_method">
-      <div v-show="payment_method == 'C'">
+    <div class="alert alert-info" v-if="payment_method">
+      <div v-if="payment_method == 'C'">
         {!! nl2br($frontend['contents']['payment_cash']) !!}
       </div>
-      <div v-show="payment_method == 'N'">
+      <div v-if="payment_method == 'N'">
         {!! nl2br($frontend['contents']['payment_nets']) !!}
       </div>
-      <div v-show="payment_method == 'Q'">
+      <div v-if="payment_method == 'Q'">
         {!! nl2br($frontend['contents']['payment_cheque']) !!}
       </div>
-      <div v-show="payment_method == 'B'">
+      <div v-if="payment_method == 'B'">
         {!! nl2br($frontend['contents']['payment_banktransfer']) !!}
       </div>
-      <div v-show="payment_method == 'R'">
+      <div v-if="payment_method == 'R'">
         {!! nl2br($frontend['contents']['payment_creditcard']) !!}
       </div>
+
+      <div class="row" v-if="payment_method == 'Q' || payment_method == 'B'">
+        <br>
+        <div class="col-md-2">
+          <label class="control-label">
+            Ref No
+          </label>
+        </div>
+        <div class="col-md-10">
+          {{ Form::text('ref_no', '', ['class'=>'form-control']) }}
+        </div>
+      </div>
     </div>
-  
+
+
     <div class="margin-top-30">
       <div class="align-center">
         <input type="submit" name="submit" value="SUBMIT" class="more active">

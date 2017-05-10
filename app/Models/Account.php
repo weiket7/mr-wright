@@ -75,11 +75,13 @@ class Account extends Eloquent
   public function saveRegistrationMembership($registration_id, $input) {
     $rules = [
       'membership_id' => 'required',
-      'payment_method'=>'required'
+      'payment_method'=>'required',
+      'ref_no'=>'sometimes|required',
     ];
     $messages = [
       'membership_id.required' => 'Membership plan is required',
-      'payment_method.required' => 'Payment method is required'
+      'payment_method.required' => 'Payment method is required',
+      'ref_no.required'=>'Ref no is required',
     ];
     $this->validation = Validator::make($input, $rules, $messages );
     if ( $this->validation->fails()) {
@@ -88,6 +90,9 @@ class Account extends Eloquent
 
     $registration = Registration::find($registration_id);
     $registration->payment_method = $input['payment_method'];
+    if ($registration->payment_method == 'Q' || $registration->payment_method == 'B')  {
+      $registration->ref_no = $input['ref_no'];
+    }
 
     $membership = Membership::find($input['membership_id']);
     $registration->membership_id = $membership->membership_id;
@@ -176,11 +181,18 @@ class Account extends Eloquent
     return true;
   }
 
+  public function rejectRegistration($registration_id) {
+    $registration = Registration::find($registration_id);
+    $registration->stat = RegistrationStat::Rejected;
+    $registration->save();
+    return $registration;
+  }
+
   public function approveRegistration($registration_id, $input = null) {
     $registration = Registration::find($registration_id);
 
     if ($input) {
-      $rules = ['office_id'=>'required'];
+      $rules = ['office_id'=>'required|sometimes'];
       $messages = ['office_id.required'=>'Office is required'];
       $this->validation = Validator::make($input, $rules, $messages );
       if ( $this->validation->fails()) {

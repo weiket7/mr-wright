@@ -105,8 +105,9 @@ Route::group(['middleware'=>['auth']], function() {
     Route::post('admin/company/save', 'Admin\CompanyController@save');
     Route::get('admin/company/save/{id}', 'Admin\CompanyController@save');
     Route::post('admin/company/save/{id}', 'Admin\CompanyController@save');
-    
+
     Route::get('admin/registration', 'Admin\RegistrationController@index');
+    Route::post('admin/registration', 'Admin\RegistrationController@index');
     Route::get('admin/registration/save/{id}', 'Admin\RegistrationController@save');
     Route::post('admin/registration/save/{id}', 'Admin\RegistrationController@save');
     
@@ -219,6 +220,9 @@ Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 
 
 Route::get('test', function() {
+  echo date('d M Y');
+  Carbon::createFromFormat('d M Y', '04 May 2017');
+
   if (App::environment("local")) {
     return "MR_REG_".date('YmdHis');
   }

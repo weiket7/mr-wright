@@ -420,7 +420,6 @@ class TicketService
     if (isset($input['requested_by']) && $input['requested_by'] != '') {
       $s .= " and requested_by = '".$input['requested_by']."'";
     }
-    Log::info($s);
     return DB::select($s);
   }
 

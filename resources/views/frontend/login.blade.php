@@ -12,19 +12,19 @@
     {{ csrf_field() }}
 
     <div class="form-group">
-      <div class="control-label col-md-2">
+      <label class="control-label col-md-2">
         Username
-      </div>
-      <div class="col-md-9">
+      </label>
+      <div class="col-md-10">
         {{Form::text('username', App::environment('local') ? "Sally" : '', ['class'=>'form-control', 'autofocus'])}}
       </div>
     </div>
 
     <div class="form-group">
-      <div class="control-label col-md-2">
+      <label class="control-label col-md-2">
         Password
-      </div>
-      <div class="col-md-9">
+      </label>
+      <div class="col-md-10">
         {{Form::password('password', ['class'=>'form-control', 'value'=>App::environment('local') ? "123456" : ''])}}
       </div>
     </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Company;
+use App\Models\Helpers\BackendHelper;
 use App\Models\Office;
 use App\Models\Requester;
 use App\Models\Services\CompanyService;
@@ -15,9 +16,18 @@ use App\Models\Registration;
 
 class RegistrationController extends Controller
 {
-  public function index()
+  public function index(Request $request)
   {
-    $data['registrations'] = Registration::orderBy('created_on', 'desc')->get();
+    $registration_service = new Registration();
+    if($request->isMethod("post")) {
+      $input = $request->all();
+      $registrations = $registration_service->searchRegistration($input);
+      $request->flash();
+      $data['search_result'] = 'Showing ' . count($registrations) . ' registrations(s)';
+    } else {
+      $registrations = Registration::orderBy('created_on', 'desc')->get();
+    }
+    $data['registrations'] = $registrations;
     return view("admin/registration/index", $data);
   }
 
@@ -29,13 +39,19 @@ class RegistrationController extends Controller
 
     if($request->isMethod('post')) {
       $input = $request->all();
-      $registration = $account_service->approveRegistration($registration_id, $input);
-      if ($registration == false) {
-        return redirect()->back()->withErrors($account_service->getValidation())->withInput($input);
+      $submit = $input['submit'];
+      if(BackendHelper::stringContains($input['submit'], 'approve')){
+        $registration = $account_service->approveRegistration($registration_id, $input);
+        if ($registration == false) {
+          return redirect()->back()->withErrors($account_service->getValidation())->withInput($input);
+        }
+        $account_service->updateCompanyOfficeRequesterCount($registration->company_id);
+        $account_service->emailApproveRegistration($registration);
+        return redirect('admin/registration/save/' . $registration->registration_id)->with('msg', "Registration approved");
+      } else if(BackendHelper::stringContains($submit, 'reject')) {
+        $registration = $account_service->rejectRegistration($registration_id);
+        return redirect('admin/registration/save/' . $registration->registration_id)->with('msg', "Registration rejected");
       }
-      $account_service->updateCompanyOfficeRequesterCount($registration->company_id);
-      $account_service->emailApproveRegistration($registration);
-      return redirect('admin/registration/save/' . $registration->registration_id)->with('msg', "Registration approved");
     }
   
     $data['will_be_admin'] = $will_be_admin;
