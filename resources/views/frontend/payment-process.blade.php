@@ -30,7 +30,7 @@
       statusCheckingCount++;
       if (statusCheckingCount >= maxStatusCheckingCount) {
         clearInterval(statusCheckingIdentifier);
-        location.href = "{{ url('payment/fail?code=') }}"
+        location.href = "{{ url('payment/fail?code='.$code) }}"
       }
     }
     
