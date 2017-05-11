@@ -51,9 +51,9 @@ class BackendHelper
 
   public static function getDir() {
     if (App::environment('local')) {
-      $base_path = $_SERVER['DOCUMENT_ROOT'] . "/mrwright/public/";
+      $base_path = $_SERVER['DOCUMENT_ROOT'] . "/mrwright/assets/";
     } else {
-      $base_path = $_SERVER['DOCUMENT_ROOT'] . "/public/";
+      $base_path = $_SERVER['DOCUMENT_ROOT'] . "/assets/";
     }
     return $base_path;
   }

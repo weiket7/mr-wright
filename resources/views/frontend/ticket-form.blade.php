@@ -1,7 +1,7 @@
 @extends('frontend.template', ['title'=>strtoupper($action). ' TICKET'])
 
 @section('content')
-  <form method="post" action="" class="form-horizontal" id="app">
+  <form method="post" action="" class="form-horizontal" id="app" enctype="multipart/form-data">
     {{ csrf_field() }}
 
     <div class="form-group">
