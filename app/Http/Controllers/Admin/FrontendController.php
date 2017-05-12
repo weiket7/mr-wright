@@ -10,22 +10,34 @@ use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
-  public function content()
-  {
+  public function content()   {
     $frontend_content = new FrontendContent();
     $data['contents'] = $frontend_content->getContentAll();
     return view('admin/frontend/content-index', $data);
   }
 
-  public function banner()
-  {
+  public function banner()   {
     $frontend_content = new FrontendBanner();
     $data['banners'] = $frontend_content->getBannerAll();
     return view('admin/frontend/banner-index', $data);
   }
+  
+  public function bannerSave(Request $request, $banner_id) {
+    $banner = $banner_id == null ? new FrontendBanner() : FrontendBanner::find($banner_id);
+    $action = $banner_id == null ? 'create' : 'update';
+    if ($request->isMethod('post')) {
+      $input = $request->all();
+      if (! $banner->saveBanner($input)) {
+        return redirect()->back()->withErrors($banner->getValidation())->withInput($input);
+      }
+      return redirect("admin/frontend/banner/save/".$banner_id)->with("msg", "Banner " . $action . "d");
+    }
+    $data['action'] = $action;
+    $data['banner'] = $banner;
+    return view('admin/frontend/banner-form', $data);
+  }
 
-  public function service()
-  {
+  public function service()   {
     $frontend_content = new FrontendService();
     $data['services'] = $frontend_content->getServiceAll();
     return view('admin/frontend/service-index', $data);

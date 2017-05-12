@@ -12,7 +12,7 @@
 
   <div class="portlet light bordered">
     <div class="portlet-body">
-      <div class="table-responsive">
+      <div>
         <table class="table table-bordered table-hover">
           <thead>
           <tr>
@@ -32,7 +32,7 @@
               <td>{{ $banner->content }}</td>
               <td>{{ $banner->button_text }}</td>
               <td>{{ $banner->link }}</td>
-              <td><img src="{{ asset('assets/images/frontend/services/'.$banner->image) }}" style="max-height: 200px; max-width: 300px;">
+              <td><img src="{{ asset('assets/images/frontend/banners/'.$banner->image) }}" style="max-height: 200px; max-width: 300px;">
             </tr>
           @endforeach
           </tbody>

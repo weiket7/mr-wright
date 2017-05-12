@@ -7,28 +7,43 @@
 
   <div class="portlet light bordered">
     <div class="portlet-body form">
-      <form action="" method="post" class="form-horizontal">
+      <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
         {!! csrf_field() !!}
-        <div class="form-body">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">Name</label>
-                <div class="col-md-9">
-                  {{Form::text('name', $product->name, ['class'=>'form-control'])}}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">Value</label>
-                <div class="col-md-9">
-                  {{Form::textarea('name', $product->name, ['class'=>'form-control'])}}
-                </div>
-              </div>
-            </div>
+  
+        <div class="form-group">
+          <label class="control-label col-md-2">Title</label>
+          <div class="col-md-10">
+            {{Form::text('title', $banner->title, ['rows'=>'5', 'class'=>'form-control'])}}
           </div>
         </div>
+  
+        <div class="form-group">
+          <label class="control-label col-md-2">Content</label>
+          <div class="col-md-10">
+            {{Form::textarea('content', $banner->content, ['rows'=>'5', 'class'=>'form-control'])}}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-2">Button Text</label>
+          <div class="col-md-10">
+            {{Form::text('button_text', $banner->button_text, ['rows'=>'5', 'class'=>'form-control'])}}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-2">Button Link</label>
+          <div class="col-md-10">
+            {{Form::text('link', $banner->link, ['rows'=>'5', 'class'=>'form-control'])}}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-2">Image</label>
+          <div class="col-md-10 form-control-static">
+            <img src="{{asset('assets/images/frontend/banners/'.$banner->image)}}" style="max-height: 200px; max-width: 300px;">
+            {{Form::file('image')}}
+          </div>
+        </div>
+        
+        
         <div class="form-actions">
           <div class="row">
             <div class="col-md-6">

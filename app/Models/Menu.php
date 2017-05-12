@@ -21,11 +21,11 @@ class Menu {
       ["link"=>"admin/staff", "name"=>"Staffs", "icon"=>"icon-wrench"],
       ["link"=>"admin/ticket", "name"=>"Tickets", "icon"=>"icon-note"],
       /*["link"=>"admin/quotation", "name"=>"Quotations", "icon"=>""],*/
-      ["link"=>"admin/invoice", "name"=>"Invoices", "icon"=>"icon-calculator"],
+      //["link"=>"admin/invoice", "name"=>"Invoices", "icon"=>"icon-calculator"],
       ["link"=>"admin/operator", "name"=>"Operators", "icon"=>"icon-eyeglasses"],
-      ["name"=>"Reports", "icon"=>"icon-bar-chart", "sub"=>[
+      /*["name"=>"Reports", "icon"=>"icon-bar-chart", "sub"=>[
         ["link"=>"admin/report/ticket", "name"=>"Tickets", "icon"=>""],
-      ]],
+      ]],*/
       ["name"=>"Frontend", "icon"=>"icon-settings", "sub"=>[
         ["link"=>"admin/frontend/content", "name"=>"Content"],
         ["link"=>"admin/frontend/banner", "name"=>"Banners"],

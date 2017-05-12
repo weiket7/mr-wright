@@ -23,12 +23,12 @@ class Company extends Eloquent
   ];
   
   public function saveCompany($input) {
-    $this->validation = Validator::make($input, $this->rules, $this->messages );
-    if ( $this->validation->fails() ) {
-      return false;
-    }
-
-    $this->name = $input['name'];
+      $this->validation = Validator::make($input, $this->rules, $this->messages );
+      if ( $this->validation->fails() ) {
+        return false;
+      }
+    
+      $this->name = $input['name'];
     if(isset($input['code'])) {
       $this->code = $input['code'];
     }

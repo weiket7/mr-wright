@@ -7,7 +7,7 @@
       <ul style="display: none;">
         @foreach($frontend["banners"] as $banner)
           <li data-transition="fade" data-masterspeed="500" data-slotamount="1" data-delay="6000">
-            <img src="{{asset('assets/images/frontend/'.$banner->image)}}" alt="slidebg1" data-bgfit="cover">
+            <img src="{{asset('assets/images/frontend/banners/'.$banner->image)}}" alt="slidebg1" data-bgfit="cover">
             
             <div class="tp-caption"
                  data-frames='[{"delay":500,"speed":1200,"from":"x:40;o:0;","ease":"easeInOutExpo"},{"delay":"wait","speed":500,"to":"o:0;","ease":"easeInOutExpo"}]'
