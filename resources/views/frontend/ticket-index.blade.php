@@ -39,6 +39,8 @@
               Invoiced <button type="button" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'" class="btn btn-primary">Payment</button>
             @elseif($ticket->stat == TicketStat::Paid)
               Paid
+            @elseif($ticket->stat == TicketStat::PaymentIndicated)
+              Payment Indicated
             @endif
           </td>
           <td>

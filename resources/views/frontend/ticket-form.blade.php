@@ -155,7 +155,10 @@
           <thead>
           <tr>
             <th width="60px"></th>
-            <th>Image / Video</th>
+            <th>
+              Image / Video<br>
+              Supported image formats: png, jpg, gif, video formats: wmv, avi, flv, mp4, mov
+            </th>
             <th>Issue</th>
             <th>Expected</th>
           </tr>
@@ -259,8 +262,6 @@
         <input type="submit" name="submit" value="OPEN TICKET" class="more active">
       @endif
     </div>
-
-
   </form>
 @endsection
 

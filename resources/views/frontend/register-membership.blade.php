@@ -84,9 +84,8 @@
     var vm = new Vue({
       el: "#app",
       data: {
-        payment_method: '',
-      },
-
+        payment_method: ''
+      }
     });
   </script>
 @endsection

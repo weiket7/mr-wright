@@ -1,7 +1,6 @@
 <?php use App\Models\Enums\TicketStat; ?>
 <?php use App\Models\Enums\TicketUrgency; ?>
 <?php use App\Models\Enums\TicketPriority; ?>
-<?php use App\Models\Enums\PaymentMethod; ?>
 
 @extends("admin.template")
 
@@ -61,7 +60,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3">Payment Method</label>
                         <label class="col-md-9 form-control-static">
-                          {{ PaymentMethod::$values[$ticket->payment_method]}}
+                          {{ $payment_methods[$ticket->payment_method]}}
                         </label>
                       </div>
                     </div>

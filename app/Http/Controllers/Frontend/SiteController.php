@@ -110,6 +110,7 @@ class SiteController extends Controller
     return view('frontend/members', $data);
   }
 
+  //Link to this not added in frontend
   public function membersSave(Request $request, $requester_id = null) {
     $action = $requester_id == null ? 'create' : 'update';
     $requester = $requester_id == null ? new Requester() : Requester::find($requester_id);
@@ -126,7 +127,7 @@ class SiteController extends Controller
     $data['action'] = $action;
     $data['requester'] = $requester;
     $data['offices'] = $this->company_service->getOfficeDropdown($requester->company_id);
-    return view('frontend/member-form', $data);
+    return view('frontend/members-form', $data);
   }
 
   public function membersRegistration(Request $request, $registration_id) {
@@ -140,7 +141,7 @@ class SiteController extends Controller
     $logged_in_requester = $this->getLoggedInRequester();
     $data['registration'] = $registration;
     $data['offices'] = $this->company_service->getOfficeDropdown($logged_in_requester->company_id);
-    return view('frontend/member-registration', $data);
+    return view('frontend/members-registration', $data);
   }
 
   public function membersInvite(Request $request, $token) {
@@ -155,7 +156,7 @@ class SiteController extends Controller
       return redirect('account')->with('welcome', true);
     }
     $data['invite'] = $invite;
-    return view('frontend/invite-accept', $data);
+    return view('frontend/members-invite', $data);
   }
 
   public function service(Request $request, $slug = null) {

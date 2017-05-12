@@ -8,8 +8,8 @@ class SettingSeeder extends Seeder
   public function run()
   {
     DB::table('setting')->insert([
-      'name'=>'quote_valid_working_days',
-      'value'=>7,
+      'name'=>'quote_valid_days',
+      'value'=>14,
     ]);
     DB::table('setting')->insert([
       'name'=>'otp_first_valid_minutes',

@@ -48,10 +48,7 @@ class AccessService
     return in_array('ticket_respond', $access_session['accesses']);
   }
 
-  public function requesterCanAccessTicket($username, $company_id, $office_id) {
-    $requester_service = new Requester();
-    $requester = $requester_service->getRequesterByUsername($username);
-  
+  public function requesterCanAccessTicket($requester, $company_id, $office_id) {
     if ($requester->admin && $requester->company_id == $company_id) {
       return true;
     }

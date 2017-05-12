@@ -32,7 +32,9 @@ class TicketController extends Controller
   public function index() {
     $data['tickets'] = $this->ticket_service->getTicketAllByUsername(Auth::user()->username);
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
-
+    $payment_service = new PaymentService();
+    $data['payment_methods'] = $payment_service->getPaymentMethods(PaymentMethodStat::Active);
+  
     return view('frontend/ticket-index', $data);
   }
 
@@ -88,9 +90,9 @@ class TicketController extends Controller
           $transaction_request->amount = $ticket->quoted_price;
           return redirect('payment')->with('transaction_request', $transaction_request);
         } else if($payment_method == 'B' || $payment_method == 'Q') {
-          $this->ticket_service->savePaymentRefNo($ticket_id, $input['ref_no']);
+          $this->ticket_service->saveFrontendTicketPayment($ticket_id, $input);
+          $result = "";
         }
-
       }
       return redirect('ticket/view/'.$ticket_id)->with('msg', $result);
     }

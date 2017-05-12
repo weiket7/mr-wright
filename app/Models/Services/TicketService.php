@@ -226,8 +226,8 @@ class TicketService
   {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Quoted;
-    $quote_valid_working_days = Setting::getSetting('quote_valid_working_days');
-    $ticket->quote_valid_till = Carbon::now()->addWeekday($quote_valid_working_days);
+    $quote_valid_days = Setting::getSetting('quote_valid_days');
+    $ticket->quote_valid_till = Carbon::now()->addWeekday($quote_valid_days);
     $ticket->save();
 
     $this->saveTicketHistory($ticket_id, 'quote', $username);
@@ -460,9 +460,11 @@ class TicketService
     return $tickets->where('requested_by', $username)->get();
   }
 
-  public function savePaymentRefNo($ticket_id, $ref_no) {
+  public function saveFrontendTicketPayment($ticket_id, $input) {
     $ticket = Ticket::findOrFail($ticket_id);
-    $ticket->ref_no = $ref_no;
+    $ticket->ref_no = $input['ref_no'];
+    $ticket->payment_method = $input['payment_method'];
+    $ticket->stat = TicketStat::PaymentIndicated;
     $ticket->save();
   }
 

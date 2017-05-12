@@ -15,9 +15,9 @@ class ModuleMiddleware
   {
     $user_type = Auth::user()->type;
     if ($user_type == UserType::Requester) {
-      Auth::logout();
       Log::error('ModuleMiddleware - '.Auth::user()->username.' is requester');
-      return redirect("admin/error")->with('error', 'Not authorised');
+      Auth::logout();
+      return redirect("admin/error")->with('msg', 'Please login');
     }
 
     if ($request->segment(1) == 'api') {

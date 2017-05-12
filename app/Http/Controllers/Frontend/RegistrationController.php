@@ -10,6 +10,8 @@ use App\Models\Enums\TransactionType;
 use App\Models\Membership;
 use App\Models\Registration;
 use App\Models\Services\PaymentService;
+use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class RegistrationController extends Controller

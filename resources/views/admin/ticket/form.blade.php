@@ -210,7 +210,10 @@
                       <thead>
                       <tr>
                         <th width="57px"></th>
-                        <th width="255px">Image</th>
+                        <th width="255px">
+                          Image / Video<br>
+                          Supported image formats: png, jpg, gif, video formats: wmv, avi, flv, mp4, mov
+                        </th>
                         <th>Issue</th>
                         <th>Expected</th>
                       </tr>

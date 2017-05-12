@@ -144,6 +144,31 @@
         </div>
       </div>
     </div>
+    
+    @if($ticket->payment_method)
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Payment Method
+            </label>
+            <label class="col-md-9 form-control-static">
+              {{ $ticket->ref_no }}
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Ref No
+            </label>
+            <label class="col-md-9 form-control-static">
+              {{ $ticket->ref_no }}
+            </label>
+          </div>
+        </div>
+      </div>
+    @endif
 
     <div class="form-group">
       <label class="control-label col-md-2">Issues</label>
@@ -201,6 +226,7 @@
       </div>
     </div>
 
+    
     <div class="form-group">
       <label class="control-label col-md-2">Staff Assignments</label>
       <div class="col-md-10">
@@ -273,24 +299,71 @@
     @elseif($ticket->stat == TicketStat::Invoiced)
       <div class="panel panel-default">
         <div class="panel-body">
-          @foreach($payment_methods as $value => $name)
-          <label class="lbl-radio">
-            <input type="radio" name="payment_method" value="{{$value}}" @click="selectPaymentMethod('{{$value}}')"> {{ $name }}
-            <span></span>
-          </label><br>
-          @endforeach
-          <input type="text" name="ref_no" v-show="showRefNo" class="form-control" placeholder="Ref No">
-          <br>
-          <div><button type="submit" name="submit" class="btn btn-primary" value="Payment">
-              Payment
-            </button>
+          <div class="row">
+            <div class="col-md-2">
+              <label class="control-label">Payment Method</label>
+            </div>
+            <div class="col-md-10">
+              @foreach($payment_methods as $value => $name)
+                <label class="lbl-radio">
+                  <input v-model="payment_method" type="radio" name="payment_method" value="{{$value}}"> {{ $name }}
+                  <span></span>
+                </label><br>
+              @endforeach
+            </div>
+          </div>
+          <div class="row" v-if="payment_method == 'Q' || payment_method == 'B'" >
+            <div class="col-md-2">
+              <label class="control-label">Ref No</label>
+            </div>
+            <div class="col-md-10">
+              <input type="text" name="ref_no" class="form-control">
+            </div>
+          </div>
+          <div class="row" v-if="payment_method">
+            <div class="col-md-12">
+              <div class="alert alert-info" style="margin-top: 10px;">
+                <div v-if="payment_method == 'C'">
+                  {!! nl2br($frontend['contents']['payment_cash']) !!}
+                </div>
+                <div v-if="payment_method == 'N'">
+                  {!! nl2br($frontend['contents']['payment_nets']) !!}
+                </div>
+                <div v-if="payment_method == 'Q'">
+                  {!! nl2br($frontend['contents']['payment_cheque']) !!}
+                </div>
+                <div v-if="payment_method == 'B'">
+                  {!! nl2br($frontend['contents']['payment_banktransfer']) !!}
+                </div>
+                <div v-if="payment_method == 'R'">
+                  {!! nl2br($frontend['contents']['payment_creditcard']) !!}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    @elseif($ticket->stat == TicketStat::PaymentIndicated)
+      
     @endif
-
+  
     <div class="text-center">
+      @if($ticket->stat == TicketStat::Invoiced)
+        <input type="submit" name="submit" value="PAYMENT" class="more active">
+      @endif
       <input type="button" name="submit" value="BACK TO TICKETS" class="more active" onclick="location.href='{{url('ticket')}}'">
     </div>
   </form>
+@endsection
+
+
+@section('script')
+  <script>
+    var vm = new Vue({
+      el: "#app",
+      data: {
+        payment_method: ''
+      }
+    });
+  </script>
 @endsection

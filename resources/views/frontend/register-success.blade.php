@@ -1,3 +1,5 @@
+<?php use App\Models\Enums\RegistrationStat; ?>
+
 @extends('frontend.template', ['title'=>'Registration Success'])
 
 @section('content')
@@ -9,13 +11,12 @@
     <br><br>
 
     When the admin approves your registration, an email will be sent to you.
-  @elseif($registration->approved)
-
+  @elseif($registration->stat == RegistrationStat::Approved)
     Would you like to begin by creating a ticket?
     <br><br>
 
     <div>
-      <input type="submit" name="submit" value="CREATE TICKET" class="more active">
+      <input type="button" name="submit" value="CREATE TICKET" onclick="location.href='ticket/create'" class="more active">
     </div>
   @else
     @if($registration->payment_method == 'Q')

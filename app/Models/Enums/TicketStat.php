@@ -8,6 +8,7 @@ abstract class TicketStat {
   const Declined = 'D';
   const Completed = 'C';
   const Invoiced = 'I';
+  const PaymentIndicated = 'E';
   const Paid = 'P';
   const Voided = 'V';
   
@@ -20,6 +21,7 @@ abstract class TicketStat {
     self::Completed=>'Completed',
     self::Invoiced=>'Invoiced',
     self::Paid=>'Paid',
+    self::PaymentIndicated=>'PaymentIndicated',
     self::Voided=>'Voided',
   ];
 }

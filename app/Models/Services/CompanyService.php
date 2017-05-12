@@ -63,7 +63,7 @@ class CompanyService
   }
 
   public function searchRequester($input) {
-    $s = "SELECT requester_id, r.stat, r.name, o.name as office_name, c.name as company_name
+    $s = "SELECT requester_id, r.stat, r.name, r.type, o.name as office_name, c.name as company_name
     from requester as r
     inner join office as o on r.office_id = o.office_id
     inner join company as c on r.company_id = c.company_id
