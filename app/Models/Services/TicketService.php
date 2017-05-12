@@ -200,21 +200,21 @@ class TicketService
     return $ticket->ticket_id;
   }
 
-  public function getNextTicketCode($company_id = null) {
+  public function getNextTicketCode($company_id) {
     $start_of_month = Carbon::now()->startOfMonth();
     $start_of_next_month = Carbon::now()->startOfMonth()->addMonth(1);
-    //Log::info($start_of_month.$start_of_next_month);
     $latest_ticket_code = DB::table('ticket')
       ->where('company_id', $company_id)
       ->where('requested_on', '>=', $start_of_month)
       ->where('requested_on', '<', $start_of_next_month)
       ->orderBy('requested_on', 'desc')
       ->value('ticket_code');
-
+    //Log::info('getNextTicketCode - company_id='.$company_id.' latest_ticket_code='.$latest_ticket_code.' start_of_mth='.$start_of_month.' start_of_next_mth='.$start_of_next_month);
+  
     if ($latest_ticket_code == null) {
-      $company_code = Company::find($company_id)->value('code');
+      $company= Company::find($company_id);
       $month_year = $start_of_month->format('m').$start_of_month->format('y');
-      return $company_code.'_'.$month_year.'_001';
+      return $company->code.'_'.$month_year.'_001';
     }
 
     $arr = explode('_' , $latest_ticket_code);
@@ -277,6 +277,7 @@ class TicketService
     $ticket->save();
 
     $this->saveTicketHistory($ticket_id, 'decline', $username);
+    DB::table('staff_assignments')->where('ticket_id', $ticket_id)->delete();
     return true;
   }
 

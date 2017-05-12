@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\TicketStat;
 use Carbon\Carbon;
 
 class ViewHelper {
@@ -66,5 +67,13 @@ class ViewHelper {
   public static function formatCurrency($number) {
     return '$'.$number;
   }
-
+  
+  public static function frontendShowStaffAssignments($ticket_stat) {
+    return ! in_array($ticket_stat, [TicketStat::Drafted, TicketStat::Opened, TicketStat::Declined]);
+  }
+  
+  public static function frontendShowOtps($ticket_stat) {
+    return ! in_array($ticket_stat, [TicketStat::Drafted, TicketStat::Opened, TicketStat::Quoted, TicketStat::Declined]);
+  }
+  
 }

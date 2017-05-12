@@ -12,7 +12,7 @@ class MembershipSeeder extends Seeder
       'stat'=>MembershipStat::Active,
       'name'=>'Tier 1',
       'requester_limit'=>1,
-      'effective_price'=>30,
+      'effective_price'=>1.1,
       'full_name'=>'Tier 1 - 1 user at $30.00 / month',
       'position'=>1,
     ]);
@@ -22,7 +22,7 @@ class MembershipSeeder extends Seeder
       'stat'=>MembershipStat::Active,
       'name'=>'Tier 2',
       'requester_limit'=>3,
-      'effective_price'=>40,
+      'effective_price'=>2.2,
       'full_name'=>'Tier 2 - 3 users at $40.00 / month',
       'position'=>2,
     ]);
@@ -32,7 +32,7 @@ class MembershipSeeder extends Seeder
       'stat'=>MembershipStat::Active,
       'name'=>'Tier 3',
       'requester_limit'=>5,
-      'effective_price'=>50,
+      'effective_price'=>3.3,
       'full_name'=>'Tier 3 - 5 users at $50.00 / month',
       'position'=>3,
     ]);
@@ -42,7 +42,7 @@ class MembershipSeeder extends Seeder
       'stat'=>MembershipStat::Active,
       'name'=>'Tier 4',
       'requester_limit'=>10,
-      'effective_price'=>60,
+      'effective_price'=>4.4,
       'full_name'=>'Tier 4 - 10 users at $60.00 / month',
       'position'=>4,
     ]);

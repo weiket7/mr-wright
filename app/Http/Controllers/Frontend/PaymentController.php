@@ -53,21 +53,18 @@ class PaymentController extends Controller
     $cardIssuingCountry = $request->get('cardIssuingCountry');
     Log::info('payment/callback - Entry point ref=' . $code . ' Amount='.$Amt . ' successcode=' . $response_code);
     $transaction = $this->payment_service->saveTransaction($code, $response_code);
-    //if ($transaction->stat == TransactionStat::Success) {
+    if ($transaction->stat == TransactionStat::Success) {
       if ($transaction->type == TransactionType::Registration) {
         $account_service = new Account();
         $registration = Registration::where('registration_code', $code)->first();
         $registration = $account_service->approveRegistration($registration->registration_id);
-        $user = User::where('username', $registration->username)->first();
-        Auth::login($user);
-        Log::info("payment/callback - User logged in username = " . $registration->username);
         Log::info("payment/callback - Registration approve " . ($registration == false ? "failed" : "success") . " ref=".$code);
       } elseif ($transaction->type == TransactionType::Ticket) {
         $ticket_service = new TicketService();
         $ticket_id = Ticket::where('ticket_code', $code)->value('ticket_id');
         $ticket_service->paidTicket($ticket_id, 'Q', $PayRef, $this->getUsername());
       }
-    //}
+    }
     return "OK";
   }
 

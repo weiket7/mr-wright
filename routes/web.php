@@ -13,10 +13,10 @@
 
 use App\Mail\ContactMail;
 use App\Mail\RegisterExistingUenMail;
-use App\Mail\TestEmail;
 use App\Models\Account;
 use App\Models\Contact;
 use App\Models\Requester;
+use App\Models\Services\TicketService;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -204,6 +204,9 @@ Route::group(['middleware'=>['auth']], function() {
   Route::get('api/getRequesterByOffice', 'ApiController@getRequesterByOffice');
 });
 
+//TODO secure this api
+Route::get('api/transactionSuccess', 'ApiController@transactionSuccess');
+
 //TODO remove
 Route::get('preview', 'PreviewController@index');
 Route::get('preview/quotation/{id}', 'PreviewController@previewQuotation');
@@ -215,19 +218,12 @@ Route::get('preview/ticket-accept/{id}', 'PreviewController@ticketAccept');
 Route::get('preview/invite', 'PreviewController@invite');
 Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 
-//TODO secure this api
-Route::get('api/transactionSuccess', 'ApiController@transactionSuccess');
-
 Route::get('test', function() {
-  echo date('d M Y');
-  Carbon::createFromFormat('d M Y', '04 May 2017');
-
-  /*if (App::environment("local")) {
-    return "MR_REG_".date('YmdHis');
-  }*/
-  
-  $user = User::where('username', 'weiket')->first();
-  Auth::login($user);
+  $ticket_service = new TicketService();
+  $res = $ticket_service->getNextTicketCode(3);
+  echo $res;
+  //$user = User::where('username', 'weiket')->first();
+  //Auth::login($user);
   
 });
 

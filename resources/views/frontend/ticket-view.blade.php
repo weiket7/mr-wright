@@ -226,33 +226,35 @@
       </div>
     </div>
 
-    
-    <div class="form-group">
-      <label class="control-label col-md-2">Staff Assignments</label>
-      <div class="col-md-10">
-        <table class="table table-bordered no-margin-btm">
-          <thead>
-          <tr>
-            <th width="120px">Date</th>
-            <th width="200px">Staff</th>
-            <th>Time</th>
-          </tr>
-          </thead>
-          <tbody>
-          @foreach($ticket->staff_assignments as $date => $assignments)
-            @foreach($assignments as $a)
-              <tr>
-                <td>{{ ViewHelper::formatDate($date) }}</td>
-                <td>{{ $a->staff_name }}</td>
-                <td>{{ ViewHelper::formatTime($a->time_start) }} to {{ ViewHelper::formatTime($a->time_end) }}</td>
-              </tr>
+    @if(ViewHelper::frontendShowStaffAssignments($ticket->stat) )
+      <div class="form-group">
+        <label class="control-label col-md-2">Staff Assignments</label>
+        <div class="col-md-10">
+          <table class="table table-bordered no-margin-btm">
+            <thead>
+            <tr>
+              <th width="120px">Date</th>
+              <th width="200px">Staff</th>
+              <th>Time</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($ticket->staff_assignments as $date => $assignments)
+              @foreach($assignments as $a)
+                <tr>
+                  <td>{{ ViewHelper::formatDate($date) }}</td>
+                  <td>{{ $a->staff_name }}</td>
+                  <td>{{ ViewHelper::formatTime($a->time_start) }} to {{ ViewHelper::formatTime($a->time_end) }}</td>
+                </tr>
+              @endforeach
             @endforeach
-          @endforeach
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-
+    @endif
+  
+    @if(ViewHelper::frontendShowOtps($ticket->stat) )
     <div class="form-group">
       <label class="control-label col-md-2">One time passwords</label>
       <div class="col-md-10">
@@ -275,6 +277,7 @@
         </table>
       </div>
     </div>
+    @endif
 
     @if($ticket->stat == TicketStat::Quoted)
       @if($quote_valid)

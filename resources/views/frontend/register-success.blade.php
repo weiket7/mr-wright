@@ -12,11 +12,11 @@
 
     When the admin approves your registration, an email will be sent to you.
   @elseif($registration->stat == RegistrationStat::Approved)
-    Would you like to begin by creating a ticket?
+    Please log in to begin creating tickets.
     <br><br>
 
     <div>
-      <input type="button" name="submit" value="CREATE TICKET" onclick="location.href='ticket/create'" class="more active">
+      <input type="button" name="submit" value="LOG IN" onclick="location.href='{{url('login')}}'" class="more active">
     </div>
   @else
     @if($registration->payment_method == 'Q')
