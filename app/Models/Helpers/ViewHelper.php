@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Enums\TicketStat;
+use App\Models\Helpers\BackendHelper;
 use Carbon\Carbon;
 
 class ViewHelper {
@@ -76,4 +77,10 @@ class ViewHelper {
     return ! in_array($ticket_stat, [TicketStat::Drafted, TicketStat::Opened, TicketStat::Quoted, TicketStat::Declined]);
   }
   
+  public static function isImage($file_name) {
+    $file_name = strtolower($file_name);
+    $extension = explode('.', $file_name)[1];
+    $image_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+    return in_array($extension, $image_extensions);
+  }
 }

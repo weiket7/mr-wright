@@ -19,5 +19,12 @@ class TicketIssueSeeder extends Seeder
       'issue_desc'=>'No water',
       'expected_desc'=>'Replace with lever tap handle',
     ]);
+  
+    DB::table('ticket_issue')->insert([
+      'ticket_id'=>1,
+      'image'=>'small.mp4',
+      'issue_desc'=>'Cannot turn',
+      'expected_desc'=>'',
+    ]);
   }
 }

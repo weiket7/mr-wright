@@ -36,7 +36,10 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-md-2">Image</label>
+          <label class="control-label col-md-2">
+            Image<br>
+            <small>(max 1920px width x 600px height)</small>
+          </label>
           <div class="col-md-10 form-control-static">
             <img src="{{asset('assets/images/frontend/banners/'.$banner->image)}}" style="max-height: 200px; max-width: 300px;">
             {{Form::file('image')}}

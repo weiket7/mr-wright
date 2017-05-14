@@ -289,7 +289,7 @@
 
     Vue.component('dropdown-time', {
       props: ['name', 'value'],
-      data() {
+      data: function() {
         return {
           times: [
             {key:'', value:''},
@@ -320,7 +320,7 @@
           ]
         }
       },
-      created(){
+      created: function(){
         this.selectedOption = this.value;
       },
       template: "<select :name='name' v-model='selectedOption' class='form-control'><option v-for='time in times' :value='time.key'>@{{ time.value }}</option></select>"
