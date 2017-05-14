@@ -43,7 +43,7 @@ class FrontendBanner extends Eloquent
       DB::table('frontend_banner')->where('frontend_banner_id', $this->frontend_banner_id)->update(['image'=>$image_name]);
     }
   
-    return true;
+    return $this->frontend_banner_id;
   }
 
 

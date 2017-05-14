@@ -7,6 +7,7 @@ use App\Models\FrontendBanner;
 use App\Models\FrontendContent;
 use App\Models\FrontendService;
 use Illuminate\Http\Request;
+use Log;
 
 class FrontendController extends Controller
 {
@@ -53,6 +54,21 @@ class FrontendController extends Controller
     $data['key'] = $key;
     $data['value'] = $frontend_content->getContent($key);
     return view('admin/frontend/content-form', $data);
+  }
+  
+  public function serviceSave(Request $request, $service_id) {
+    $service = $service_id == null ? new FrontendService() : FrontendService::find($service_id);
+    $action = $service_id == null ? 'create' : 'update';
+    if ($request->isMethod('post')) {
+      $input = $request->all();
+      if (! $service->saveService($input)) {
+        return redirect()->back()->withErrors($service->getValidation())->withInput($input);
+      }
+      return redirect("admin/frontend/service/save/".$service_id)->with("msg", "Service " . $action . "d");
+    }
+    $data['action'] = $action;
+    $data['service'] = $service;
+    return view('admin/frontend/service-form', $data);
   }
 
 

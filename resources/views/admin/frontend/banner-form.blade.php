@@ -2,7 +2,7 @@
 
 @section('content')
   <h1 class="page-title">
-    {{ $action }} Banner
+    {{ ucfirst($action) }} Banner
   </h1>
 
   <div class="portlet light bordered">

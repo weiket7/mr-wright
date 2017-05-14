@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Helpers\BackendHelper;
 use Eloquent, DB, Validator, Log;
 
 class FrontendService extends Eloquent
@@ -12,27 +13,40 @@ class FrontendService extends Eloquent
   public $timestamps = false;
 
   private $rules = [
-    'name'=>'required',
-    'stat'=>'required',
+    'title'=>'required',
+    'content'=>'required',
   ];
 
   private $messages = [
-    'name.required'=>'Name is required',
-    'stat.required'=>'Status is required',
+    'title.required'=>'Title is required',
+    'content.required'=>'Content is required',
   ];
-
-  public function saveFrontendService($input) {
+  
+  public function saveService($input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
     }
-
-    $this->name = $input['name'];
-    $this->stat = $input['stat'];
+    
+    $this->title = $input['title'];
+    $this->content = $input['content'];
+    $this->meta_keyword = $input['meta_keyword'];
+    $this->meta_desc = $input['meta_desc'];
+    $this->meta_desc = $input['meta_desc'];
     $this->save();
-    return true;
+  
+  
+    if (isset($input['image1'])) {
+      $image_name = BackendHelper::uploadFile('images/frontend/services/', 'service_'.$this->frontend_service_id, $input['image1']);
+      DB::table('frontend_service')->where('frontend_service_id', $this->frontend_service_id)->update(['image1'=>$image_name]);
+    }
+    if (isset($input['image2'])) {
+      $image_name = BackendHelper::uploadFile('images/frontend/services/', 'service_'.$this->frontend_service_id, $input['image2']);
+      DB::table('frontend_service')->where('frontend_service_id', $this->frontend_service_id)->update(['image2'=>$image_name]);
+    }
+    
+    return $this->frontend_service_id;
   }
-
 
   public function getValidation() {
     return $this->validation;
