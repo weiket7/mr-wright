@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Enums\MembershipStat;
+use App\Models\Membership;
 use App\Models\Services\CompanyService;
 use Illuminate\Http\Request;
 
@@ -43,6 +45,8 @@ class CompanyController extends Controller
     $data['action'] = $action;
     $data['company'] = $company;
     $data['offices'] = $company->getOffices($company_id);
+    $membership_service = new Membership();
+    $data['memberships'] = $membership_service->getMembershipDropdown(MembershipStat::Active);
     return view('admin/company/form', $data);
   }
   

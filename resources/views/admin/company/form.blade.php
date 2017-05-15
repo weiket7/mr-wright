@@ -38,7 +38,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Registered Name</label>
+                <label class="control-label col-md-3">Registered Name <span class="required">*</span></label>
                 <div class="col-md-9">
                   {{Form::text('registered_name', $company->registered_name, ['class'=>'form-control', 'maxlength'=>100])}}
                 </div>
@@ -46,7 +46,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Status</label>
+                <label class="control-label col-md-3">Status <span class="required">*</span></label>
                 <div class="col-md-9">
                   {{Form::select('stat', CompanyStat::$values, $company->stat, ['class'=>'form-control'])}}
                 </div>
@@ -56,40 +56,22 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Current Number of Requesters</label>
-                <label class="col-md-9 form-control-static">
-                  {{ $company->requester_count }}
-                </label>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">Max Number of Requesters</label>
-                <label class="col-md-9 form-control-static">
-                  {{ $company->requester_limit }}
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">Address</label>
-                <div class="col-md-9">
-                  {{Form::textarea('addr', $company->addr, ['class'=>'form-control', 'rows'=>3, 'maxlength'=>200])}}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
                 <label class="control-label col-md-3">Country</label>
                 <div class="col-md-9">
                   {{Form::text('country', $company->country, ['class'=>'form-control', 'maxlength'=>50])}}
                 </div>
               </div>
             </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Industry</label>
+                <div class="col-md-9">
+                  {{Form::text('industry', $company->industry, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="row">
+          {{--<div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label class="control-label col-md-3">State</label>
@@ -106,23 +88,55 @@
                 </div>
               </div>
             </div>
-          </div>
+          --}}</div>
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Postal</label>
+                <label class="control-label col-md-3">Address <span class="required">*</span></label>
                 <div class="col-md-9">
-                  {{Form::text('postal', $company->postal, ['class'=>'form-control', 'maxlength'=>20])}}
+                  {{Form::textarea('addr', $company->addr, ['class'=>'form-control', 'rows'=>3, 'maxlength'=>200])}}
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Industry</label>
+                <label class="control-label col-md-3">Postal <span class="required">*</span></label>
                 <div class="col-md-9">
-                  {{Form::text('industry', $company->industry, ['class'=>'form-control'])}}
+                  {{Form::text('postal', $company->postal, ['class'=>'form-control', 'maxlength'=>20])}}
                 </div>
               </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Membership Plan <span class="required">*</span></label>
+                <label class="col-md-9 form-control-static">
+                  {{ Form::select('membership_id', $memberships, $company->membership_id, ['placeholder'=>'', 'class'=>'form-control']) }}
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Max Number of Requesters</label>
+                <label class="col-md-9 form-control-static">
+                  {{ $company->requester_limit }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Current Number of Requesters</label>
+                <label class="col-md-9 form-control-static">
+                  {{ $company->requester_count }}
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              
             </div>
           </div>
           <!--<div class="row">

@@ -13,22 +13,32 @@ class Company extends Eloquent
 
   private $rules = [
     'name'=>'required',
-    'code'=>'required|sometimes|unique:company,code'
+    'code'=>'required|sometimes|unique:company,code',
+    'registered_name'=>'required',
+    'stat'=>'required',
+    'addr'=>'required',
+    'postal'=>'required',
+    'membership_id'=>'required',
   ];
   
   private $messages = [
     'name.required'=>'Name is required',
     'code.required'=>'Code is required',
+    'registered_name.required'=>'Registered name is required',
+    'stat.required'=>'Status is required',
+    'addr.required'=>'Address is required',
+    'postal.required'=>'Postal is required',
+    'membership_id.required'=>'Membership plan is required',
     'code.unique'=>'Code is not available'
   ];
   
   public function saveCompany($input) {
-      $this->validation = Validator::make($input, $this->rules, $this->messages );
-      if ( $this->validation->fails() ) {
-        return false;
-      }
-    
-      $this->name = $input['name'];
+    $this->validation = Validator::make($input, $this->rules, $this->messages );
+    if ( $this->validation->fails() ) {
+      return false;
+    }
+  
+    $this->name = $input['name'];
     if(isset($input['code'])) {
       $this->code = $input['code'];
     }
@@ -36,10 +46,11 @@ class Company extends Eloquent
     $this->stat = $input['stat'];
     $this->addr = $input['addr'];
     $this->country = $input['country'];
-    $this->state = $input['state'];
-    $this->city = $input['city'];
+    //$this->state = $input['state'];
+    //$this->city = $input['city'];
     $this->postal = $input['postal'];
     $this->industry = $input['industry'];
+    $this->membership_id = $input['membership_id'];
     $this->save();
     return true;
   }
