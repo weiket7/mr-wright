@@ -23,6 +23,9 @@
 .txt-code {
   text-transform: uppercase;
 }
+.txt-error {
+  border-color: #e73d4a;
+}
 
 /*STYLE.CSS*/
 

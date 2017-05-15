@@ -25,7 +25,7 @@
         </ul>
         <div class="tab-content no-space">
           <div class="tab-pane fade active in" id="tab-general">
-            <form action="" method="post" id="form-ticket" class="form-horizontal" enctype="multipart/form-data" v-on:submit.prevent="submitForm">
+            <form action="" method="post" id="form-ticket" v-on:submit.prevent="submitForm" class="form-horizontal" enctype="multipart/form-data">
               {!! csrf_field() !!}
               <input type="hidden" v-model="submit_action" name="submit_action">
 
@@ -385,6 +385,8 @@
 @endsection
 
 @section('script')
+  <script src="{{asset('assets/js/ticket.js')}}" type="text/javascript"></script>
+  
   <script>
     $(document).ready(function() {
       $("#staffs").select2({
@@ -415,7 +417,7 @@
       populateStaffsAndCalendar();
     });
 
-    function validateForm() {
+    function validateTicketForm() {
       var validate = true;
       $(".select-time").each(function() {
         var time = $(this).val();
@@ -423,11 +425,13 @@
         if (time == '') {
           $(this).addClass("txt-error");
           validate = false;
-          toastr.error("Select time");
         } else {
           $(this).removeClass("txt-error");
         }
       });
+      if (validate == false) {
+        toastr.error("Select time");
+      }
       return validate;
     }
 
@@ -565,45 +569,6 @@
       })
     }
 
-    Vue.component('dropdown-time', {
-      props: ['name', 'value'],
-      data: function() {
-        return {
-          times: [
-            {key:'', value:''},
-            {key: '00:00', value: '12:00 am'},
-            {key: '01:00', value: '1:00 am'},
-            {key: '02:00', value: '2:00 am'},
-            {key: '03:00', value: '3:00 am'},
-            {key: '04:00', value: '4:00 am'},
-            {key: '05:00', value: '5:00 am'},
-            {key: '06:00', value: '6:00 am'},
-            {key: '07:00', value: '7:00 am'},
-            {key: '08:00', value: '8:00 am'},
-            {key: '09:00', value: '9:00 am'},
-            {key: '10:00', value: '10:00 am'},
-            {key: '11:00', value: '11:00 am'},
-            {key: '12:00', value: '12:00 pm'},
-            {key: '13:00', value: '1:00 pm'},
-            {key: '14:00', value: '2:00 pm'},
-            {key: '15:00', value: '3:00 pm'},
-            {key: '16:00', value: '4:00 pm'},
-            {key: '17:00', value: '5:00 pm'},
-            {key: '18:00', value: '6:00 pm'},
-            {key: '19:00', value: '7:00 pm'},
-            {key: '20:00', value: '8:00 pm'},
-            {key: '21:00', value: '9:00 pm'},
-            {key: '22:00', value: '10:00 pm'},
-            {key: '23:00', value: '11:00 pm'}
-          ]
-        }
-      },
-      created: function(){
-        this.selectedOption = this.value;
-      },
-      template: "<select :name='name' v-model='selectedOption' class='form-control'><option v-for='time in times' :value='time.key'>@{{ time.value }}</option></select>"
-    });
-
     var vm = new Vue({
       el: "#app",
       data: {
@@ -704,7 +669,7 @@
           this.submit_action = "open";
         },
         submitForm: function() {
-          var validate = validateForm();
+          var validate = validateTicketForm();
           ///console.log('val'+validate);
           if (validate) {
             //console.log(document.getElementById("form-ticket"));
@@ -712,7 +677,6 @@
           }
         }
       },
-
     });
 
     function pushToCalendarObject(obj, staff_id, date, time) {
