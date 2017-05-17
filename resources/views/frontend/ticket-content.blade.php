@@ -120,12 +120,31 @@
       </tr>
       </thead>
       <tbody>
-      @foreach($ticket->otps as $otp)
-        <tr>
-          <td>{{ ViewHelper::formatDate($otp->date) }}</td>
-          <td>{{ $otp->otp }}</td>
-        </tr>
-      @endforeach
+      <div class="form-group">
+        <label class="control-label col-md-2">One time passwords</label>
+        <div class="col-md-10">
+          <table class="table table-bordered no-margin-btm table-responsive">
+            <thead>
+            <tr>
+              <th width="110px">Date</th>
+              <th width="100px">First OTP</th>
+              <th>Second OTP</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if(ViewHelper::hasAccess('ticket_view_otp'))
+              @foreach($ticket->otps as $otp)
+                <tr>
+                  <td>{{ ViewHelper::formatDate($otp->date) }}</td>
+                  <td>{{ $otp->first_otp }}</td>
+                  <td>{{ $otp->second_otp }}</td>
+                </tr>
+              @endforeach
+            @endif
+            </tbody>
+          </table>
+        </div>
+      </div>
       </tbody>
     </table>
   </div>

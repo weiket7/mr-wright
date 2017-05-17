@@ -9,7 +9,7 @@
     </blockquote>
   </div>
 
-  @include('emails.ticket-content', [
+  @include('frontend.ticket-content', [
     'show_staff_assignments'=>true,
     'show_otp'=>true,
   ])

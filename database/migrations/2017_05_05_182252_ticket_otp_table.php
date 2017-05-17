@@ -18,6 +18,7 @@ class TicketOtpTable extends Migration
             $t->boolean('second_entered');
             $t->dateTime('first_entered_on')->nullable();
             $t->dateTime('second_entered_on')->nullable();
+            $t->dateTime('created_on');
         });
     }
 

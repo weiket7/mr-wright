@@ -3,10 +3,11 @@
 @extends('frontend.template', ['title'=>strtoupper($action). ' TICKET'])
 
 @section('content')
-  <div  id="app">
-    <form method="post" action="" id="form-ticket" v-on:submit.prevent="submitForm" class="form-horizontal" id="app" enctype="multipart/form-data" >
+  <div id="app">
+    <form method="post" action="" id="form-ticket" v-on:submit.prevent="submitForm" class="form-horizontal" enctype="multipart/form-data" >
       {{ csrf_field() }}
-      
+      <input type="hidden" v-model="submit_action" name="submit_action">
+  
       <div class="form-group">
         <label class="control-label col-md-2">
           Title
@@ -256,13 +257,10 @@
       
       <div class="text-center">
         @if($ticket->stat == null)
-          <input type="submit" name="submit" value="DRAFT TICKET" class="more active">
+          <input type="submit" @click='draftTicket' value="DRAFT TICKET" class="more active">
         @elseif($ticket->stat == TicketStat::Drafted)
-          <input type="submit" name="submit" value="UPDATE TICKET" class="more active">
-          <input type="submit" name="submit" value="OPEN TICKET" class="more active">
-        @elseif($ticket->stat == TicketStat::Opened)
-          <input type="submit" name="submit" value="UPDATE TICKET" class="more active">
-          <input type="submit" name="submit" value="OPEN TICKET" class="more active">
+          <input type="submit" @click='updateTicket' value="UPDATE TICKET" class="more active">
+          <input type="submit" @click='openTicket' value="OPEN TICKET" class="more active">
         @endif
       </div>
     </form>
@@ -303,7 +301,8 @@
       data: {
         issues: {!! $ticket->issues !!},
         preferred_slots: {!! $ticket->preferred_slots !!},
-        currentDate: moment()
+        currentDate: moment(),
+        submit_action: '',
       },
       methods: {
         addPreferredSlot: function() {
@@ -372,6 +371,15 @@
             //console.log(document.getElementById("form-ticket"));
             document.getElementById("form-ticket").submit();
           }
+        },
+        draftTicket: function() {
+          this.submit_action = "draft";
+        },
+        updateTicket: function() {
+          this.submit_action = "update";
+        },
+        openTicket: function() {
+          this.submit_action = "open";
         }
       }
     });

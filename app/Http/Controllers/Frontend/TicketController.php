@@ -42,12 +42,15 @@ class TicketController extends Controller
     $action = $ticket_id == null ? 'draft' : 'update';
     if($request->isMethod("post")) {
       $input = $request->all();
-      $submit = $input['submit'];
-      if (BackendHelper::stringContains($submit, "draft") || BackendHelper::stringContains($submit, "update")) {
+      $submit_action = $input['submit_action'];
+      if (BackendHelper::stringContains($submit_action, "draft") || BackendHelper::stringContains($submit_action, "update")) {
         $ticket_id = $this->ticket_service->saveFrontendTicket($ticket_id, $input, $this->getUsername());
-        $result = BackendHelper::stringContains($submit, "draft") ? "Ticket drafted" : "Ticket updated";
+        if ($ticket_id === false) {
+          return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
+        }
+        $result = BackendHelper::stringContains($submit_action, "draft") ? "Ticket drafted" : "Ticket updated";
         return redirect('ticket/save/'.$ticket_id)->with('msg', $result);
-      } elseif (BackendHelper::stringContains($submit, "open")) {
+      } elseif (BackendHelper::stringContains($submit_action, "open")) {
         $this->ticket_service->openTicket($ticket_id);
         return redirect('ticket/view/'.$ticket_id)->with('msg', 'Ticket opened');
       }

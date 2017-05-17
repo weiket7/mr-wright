@@ -262,10 +262,9 @@ class TicketService
   private function generateOtp($ticket_id, $date, $type) {
     $ticket_otp = new TicketOtp();
     $ticket_otp->ticket_id = $ticket_id;
-    $ticket_otp->otp = rand(000000, 999999);
-    $ticket_otp->type = $type;
     $ticket_otp->date = $date;
-    $ticket_otp->entered = false;
+    $ticket_otp->first_otp = rand(000000, 999999);
+    $ticket_otp->second_otp = rand(000000, 999999);
     $ticket_otp->created_on = Carbon::now();
     $ticket_otp->save();
   }

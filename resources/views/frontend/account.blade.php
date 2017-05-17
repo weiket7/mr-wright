@@ -28,6 +28,7 @@
           </label>
           <div class="col-md-9">
             <input type="password" name="password" class="form-control">
+            <span class="help-block">Fill in password field only when you want to update the password</span>
           </div>
         </div>
       </div>

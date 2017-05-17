@@ -269,17 +269,21 @@
         <table class="table table-bordered no-margin-btm">
           <thead>
           <tr>
-            <th width="120px">Date</th>
-            <th>OTP</th>
+            <th width="110px">Date</th>
+            <th width="100px">First OTP</th>
+            <th>Second OTP</th>
           </tr>
           </thead>
           <tbody>
-          @foreach($ticket->otps as $otp)
-            <tr>
-              <td>{{ ViewHelper::formatDate($otp->date) }}</td>
-              <td>{{ $otp->otp }}</td>
-            </tr>
-          @endforeach
+          @if(ViewHelper::hasAccess('ticket_view_otp'))
+            @foreach($ticket->otps as $otp)
+              <tr>
+                <td>{{ ViewHelper::formatDate($otp->date) }}</td>
+                <td>{{ $otp->first_otp }}</td>
+                <td>{{ $otp->second_otp }}</td>
+              </tr>
+            @endforeach
+          @endif
           </tbody>
         </table>
       </div>

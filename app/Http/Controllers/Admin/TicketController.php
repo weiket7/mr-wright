@@ -48,7 +48,6 @@ class TicketController extends Controller
     if ($request->isMethod("post")) {
       $input = $request->all();
       $submit_action = $input['submit_action'];
-      //var_dump($submit_action); exit;
       $result = "";
       if ($submit_action == "quote") {
         $ticket = $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
@@ -62,11 +61,11 @@ class TicketController extends Controller
         $result = "Ticket opened";
       } elseif ($submit_action == "draft" || $submit_action == "update") {
         $ticket_id = $this->ticket_service->saveTicket($ticket_id, $input, $this->getUsername());
-        $result = "Ticket " . $data['action'] . "d";
-      } else
         if ($ticket_id === false) {
           return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
         }
+        $result = "Ticket " . $data['action'] . "d";
+      }
       return redirect('admin/ticket/save/' . $ticket_id)->with('msg', $result);
       
     }
