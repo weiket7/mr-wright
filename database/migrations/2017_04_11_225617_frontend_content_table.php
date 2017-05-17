@@ -34,6 +34,9 @@ Winter Park, FL 32789']
     }
 
     $data = [
+      ['key'=>'about_title', 'value'=>'WHY CHOOSE RENOVATE'],
+      ['key'=>'about_content', 'value'=>'Founded by Kevin Smith back in 2000, Renovate has established itself as one of the greatest and prestigious
+providers of construction focused interior renovation services and building.'],
       ['key'=>'about_column1_icon', 'value'=>'house-2'],
       ['key'=>'about_column1_title', 'value'=>'WE\'RE EXPERTS'],
       ['key'=>'about_column1_content', 'value'=>'Morbi nulla tortor, dignissim est node cursus euismod est arcu. Nomad at vehicula novum justo magna.'],
@@ -55,6 +58,9 @@ Winter Park, FL 32789']
 
     /*HOME SERVICE*/
     $data = [
+      ['key'=>'service_title', 'value'=>'OUR SERVICES'],
+      ['key'=>'service_content', 'value'=>'With over 15 years experience and real focus on customer satisfaction, you can rely on us for your next renovation,
+driveway sett or home repair. We provide a professional service for private and commercial customers.'],
       ['key'=>'service_column1_image', 'value'=>'service1.jpg'],
       ['key'=>'service_column1_title', 'value'=>'INTERIOR RENOVATION'],
       ['key'=>'service_column1_content', 'value'=>'We can help you bring new life to existing rooms and develop unused spaces.'],

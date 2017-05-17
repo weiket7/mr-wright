@@ -43,10 +43,16 @@
         <h4>About</h4>
         <table class="table table-bordered table-hover">
           <tr>
-            <td></td>
+            <td width="90px"></td>
             <td>Icon</td>
             <td>Title</td>
             <td>Content</td>
+          </tr>
+          <tr>
+            <td>Header</td>
+            <td></td>
+            <td><a href="{{ url('admin/frontend/content/save/about_title') }}">{{$contents['about_title']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/about_content') }}">{{$contents['about_content']}}</a></td>
           </tr>
           <tr>
             <td>Column 1</td>
@@ -74,13 +80,19 @@
           </tr>
         </table>
 
-        <h4>Service</h4>
+        <h4>Services</h4>
         <table class="table table-bordered table-hover">
           <tr>
             <td></td>
             <td>Image</td>
             <td>Title</td>
             <td>Content</td>
+          </tr>
+          <tr>
+            <td>Header</td>
+            <td></td>
+            <td><a href="{{ url('admin/frontend/content/save/service_title') }}">{{$contents['service_title']}}</a></td>
+            <td><a href="{{ url('admin/frontend/content/save/service_content') }}">{{$contents['service_content']}}</a></td>
           </tr>
           <tr>
             <td>Column 1</td>
