@@ -31,6 +31,7 @@ class StaffController extends Controller
     $data['staff'] = $staff;
     $data['staff_skills'] = $staff->getStaffSkills();
     $data['available_skills'] = $staff->getAvailableSkills($data['staff_skills']);
+    $data['staff_assignments'] = $staff->getStaffAssignments();
 
     return view('admin/staff/form', $data);
   }

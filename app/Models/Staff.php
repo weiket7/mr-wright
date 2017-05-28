@@ -75,25 +75,25 @@ class Staff extends Eloquent
 
   private function saveStaffAsUser($input)
   {
-    if ($this->requester_id == null) { //create
+    if ($this->staff_id == null) { //create
       $user = new User();
       $user->username = $input['username'];
+      $user->type = UserType::Staff;
     } else {
       $user = User::where('username', $this->username)->first();
     }
 
     $user->name = $input['name'];
+    $user->email = $input['email'];
     if ($input['stat'] == StaffStat::Active) {
       $user->stat = UserStat::Active;
     } else if ($input['stat'] == StaffStat::Inactive) {
       $user->stat = UserStat::Inactive;
     }
 
-    $user->email = $input['email'];
     if ($input['password']) {
       $user->password = Hash::make($input['password']);
     }
-    $user->type = UserType::Staff;
     $user->save();
   }
 
@@ -118,6 +118,18 @@ class Staff extends Eloquent
     $all_skills = Skill::select(['name', 'skill_id'])->get()->keyBy('skill_id');
     $available_skills = $all_skills->diffKeys($staff_skills)->all();
     return $available_skills;
+  }
+  
+  public function getStaffAssignments() {
+    $data = DB::table('staff_assignment')
+      ->where('staff_id', $this->staff_id)
+      ->select('staff_id', 'ticket_id', 'ticket_code', 'time_start', 'time_end')->get();
+  
+    $res = [];
+    foreach($data as $d) {
+      $res[$d->ticket_id][] = $d;
+    }
+    return $res;
   }
 
   public function getValidation() {
