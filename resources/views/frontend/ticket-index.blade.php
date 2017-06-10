@@ -7,6 +7,7 @@
 @section('content')
   <input type="button" value="DRAFT TICKET" class="more active" onclick="location.href='{{url('ticket/save')}}'">
 
+  @if(count($tickets) > 0 )
   <div class="table-responsive margin-top-20">
     <table class="table table-bordered table-hover">
       <thead>
@@ -58,6 +59,10 @@
       @endforeach
       </tbody>
     </table>
-  </div>
+    @else
+      <div class="alert alert-info" style="margin-top: 20px">
+        No tickets
+      </div>
+    @endif
   </div>
 @endsection

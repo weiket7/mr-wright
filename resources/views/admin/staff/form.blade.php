@@ -48,8 +48,7 @@
                     </div>
                   </div>
                 </div>
-      
-      
+
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -146,10 +145,25 @@
           </div>
           <div class="tab-pane fade" id="tab-assignments">
             <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th width="120px">Ticket Code</th>
+                <th width="120px">Date</th>
+                <th width="120px">Time Start</th>
+                <th>Time End</th>
+              </tr>
+              </thead>
+              <tbody>
               @foreach($staff_assignments as $ticket_id => $assignment)
+                @foreach($assignment as $a)
                 <tr>
-                  <td></td>
+                  <td><a href="{{url('admin/ticket/view/'.$a->ticket_id)}}">{{ $a->ticket_code }}</a></td>
+                  <td>{{ ViewHelper::formatDate($a->date) }}</td>
+                  <td>{{ ViewHelper::formatTime($a->time_start) }}</td>
+                  <td>{{ ViewHelper::formatTime($a->time_end) }}</td>
                 </tr>
+                @endforeach
+              </tbody>
               @endforeach
             </table>
           </div>

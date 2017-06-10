@@ -185,13 +185,15 @@
           @foreach($ticket->issues as $issue)
             <tr>
               <td>
-                @if(ViewHelper::isImage($issue->image))
-                  <img src="{{asset('assets/images/tickets/'.$issue->image)}}" class="ticket-image"/>
-                @else
-                  <video width="320" height="240" controls>
-                    <source src="{{asset('assets/images/tickets/'.$issue->image)}}">
-                    Your browser does not support the video tag.
-                  </video>
+                @if($issue->image != '')
+                  @if(ViewHelper::isImage($issue->image))
+                    <img src="{{asset('assets/images/tickets/'.$issue->image)}}" class="ticket-image"/>
+                  @else
+                    <video width="320" height="240" controls>
+                      <source src="{{asset('assets/images/tickets/'.$issue->image)}}">
+                      Your browser does not support the video tag.
+                    </video>
+                  @endif
                 @endif
               </td>
               <td>

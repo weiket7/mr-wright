@@ -123,7 +123,8 @@ class Staff extends Eloquent
   public function getStaffAssignments() {
     $data = DB::table('staff_assignment')
       ->where('staff_id', $this->staff_id)
-      ->select('staff_id', 'ticket_id', 'ticket_code', 'time_start', 'time_end')->get();
+      ->select('staff_id', 'ticket_id', 'ticket_code', 'date', 'time_start', 'time_end')
+      ->orderBy('date', 'desc')->get();
   
     $res = [];
     foreach($data as $d) {
