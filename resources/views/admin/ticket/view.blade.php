@@ -174,7 +174,9 @@
                         <label class="col-md-9 form-control-static">
                           {{ ViewHelper::formatCurrency($ticket->quoted_price) }}
                           {{ Form::text('quoted_price', '', ['id'=>'txt-quoted-price', 'class'=>'form-control', 'style'=>'display:none']) }}
-                          <button type='button' id='btn-adjust' class="btn btn-xs blue" >Adjust</button>
+                          @if($ticket->stat == TicketStat::Completed)
+                            <button type='button' id='btn-adjust' class="btn btn-xs blue" >Adjust</button>
+                          @endif
                         </label>
                       </div>
                     </div>
