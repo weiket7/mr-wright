@@ -152,6 +152,9 @@ class SiteController extends Controller
       $input = $request->all();
       $invite_service = new Invite();
       $user = $invite_service->acceptInvite($input, $token);
+      $account_service = new Account();
+      $company_id = Requester::where('username', $user->username)->value('company_id');
+      $account_service->updateCompanyOfficeRequesterCount($company_id);
       Auth::login($user);
       return redirect('account')->with('welcome', true);
     }

@@ -173,6 +173,8 @@
                         <label class="control-label col-md-3">Quoted Price</label>
                         <label class="col-md-9 form-control-static">
                           {{ ViewHelper::formatCurrency($ticket->quoted_price) }}
+                          {{ Form::text('quoted_price', '', ['id'=>'txt-quoted-price', 'class'=>'form-control', 'style'=>'display:none']) }}
+                          <button type='button' id='btn-adjust' class="btn btn-xs blue" >Adjust</button>
                         </label>
                       </div>
                     </div>
@@ -328,27 +330,38 @@
                                 Send Invoice
                               </button></div>
                           @elseif($ticket->stat == TicketStat::Invoiced && ViewHelper::hasAccess('ticket_pay'))
+                            <?php $payment_method_values = array_keys($payment_methods->toArray()); ?>
                             <div class="mt-radio-list">
-                              <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="payment_method" value="R" @click="selectPaymentMethod('R')"> Credit Card
-                                <span></span>
-                              </label>
-                              <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="payment_method" value="C" @click="selectPaymentMethod('C')"> Cash
-                                <span></span>
-                              </label>
-                              <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="payment_method" value="N" @click="selectPaymentMethod('N')"> NETS
-                                <span></span>
-                              </label>
-                              <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="payment_method" value="B" @click="selectPaymentMethod('B')"> Bank Transfer
-                                <span></span>
-                              </label>
-                              <label class="mt-radio mt-radio-outline">
-                                <input type="radio" name="payment_method" value="Q" @click="selectPaymentMethod('Q')"> Cheque
-                                <span></span>
-                              </label>
+                              @if(in_array('R', $payment_method_values))
+                                <label class="mt-radio mt-radio-outline">
+                                  <input type="radio" name="payment_method" value="R" @click="selectPaymentMethod('R')"> Credit Card
+                                  <span></span>
+                                </label>
+                              @endif
+                              @if(in_array('C', $payment_method_values))
+                                <label class="mt-radio mt-radio-outline">
+                                  <input type="radio" name="payment_method" value="C" @click="selectPaymentMethod('C')"> Cash
+                                  <span></span>
+                                </label>
+                              @endif
+                              @if(in_array('N', $payment_method_values))
+                                <label class="mt-radio mt-radio-outline">
+                                  <input type="radio" name="payment_method" value="N" @click="selectPaymentMethod('N')"> NETS
+                                  <span></span>
+                                </label>
+                              @endif
+                              @if(in_array('B', $payment_method_values))
+                                <label class="mt-radio mt-radio-outline">
+                                  <input type="radio" name="payment_method" value="B" @click="selectPaymentMethod('B')"> Bank Transfer
+                                  <span></span>
+                                </label>
+                              @endif
+                              @if(in_array('Q', $payment_method_values))
+                                <label class="mt-radio mt-radio-outline">
+                                  <input type="radio" name="payment_method" value="Q" @click="selectPaymentMethod('Q')"> Cheque
+                                  <span></span>
+                                </label>
+                              @endif
                               <input type="text" name="ref_no" v-show="showRefNo" class="form-control" placeholder="Ref No">
                             </div>
                             <br>
@@ -377,6 +390,12 @@
 
 @section('script')
   <script>
+    $(document).ready(function(){
+      $("#btn-adjust").click(function() {
+        $("#txt-quoted-price").show();
+      });
+    });
+
     var vm = new Vue({
       el: "#app",
       data: {

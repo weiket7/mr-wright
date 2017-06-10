@@ -97,14 +97,14 @@ class TicketController extends Controller
         $this->ticket_service->completeTicket($ticket_id, $this->getUsername());
         $result = "Ticket completed";
       } elseif (BackendHelper::stringContains($submit, "invoice")) {
-        $ticket = $this->ticket_service->sendInvoice($ticket_id, $this->getUsername());
+        $ticket = $this->ticket_service->invoiceTicket($ticket_id, $input, $this->getUsername());
         $this->ticket_service->emailTicketInvoice($ticket);
         $result = "Invoice sent";
       } elseif (BackendHelper::stringContains($submit, "paid")) {
         $this->ticket_service->paidTicket($input, $ticket_id, $this->getUsername());
         $result = "Ticket paid";
-        return redirect('admin/ticket/view/' . $ticket_id)->with('msg', $result);
       }
+      return redirect('admin/ticket/view/' . $ticket_id)->with('msg', $result);
     }
     
     $ticket = $this->ticket_service->getTicket($ticket_id);

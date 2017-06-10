@@ -27,6 +27,7 @@ class TicketTable extends Migration
       $t->string('requester_mobile', 100);
       $t->string('requester_email', 20);
       $t->decimal('quoted_price', 12, 2);
+      $t->decimal('quoted_price_original', 12, 2);
       $t->date('quote_valid_till');
       $t->decimal('product_total', 12, 2);
       //$t->decimal('agreed_price', 12, 2); //TODO

@@ -437,10 +437,14 @@ class TicketService
     return true;
   }
 
-  public function sendInvoice($ticket_id, $username = 'admin')
+  public function invoiceTicket($ticket_id, $input, $username = 'admin')
   {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Invoiced;
+    if($input['quoted_price'] != '') {
+      $ticket->quoted_price_original = $ticket->quoted_price;
+      $ticket->quoted_price = $input['quoted_price'];
+    }
     $ticket->save();
 
     $ticket = $this->getTicket($ticket_id);

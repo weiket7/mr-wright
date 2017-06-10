@@ -60,7 +60,7 @@
     <div class="vertical-align-table column-1-1">
       <div class="header clearfix">
         <div class="logo vertical-align-cell">
-          <img src="{{asset('assets/images/mr-wright-logo.png')}} " style="max-height: 30px">
+          <a href="{{url('')}}"><img src="{{asset('assets/images/mr-wright-logo.png')}} " style="max-height: 30px"></a>
           {{--<h1>MR WRIGHT</h1>--}}
         </div>
         <a href="#" class="mobile-menu-switch vertical-align-cell">
