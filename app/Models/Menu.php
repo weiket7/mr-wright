@@ -52,7 +52,7 @@ class Menu {
 
   private static function getStaffMenu() {
     $menu = [
-      ["link"=>"admin/dashboard/staff", "name"=>"Dashboard", "icon"=>"icon-home"],
+      ["link"=>"admin/staff/dashboard", "name"=>"Dashboard", "icon"=>"icon-home"],
     ];
     return $menu;
   }

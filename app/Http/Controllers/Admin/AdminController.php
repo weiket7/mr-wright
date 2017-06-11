@@ -16,26 +16,19 @@ class AdminController extends Controller
 {
   protected $access_service;
   protected $ticket_service;
-  protected $dashboard_service;
 
-  public function __construct(DashboardService $dashboard_service, TicketService $ticket_service, AccessService $access_service) {
-    $this->dashboard_service = $dashboard_service;
+  public function __construct(TicketService $ticket_service, AccessService $access_service) {
     $this->ticket_service = $ticket_service;
     $this->access_service = $access_service;
   }
-
+  
   public function dashboard() {
-    $data['tickets'] = $this->dashboard_service->getTicketsRecent();
-    $data['staff_assignments'] = $this->dashboard_service->getStaffAssignmentsToday();
+    $dashboard_service = new DashboardService();
+    $data['tickets'] = $dashboard_service->getTicketsRecent();
+    $data['staff_assignments'] = $dashboard_service->getStaffAssignmentsToday();
     return view("admin/index", $data);
   }
-
-  public function dashboardStaff() {
-    $username = Auth::user()->username; 
-    $data['tickets'] = $this->dashboard_service->getStaffAssignedTickets($username);
-    return view("admin/dashboard-staff", $data);
-  }
-
+  
   public function login(Request $request) {
     Auth::logout();
     if($request->isMethod('post')) {
@@ -48,7 +41,7 @@ class AdminController extends Controller
       $user = Auth::user();
       $request->session()->put('accesses', $this->access_service->getAccess($user));
       if($user->type == UserType::Staff) {
-        return redirect('admin/dashboard/staff')->with('msg', 'Logged in');
+        return redirect('admin/staff/dashboard')->with('msg', 'Logged in');
       }
 
       $referrer = $request->session()->has('referrer');

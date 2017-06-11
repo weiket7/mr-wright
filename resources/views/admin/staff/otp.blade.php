@@ -13,8 +13,7 @@
     <div class="portlet-body form-horizontal">
       <form method="post" action="">
         {{ csrf_field() }}
-
-        @foreach($tickets as $ticket)
+        
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -37,7 +36,7 @@
               </div>
             </div>
           </div>
-
+          
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -64,7 +63,7 @@
               </div>
             </div>
           </div>
-
+          
           <div class="form-group">
             <label class="control-label col-md-2">Issues</label>
             <div class="col-md-10">
@@ -94,7 +93,7 @@
               </table>
             </div>
           </div>
-
+          
           <!--TODO-->
           @if(Auth::user()->type == \App\Models\Enums\UserType::Operator)
             <div class="form-group">
@@ -123,7 +122,7 @@
               </div>
             </div>
           @endif
-
+          
           <div class="form-group">
             <label class="control-label col-md-2">Staff Assignments</label>
             <div class="col-md-10">
@@ -149,7 +148,7 @@
               </table>
             </div>
           </div>
-
+          
           <div class="form-group">
             <label class="control-label col-md-2">One time passwords</label>
             <div class="col-md-10">
@@ -175,30 +174,34 @@
                     <tr>
                       <td>{{ ViewHelper::formatDate($otp->date) }}</td>
                       <td>
-                        <div id="div-first-otp{{$otp->ticket_otp_id}}" {{ $otp->first_entered ? "" : "style=display:none" }}>
+                        @if($otp->first_entered)
                           {{ $otp->first_otp }}
                           <span class="font-green-jungle"><i class="fa fa-check"></i></span>
-                        </div>
-                        <div id="input-first-otp{{$otp->ticket_otp_id}}" {{ $otp->first_entered ? "style=display:none" : ""}} style="width:100px">
-                          <div class="input-icon right">
-                            <i class="fa fa-remove" id="cross-first-otp{{$otp->ticket_otp_id}}" style="display:none"></i>
-                            <input type="text" name='first_otp{{$otp->ticket_otp_id}}' class="form-control" maxlength="6">
+                          <br>{{ ViewHelper::formatDateTime($otp->first_entered_on) }}
+                        @else
+                          <div id="div-first-otp{{$otp->ticket_otp_id}}">
+                            <div class="input-icon right">
+                              <i class="fa fa-remove" id="cross-first-otp{{$otp->ticket_otp_id}}" style="display:none"></i>
+                              <input type="text" name='first_otp{{$otp->ticket_otp_id}}' class="form-control" maxlength="6" style="width:100px">
+                            </div>
+                            <button type="button" onclick="enterOtp({{$otp->ticket_otp_id}}, 'first')" class="btn blue">Submit</button>
                           </div>
-                          <button type="button" onclick="enterOtp({{$otp->ticket_otp_id}}, 'first')" class="btn blue">Submit</button>
-                        </div>
+                        @endif
                       </td>
                       <td>
-                        <div id="div-second-otp{{$otp->ticket_otp_id}}" {{ $otp->second_entered ? "" : "style=display:none" }}>
+                        @if($otp->second_entered)
                           {{ $otp->second_otp }}
                           <span class="font-green-jungle"><i class="fa fa-check"></i></span>
-                        </div>
-                        <div id="input-second-otp{{$otp->ticket_otp_id}}" {{ $otp->second_entered ? "style=display:none" : ""}} style="width:100px">
-                          <div class="input-icon right">
-                            <i class="fa fa-remove" id="cross-second-otp{{$otp->ticket_otp_id}}" style="display:none"></i>
-                            <input type="text" name='second_otp{{$otp->ticket_otp_id}}' class="form-control" maxlength="6">
+                          <br>{{ ViewHelper::formatDateTime($otp->second_entered_on) }}
+                        @else
+                          <div id="div-second-otp{{$otp->ticket_otp_id}}">
+                            <div class="input-icon right">
+                              <i class="fa fa-remove" id="cross-second-otp{{$otp->ticket_otp_id}}" style="display:none"></i>
+                              <input type="text" name='second_otp{{$otp->ticket_otp_id}}' class="form-control" maxlength="6" style="width:100px">
+                            </div>
+                            <button type="button" onclick="enterOtp({{$otp->ticket_otp_id}}, 'second')" class="btn blue">Submit</button>
                           </div>
-                          <button type="button" onclick="enterOtp({{$otp->ticket_otp_id}}, 'second')" class="btn blue">Submit</button>
-                        </div>
+                        @endif
                       </td>
                     </tr>
                   @endforeach
@@ -209,8 +212,6 @@
           </div>
       </form>
     </div>
-    <hr>
-    @endforeach
   </div>
 @endsection
 
@@ -221,19 +222,22 @@
       var url = '{{url('api/enterOtp')}}?ticket_otp_id='+ticket_otp_id+'&type='+type+'&otp='+otp;
       //console.log(url);
       axios.get(url)
-      .then(function (response) {
-        var result = response.data;
-        if (result == false) {
-          $("#cross-"+type+"-otp"+ticket_otp_id).show();
-          $("#input-"+type+"-otp"+ticket_otp_id).addClass('has-error');
-        } else if (result == true) {
-          $("#input-"+type+"-otp"+ticket_otp_id).hide();
-          $("#div-"+type+"-otp"+ticket_otp_id).show();
-        }
-      })
-      .catch(function (error) {
-        console.log('enterOtp error='+error);
-      })
+        .then(function (response) {
+          var result = response.data;
+          console.log(result);
+          if (result == false) {
+            $("#cross-"+type+"-otp"+ticket_otp_id).show();
+            $("#div-"+type+"-otp"+ticket_otp_id).addClass('has-error');
+          } else if (result == true) {
+            $("#div-"+type+"-otp"+ticket_otp_id).html(otp +
+              ' <span class="font-green-jungle"><i class="fa fa-check"></i></span>' +
+              '<br>' + moment().format("D MMMM YYYY, h:mm a")
+            );
+          }
+        })
+        .catch(function (error) {
+          console.log('enterOtp error='+error);
+        })
     }
   </script>
 

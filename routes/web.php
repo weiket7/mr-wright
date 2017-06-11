@@ -150,7 +150,7 @@ Route::group(['middleware'=>['auth']], function() {
     Route::post('admin/staff/save', 'Admin\StaffController@save');
     Route::get('admin/staff/save/{id}', 'Admin\StaffController@save');
     Route::post('admin/staff/save/{id}', 'Admin\StaffController@save');
-    
+  
     Route::get('admin/skill', 'Admin\SkillController@index');
     Route::get('admin/skill/save', 'Admin\SkillController@save');
     Route::post('admin/skill/save', 'Admin\SkillController@save');
@@ -163,8 +163,6 @@ Route::group(['middleware'=>['auth']], function() {
     Route::get('admin/report/ticket', 'Admin\ReportController@ticket');
     Route::post('admin/report/ticket', 'Admin\ReportController@ticket');
 
-    Route::get('admin/dashboard/staff', 'Admin\AdminController@dashboardStaff');
-    Route::post('admin/dashboard/staff', 'Admin\AdminController@dashboardStaff');
 
     Route::get('admin/working-day-time', 'Admin\WorkingHourController@workingDaytime');
     Route::get('admin/blocked-date', 'Admin\WorkingHourController@blockedDate');
@@ -194,6 +192,11 @@ Route::group(['middleware'=>['auth']], function() {
     Route::get('admin/frontend/project/save/{id}', 'Admin\FrontendController@projectSave');
     Route::post('admin/frontend/project/save/{id}', 'Admin\FrontendController@projectSave');
   });
+  
+  Route::get('admin/staff/dashboard', 'Admin\StaffController@dashboard');
+  Route::post('admin/staff/dashboard', 'Admin\StaffController@dashboard');
+  Route::get('admin/staff/otp/{id}', 'Admin\StaffController@otp');
+  
   Route::get('admin/system', 'Admin\SettingController@system');
 
   Route::get('api/enterOtp', 'ApiController@enterOtp');

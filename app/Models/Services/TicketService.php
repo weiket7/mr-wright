@@ -7,6 +7,7 @@ use App\Mail\QuotationMail;
 use App\Mail\TicketAcceptMail;
 use App\Models\CategoryForTicket;
 use App\Models\Company;
+use App\Models\Enums\StaffAssignmentStat;
 use App\Models\Enums\TicketStat;
 use App\Models\Helpers\BackendHelper;
 use App\Models\Office;
@@ -250,6 +251,8 @@ class TicketService
     $ticket->accept_decline_reason = $input['accept_decline_reason'];
     $ticket->save();
 
+    DB::table('staff_assignment')->where('ticket_id', $ticket_id)->update(['stat'=>StaffAssignmentStat::Pending]);
+    
     $dates = DB::table('staff_assignment')->where('ticket_id', $ticket_id)->distinct()->pluck('date');
     foreach($dates as $d) {
       $this->generateOtp($ticket_id, $d, 1);
