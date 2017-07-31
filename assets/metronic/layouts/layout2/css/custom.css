@@ -21,6 +21,9 @@
 .feeds li .col1>.cont>.cont-col1>.label {
   width: 75px;
 }
+.page-header.navbar .page-logo {
+  background: #525E64;
+}
 
 /*custom*/
 .ticket-image {

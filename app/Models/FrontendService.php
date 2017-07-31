@@ -37,11 +37,11 @@ class FrontendService extends Eloquent
   
   
     if (isset($input['image1'])) {
-      $image_name = BackendHelper::uploadFile('images/frontend/services/', 'service_'.$this->frontend_service_id, $input['image1']);
+      $image_name = BackendHelper::uploadFile('images/frontend/services/', 'service-'.$this->frontend_service_id.'-1', $input['image1']);
       DB::table('frontend_service')->where('frontend_service_id', $this->frontend_service_id)->update(['image1'=>$image_name]);
     }
     if (isset($input['image2'])) {
-      $image_name = BackendHelper::uploadFile('images/frontend/services/', 'service_'.$this->frontend_service_id, $input['image2']);
+      $image_name = BackendHelper::uploadFile('images/frontend/services/', 'service-'.$this->frontend_service_id.'-2', $input['image2']);
       DB::table('frontend_service')->where('frontend_service_id', $this->frontend_service_id)->update(['image2'=>$image_name]);
     }
     
