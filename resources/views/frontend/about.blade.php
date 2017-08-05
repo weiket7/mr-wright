@@ -10,7 +10,7 @@
     <div class="column column-1-2">
       <h2 class="box-header align-left"> {{$frontend['contents']['about_page_title']}}</h2>
       <p class="description t1">
-        {{$frontend['contents']['about_page_content']}}
+        {!! ($frontend['contents']['about_page_content']) !!}
       </p>
       <ul class="list margin-top-20">
         @for($i=1; $i<=5; $i++)

@@ -53,7 +53,11 @@ License: You must have a valid license purchased only from themeforest(the above
   <link href="{{asset('assets/metronic/layouts/layout2/css/themes/blue.min.css')}}" rel="stylesheet" type="text/css" id="style_color" />
   <link href="{{asset('assets/metronic/layouts/layout2/css/custom.css')}}" rel="stylesheet" type="text/css" />
   <!-- END THEME LAYOUT STYLES -->
-
+  
+  @section('css')
+  
+  @show
+  
   <link rel="shortcut icon" href="favicon.ico" /> </head>
 <!-- END HEAD -->
 

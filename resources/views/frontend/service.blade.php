@@ -30,7 +30,7 @@
       <div class="column-1-1">
         <h3 class="box-header">{{$current_service->title}}</h3>
         <p class="description t1">
-          {!! nl2br($current_service->content) !!}
+          {!! $current_service->content !!}
         </p>
       </div>
     </div>

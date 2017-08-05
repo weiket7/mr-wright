@@ -33,14 +33,14 @@
     <div class="clearfix">
       <div class="r-row page-margin-top-section padding-bottom-66">
         <h2 class="box-header">{{$frontend['contents']['about_title']}}</h2>
-        <p class="description align-center">{{$frontend['contents']['about_content']}}</p>
+        <p class="description align-center">{!! $frontend['contents']['about_content'] !!}</p>
         <div class="r-row page-margin-top">
           <div class="column column-1-4">
             <ul class="features-list big">
               <li class="sl-large-{{$frontend['contents']['about_column1_icon']}}">
                 <div class="ornament"></div>
                 <h4 class="box-header page-margin-top">{{$frontend['contents']['about_column1_title']}}</h4>
-                <p>{{$frontend['contents']['about_column1_content']}}</p>
+                <p>{!! $frontend['contents']['about_column1_content'] !!}</p>
               </li>
             </ul>
           </div>
@@ -49,7 +49,7 @@
               <li class="sl-large-{{$frontend['contents']['about_column2_icon']}}">
                 <div class="ornament"></div>
                 <h4 class="box-header page-margin-top">{{$frontend['contents']['about_column2_title']}}</h4>
-                <p>{{$frontend['contents']['about_column2_content']}}</p>
+                <p>{!! $frontend['contents']['about_column2_content'] !!}</p>
               </li>
             </ul>
           </div>
@@ -58,7 +58,7 @@
               <li class="sl-large-{{$frontend['contents']['about_column3_icon']}}">
                 <div class="ornament"></div>
                 <h4 class="box-header page-margin-top">{{$frontend['contents']['about_column3_title']}}</h4>
-                <p>{{$frontend['contents']['about_column3_content']}}</p>
+                <p>{!! $frontend['contents']['about_column3_content'] !!}</p>
               </li>
             </ul>
           </div>
@@ -67,7 +67,7 @@
               <li class="sl-large-{{$frontend['contents']['about_column4_icon']}}">
                 <div class="ornament"></div>
                 <h4 class="box-header page-margin-top">{{$frontend['contents']['about_column4_title']}}</h4>
-                <p>{{$frontend['contents']['about_column4_content']}}</p>
+                <p>{!! $frontend['contents']['about_column4_content'] !!}</p>
               </li>
             </ul>
           </div>
@@ -78,28 +78,28 @@
       <div class="r-row full-width gray page-padding-top-section">
         <div class="r-row">
           <h2 class="box-header">{{$frontend['contents']['service_title']}}</h2>
-          <p class="description align-center">{{$frontend['contents']['service_content']}}</p>
+          <p class="description align-center">{!! $frontend['contents']['service_content'] !!}</p>
           <ul class="services-list clearfix page-margin-top">
             <li>
               <a href="{{url($frontend['contents']['service_column1_link'])}}">
                 <img src="{{url('assets/images/frontend/'.$frontend['contents']['service_column1_image'])}}" alt="">
               </a>
               <h4 class="box-header"><a href="{{url($frontend['contents']['service_column1_link'])}}">{{$frontend['contents']['service_column1_title']}}</a></h4>
-              <p>{{$frontend['contents']['service_column1_content']}}</p>
+              <p>{!! $frontend['contents']['service_column1_content'] !!}</p>
             </li>
             <li>
               <a href="{{url($frontend['contents']['service_column2_link'])}}">
                 <img src="{{url('assets/images/frontend/'.$frontend['contents']['service_column2_image'])}}" alt="">
               </a>
               <h4 class="box-header"><a href="{{url($frontend['contents']['service_column2_link'])}}">{{$frontend['contents']['service_column2_title']}}</a></h4>
-              <p>{{$frontend['contents']['service_column2_content']}}</p>
+              <p>{!! $frontend['contents']['service_column2_content'] !!}</p>
             </li>
             <li>
               <a href="{{url($frontend['contents']['service_column3_link'])}}">
                 <img src="{{url('assets/images/frontend/'.$frontend['contents']['service_column3_image'])}}" alt="">
               </a>
               <h4 class="box-header"><a href="{{url($frontend['contents']['service_column3_link'])}}">{{$frontend['contents']['service_column3_title']}}</a></h4>
-              <p>{{$frontend['contents']['service_column3_content']}}</p>
+              <p>{!! $frontend['contents']['service_column3_content'] !!}</p>
             </li>
           </ul>
           <div class="align-center margin-top-67 padding-bottom-87">
