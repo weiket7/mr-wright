@@ -103,12 +103,12 @@ driveway sett or home repair. We provide a professional service for private and 
 
     DB::table('frontend_content')->insert([
       'page'=>'about',
-      'key'=>'about_title',
+      'key'=>'about_page_title',
       'value'=>'WE ARE RENOVATE',
     ]);
     DB::table('frontend_content')->insert([
       'page'=>'about',
-      'key'=>'about_content',
+      'key'=>'about_page_content',
       'value'=>'Founded by Kevin Smith back in 2000, Renovate has established itself as one of the greatest and prestigious providers of construction focused interior renovation services and building. We provide a professional renovation and installation services with a real focus on customer satisfaction. Our construction Services is a multi-task company specializing in the following core areas:',
     ]);
     DB::table('frontend_content')->insert([

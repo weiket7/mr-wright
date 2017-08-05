@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FrontendBanner;
 use App\Models\FrontendContent;
 use App\Models\FrontendService;
+use Cache;
 use Illuminate\Http\Request;
 use Log;
 
@@ -31,6 +32,7 @@ class FrontendController extends Controller
       if (! $banner->saveBanner($input)) {
         return redirect()->back()->withErrors($banner->getValidation())->withInput($input);
       }
+      Cache::flush();
       return redirect("admin/frontend/banner/save/".$banner_id)->with("msg", "Banner " . $action . "d");
     }
     $data['action'] = $action;
@@ -48,6 +50,7 @@ class FrontendController extends Controller
     $frontend_content = new FrontendContent();
     if ($request->isMethod('post')) {
       $frontend_content->saveContent($key, $request->get('value'));
+      Cache::flush();
       return redirect("admin/frontend/content/save/".$key)->with("msg", "Content updated");
     }
 
@@ -64,6 +67,7 @@ class FrontendController extends Controller
       if (! $service->saveService($input)) {
         return redirect()->back()->withErrors($service->getValidation())->withInput($input);
       }
+      Cache::flush();
       return redirect("admin/frontend/service/save/".$service_id)->with("msg", "Service " . $action . "d");
     }
     $data['action'] = $action;

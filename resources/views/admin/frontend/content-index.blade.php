@@ -40,7 +40,7 @@
           </tr>
         </table>
 
-        <h4>About</h4>
+        <h4>Home - About</h4>
         <table class="table table-bordered table-hover">
           <tr>
             <td width="90px"></td>
@@ -80,7 +80,7 @@
           </tr>
         </table>
 
-        <h4>Services</h4>
+        <h4>Home - Services</h4>
         <table class="table table-bordered table-hover">
           <tr>
             <td></td>
@@ -111,6 +111,38 @@
             <td><a href="{{ url('admin/frontend/content/save/service_column3_image') }}">{{$contents['service_column3_image']}}</a></td>
             <td><a href="{{ url('admin/frontend/content/save/service_column3_title') }}">{{$contents['service_column3_title']}}</a></td>
             <td><a href="{{ url('admin/frontend/content/save/service_column3_content') }}">{{$contents['service_column3_content']}}</a></td>
+          </tr>
+        </table>
+  
+        <h4>About Page</h4>
+        <table class="table table-bordered table-hover">
+          <tr>
+            <td width="90px">Title</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_page_title') }}">{{$contents['about_page_title']}}</a></td>
+          </tr>
+          <tr>
+            <td>Content</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_page_content') }}">{{$contents['about_page_content']}}</a></td>
+          </tr>
+          <tr>
+            <td>Line 1</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_line1') }}">{{$contents['about_line1']}}</a></td>
+          </tr>
+          <tr>
+            <td>Line 2</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_line2') }}">{{$contents['about_line2']}}</a></td>
+          </tr>
+          <tr>
+            <td>Line 3</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_line3') }}">{{$contents['about_line3']}}</a></td>
+          </tr>
+          <tr>
+            <td>Line 4</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_line4') }}">{{$contents['about_line4']}}</a></td>
+          </tr>
+          <tr>
+            <td>Line 5</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_line5') }}">{{$contents['about_line5']}}</a></td>
           </tr>
         </table>
 

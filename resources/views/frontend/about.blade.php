@@ -8,8 +8,10 @@
       </div>
     </div>
     <div class="column column-1-2">
-      <h2 class="box-header align-left"> {{$frontend['contents']['about_title']}}</h2>
-      <p class="description t1">Founded by Kevin Smith back in 2000, Renovate has established itself as one of the greatest and prestigious providers of construction focused interior renovation services and building. We provide a professional renovation and installation services with a real focus on customer satisfaction. Our construction Services is a multi-task company specializing in the following core areas:</p>
+      <h2 class="box-header align-left"> {{$frontend['contents']['about_page_title']}}</h2>
+      <p class="description t1">
+        {{$frontend['contents']['about_page_content']}}
+      </p>
       <ul class="list margin-top-20">
         @for($i=1; $i<=5; $i++)
           @if ($frontend['contents']['about_line'.$i])
