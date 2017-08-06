@@ -29,9 +29,9 @@
     <div class="r-row page-margin-top">
       <div class="column-1-1">
         <h3 class="box-header">{{$current_service->title}}</h3>
-        <p class="description t1">
+        <div class="description t1">
           {!! $current_service->content !!}
-        </p>
+        </div>
       </div>
     </div>
   </div>

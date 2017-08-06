@@ -78,7 +78,7 @@
       <div class="r-row full-width gray page-padding-top-section">
         <div class="r-row">
           <h2 class="box-header">{{$frontend['contents']['service_title']}}</h2>
-          <p class="description align-center">{!! $frontend['contents']['service_content'] !!}</p>
+          <div class="description align-center">{!! $frontend['contents']['service_content'] !!}</div>
           <ul class="services-list clearfix page-margin-top">
             <li>
               <a href="{{url($frontend['contents']['service_column1_link'])}}">
