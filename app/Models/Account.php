@@ -342,15 +342,6 @@ class Account extends Eloquent
     Mail::to($user)
       ->send(new RegistrationApproveMail($registration));
   }
-
-  public function registrationPending($email)
-  {
-    $registration = Registration::where('email', $email)->first();
-    if ($registration != null && $registration->stat == RegistrationStat::Pending) {
-      return true;
-    }
-    return false;
-  }
   
   public function hitRequesterLimit($company_id) {
     $company = Company::find($company_id);

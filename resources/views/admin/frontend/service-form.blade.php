@@ -19,7 +19,7 @@
         <div class="form-group">
           <label class="control-label col-md-2">Content</label>
           <div class="col-md-10">
-            {{Form::textarea('content', $service->content, ['id'=>'txt-content', 'rows'=>'7', 'class'=>'form-control', 'maxlength'=>1000])}}
+            {{Form::textarea('content', $service->content, ['id'=>'txt-content', 'rows'=>'15', 'class'=>'form-control', 'maxlength'=>1000])}}
           </div>
         </div>
         <div class="form-group">
@@ -85,7 +85,7 @@
   <script>
     $(document).ready(function() {
       $('#txt-content').wysihtml5({
-        "stylesheets": ["../../../../assets/metronic/global/plugins/bootstrap-wysihtml5/wysiwyg-color.css"]
+        "stylesheets": ["{{asset('assets/metronic/global/plugins/bootstrap-wysihtml5/wysiwyg-color.css')}}"]
       });
     });
   </script>

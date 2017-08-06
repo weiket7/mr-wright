@@ -6,6 +6,7 @@ use App\Mail\InviteMail;
 use App\Models\Company;
 use App\Models\Contact;
 use App\Models\Enums\UserStat;
+use App\Models\Enums\UserType;
 use App\Models\ForgotPassword;
 use App\Models\FrontendService;
 use App\Models\Account;
@@ -38,11 +39,7 @@ class SiteController extends Controller
   public function login(Request $request) {
     $input = $request->all();
     if ($request->isMethod("post")) {
-      /*$account_service = new Account();
-      if ($account_service->registrationPending($input['username'])) {
-        return redirect()->back()->with('login_error', 'Please make payment according to the sent email and wait for operator to approve your account');
-      }*/
-      if (! Auth::attempt(['username' => $input['username'], 'password' => $input['password'], 'stat' => UserStat::Active])) {
+      if (! Auth::attempt(['username' => $input['username'], 'password' => $input['password'], 'stat'=>UserStat::Active, 'type'=>UserType::Requester])) {
         return redirect()->back()->with('login_error', 'Wrong username/password');
       }
       $referral = $request->get('referral');

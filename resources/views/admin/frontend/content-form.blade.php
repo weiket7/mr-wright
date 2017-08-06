@@ -19,7 +19,7 @@
         <div class="form-group">
           <label class="control-label col-md-3">Value</label>
           <div class="col-md-9">
-            {{Form::textarea('value', $value, ['id'=>"txt-content", 'rows'=>'5', 'class'=>'form-control'])}}
+            {{Form::textarea('value', $value, ['id'=>"txt-content", 'rows'=>'20', 'class'=>'form-control'])}}
           </div>
         </div>
         
@@ -52,7 +52,7 @@
   <script>
     $(document).ready(function() {
       $('#txt-content').wysihtml5({
-        "stylesheets": ["../../../../assets/metronic/global/plugins/bootstrap-wysihtml5/wysiwyg-color.css"]
+        "stylesheets": ["{{asset('assets/metronic/global/plugins/bootstrap-wysihtml5/wysiwyg-color.css')}}"]
       });
     });
   </script>

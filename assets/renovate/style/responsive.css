@@ -5,7 +5,7 @@
 	{
 		max-width: 850px;
 	}
-	p.description
+	div.description
 	{
 		font-size: 14px;
 		line-height: 24px;
@@ -84,15 +84,6 @@
 	.boxed .header-container.sticky.move
 	{
 		max-width: 850px;
-	}
-	/* --- page header --- */
-	.page-header-left
-	{
-		width: 300px;
-	}
-	.page-header-right
-	{	
-		width: 450px;
 	}
 	/* --- menu --- */
 	.menu-container

@@ -33,7 +33,7 @@
     <div class="clearfix">
       <div class="r-row page-margin-top-section padding-bottom-66">
         <h2 class="box-header">{{$frontend['contents']['about_title']}}</h2>
-        <p class="description align-center">{!! $frontend['contents']['about_content'] !!}</p>
+        <div class="description align-center">{!! $frontend['contents']['about_content'] !!}</div>
         <div class="r-row page-margin-top">
           <div class="column column-1-4">
             <ul class="features-list big">
@@ -103,7 +103,7 @@
             </li>
           </ul>
           <div class="align-center margin-top-67 padding-bottom-87">
-            <a class="more" href="services.html" title="VIEW ALL SERVICES">VIEW ALL SERVICES</a>
+            <a class="more" href="{{url('services')}}" title="VIEW ALL SERVICES">VIEW ALL SERVICES</a>
           </div>
         </div>
       </div>
