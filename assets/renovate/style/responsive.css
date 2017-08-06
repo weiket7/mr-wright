@@ -433,11 +433,11 @@
 	{
 		width: 240px !important;
 	}
-	.contact-form .cost-calculator-box p.description.t1
+	.contact-form .cost-calculator-box div.description.t1
 	{
 		margin-top: 0;
 	}
-	.contact-form .cost-calculator-sum p.description.t1
+	.contact-form .cost-calculator-sum div.description.t1
 	{
 		margin-top: 14px;
 	}

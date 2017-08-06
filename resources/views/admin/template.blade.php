@@ -51,14 +51,13 @@ License: You must have a valid license purchased only from themeforest(the above
   <!-- BEGIN THEME LAYOUT STYLES -->
   <link href="{{asset('assets/metronic/layouts/layout2/css/layout.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('assets/metronic/layouts/layout2/css/themes/blue.min.css')}}" rel="stylesheet" type="text/css" id="style_color" />
+  @section('css')
+  @show
   <link href="{{asset('assets/metronic/layouts/layout2/css/custom.css')}}" rel="stylesheet" type="text/css" />
   <!-- END THEME LAYOUT STYLES -->
   
-  @section('css')
-  
-  @show
-  
-  <link rel="shortcut icon" href="favicon.ico" /> </head>
+  <link rel="shortcut icon" href="{{asset('favicon.png')}}">
+</head>
 <!-- END HEAD -->
 
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">

@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Helpers\BackendHelper;
 use Eloquent, DB, Validator, Log;
 
 class FrontendContent extends Eloquent
@@ -44,7 +45,7 @@ class FrontendContent extends Eloquent
   }
 
   public function getContent($key) {
-    return DB::table('frontend_content')->where('key', $key)->value('value');
+    return DB::table('frontend_content')->where('key', $key)->first();
   }
 
   public function getBanner($key) {
@@ -55,10 +56,15 @@ class FrontendContent extends Eloquent
     return DB::table('frontend_service')->where('key', $key)->first();
   }
 
-  public function saveContent($key, $value)
-  {
-    DB::table('frontend_content')->where('key', $key)->update([
-      'value'=>$value
-    ]);
+  public function saveContent($key, $input, $is_image) {
+    if ($is_image) {
+      if (isset($input['value'])) {
+        $dir = $key == "favicon" ? "" : "images/frontend";
+        $image_name = BackendHelper::uploadFile($dir, $key, $input['value']);
+        DB::table('frontend_content')->where('key', $key)->update(['value'=>$image_name]);
+      }
+    } else {
+      DB::table('frontend_content')->where('key', $key)->update(['value'=>$input['value']]);
+    }
   }
 }

@@ -48,14 +48,15 @@ class FrontendController extends Controller
 
   public function contentSave(Request $request, $key) {
     $frontend_content = new FrontendContent();
+    $content = $frontend_content->getContent($key);
     if ($request->isMethod('post')) {
-      $frontend_content->saveContent($key, $request->get('value'));
+      $frontend_content->saveContent($key, $request->all(), $content->is_image);
       Cache::flush();
       return redirect("admin/frontend/content/save/".$key)->with("msg", "Content updated");
     }
-
+  
     $data['key'] = $key;
-    $data['value'] = $frontend_content->getContent($key);
+    $data['content'] = $frontend_content->getContent($key);
     return view('admin/frontend/content-form', $data);
   }
   

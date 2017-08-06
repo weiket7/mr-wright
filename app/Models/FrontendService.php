@@ -35,7 +35,6 @@ class FrontendService extends Eloquent
     $this->meta_desc = $input['meta_desc'];
     $this->save();
   
-  
     if (isset($input['image1'])) {
       $image_name = BackendHelper::uploadFile('images/frontend/services/', 'service-'.$this->frontend_service_id.'-1', $input['image1']);
       DB::table('frontend_service')->where('frontend_service_id', $this->frontend_service_id)->update(['image1'=>$image_name]);

@@ -30,7 +30,7 @@
 
   <link href="{{asset('assets/metronic/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
 
-  <link rel="shortcut icon" href="{{asset('assets/renovate/images/favicon.ico')}}">
+  <link rel="shortcut icon" href="{{asset('favicon.png')}}">
 </head>
 <body>
 <div class="site-container">

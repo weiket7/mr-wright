@@ -13,11 +13,14 @@ class FrontendContentTable extends Migration
       $t->string('page', 50);
       $t->string('key', 50);
       $t->string('value', 1000);
+      $t->boolean('is_image');
+      $t->string('dimension');
     });
 
     /*GENERAL*/
     $data = [
       ['key'=>'contact', 'value'=>'+65 3222 3512'],
+      ['key'=>'favicon', 'value'=>'favicon.png', 'is_image'=>1, 'dimension'=>'png, 16 x 16px'],
       ['key'=>'email', 'value'=>'support@mrwright.sg'],
       ['key'=>'opening_hours', 'value'=>'Mon - Fri: 08.00 - 17.00'],
       ['key'=>'facebook', 'value'=>'http://facebook.com'],
@@ -29,7 +32,9 @@ Winter Park, FL 32789']
     ];
     foreach($data as $d) {
       DB::table('frontend_content')->insert([
-        'page'=>'general', 'key'=>$d['key'], 'value'=>$d['value']
+        'page'=>'general', 'key'=>$d['key'], 'value'=>$d['value'],
+        'is_image'=>isset($d['is_image']) ? $d['is_image'] : 0,
+        'dimension'=>isset($d['dimension']) ? $d['dimension'] : 0,
       ]);
     }
 
@@ -99,8 +104,6 @@ driveway sett or home repair. We provide a professional service for private and 
       'key'=>'footer_about',
       'value'=>'Founded by Kevin Smith back in 2000. Renovate has estabilished itself as one of the greatest and prestigious providers of construction focused interior renovation services and building.',
     ]);
-
-
     DB::table('frontend_content')->insert([
       'page'=>'about',
       'key'=>'about_page_title',
@@ -110,6 +113,13 @@ driveway sett or home repair. We provide a professional service for private and 
       'page'=>'about',
       'key'=>'about_page_content',
       'value'=>'Founded by Kevin Smith back in 2000, Renovate has established itself as one of the greatest and prestigious providers of construction focused interior renovation services and building. We provide a professional renovation and installation services with a real focus on customer satisfaction. Our construction Services is a multi-task company specializing in the following core areas:',
+    ]);
+    DB::table('frontend_content')->insert([
+      'page'=>'about',
+      'key'=>'about_page_image',
+      'value'=>'about_page_image.jpg',
+      'is_image'=>true,
+      'dimension'=>'480 x 480px'
     ]);
     DB::table('frontend_content')->insert([
       'page'=>'about',

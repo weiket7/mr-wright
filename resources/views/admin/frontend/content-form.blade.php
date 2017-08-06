@@ -7,7 +7,7 @@
   
   <div class="portlet light bordered">
     <div class="portlet-body form">
-      <form action="" method="post" class="form-horizontal">
+      <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
         {!! csrf_field() !!}
         <div class="form-group">
           <label class="control-label col-md-3">Key</label>
@@ -17,9 +17,23 @@
         </div>
         
         <div class="form-group">
-          <label class="control-label col-md-3">Value</label>
+          <label class="control-label col-md-3">
+            Value
+            @if($content->is_image)
+              <br><small>{{ $content->dimension }}</small>
+            @endif
+          </label>
           <div class="col-md-9">
-            {{Form::textarea('value', $value, ['id'=>"txt-content", 'rows'=>'20', 'class'=>'form-control'])}}
+            @if($content->is_image)
+              <input type="file" name="value">
+              @if($key == 'favicon')
+                <img src="{{ url('/'.$content->value) }}">
+              @else
+                <img src="{{ url('assets/images/frontend/'.$content->value) }}" style="max-height: 200px">
+              @endif
+            @else
+              {{Form::textarea('value', $content->value, ['id'=>"txt-content", 'rows'=>'20', 'class'=>'form-control'])}}
+            @endif
           </div>
         </div>
         
@@ -29,7 +43,7 @@
               <div class="row">
                 <div class="col-md-offset-3 col-md-9">
                   <button type="submit" class="btn green">Submit</button>
-                  <button type="button" class="btn default">Cancel</button>
+                  <button type="button" class="btn default" onclick="location.href='{{url('admin/frontend/content')}}'">Cancel</button>
                 </div>
               </div>
             </div>

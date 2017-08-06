@@ -4,14 +4,14 @@
   <div class="r-row">
     <div class="column column-1-2 align-center re-preload">
       <div class="image-wrapper">
-        <img src="{{asset('assets/images/frontend/about.jpg')}}" alt="" class="radius">
+        <img src="{{asset('assets/images/frontend/'.$frontend['contents']['about_page_image'])}}" alt="" class="radius">
       </div>
     </div>
     <div class="column column-1-2">
       <h2 class="box-header align-left"> {{$frontend['contents']['about_page_title']}}</h2>
-      <p class="description t1">
+      <div class="description t1">
         {!! ($frontend['contents']['about_page_content']) !!}
-      </p>
+      </div>
       <ul class="list margin-top-20">
         @for($i=1; $i<=5; $i++)
           @if ($frontend['contents']['about_line'.$i])
@@ -20,7 +20,7 @@
         @endfor
       </ul>
       <div class="page-margin-top">
-        <a class="more" href="services.html" title="OUR SERVICES">OUR SERVICES</a>
+        <a class="more" href="{{url('services')}}" title="OUR SERVICES">OUR SERVICES</a>
       </div>
     </div>
   </div>

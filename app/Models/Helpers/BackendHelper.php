@@ -42,18 +42,22 @@ class BackendHelper
   }
 
   public static function uploadFile($folder, $name, $image) {
-    $base_path = self::getDir();
-    $destination_path = $base_path . $folder . "/";
+    $base_path = self::getBasePath();
+    if ($name == 'favicon') {
+      $destination_path = $base_path;
+    } else {
+      $destination_path = $base_path . "/assets/" . $folder . "/";
+    }
     $file_name = str_slug($name).'.'.$image->getClientOriginalExtension();
     $image->move($destination_path, $file_name);
     return $file_name;
   }
 
-  public static function getDir() {
+  public static function getBasePath() {
     if (App::environment('local')) {
-      $base_path = $_SERVER['DOCUMENT_ROOT'] . "/mrwright/assets/";
+      $base_path = $_SERVER['DOCUMENT_ROOT'] . "/mrwright/";
     } else {
-      $base_path = $_SERVER['DOCUMENT_ROOT'] . "/assets/";
+      $base_path = $_SERVER['DOCUMENT_ROOT'];
     }
     return $base_path;
   }
