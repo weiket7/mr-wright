@@ -1,8 +1,13 @@
 @extends('frontend.template', ['title'=>'membership'])
 
 @section('content')
+
+  <div class="description align-center">
+    {!! $frontend['contents']['membership_content'] !!}
+  </div>
+  
   <?php $cols = 12 / count($memberships); ?>
-  <div class="row">
+  <div class="row page-margin-top">
     @foreach($memberships as $membership)
     <div class="col-sm-{{$cols}} col-xs-12">
       <div class="list-group">

@@ -97,18 +97,17 @@ driveway sett or home repair. We provide a professional service for private and 
       DB::table('frontend_content')->insert(['page'=>'payment', 'key'=>$d['key'], 'value'=>$d['value']]);
     }
 
-
-    /*FOOTER*/
+    /*MEMBERSHIP*/
     DB::table('frontend_content')->insert([
-      'page'=>'general',
-      'key'=>'footer_about',
-      'value'=>'Founded by Kevin Smith back in 2000. Renovate has estabilished itself as one of the greatest and prestigious providers of construction focused interior renovation services and building.',
+      'page'=>'membership',
+      'key'=>'membership_content',
+      'value'=>'Only 3 steps to fixing your urgent repair work:<br>
+Step 1: Login to Account<br>
+Step 2: Report Fault Online<br>
+Step 3: Accept Quotation by Email',
     ]);
-    DB::table('frontend_content')->insert([
-      'page'=>'about',
-      'key'=>'about_page_title',
-      'value'=>'WE ARE RENOVATE',
-    ]);
+    
+    /*ABOUT*/
     DB::table('frontend_content')->insert([
       'page'=>'about',
       'key'=>'about_page_content',
@@ -146,7 +145,18 @@ driveway sett or home repair. We provide a professional service for private and 
       'key'=>'about_line5',
       'value'=>'15 Years Experience and a Real Focus on Customer Satisfaction',
     ]);
-
+  
+    /*FOOTER*/
+    DB::table('frontend_content')->insert([
+      'page'=>'general',
+      'key'=>'footer_about',
+      'value'=>'Founded by Kevin Smith back in 2000. Renovate has estabilished itself as one of the greatest and prestigious providers of construction focused interior renovation services and building.',
+    ]);
+    DB::table('frontend_content')->insert([
+      'page'=>'about',
+      'key'=>'about_page_title',
+      'value'=>'WE ARE RENOVATE',
+    ]);
 
   }
 

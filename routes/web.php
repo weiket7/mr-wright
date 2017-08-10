@@ -11,15 +11,6 @@
 |
 */
 
-use App\Mail\ContactMail;
-use App\Mail\RegisterExistingUenMail;
-use App\Models\Account;
-use App\Models\Contact;
-use App\Models\Requester;
-use App\Models\Services\TicketService;
-use App\Models\User;
-use Carbon\Carbon;
-
 Route::get('/', 'Frontend\SiteController@index');
 Route::get('home', 'Frontend\SiteController@index');
 
