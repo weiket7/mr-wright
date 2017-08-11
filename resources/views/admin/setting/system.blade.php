@@ -57,7 +57,7 @@
         </tr>
         <tr>
           <td>Upload Directory</td>
-          <td>{{BackendHelper::getDir('')}}</td>
+          <td>{{BackendHelper::getBasePath('')}}</td>
         </tr>
         <tr>
           <td>Accesses</td>

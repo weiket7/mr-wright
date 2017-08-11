@@ -2,10 +2,10 @@
 
 @section("content")
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-xs-6">
       <h1 class="page-title">Memberships</h1>
     </div>
-    <div class="col-md-6 text-right">
+    <div class="col-xs-6 text-right">
       <button type="button" class="btn blue" onclick="location.href='{{url('admin/membership/save')}}'">Create</button>
     </div>
   </div>

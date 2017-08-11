@@ -32,9 +32,12 @@ class AccessSeeder extends Seeder
     DB::table('access')->insert(['access_id'=>61, 'name'=>'role', 'type'=>AccessType::Module]);
     DB::table('access')->insert(['access_id'=>62, 'name'=>'access', 'type'=>AccessType::Module]);
     DB::table('access')->insert(['access_id'=>63, 'name'=>'category-for-ticket', 'type'=>AccessType::Module]);
-    DB::table('access')->insert(['access_id'=>64, 'name'=>'frontend', 'type'=>AccessType::Module]);
-    DB::table('access')->insert(['access_id'=>65, 'name'=>'registration', 'type'=>AccessType::Module]);
-    DB::table('access')->insert(['access_id'=>66, 'name'=>'payment-method', 'type'=>AccessType::Module]);
-    DB::table('access')->insert(['access_id'=>67, 'name'=>'membership', 'type'=>AccessType::Module]);
+    DB::table('access')->insert(['access_id'=>64, 'name'=>'working-day-time', 'type'=>AccessType::Module]);
+    DB::table('access')->insert(['access_id'=>65, 'name'=>'blocked-date', 'type'=>AccessType::Module]);
+    DB::table('access')->insert(['access_id'=>66, 'name'=>'blocked-date-time', 'type'=>AccessType::Module]);
+    DB::table('access')->insert(['access_id'=>67, 'name'=>'frontend', 'type'=>AccessType::Module]);
+    DB::table('access')->insert(['access_id'=>68, 'name'=>'registration', 'type'=>AccessType::Module]);
+    DB::table('access')->insert(['access_id'=>69, 'name'=>'payment-method', 'type'=>AccessType::Module]);
+    DB::table('access')->insert(['access_id'=>70, 'name'=>'membership', 'type'=>AccessType::Module]);
   }
 }

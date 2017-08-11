@@ -12,7 +12,7 @@ class RoleAccessSeeder extends Seeder
       $ticket_set[$i] = $i;
     }
     $module_set = [];
-    for($i=50; $i<=67; $i++) {
+    for($i=50; $i<=70; $i++) {
       $module_set[$i] = $i;
     }
 
