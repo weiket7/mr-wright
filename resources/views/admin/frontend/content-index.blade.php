@@ -124,8 +124,17 @@
         <h4>Membership page</h4>
         <table class="table table-bordered table-hover">
           <tr>
-            <td>Content</td>
+            <td>Membership content</td>
             <td><a href="{{ url('admin/frontend/content/save/membership_content') }}">{{$contents['membership_content']}}</a></td>
+          </tr>
+        </table>
+  
+  
+        <h4>Members page</h4>
+        <table class="table table-bordered table-hover">
+          <tr>
+            <td>Invite content</td>
+            <td><a href="{{ url('admin/frontend/content/save/invite_content') }}">{{$contents['invite_content']}}</a></td>
           </tr>
         </table>
         

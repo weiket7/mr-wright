@@ -53,6 +53,10 @@
       Would you like to <a href="{{url('membership/upgrade')}}">upgrade the membership plan</a>?
     </div>
   @else
+    <div class="description" style="margin-top: 10px; margin-bottom: 10px;">
+      {{ $frontend['contents']['invite_content'] }}
+    </div>
+    
     @if(session()->has('invited_email'))
       <div class="alert alert-success">
         Invite has been sent to {{ session()->get('invited_email') }}

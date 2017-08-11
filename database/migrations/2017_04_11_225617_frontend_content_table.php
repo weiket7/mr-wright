@@ -105,6 +105,14 @@ Step 1: Login to Account<br>
 Step 2: Report Fault Online<br>
 Step 3: Accept Quotation by Email',
     ]);
+  
+    /*MEMBERS*/
+    DB::table('frontend_content')->insert([
+      'page'=>'members',
+      'key'=>'invite_content',
+      'value'=>'To invite your colleague to Mr Wright under your membership plan, fill in his email below.
+      An email to be sent to him and he will be asked to fill in his details.',
+    ]);
     
     /*ABOUT*/
     DB::table('frontend_content')->insert([
@@ -174,7 +182,6 @@ Step 3: Accept Quotation by Email',
       ['page'=>'contact', 'key'=>'contact_meta_title', 'value'=>'Contact Mr Wright'],
       ['page'=>'contact', 'key'=>'contact_keyword', 'value'=>'Contact plumbing, repair, painting'],
       ['page'=>'contact', 'key'=>'contact_desc', 'value'=>'Contact Renovate has established itself as one of the greatest and prestigious providers of construction focused interior renovation services and building.'],
-
     ];
     foreach($data as $d) {
       DB::table('frontend_content')->insert([
