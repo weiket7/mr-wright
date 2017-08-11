@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{{ config('app.name') }}</title>
+  <title>{{ isset($title) ? $title : config('app.name') }}</title>
   <!--meta-->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.2" />
   <meta name="format-detection" content="telephone=no" />
-  <meta name="keywords" content="Construction, Renovation" />
-  <meta name="description" content="Responsive Construction Renovation Template" />
+  <meta name="keywords" content="{{ isset($meta_keyword) ? $meta_keyword : "" }}" />
+  <meta name="description" content="{{ isset($meta_desc) ? $meta_desc : "" }}" />
   
   <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
   <link href='//fonts.googleapis.com/css?family=Raleway:100,300,400,500,600,700,900' rel='stylesheet' type='text/css'>
@@ -265,19 +265,19 @@
     </div>
   </div>
   
-  @if(isset($title))
+  @if(isset($header))
     <div class="r-row gray full-width page-header vertical-align-table">
       <div class="r-row full-width padding-top-bottom-50 vertical-align-cell">
         <div class="r-row">
           <div class="page-header-left">
-            <h1>{{ strtoupper($title) }}</h1>
+            <h1>{{ strtoupper($header) }}</h1>
           </div>
         </div>
       </div>
     </div>
   @endif
   
-  @if(isset($title))
+  @if(isset($header))
     <div class="r-row page-margin-top margin-bottom-40">
 
       @if (isset($errors) && $errors->any())

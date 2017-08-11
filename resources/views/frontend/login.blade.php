@@ -1,4 +1,4 @@
-@extends('frontend.template', ['title'=>'log in'])
+@extends('frontend.template', ['header'=>'log in'])
 
 @section('content')
   <form method="post" action="" class="form-horizontal">

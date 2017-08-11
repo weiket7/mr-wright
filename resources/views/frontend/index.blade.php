@@ -1,4 +1,8 @@
-@extends('frontend.template')
+@extends('frontend.template', [
+  'title'=>$frontend['contents']['home_meta_title'],
+  'meta_keyword'=>$frontend['contents']['home_keyword'],
+  'meta_desc'=>$frontend['contents']['home_desc']
+])
 
 @section('content')
   <!-- Slider Revolution -->

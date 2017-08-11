@@ -1,4 +1,9 @@
-@extends('frontend.template', ['title'=>'contact us'])
+@extends('frontend.template', [
+  'header'=>'contact us',
+  'title'=>$frontend['contents']['contact_meta_title'],
+  'meta_keyword'=>$frontend['contents']['contact_keyword'],
+  'meta_desc'=>$frontend['contents']['contact_desc']
+])
 
 @section('content')
   @if(session()->has('sent'))

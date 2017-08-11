@@ -107,7 +107,7 @@ class SiteController extends Controller
     return view('frontend/members', $data);
   }
 
-  //Link to this not added in frontend
+  //no link to this in frontend
   public function membersSave(Request $request, $requester_id = null) {
     $action = $requester_id == null ? 'create' : 'update';
     $requester = $requester_id == null ? new Requester() : Requester::find($requester_id);

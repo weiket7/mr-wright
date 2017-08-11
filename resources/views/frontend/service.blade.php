@@ -1,4 +1,9 @@
-@extends('frontend.template', ['title'=>'services / '.$current_service->title])
+@extends('frontend.template', [
+  'header'=>'services / '.$current_service->title,
+  'title'=>$frontend['contents']['service_meta_title'] . ' - ' . $current_service->title,
+  'meta_keyword'=>$frontend['contents']['service_keyword'],
+  'meta_desc'=>$frontend['contents']['service_desc']
+])
 
 @section('content')
   <div class="column column-1-4">

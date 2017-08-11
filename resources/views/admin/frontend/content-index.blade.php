@@ -3,15 +3,17 @@
 @extends("admin.template")
 
 @section("content")
+<style>
+  h4 {
+    font-weight: 600;
+  }
+</style>
+  
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
       <h1 class="page-title">Contents</h1>
     </div>
-    <div class="col-md-6 text-right">
-      <button type="button" class="btn blue" onclick="location.href='{{url('admin/content/save')}}'">Create</button>
-    </div>
   </div>
-
 
   <div class="portlet light bordered">
     <div class="portlet-body">
@@ -42,9 +44,10 @@
             <td>Favicon</td>
             <td><a href="{{ url('admin/frontend/content/save/favicon') }}">{{ $contents['favicon'] }}</a></td>
           </tr>
+          
         </table>
 
-        <h4>Home - About</h4>
+        <h4>Home - About section</h4>
         <table class="table table-bordered table-hover">
           <tr>
             <td width="90px"></td>
@@ -84,7 +87,7 @@
           </tr>
         </table>
 
-        <h4>Home - Services</h4>
+        <h4>Home - Services section</h4>
         <table class="table table-bordered table-hover">
           <tr>
             <td></td>
@@ -117,8 +120,16 @@
             <td><a href="{{ url('admin/frontend/content/save/service_column3_content') }}">{{$contents['service_column3_content']}}</a></td>
           </tr>
         </table>
-  
-        <h4>About Page</h4>
+        
+        <h4>Membership page</h4>
+        <table class="table table-bordered table-hover">
+          <tr>
+            <td>Content</td>
+            <td><a href="{{ url('admin/frontend/content/save/membership_content') }}">{{$contents['membership_content']}}</a></td>
+          </tr>
+        </table>
+        
+        <h4>About page</h4>
         <table class="table table-bordered table-hover">
           <tr>
             <td width="90px">Title</td>
@@ -153,6 +164,71 @@
             <td><a href="{{ url('admin/frontend/content/save/about_line5') }}">{{$contents['about_line5']}}</a></td>
           </tr>
         </table>
+  
+        <h4>Meta</h4>
+        <table class="table table-bordered table-hover">
+          <tr>
+            <td width="160px">Home title</td>
+            <td><a href="{{ url('admin/frontend/content/save/home_meta_title') }}">{{$contents['home_meta_title']}}</a></td>
+          </tr>
+          <tr>
+            <td>Home keyword</td>
+            <td><a href="{{ url('admin/frontend/content/save/home_keyword') }}">{{$contents['home_keyword']}}</a></td>
+          </tr>
+          <tr>
+            <td>Home desc</td>
+            <td><a href="{{ url('admin/frontend/content/save/home_desc') }}">{{$contents['home_desc']}}</a></td>
+          </tr>
+          <tr>
+            <td width="90px">About title</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_meta_title') }}">{{$contents['about_meta_title']}}</a></td>
+          </tr>
+          <tr>
+            <td>About keyword</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_keyword') }}">{{$contents['about_keyword']}}</a></td>
+          </tr>
+          <tr>
+            <td>About desc</td>
+            <td><a href="{{ url('admin/frontend/content/save/about_desc') }}">{{$contents['about_desc']}}</a></td>
+          </tr>
+          <tr>
+            <td width="90px">Services title</td>
+            <td><a href="{{ url('admin/frontend/content/save/service_meta_title') }}">{{$contents['service_meta_title']}}</a></td>
+          </tr>
+          <tr>
+            <td>Services keyword</td>
+            <td><a href="{{ url('admin/frontend/content/save/service_keyword') }}">{{$contents['service_keyword']}}</a></td>
+          </tr>
+          <tr>
+            <td>Services desc</td>
+            <td><a href="{{ url('admin/frontend/content/save/service_desc') }}">{{$contents['service_desc']}}</a></td>
+          </tr>
+          <tr>
+            <td width="90px">Membership title</td>
+            <td><a href="{{ url('admin/frontend/content/save/membership_meta_title') }}">{{$contents['membership_meta_title']}}</a></td>
+          </tr>
+          <tr>
+            <td>Membership keyword</td>
+            <td><a href="{{ url('admin/frontend/content/save/membership_keyword') }}">{{$contents['membership_keyword']}}</a></td>
+          </tr>
+          <tr>
+            <td>Membership desc</td>
+            <td><a href="{{ url('admin/frontend/content/save/membership_desc') }}">{{$contents['membership_desc']}}</a></td>
+          </tr>
+          <tr>
+            <td width="90px">Contact title</td>
+            <td><a href="{{ url('admin/frontend/content/save/contact_meta_title') }}">{{$contents['contact_meta_title']}}</a></td>
+          </tr>
+          <tr>
+            <td>Contact keyword</td>
+            <td><a href="{{ url('admin/frontend/content/save/contact_keyword') }}">{{$contents['contact_keyword']}}</a></td>
+          </tr>
+          <tr>
+            <td>Contact desc</td>
+            <td><a href="{{ url('admin/frontend/content/save/contact_desc') }}">{{$contents['contact_desc']}}</a></td>
+          </tr>
+        </table>
+        
 
       </div>
     </div>
