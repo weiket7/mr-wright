@@ -15,9 +15,13 @@
     </div>
   </div>
 
+
   <div class="portlet light bordered">
     <div class="portlet-body">
       <div class="table-responsive">
+        <h4><a href="{{url('assets\renovate\fonts\streamline-large\icons-reference.html')}}">Icons reference</a></h4>
+        <br>
+  
         <h4>General</h4>
         <table class="table table-bordered table-hover">
           <tr>
@@ -128,7 +132,6 @@
             <td><a href="{{ url('admin/frontend/content/save/membership_content') }}">{{$contents['membership_content']}}</a></td>
           </tr>
         </table>
-  
   
         <h4>Members page</h4>
         <table class="table table-bordered table-hover">

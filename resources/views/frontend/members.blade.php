@@ -54,7 +54,7 @@
     </div>
   @else
     <div class="description" style="margin-top: 10px; margin-bottom: 10px;">
-      {{ $frontend['contents']['invite_content'] }}
+      {!! $frontend['contents']['invite_content'] !!}
     </div>
     
     @if(session()->has('invited_email'))

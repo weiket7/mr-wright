@@ -110,8 +110,7 @@ Step 3: Accept Quotation by Email',
     DB::table('frontend_content')->insert([
       'page'=>'members',
       'key'=>'invite_content',
-      'value'=>'To invite your colleague to Mr Wright under your membership plan, fill in his email below.
-      An email to be sent to him and he will be asked to fill in his details.',
+      'value'=>'To invite your colleague to Mr Wright under your membership plan, fill in his email below.<br>An email to be sent to him and he will be asked to fill in his details.',
     ]);
     
     /*ABOUT*/

@@ -25,6 +25,8 @@
   <link href="{!! asset("assets/metronic/global/css/components.css") !!}" rel="stylesheet" />
   <link href="{!! asset("assets/metronic/global/css/plugins.css") !!}" rel="stylesheet" />
   <link href="{!! asset("assets/metronic/layouts/layout2/css/custom.css") !!}" rel="stylesheet" />
+  
+  <link rel="shortcut icon" href="{{asset('favicon.png')}}">
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
