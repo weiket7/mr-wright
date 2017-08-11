@@ -199,7 +199,7 @@
                       <tr>
                         <th width="255px">Image / Video</th>
                         <th>Issue</th>
-                        <th>Expected</th>
+                        <th>Expected Outcome</th>
                       </tr>
                       </thead>
                       <tbody>

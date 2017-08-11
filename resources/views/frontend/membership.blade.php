@@ -1,6 +1,6 @@
 @extends('frontend.template', [
-  'header'=>'membership',
-  'title'=>$frontend['contents']['membership_meta_title'],
+  'title'=>'membership',
+  'meta_title'=>$frontend['contents']['membership_meta_title'],
   'meta_keyword'=>$frontend['contents']['membership_keyword'],
   'meta_desc'=>$frontend['contents']['membership_desc']
 ])

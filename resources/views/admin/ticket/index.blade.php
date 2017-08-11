@@ -27,6 +27,7 @@
               <th class="search-th-stat">Status</th>
               <th class="search-th-txt">Code</th>
               <th>Title</th>
+              <th>Show top</th>
             </tr>
             </thead>
             <tbody>
@@ -34,6 +35,7 @@
               <td>{!! Form::select('stat', TicketStat::$values, '', ['class'=>'form-control search-stat', 'placeholder'=>'']) !!}</td>
               <td>{!! Form::text('ticket_code', '', ['class'=>'form-control search-txt']) !!}</td>
               <td>{!! Form::text('title', '', ['class'=>'form-control search-txt']) !!}</td>
+              <td>{!! Form::text('limit', '', ['class'=>'form-control search-txt']) !!}</td>
             </tr>
             </tbody>
           </table>

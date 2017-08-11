@@ -1,3 +1,4 @@
+
 <ul class="list-group">
   @foreach($ticket->history as $h)
     <li class="list-group-item">
@@ -18,7 +19,7 @@
       @elseif ($h->action == 'draft')
         Drafted
       @endif
-      by {{ $h->action_by }} on {{ ViewHelper::formatDateTime($ticket->action_on) }}
+      by {{ $h->action_by }} on {{ ViewHelper::formatDateTime($h->action_on) }}
     </li>
   @endforeach
 </ul>

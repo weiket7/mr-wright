@@ -164,7 +164,7 @@
                 Supported image formats: png, jpg, gif, video formats: wmv, avi, flv, mp4, mov
               </th>
               <th>Issue</th>
-              <th>Expected</th>
+              <th>Expected Outcome</th>
             </tr>
             </thead>
             <tbody>
@@ -191,7 +191,7 @@
                 <textarea v-bind:name="'issue' + index" class="form-control" placeholder="Issue">@{{ issue.issue_desc }}</textarea>
               </td>
               <td>
-                <textarea v-bind:name="'expected' + index"  class="form-control" placeholder="Expected">@{{ issue.expected_desc }}</textarea>
+                <textarea v-bind:name="'expected' + index"  class="form-control" placeholder="Expected Outcome">@{{ issue.expected_desc }}</textarea>
               </td>
             </tr>
             </tbody>

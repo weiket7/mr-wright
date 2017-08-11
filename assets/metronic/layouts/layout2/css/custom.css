@@ -24,6 +24,14 @@
 .page-header.navbar .page-logo {
   background: #525E64;
 }
+@media (max-width: 768px) {
+  .login-logo {
+    width: 280px;
+  }
+}
+.login .content .form-actions {
+  border-bottom: none;
+}
 
 /*custom*/
 .ticket-image {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{{ isset($title) ? $title : config('app.name') }}</title>
+  <title>{{ isset($meta_title) ? $meta_title : config('app.name') }}</title>
   <!--meta-->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.2" />
@@ -265,19 +265,19 @@
     </div>
   </div>
   
-  @if(isset($header))
+  @if(isset($title))
     <div class="r-row gray full-width page-header vertical-align-table">
       <div class="r-row full-width padding-top-bottom-50 vertical-align-cell">
         <div class="r-row">
           <div class="page-header-left">
-            <h1>{{ strtoupper($header) }}</h1>
+            <h1>{{ strtoupper($title) }}</h1>
           </div>
         </div>
       </div>
     </div>
   @endif
   
-  @if(isset($header))
+  @if(isset($title))
     <div class="r-row page-margin-top margin-bottom-40">
 
       @if (isset($errors) && $errors->any())
