@@ -20,7 +20,7 @@ class CompanyService
   }
 
   public function searchCompany($input) {
-    $s = "SELECT company_id, code, stat, name
+    $s = "SELECT company_id, code, stat, name, requester_count
     from company
     where 1 ";
     if (isset($input['stat']) && $input['stat'] != '') {
@@ -34,7 +34,7 @@ class CompanyService
 
 
   public function searchOffice($input) {
-    $s = "SELECT office_id, o.stat, o.name, c.name as company_name
+    $s = "SELECT office_id, o.stat, o.name, c.name as company_name, o.requester_count
     from office as o
     inner join company as c on o.company_id = c.company_id
     where 1 ";

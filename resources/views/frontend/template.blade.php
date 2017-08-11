@@ -41,7 +41,7 @@
           <a href="tel:+149752322235">{{$frontend['contents']['contact']}}</a>
         </li>
         <li class="template-mail">
-          <a href="mailto:renovate@mail.com">{{$frontend['contents']['email']}}</a>
+          <a href="mailto:{{$frontend['contents']['email']}}">{{$frontend['contents']['email']}}</a>
         </li>
         <li class="template-clock">
           {{$frontend['contents']['opening_hours']}}

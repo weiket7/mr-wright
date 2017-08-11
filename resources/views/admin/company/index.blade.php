@@ -17,7 +17,7 @@
       <form action="" method="post">
         {!! csrf_field() !!}
         <div class="table-responsive">
-          <table class="tabl  e table-bordered">
+          <table class="table table-bordered">
             <thead>
             <tr>
               <th class="search-th-stat">Status</th>
