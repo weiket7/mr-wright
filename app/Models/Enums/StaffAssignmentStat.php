@@ -6,6 +6,7 @@ abstract class StaffAssignmentStat {
   const Completed  = 'C';
 
   static $values = [
+    ''=>'',
     self::Pending=>'Pending',
     self::Attended=>'Attended',
     self::Completed=>'Completed',

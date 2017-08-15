@@ -5,6 +5,7 @@ use App\Mail\ContactMail;
 use App\Mail\InviteMail;
 use App\Models\Company;
 use App\Models\Contact;
+use App\Models\Enums\MembershipStat;
 use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
 use App\Models\ForgotPassword;
@@ -206,7 +207,7 @@ class SiteController extends Controller
 
   public function membership(Request $request) {
     $membership_service = new Membership();
-    $data['memberships'] = $membership_service->getMembershipAll();
+    $data['memberships'] = $membership_service->getMembershipAll(MembershipStat::Active);
     return view("frontend/membership", $data);
   }
 

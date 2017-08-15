@@ -14,7 +14,7 @@
     </div>
     <div class="column column-1-2">
       <h2 class="box-header align-left"> {{$frontend['contents']['about_page_title']}}</h2>
-      <div class="description t1">
+      <div class="description about-content">
         {!! ($frontend['contents']['about_page_content']) !!}
       </div>
       <ul class="list margin-top-20">

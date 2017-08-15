@@ -148,6 +148,8 @@
               <thead>
               <tr>
                 <th width="120px">Ticket Code</th>
+                <th width="120px">Ticket Status</th>
+                <th width="150px">Assignment Status</th>
                 <th width="120px">Date</th>
                 <th width="120px">Time Start</th>
                 <th>Time End</th>
@@ -158,6 +160,8 @@
                 @foreach($assignment as $a)
                 <tr>
                   <td><a href="{{url('admin/ticket/view/'.$a->ticket_id)}}">{{ $a->ticket_code }}</a></td>
+                  <td>{{ \App\Models\Enums\TicketStat::$values[$a->ticket_stat] }}</td>
+                  <td>{{ \App\Models\Enums\StaffAssignmentStat::$values[$a->assignment_stat] }}</td>
                   <td>{{ ViewHelper::formatDate($a->date) }}</td>
                   <td>{{ ViewHelper::formatTime($a->time_start) }}</td>
                   <td>{{ ViewHelper::formatTime($a->time_end) }}</td>

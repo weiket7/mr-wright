@@ -121,9 +121,10 @@ class Staff extends Eloquent
   }
   
   public function getStaffAssignments() {
-    $data = DB::table('staff_assignment')
+    $data = DB::table('staff_assignment as sa')
+      ->join('ticket as t', 'sa.ticket_id', '=', 't.ticket_id')
       ->where('staff_id', $this->staff_id)
-      ->select('staff_id', 'ticket_id', 'ticket_code', 'date', 'time_start', 'time_end')
+      ->select('staff_id', 'sa.ticket_id', 'sa.ticket_code', 't.stat as ticket_stat', 'date', 'sa.stat as assignment_stat', 'time_start', 'time_end')
       ->orderBy('date', 'desc')->get();
   
     $res = [];

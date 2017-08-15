@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Enums\MembershipStat;
 use Eloquent, DB, Validator, Log;
 use ViewHelper;
 
@@ -14,9 +15,9 @@ class Membership extends Eloquent
   
   public function getMembershipAll($stat = null) {
     if ($stat) {
-      $memberships = Membership::orderBy('position')->where('stat', $stat)->get();
+      $memberships = Membership::orderBy('stat')->orderBy('position')->where('stat', $stat)->get();
     } else {
-      $memberships = Membership::orderBy('position')->get();
+      $memberships = Membership::orderBy('stat')->orderBy('position')->get();
     }
     foreach($memberships as $m) {
       $m->full_name = $m->title . ' - ' . $m->requester_limit . ' at ' . $m->effective_price . ' / month';
@@ -54,10 +55,16 @@ class Membership extends Eloquent
     if ( $this->validation->fails() ) {
       return false;
     }
+    $free_trial = isset($input['free_trial']) ? true : false;
+    if ($free_trial && $this->existingMembershipFreeTrial()) {
+      $this->validation->errors()->add("free_trial", "An existing membership is free trial, disable that first");
+      return false;
+    }
     
     $this->name = $input['name'];
     $this->stat = $input['stat'];
     $this->requester_limit = $input['requester_limit'];
+    $this->free_trial = $free_trial;
     $this->effective_price = $input['effective_price'];
     $this->full_name = $this->name . ' - ' . $this->requester_limit . ' user'. ($this->requester_limit == 1 ? '' : 's') . ' at ' . ViewHelper::formatCurrency($this->effective_price) . ' / month';
 
@@ -76,5 +83,10 @@ class Membership extends Eloquent
       $pm->save();
     }
     return true;
+  }
+  
+  private function existingMembershipFreeTrial()
+  {
+    return DB::table("membership")->where('free_trial', 1)->count() > 1;
   }
 }

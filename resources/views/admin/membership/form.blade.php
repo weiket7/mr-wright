@@ -6,7 +6,7 @@
   <h1 class="page-title">
     {{ucfirst($action)}} Membership
   </h1>
-  
+
   <div class="portlet light bordered">
     <div class="portlet-body form">
       <form action="" method="post" class="form-horizontal">
@@ -48,6 +48,21 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Free Trial</label>
+                <div class="col-md-9">
+                  <div class="mt-checkbox-inline">
+                    <label class="mt-checkbox mt-checkbox-outline">
+                      {{ Form::checkbox('free_trial', 1, $membership->free_trial) }}Yes
+                      <span></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="form-actions">
           <div class="row">
@@ -55,7 +70,7 @@
               <div class="row">
                 <div class="col-md-offset-3 col-md-9">
                   <button type="submit" class="btn green">Submit</button>
-                  <button type="button" class="btn default">Cancel</button>
+                  <button type="button" class="btn blue" onclick="location.href='{{url('admin/membership')}}'">Back</button>
                 </div>
               </div>
             </div>

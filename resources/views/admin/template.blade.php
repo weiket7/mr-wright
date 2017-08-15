@@ -229,6 +229,9 @@ License: You must have a valid license purchased only from themeforest(the above
   <!-- BEGIN THEME GLOBAL SCRIPTS -->
   <script src="{{asset('assets/metronic/global/scripts/app.min.js')}}" type="text/javascript"></script>
   <!-- END THEME GLOBAL SCRIPTS -->
+  <!-- BEGIN PAGE LEVEL SCRIPTS -->
+  <script src="{{url("assets/metronic/global/plugins/bootstrap-confirmation/bootstrap-confirmation.min.js")}}" type="text/javascript"></script>
+  <!-- END PAGE LEVEL SCRIPTS -->
   <!-- BEGIN THEME LAYOUT SCRIPTS -->
   <script src="{{asset('assets/metronic/layouts/layout2/scripts/layout.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('assets/metronic/layouts/layout2/scripts/demo.min.js')}}" type="text/javascript"></script>

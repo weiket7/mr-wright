@@ -27,6 +27,7 @@
               <th>Name</th>
               <th>Number of Requesters</th>
               <th>Price</th>
+              <th>Free Trial</th>
             </tr>
             </thead>
             <tbody>
@@ -37,6 +38,7 @@
                 <td><a href="{{url("admin/membership/save/".$membership->membership_id)}}">{{ $membership->name }}</a></td>
                 <td>{{ $membership->requester_limit }}</td>
                 <td>{{ ViewHelper::formatCurrency($membership->effective_price) }}</td>
+                <td>{{ $membership->free_trial ? "Yes" : "No" }}</td>
               </tr>
             @endforeach
             </tbody>
