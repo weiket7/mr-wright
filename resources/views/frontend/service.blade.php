@@ -21,12 +21,12 @@
   <div class="column column-3-4">
     <div class="r-row">
       <div class="column column-1-2">
-        <a href="{{url('images/frontend/services/'.$current_service->image1)}}" class="prettyPhoto re-preload" title="{{$current_service->title}}">
+        <a href="{{url('assets/images/frontend/services/'.$current_service->image1)}}" class="prettyPhoto re-preload" title="{{$current_service->title}}">
           <img src='{{url('assets/images/frontend/services/'.$current_service->image1)}}' alt='img'>
         </a>
       </div>
       <div class="column column-1-2">
-        <a href="{{url('images/frontend/services/'.$current_service->image2)}}" class="prettyPhoto re-preload" title="{{$current_service->title}}">
+        <a href="{{url('assets/images/frontend/services/'.$current_service->image2)}}" class="prettyPhoto re-preload" title="{{$current_service->title}}">
           <img src='{{url('assets/images/frontend/services/'.$current_service->image2)}}' alt='img'>
         </a>
       </div>

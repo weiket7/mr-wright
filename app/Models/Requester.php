@@ -151,7 +151,7 @@ class Requester extends Eloquent
       ->select('r.name', 'admin', 'mobile', 'email', 'designation', 'username', 'r.company_id', 'r.office_id', 'r.stat',
         'c.name as company_name', 'c.stat as company_stat', 'c.addr as company_addr', 'c.postal as company_postal', 'uen',
         'o.name as office_name', 'o.stat as office_stat', 'o.addr as office_addr', 'o.postal as office_postal',
-        'membership_name', 'requester_limit', 'effective_price', 'c.requester_count')
+        'c.membership_name', 'c.requester_limit', 'effective_price', 'c.requester_count')
       ->where('username', $username)
       ->where('r.stat', RequesterStat::Active)->first();
   }

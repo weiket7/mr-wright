@@ -164,7 +164,7 @@
             </label>
             <div class="col-md-9">
               <label class="form-control-static">
-                {{ $requester->requester_count }}
+                {{ $requester->requester_count }} / {{ $requester->requester_limit }}
               </label>
             </div>
           </div>
@@ -203,7 +203,7 @@
       <h3>Offices</h3>
       <br>
 
-      <a href="{{url('office/save')}}">Create Office</a>
+      <a href="{{url('office/save')}}">Create Office <i class="fa fa-plus"></i></a>
       <br><br>
 
       <table class="table table-bordered">
