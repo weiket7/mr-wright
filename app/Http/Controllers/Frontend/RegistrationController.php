@@ -13,47 +13,58 @@ use App\Models\Services\PaymentService;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
+use Log;
 
 class RegistrationController extends Controller
 {
   public function index(Request $request)
   {
     $membership_id = $request->get('membership_id');
-    if (! empty($membership_id) && Membership::where('membership_id', $membership_id)->count() == 0) {
-      return view('frontend/error', ['error'=>'Membership does not exist']);
+    if (!empty($membership_id) && Membership::where('membership_id', $membership_id)->count() == 0) {
+      return view('frontend/error', ['error' => 'Membership does not exist']);
     }
-
-    $register = new Account();
+    
+    $account_service = new Account();
     if ($request->isMethod("post")) {
       $input = $request->all();
-      $validate = $register->validateRegistration($input) == false;
+      $validate = $account_service->validateRegistration($input) == false;
       if ($validate) {
-        return redirect()->back()->withErrors($register->getValidation())->withInput($input);
+        return redirect()->back()->withErrors($account_service->getValidation())->withInput($input);
       }
-
-      $registration = $register->saveRegistration($input, $request->ip());
+      
+      $registration = $account_service->saveRegistration($input, $request->ip());
+        if ($membership_id) {
+          $membership = Membership::find($membership_id);
+          if ($membership->free_trial) {
+          $account_service->saveRegistrationFreeTrial($registration, $membership);
+          $account_service->approveRegistration($registration->registration_id);
+          $request->session()->put('registration_id', $registration->registration_id);
+          return redirect('register/success');
+        }
+      }
+  
       $request->session()->put('registration_id', $registration->registration_id);
-
-      $uen_exist = $register->uenExist($input['uen']);
+      
+      $uen_exist = $account_service->uenExist($input['uen']);
       if ($uen_exist) {
         return redirect('register/existing-uen');
       }
       return redirect('register/membership')->with('membership_id', $membership_id);
     }
-
+    
     $data['membership_id'] = $membership_id;
     return view("frontend/register", $data);
   }
-
+  
   public function membership(Request $request)
   {
     $registration_id = $request->session()->get('registration_id');
-
+    
     $account_service = new Account();
     if ($request->isMethod("post")) {
       $input = $request->all();
       $registration = $account_service->saveRegistrationMembership($registration_id, $input);
-      if($registration == false) {
+      if ($registration == false) {
         return redirect()->back()->withErrors($account_service->getValidation())->withInput($input);
       }
       if ($registration->payment_method == 'R') { //credit card
@@ -75,8 +86,9 @@ class RegistrationController extends Controller
     $data['payment_methods'] = $payment_service->getPaymentMethods(PaymentMethodStat::Active)->prepend('');
     return view('frontend/register-membership', $data);
   }
-
-  public function existingUen(Request $request) {
+  
+  public function existingUen(Request $request)
+  {
     $registration_id = $request->session()->get('registration_id');
     if ($request->isMethod("post")) {
       $account_service = new Account();
@@ -87,12 +99,14 @@ class RegistrationController extends Controller
     }
     return view('frontend/register-existing-uen');
   }
-
-  public function success(Request $request) {
+  
+  public function success(Request $request)
+  {
     $code = $request->get('code');
     $registration = Registration::findOrFail($request->session()->get('registration_id'));
     $data['registration'] = $registration;
     $data['code'] = $code;
     return view("frontend/register-success", $data);
   }
+  
 }

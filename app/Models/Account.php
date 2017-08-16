@@ -95,13 +95,9 @@ class Account extends Eloquent
     }
 
     $membership = Membership::find($input['membership_id']);
-    $registration->membership_id = $membership->membership_id;
-    $registration->membership_full_name = $membership->full_name;
-    $registration->membership_name = $membership->name;
-    $registration->requester_limit = $membership->requester_limit;
-    $registration->effective_price = $membership->effective_price;
+    $this->assignMembership($registration, $membership);
     $registration->save();
-    
+  
     return $registration;
   }
 
@@ -350,5 +346,21 @@ class Account extends Eloquent
       return true;
     }
     return false;
+  }
+  
+  public function saveRegistrationFreeTrial($registration, $membership)
+  {
+    $this->assignMembership($registration, $membership);
+    $registration->save();
+  }
+  
+  private function assignMembership($registration, $membership)
+  {
+    $registration->membership_id = $membership->membership_id;
+    $registration->membership_full_name = $membership->full_name;
+    $registration->membership_name = $membership->name;
+    $registration->requester_limit = $membership->requester_limit;
+    $registration->effective_price = $membership->effective_price;
+    $registration->free_trial = $membership->free_trial;
   }
 }

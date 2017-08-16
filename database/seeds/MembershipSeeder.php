@@ -10,11 +10,12 @@ class MembershipSeeder extends Seeder
     DB::table('membership')->insert([
       'membership_id'=>1,
       'stat'=>MembershipStat::Active,
-      'name'=>'Tier 1',
+      'name'=>'Free Trial',
       'requester_limit'=>1,
-      'effective_price'=>1.1,
-      'full_name'=>'Tier 1 - 1 user at $30.00 / month',
+      'effective_price'=>0,
+      'full_name'=>'Free Trial',
       'position'=>1,
+      'free_trial'=>1,
     ]);
 
     DB::table('membership')->insert([
