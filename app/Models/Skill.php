@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 
+use App\Models\Helpers\BackendHelper;
 use Eloquent, DB, Validator, Log;
 
 class Skill extends Eloquent
@@ -18,16 +19,23 @@ class Skill extends Eloquent
     'name.required'=>'Name is required',
   ];
 
-  public function saveSkill($input) {
+  public function saveSkill($input, $image) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
     }
-
+  
     $this->name = $input['name'];
+    $this->desc = $input['desc'];
+    
+    if ($image) {
+      $this->image = BackendHelper::uploadFile('images', str_slug($this->name), $image);
+    }
+  
     $this->save();
     return true;
   }
+
 
 
   public function getValidation() {

@@ -20,7 +20,7 @@ class SkillController extends Controller
   
     if($request->isMethod('post')) {
       $input = $request->all();
-      if (!$skill->saveSkill($input)) {
+      if (!$skill->saveSkill($input, $request->file("image"))) {
         return redirect()->back()->withErrors($skill->getValidation())->withInput($input);
       }
       return redirect('admin/skill/save/' . $skill->skill_id)->with('msg', 'Skill ' . $action . "d");

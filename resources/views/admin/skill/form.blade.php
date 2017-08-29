@@ -7,7 +7,7 @@
 
   <div class="portlet light bordered">
     <div class="portlet-body form">
-      <form action="" method="post" class="form-horizontal">
+      <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
         {!! csrf_field() !!}
         <div class="form-body">
           <div class="row">
@@ -16,6 +16,31 @@
                 <label class="control-label col-md-3">Name</label>
                 <div class="col-md-9">
                   {{Form::text('name', $skill->name, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Description</label>
+                <div class="col-md-9">
+                  {{Form::textarea('desc', $skill->desc, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">
+                  Image<br>
+                </label>
+                <div class="col-md-9">
+                  @if(strlen($skill->image) > 0)
+                    <img src="{{asset("assets/images/".$skill->image)}}" class='thumbnail' style="max-height:200px;"/>
+                  @endif
+                  <input type='file' name='image'>
                 </div>
               </div>
             </div>
