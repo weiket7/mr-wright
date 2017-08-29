@@ -10,7 +10,7 @@
   
       <div class="form-group">
         <label class="control-label col-md-2">
-          Title
+          Title *
         </label>
         <div class="col-md-10">
           {{Form::text('title', $ticket->title, ['class'=>'form-control', 'autofocus'])}}
@@ -46,7 +46,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label class="control-label col-md-3">
-              Category
+              Category *
             </label>
             <div class="col-md-9">
               {{ Form::select('category_id', $categories, $ticket->category_id, ['placeholder'=>'', 'class'=>'form-control']) }}
@@ -71,13 +71,13 @@
             <label class="control-label col-md-3">
               Company Name
             </label>
-            <label class="col-md-9 form-control-static">
+            <div class="col-md-9 form-control-static r-text">
               @if($ticket->stat == null)
                 {{ $requester->company_name }}
               @else
                 {{ $ticket->company_name }}
               @endif
-            </label>
+            </div>
           </div>
         </div>
         <div class="col-md-6">
@@ -85,11 +85,8 @@
             <label class="control-label col-md-3">
               Office Name
             </label>
-            <div class="col-md-9">
-              
-              <label class="form-control-static">
-                {{ $requester->office_name }}
-              </label>
+            <div class="col-md-9 form-control-static r-text">
+              {{ $requester->office_name }}
             </div>
           </div>
         </div>
@@ -100,13 +97,13 @@
             <label class="control-label col-md-3">
               Address
             </label>
-            <label class="col-md-9 form-control-static" id="office_addr">
-              @if($ticket->stat == null)
-                {{ $requester->office_addr }}
-              @else
-                {{ $ticket->office_addr }}
-              @endif
-            </label>
+            <div class="col-md-9 form-control-static r-text" id="office_addr">
+                @if($ticket->stat == null)
+                  {{ $requester->office_addr }}
+                @else
+                  {{ $ticket->office_addr }}
+                @endif
+            </div>
           </div>
         </div>
         <div class="col-md-6">
@@ -114,13 +111,13 @@
             <label class="control-label col-md-3">
               Postal Code
             </label>
-            <label class="col-md-9 form-control-static" id="office_postal">
-              @if($ticket->stat == null)
-                {{ $requester->office_postal }}
-              @else
-                {{ $ticket->office_postal }}
-              @endif
-            </label>
+            <div class="col-md-9 form-control-static r-text" id="office_postal">
+                @if($ticket->stat == null)
+                  {{ $requester->office_postal }}
+                @else
+                  {{ $ticket->office_postal }}
+                @endif
+            </div>
           </div>
         </div>
       </div>
@@ -131,9 +128,13 @@
             <label class="control-label col-md-3">
               Requested By
             </label>
-            <label class="col-md-9 form-control-static">
-              Jessie on {{ ViewHelper::formatDateTime(\Carbon\Carbon::now()) }}
-            </label>
+            <div class="col-md-9 form-control-static r-text">
+              @if($action == "draft")
+                {{Auth::user()->username}} on {{ ViewHelper::formatDateTime(\Carbon\Carbon::now()) }}
+              @else
+                {{$ticket->requested_by}} on {{ ViewHelper::formatDateTime(\Carbon\Carbon::now()) }}
+              @endif
+            </div>
           </div>
         </div>
         <div class="col-md-6">

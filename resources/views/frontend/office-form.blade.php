@@ -21,9 +21,11 @@
             <label class="control-label col-md-3">
               Number of Requesters
             </label>
-            <label class="form-control-static col-md-9">
-              {{ $office->requester_count }}
-            </label>
+            <div class="col-md-9">
+              <div class="form-control-static r-text">
+                {{ $office->requester_count }}
+              </div>
+            </div>
           </div>
         @endif
       </div>

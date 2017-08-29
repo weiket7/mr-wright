@@ -24,13 +24,15 @@
         <table class="table table-bordered table-hover">
           <thead>
           <tr>
-            <th>Name</th>
+            <th width="200px  ">Name</th>
+            <th>Description</th>
           </tr>
           </thead>
           <tbody>
           @foreach($skills as $skill)
             <tr>
               <td><a href="{{url("admin/skill/save/".$skill->skill_id)}}">{{ $skill->name }}</a></td>
+              <td>{{ $skill->desc }}</td>
             </tr>
           @endforeach
           </tbody>

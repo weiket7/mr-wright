@@ -12,9 +12,11 @@
       <label class="control-label col-md-2">
         Title
       </label>
-      <label class="col-md-10 form-control-static">
-        {{ $ticket->title }}
-      </label>
+      <div class="col-md-10">
+        <div class="form-control-static">
+          {{ $ticket->title }}
+        </div>
+      </div>
     </div>
 
     <div class="row">
@@ -23,9 +25,11 @@
           <label class="control-label col-md-3">
             Ticket Code
           </label>
-          <label class="col-md-9 form-control-static">
-            {{ $ticket->ticket_code }}
-          </label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+              {{ $ticket->ticket_code }}
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -33,9 +37,11 @@
           <label class="control-label col-md-3">
             Status
           </label>
-          <label class="col-md-9 form-control-static">
-            {{ TicketStat::$values[$ticket->stat] }}
-          </label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+              {{ TicketStat::$values[$ticket->stat] }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -46,9 +52,11 @@
           <label class="control-label col-md-3">
             Category
           </label>
-          <label class="col-md-9 form-control-static">
-            {{ $ticket->category_name }}
-          </label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+              {{ $ticket->category_name }}
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -56,9 +64,11 @@
           <label class="control-label col-md-3">
             Urgency
           </label>
-          <label class="col-md-9 form-control-static">
-            {{ TicketUrgency::$values[$ticket->urgency] }}
-          </label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+              {{ TicketUrgency::$values[$ticket->urgency] }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -69,9 +79,11 @@
           <label class="control-label col-md-3">
             Quoted Price
           </label>
-          <label class="col-md-9 form-control-static">
-            {{ ViewHelper::formatCurrency($ticket->quoted_price) }}
-          </label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+              {{ ViewHelper::formatCurrency($ticket->quoted_price) }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -82,9 +94,11 @@
           <label class="control-label col-md-3">
             Company Name
           </label>
-          <label class="col-md-9 form-control-static">
-            {{ $ticket->company_name }}
-          </label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+              {{ $ticket->company_name }}
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -92,9 +106,11 @@
           <label class="control-label col-md-3">
             Office Name
           </label>
-          <label class="col-md-9 form-control-static">
-            {{ $ticket->office_name }}
-          </label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+              {{ $ticket->office_name }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -105,9 +121,11 @@
           <label class="control-label col-md-3">
             Address
           </label>
-          <label class="col-md-9 form-control-static">
-            {{ $ticket->office_addr }}
-          </label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+              {{ $ticket->office_addr }}
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -115,9 +133,11 @@
           <label class="control-label col-md-3">
             Postal Code
           </label>
-          <label class="col-md-9 form-control-static">
-            {{ $ticket->office_postal }}
-          </label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+              {{ $ticket->office_postal }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -128,9 +148,11 @@
           <label class="control-label col-md-3">
             Requested By
           </label>
-          <label class="col-md-9 form-control-static">
-            Jessie on {{ ViewHelper::formatDateTime(Carbon::now()) }}
-          </label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+            {{ $ticket->requested_by }} on {{ ViewHelper::formatDateTime(Carbon::now()) }}
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -138,9 +160,11 @@
           <label class="control-label col-md-3">
             Description
           </label>
-          <label class="col-md-9 form-control-static">
-            {!! nl2br($ticket->requester_desc) !!}
-          </label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+              {!! nl2br($ticket->requester_desc) !!}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -152,9 +176,11 @@
             <label class="control-label col-md-3">
               Payment Method
             </label>
-            <label class="col-md-9 form-control-static">
-              {{ $ticket->ref_no }}
-            </label>
+            <div class="col-md-9">
+              <div class="form-control-static">
+                {{ $ticket->ref_no }}
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-md-6">
@@ -162,9 +188,11 @@
             <label class="control-label col-md-3">
               Ref No
             </label>
-            <label class="col-md-9 form-control-static">
-              {{ $ticket->ref_no }}
-            </label>
+            <div class="col-md-9">
+              <div class="form-control-static">
+                {{ $ticket->ref_no }}
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -40,8 +40,8 @@
 
 
 /*BOOTSTRAP*/
-label {
-  font-weight: normal;
+.form-control-static {
+  font-family: "Raleway";
 }
 .page-header {
   padding-top: 5px;

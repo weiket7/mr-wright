@@ -29,28 +29,30 @@
               <div class="form-body">
                 <div class="form-group">
                   <label class="control-label col-md-2">Title</label>
-                  <label class="col-md-10 form-control-static">
+                  <div class="col-md-10 form-control-static">
                     {{ $ticket->title }}
-                  </label>
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                       <label class="control-label col-md-3">Ticket Code</label>
-                      <label class="col-md-9 form-control-static">
+                      <div class="col-md-9 form-control-static">
                         {{ $ticket->ticket_code }}
-                      </label>
+                      </div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                       <label class="control-label col-md-3">Status</label>
-                      <label class="col-md-9 form-control-static">
-                        {{ TicketStat::$values[$ticket->stat] }}
-                        @if(in_array($ticket->stat, [TicketStat::Accepted, TicketStat::Declined]) && $ticket->accept_decline_reason)
-                          - {{ $ticket->accept_decline_reason }}
-                        @endif
-                      </label>
+                      <div class="col-md-9">
+                        <div class="form-control-static">
+                          {{ TicketStat::$values[$ticket->stat] }}
+                          @if(in_array($ticket->stat, [TicketStat::Accepted, TicketStat::Declined]) && $ticket->accept_decline_reason)
+                            - {{ $ticket->accept_decline_reason }}
+                          @endif
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

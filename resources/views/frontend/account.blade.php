@@ -16,9 +16,9 @@
           <label class="control-label col-md-3">
             Username
           </label>
-          <label class="form-control-static col-md-9">
+          <div class="form-control-static col-md-9 r-text">
             {{ $requester->username }}
-          </label>
+          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -86,8 +86,7 @@
           <label class="control-label col-md-3">
             Company Name
           </label>
-          <div class="col-md-9">
-            <label class="form-control-static">
+          <div class="col-md-9 form-control-static r-text">
               {{ $requester->company_name }}
             </label>
           </div>
@@ -99,10 +98,8 @@
             <label class="control-label col-md-3">
               UEN *
             </label>
-            <div class="col-md-9">
-              <label class="form-control-static">
-                {{ $requester->uen }}
-              </label>
+            <div class="col-md-9 form-control-static r-text">
+              {{ $requester->uen }}
             </div>
           </div>
         </div>
@@ -150,10 +147,8 @@
             <label class="control-label col-md-3">
               Membership Plan
             </label>
-            <div class="col-md-9">
-              <label class="form-control-static">
-                {{ $requester->membership_name }}
-              </label>
+            <div class="col-md-9 form-control-static r-text">
+              {{ $requester->membership_name }}
             </div>
           </div>
         </div>
@@ -162,10 +157,8 @@
             <label class="control-label col-md-3">
               Number of Requesters
             </label>
-            <div class="col-md-9">
-              <label class="form-control-static">
-                {{ $requester->requester_count }} / {{ $requester->requester_limit }}
-              </label>
+            <div class="col-md-9 form-control-static r-text">
+              {{ $requester->requester_count }} / {{ $requester->requester_limit }}
             </div>
           </div>
         </div>

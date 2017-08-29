@@ -13,7 +13,7 @@
           <label class="control-label col-md-3">Username <span class="required">*</span></label>
           <div class="col-md-9">
             @if($action == 'update')
-              <label class="form-control-static">{{ $requester->username }}</label>
+              <div class="form-control-static r-text">{{ $requester->username }}</div>
             @else
               {{Form::text('username', $requester->username, ['class'=>'form-control', 'maxlength'=>30])}}
             @endif
@@ -54,7 +54,7 @@
           </label>
           <div class="col-md-9">
             {{Form::password('password', ['class'=>'form-control'])}}
-            <span class="help-block">Fill in password field only when you want to update the password</span>
+            <span class="help-block r-text">Fill in password field only when you want to update the password</span>
           </div>
         </div>
       </div>
