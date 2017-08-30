@@ -147,7 +147,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="{{url('rewards')}}" title="Rewards">
+                  <a href="http://rewards.united-points.com/rewards/13/E4NChpnp3nLvctXzRjVp/detail" title="Rewards">
                     REWARDS
                   </a>
                 </li>
