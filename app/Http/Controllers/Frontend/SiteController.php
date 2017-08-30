@@ -34,7 +34,10 @@ class SiteController extends Controller
   }
 
   public function index() {
-    return view("frontend/index");
+    $frontend_service = new FrontendService();
+    $services = $frontend_service->getServiceAll();
+    $data['services'] = $services->toArray();
+    return view("frontend/index", $data);
   }
 
   public function login(Request $request) {
@@ -161,13 +164,13 @@ class SiteController extends Controller
   }
 
   public function service(Request $request, $slug = null) {
-    Log::info($slug);
     if (! empty($slug) && FrontendService::where('slug', $slug)->count() == 0) {
       return view('frontend/error', ['error'=>'Service does not exist']);
     }
     
     $frontend_service = new FrontendService();
-    $data['services'] = $frontend_service->getServiceAll();
+    $services = $frontend_service->getServiceAll();
+    $data['services'] = $services->keyBy("slug");
     if ($slug == null) {
       $data['current_service'] = array_first($data['services']);
     } else {

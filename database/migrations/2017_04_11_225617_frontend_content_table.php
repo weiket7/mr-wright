@@ -65,18 +65,9 @@ providers of construction focused interior renovation services and building.'],
       ['key'=>'service_title', 'value'=>'OUR SERVICES'],
       ['key'=>'service_content', 'value'=>'With over 15 years experience and real focus on customer satisfaction, you can rely on us for your next renovation,
 driveway sett or home repair. We provide a professional service for private and commercial customers.'],
-      ['key'=>'service_column1_image', 'value'=>'service1.jpg'],
-      ['key'=>'service_column1_title', 'value'=>'INTERIOR RENOVATION'],
       ['key'=>'service_column1_content', 'value'=>'We can help you bring new life to existing rooms and develop unused spaces.'],
-      ['key'=>'service_column1_link', 'value'=>''],
-      ['key'=>'service_column2_image', 'value'=>'service2.jpg'],
-      ['key'=>'service_column2_title', 'value'=>'DESIGN AND BUILD'],
       ['key'=>'service_column2_content', 'value'=>'From initial design and project specification to archieving a high end finish.'],
-      ['key'=>'service_column2_link', 'value'=>''],
-      ['key'=>'service_column3_image', 'value'=>'service3.jpg'],
-      ['key'=>'service_column3_title', 'value'=>'TILING AND PAINTING'],
       ['key'=>'service_column3_content', 'value'=>'We offer quality tiling and painting solutions for interior and exterior.'],
-      ['key'=>'service_column3_link', 'value'=>''],
     ];
     foreach($data as $d) {
       DB::table('frontend_content')->insert([

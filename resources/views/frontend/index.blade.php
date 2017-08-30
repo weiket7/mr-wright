@@ -84,27 +84,15 @@
           <h2 class="box-header">{{$frontend['contents']['service_title']}}</h2>
           <div class="description align-center">{!! $frontend['contents']['service_content'] !!}</div>
           <ul class="services-list clearfix page-margin-top">
+            @for($i=0; $i<=2; $i++)
             <li>
-              <a href="{{url($frontend['contents']['service_column1_link'])}}">
-                <img src="{{url('assets/images/frontend/'.$frontend['contents']['service_column1_image'])}}" alt="">
+              <a href="{{ url("services/".$services[$i]->slug) }}">
+                <img src="{{url('assets/images/frontend/services/'.$services[$i]->image1)}}" alt="">
               </a>
-              <h4 class="box-header"><a href="{{url($frontend['contents']['service_column1_link'])}}">{{$frontend['contents']['service_column1_title']}}</a></h4>
-              <p>{!! $frontend['contents']['service_column1_content'] !!}</p>
+              <h4 class="box-header"><a href="{{"services/".$services[$i]->slug}}">{{ $services[$i]->title }}</a></h4>
+              <p>{!! $frontend['contents']['service_column'.($i+1).'_content'] !!}</p>
             </li>
-            <li>
-              <a href="{{url($frontend['contents']['service_column2_link'])}}">
-                <img src="{{url('assets/images/frontend/'.$frontend['contents']['service_column2_image'])}}" alt="">
-              </a>
-              <h4 class="box-header"><a href="{{url($frontend['contents']['service_column2_link'])}}">{{$frontend['contents']['service_column2_title']}}</a></h4>
-              <p>{!! $frontend['contents']['service_column2_content'] !!}</p>
-            </li>
-            <li>
-              <a href="{{url($frontend['contents']['service_column3_link'])}}">
-                <img src="{{url('assets/images/frontend/'.$frontend['contents']['service_column3_image'])}}" alt="">
-              </a>
-              <h4 class="box-header"><a href="{{url($frontend['contents']['service_column3_link'])}}">{{$frontend['contents']['service_column3_title']}}</a></h4>
-              <p>{!! $frontend['contents']['service_column3_content'] !!}</p>
-            </li>
+            @endfor
           </ul>
           <div class="align-center margin-top-67 padding-bottom-87">
             <a class="more" href="{{url('services')}}" title="VIEW ALL SERVICES">VIEW ALL SERVICES</a>

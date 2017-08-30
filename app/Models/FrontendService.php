@@ -54,10 +54,6 @@ class FrontendService extends Eloquent
   public function getServiceAll()
   {
     $data = DB::table('frontend_service')->orderBy('position')->get();
-    $res = [];
-    foreach($data as $d) {
-      $res[$d->slug] = $d;
-    }
-    return $res;
+    return $data;
   }
 }

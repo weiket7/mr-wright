@@ -94,33 +94,23 @@
         <h4>Home - Services section</h4>
         <table class="table table-bordered table-hover">
           <tr>
-            <td></td>
-            <td>Image</td>
             <td>Title</td>
-            <td>Content</td>
+            <td><a href="{{ url('admin/frontend/content/save/service_title') }}">{{$contents['service_title']}}</a></td>
           </tr>
           <tr>
-            <td>Header</td>
-            <td></td>
-            <td><a href="{{ url('admin/frontend/content/save/service_title') }}">{{$contents['service_title']}}</a></td>
+            <td>Content</td>
             <td><a href="{{ url('admin/frontend/content/save/service_content') }}">{{$contents['service_content']}}</a></td>
           </tr>
           <tr>
             <td>Column 1</td>
-            <td><a href="{{ url('admin/frontend/content/save/service_column1_image') }}">{{$contents['service_column1_image']}}</a></td>
-            <td><a href="{{ url('admin/frontend/content/save/service_column1_title') }}">{{$contents['service_column1_title']}}</a></td>
             <td><a href="{{ url('admin/frontend/content/save/service_column1_content') }}">{{$contents['service_column1_content']}}</a></td>
           </tr>
           <tr>
             <td>Column 2</td>
-            <td><a href="{{ url('admin/frontend/content/save/service_column2_image') }}">{{$contents['service_column2_image']}}</a></td>
-            <td><a href="{{ url('admin/frontend/content/save/service_column2_title') }}">{{$contents['service_column2_title']}}</a></td>
             <td><a href="{{ url('admin/frontend/content/save/service_column2_content') }}">{{$contents['service_column2_content']}}</a></td>
           </tr>
           <tr>
             <td>Column 3</td>
-            <td><a href="{{ url('admin/frontend/content/save/service_column3_image') }}">{{$contents['service_column3_image']}}</a></td>
-            <td><a href="{{ url('admin/frontend/content/save/service_column3_title') }}">{{$contents['service_column3_title']}}</a></td>
             <td><a href="{{ url('admin/frontend/content/save/service_column3_content') }}">{{$contents['service_column3_content']}}</a></td>
           </tr>
         </table>
