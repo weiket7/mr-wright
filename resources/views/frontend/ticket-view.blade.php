@@ -305,7 +305,6 @@
           </tr>
           </thead>
           <tbody>
-          @if(ViewHelper::hasAccess('ticket_view_otp'))
             @foreach($ticket->otps as $otp)
               <tr>
                 <td>{{ ViewHelper::formatDate($otp->date) }}</td>
@@ -313,7 +312,6 @@
                 <td>{{ $otp->second_otp }}</td>
               </tr>
             @endforeach
-          @endif
           </tbody>
         </table>
       </div>
