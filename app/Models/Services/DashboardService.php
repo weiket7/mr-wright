@@ -7,10 +7,53 @@ use App\Models\Enums\TicketStat;
 use Carbon\Carbon;
 use DB;
 
-class DashboardService
-{
+class DashboardService {
+  public function getNewTicketCount() {
+    return DB::table('ticket')->where('stat', TicketStat::Opened)->count();
+  }
+  
+  public function getNewTicketValue() {
+    return DB::table('ticket')->where('stat', TicketStat::Opened)->sum('quoted_price');
+  }
+  
+  public function getCompletedTicketValue() {
+    return DB::table('ticket')->where('stat', TicketStat::Completed)->sum('quoted_price');
+  }
+  
   public function getTicketsRecent() {
-    return DB::table('ticket')->orderBy('updated_on', 'desc')->take(20)->get();
+    return DB::table('ticket')->orderBy('requested_on', 'desc')->take(20)->get();
+  }
+  
+  public function getCompletedTicketCountMonthly() {
+    $s = "SELECT DATE_FORMAT(completed_on, '%d %b %Y') as date, count(1) as count from ticket
+    where stat = :stat and completed_on >= :completed_on
+    group by month(completed_on)";
+    $p['stat'] = TicketStat::Completed;
+    $p['completed_on'] = Carbon::now()->subYear(1);
+    
+    $data = DB::select($s, $p);
+    
+    $res = [];
+    foreach($data as $d) {
+      $res = [$d->date, $d->count];
+    }
+    return $res;
+  }
+  
+  public function getCompletedTicketValueMonthly() {
+    $s = "SELECT DATE_FORMAT(completed_on, '%d %b %Y') as date, sum(quoted_price) as value from ticket
+    where stat = :stat and completed_on >= :completed_on
+    group by month(completed_on)";
+    $p['stat'] = TicketStat::Completed;
+    $p['completed_on'] = Carbon::now()->subYear(1);
+  
+    $data = DB::select($s, $p);
+  
+    $res = [];
+    foreach($data as $d) {
+      $res = [$d->date, (int)$d->value];
+    }
+    return $res;
   }
 
   public function getStaffAssignmentsToday() {

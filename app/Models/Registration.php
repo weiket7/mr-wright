@@ -50,8 +50,11 @@ class Registration extends Eloquent
       $date_to = Carbon::createFromFormat('d M Y', $input['date_to'])->addDay(1)->format('Y-m-d');
       $s .= " and (created_on >= '".$date_from."' and created_on < '".$date_to."')";
     }
+    
     $s .= " order by created_on desc";
-    Log::info($s);
+    if (isset($input['limit']) && $input['limit'] > 0) {
+      $s .= " limit ".$input['limit'];
+    }
     return DB::select($s);
   }
 

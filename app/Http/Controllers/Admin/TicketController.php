@@ -31,12 +31,13 @@ class TicketController extends Controller
   {
     if ($request->isMethod("post")) {
       $input = $request->all();
-      $tickets = $this->ticket_service->searchTicket($input);
       $request->flash();
-      $data['search_result'] = 'Showing ' . count($tickets) . ' ticket(s)';
     } else {
-      $tickets = Ticket::orderBy('updated_on', 'desc')->get();
+      $input["limit"] = 100;
     }
+    $tickets = $this->ticket_service->searchTicket($input);
+    $data['search_result'] = 'Showing ' . count($tickets) . ' ticket(s)';
+  
     $data['tickets'] = $tickets;
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
     return view("admin/ticket/index", $data);

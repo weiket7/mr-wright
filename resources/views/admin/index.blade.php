@@ -8,58 +8,74 @@
   </h1>
 
   <div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
       <a class="dashboard-stat dashboard-stat-v2 blue" href="#">
         <div class="visual">
           <i class="fa fa-comments"></i>
         </div>
         <div class="details">
           <div class="number">
-            <span data-counter="counterup" data-value="1349">1349</span>
+            <span data-counter="counterup" data-value="{{ $new_ticket_count }}">{{ ViewHelper::formatNumber($new_ticket_count) }}</span>
           </div>
-          <div class="desc"> New Feedbacks </div>
+          <div class="desc"> Number of New Tickets </div>
         </div>
       </a>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
       <a class="dashboard-stat dashboard-stat-v2 red" href="#">
         <div class="visual">
           <i class="fa fa-bar-chart-o"></i>
         </div>
         <div class="details">
           <div class="number">
-            <span data-counter="counterup" data-value="12,5">12,5</span>M$ </div>
-          <div class="desc"> Total Profit </div>
+            $<span data-counter="counterup" data-value="{{ $new_ticket_value }}">{{ ViewHelper::formatNumber($new_ticket_value) }}</span>
+          </div>
+          <div class="desc"> New Tickets Value </div>
         </div>
       </a>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
       <a class="dashboard-stat dashboard-stat-v2 green" href="#">
         <div class="visual">
           <i class="fa fa-shopping-cart"></i>
         </div>
         <div class="details">
           <div class="number">
-            <span data-counter="counterup" data-value="549">549</span>
+            $<span data-counter="counterup" data-value="{{ $completed_ticket_value }}">{{ ViewHelper::formatNumber($completed_ticket_value) }}</span>
           </div>
-          <div class="desc"> New Orders </div>
-        </div>
-      </a>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-      <a class="dashboard-stat dashboard-stat-v2 purple" href="#">
-        <div class="visual">
-          <i class="fa fa-globe"></i>
-        </div>
-        <div class="details">
-          <div class="number"> +
-            <span data-counter="counterup" data-value="89">89</span>% </div>
-          <div class="desc"> Brand Popularity </div>
+          <div class="desc"> Completed Tickets Value </div>
         </div>
       </a>
     </div>
   </div>
-
+  
+  <div class="row">
+    <div class="col-lg-6 col-xs-12 col-sm-12">
+      <div class="portlet light ">
+        <div class="portlet-title">
+          <div class="caption">
+            <span class="caption-subject bold uppercase font-dark">Monthly Number of Completed Tickets</span>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <div id="div-chart1"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-xs-12 col-sm-12">
+      <div class="portlet light ">
+        <div class="portlet-title">
+          <div class="caption ">
+            <span class="caption-subject font-dark bold uppercase">Monthly Completed Tickets Value</span>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <div id="div-chart2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <div class="row">
     <div class="col-lg-6 col-xs-12 col-sm-12">
       <div class="portlet light ">
@@ -95,7 +111,7 @@
                                 $action = "Pay"; break;
                             } ?>
                             @if($action)
-                              <button class="btn green btn-xs" onclick="location.href='{{url('ticket/save/'.$ticket->ticket_id)}}'">
+                              <button class="btn green btn-xs" onclick="location.href='{{url('admin/ticket/save/'.$ticket->ticket_id)}}'">
                                 {{ $action }}
                               </button>
                             @endif
@@ -104,13 +120,15 @@
                       </div>
                     </div>
                     <div class="col2">
-                      <div class="date"> {{ ViewHelper::timeAgo($ticket->updated_on) }} </div>
+                      <div class="date"> {{ ViewHelper::timeAgo($ticket->requested_on) }} </div>
                     </div>
                   </li>
                 @endforeach
               </ul>
-            </div><div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 186.335px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
-
+            </div>
+            <div class="slimScrollBar" style="background: rgb(187, 187, 187); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 186.335px;"></div>
+            <div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234); opacity: 0.2; z-index: 90; right: 1px;"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -152,4 +170,34 @@
     </div>
 
   </div>
+@endsection
+
+@section('script')
+  <script src="{{asset("assets/metronic/global/plugins/counterup/jquery.waypoints.min.js")}}" type="text/javascript"></script>
+  <script src="{{asset("assets/metronic/global/plugins/counterup/jquery.counterup.min.js")}}" type="text/javascript"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  
+  <script>
+    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawMultSeries);
+  
+    function drawMultSeries() {
+      var data = google.visualization.arrayToDataTable([
+        ['Date', 'Count'],
+        {!! json_encode($completed_ticket_count_monthly) !!}
+      ]);
+  
+      var options = { legend: {position: 'none'} };
+      var chart = new google.visualization.ColumnChart(document.getElementById('div-chart1'));
+      chart.draw(data, options);
+  
+      var data = google.visualization.arrayToDataTable([
+        ['Date', 'Value'],
+        {!! json_encode($completed_ticket_value_monthly) !!}
+      ]);
+  
+      var chart = new google.visualization.ColumnChart(document.getElementById('div-chart2'));
+      chart.draw(data, options);
+    }
+  </script>
 @endsection

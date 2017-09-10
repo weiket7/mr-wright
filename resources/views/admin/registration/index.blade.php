@@ -21,6 +21,7 @@
               <th class="search-th-txt">Company Name</th>
               <th class="search-th-txt">UEN</th>
               <th>Registered On</th>
+              <th>Show top</th>
             </tr>
             </thead>
             <tbody>
@@ -35,6 +36,7 @@
                   <input type="text" class="form-control" name="date_to" placeholder="To">
                 </div>
               </td>
+              <td>{!! Form::text('limit', 100, ['class'=>'form-control search-txt']) !!}</td>
             </tr>
             </tbody>
           </table>

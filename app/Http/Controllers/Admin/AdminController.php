@@ -24,6 +24,11 @@ class AdminController extends Controller
   
   public function dashboard() {
     $dashboard_service = new DashboardService();
+    $data['new_ticket_count'] = $dashboard_service->getNewTicketCount();
+    $data['new_ticket_value'] = $dashboard_service->getNewTicketValue();
+    $data['completed_ticket_count_monthly'] = $dashboard_service->getCompletedTicketCountMonthly();
+    $data['completed_ticket_value_monthly'] = $dashboard_service->getCompletedTicketValueMonthly();
+    $data['completed_ticket_value'] = $dashboard_service->getCompletedTicketValue();
     $data['tickets'] = $dashboard_service->getTicketsRecent();
     $data['staff_assignments'] = $dashboard_service->getStaffAssignmentsToday();
     return view("admin/index", $data);

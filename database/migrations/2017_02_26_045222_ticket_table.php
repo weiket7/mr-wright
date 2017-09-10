@@ -22,6 +22,7 @@ class TicketTable extends Migration
       $t->char('urgency', 1);
       $t->string('requested_by', 20);
       $t->dateTime('requested_on');
+      $t->dateTime("completed_on");
       $t->string('office_addr', 100);
       $t->string('office_postal', 20);
       $t->string('requester_mobile', 100);
@@ -37,7 +38,6 @@ class TicketTable extends Migration
       $t->string('operator_desc', 250);
       $t->string('quotation_desc', 250);
       $t->string('accept_decline_reason', 250);
-      $t->dateTime('updated_on');
     });
   }
   

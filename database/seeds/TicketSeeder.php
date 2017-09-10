@@ -98,6 +98,7 @@ class  TicketSeeder extends Seeder
     DB::table('ticket')->insert([
       'ticket_code'=>'UP_'.$month_year.'_005',
       'stat'=>TicketStat::Completed,
+      'completed_on'=>Carbon::now()->subDay(1),
       'title'=>'Fix tap in pantry',
       'company_id'=>1,
       'office_id'=>1,

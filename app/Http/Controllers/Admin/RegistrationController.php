@@ -21,12 +21,13 @@ class RegistrationController extends Controller
     $registration_service = new Registration();
     if($request->isMethod("post")) {
       $input = $request->all();
-      $registrations = $registration_service->searchRegistration($input);
       $request->flash();
-      $data['search_result'] = 'Showing ' . count($registrations) . ' registrations(s)';
     } else {
-      $registrations = Registration::orderBy('created_on', 'desc')->get();
+      $input["limit"] = 100;
     }
+    $registrations = $registration_service->searchRegistration($input);
+    $data['search_result'] = 'Showing ' . count($registrations) . ' registrations(s)';
+    
     $data['registrations'] = $registrations;
     return view("admin/registration/index", $data);
   }

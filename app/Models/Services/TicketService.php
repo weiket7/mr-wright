@@ -145,7 +145,6 @@ class TicketService
     $ticket->quotation_desc = $input['quotation_desc'];
     $ticket->requested_by = $input['requested_by'];
     $ticket->requested_on = Carbon::createFromFormat('d M Y', $input['requested_on']);
-    $ticket->updated_on = Carbon::now();
 
     if ($ticket_id == null) {
       $ticket->ticket_code = $this->getNextTicketCode($ticket->company_id);
@@ -187,7 +186,6 @@ class TicketService
 
     $ticket->requested_by = $username;
     $ticket->requested_on = Carbon::now();
-    $ticket->updated_on = Carbon::now();
 
     if ($ticket_id == null) {
       $ticket->ticket_code = $this->getNextTicketCode($ticket->company_id);
@@ -394,7 +392,7 @@ class TicketService
       $s .= " and title like '%".$input['title']."%'";
     }
     if (isset($input['ticket_code']) && $input['ticket_code'] != '') {
-      $s .= " and ticket_code = '".$input['ticket_code']."'";
+      $s .= " and ticket_code like '%".$input['ticket_code']."%'";
     }
 
     if (isset($input['quoted_price_from']) && isset($input['quoted_price_to'])
@@ -422,6 +420,9 @@ class TicketService
     }
     if (isset($input['requested_by']) && $input['requested_by'] != '') {
       $s .= " and requested_by = '".$input['requested_by']."'";
+    }
+    if (isset($input['limit']) && $input['limit'] > 0) {
+      $s .= " limit ".$input['limit'];
     }
     return DB::select($s);
   }
