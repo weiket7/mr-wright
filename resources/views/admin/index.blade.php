@@ -58,7 +58,11 @@
           </div>
         </div>
         <div class="portlet-body">
-          <div id="div-chart1"></div>
+          @if(count($completed_ticket_count_monthly))
+            <div id="div-chart1"></div>
+          @else
+            <div class="alert alert-info">No records found</div>
+          @endif
         </div>
       </div>
     </div>
@@ -70,7 +74,11 @@
           </div>
         </div>
         <div class="portlet-body">
-          <div id="div-chart2"></div>
+          @if(count($completed_ticket_count_monthly))
+            <div id="div-chart2"></div>
+          @else
+            <div class="alert alert-info">No records found</div>
+          @endif
         </div>
       </div>
     </div>
@@ -182,22 +190,28 @@
     google.charts.setOnLoadCallback(drawMultSeries);
   
     function drawMultSeries() {
-      var data = google.visualization.arrayToDataTable([
-        ['Date', 'Count'],
-        {!! json_encode($completed_ticket_count_monthly) !!}
-      ]);
-  
-      var options = { legend: {position: 'none'} };
-      var chart = new google.visualization.ColumnChart(document.getElementById('div-chart1'));
-      chart.draw(data, options);
-  
-      var data = google.visualization.arrayToDataTable([
-        ['Date', 'Value'],
-        {!! json_encode($completed_ticket_value_monthly) !!}
-      ]);
-  
-      var chart = new google.visualization.ColumnChart(document.getElementById('div-chart2'));
-      chart.draw(data, options);
+      @if(count($completed_ticket_count_monthly))
+        var r = {!! json_encode($completed_ticket_count_monthly) !!};
+        
+        var data = google.visualization.arrayToDataTable([
+          ['Date', 'Count'],
+          {!! json_encode($completed_ticket_count_monthly) !!}
+        ]);
+    
+        var options = { legend: {position: 'none'} };
+        var chart = new google.visualization.ColumnChart(document.getElementById('div-chart1'));
+        chart.draw(data, options);
+      @endif
+    
+      @if(count($completed_ticket_count_monthly))
+        var data = google.visualization.arrayToDataTable([
+          ['Date', 'Value'],
+          {!! json_encode($completed_ticket_value_monthly) !!}
+        ]);
+    
+        var chart = new google.visualization.ColumnChart(document.getElementById('div-chart2'));
+        chart.draw(data, options);
+      @endif
     }
   </script>
 @endsection
