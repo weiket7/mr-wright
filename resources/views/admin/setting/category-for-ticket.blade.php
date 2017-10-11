@@ -8,7 +8,7 @@
       </h1>
     </div>
     <div class="col-xs-6 text-right">
-      <button type="button" class="btn blue" onclick="location.href='{{url('admin/category/save')}}'">Create</button>
+      <button type="button" class="btn blue" onclick="location.href='{{url('admin/category-for-ticket/save')}}'">Create</button>
     </div>
   </div>
 
@@ -30,7 +30,7 @@
           <tbody>
           @foreach($categories as $id => $name)
             <tr>
-              <td><a href="{{url("category/save/".$id)}}">{{ $name }}</a></td>
+              <td><a href="{{url("admin/category-for-ticket/save/".$id)}}">{{ $name }}</a></td>
             </tr>
           @endforeach
           </tbody>

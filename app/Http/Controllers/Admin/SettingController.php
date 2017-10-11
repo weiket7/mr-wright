@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Access;
+use App\Models\CategoryForTicket;
 use App\Models\PaymentMethod;
 use App\Models\Services\AccessService;
 use App\Models\Services\TicketService;
@@ -47,6 +48,23 @@ class SettingController extends Controller
   public function categoryForTicket() {
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
     return view('admin/setting/category-for-ticket', $data);
+  }
+  
+  public function categoryForTicketSave(Request $request, $category_for_ticket_id = null) {
+    $action = $category_for_ticket_id == null ? 'create' : 'update';
+    $category = $category_for_ticket_id == null ? new CategoryForTicket() : CategoryForTicket::find($category_for_ticket_id);
+  
+    if($request->isMethod('post')) {
+      $input = $request->all();
+      if (!$category->saveCategoryForTicket($input)) {
+        return redirect()->back()->withErrors($category->getValidation())->withInput($input);
+      }
+      return redirect('admin/category-for-ticket/save/' . $category->category_for_ticket_id)->with('msg', 'Category for Ticket ' . $action . "d");
+    }
+  
+    $data['action'] = $action;
+    $data['category'] = $category;
+    return view('admin/setting/category-for-ticket-form', $data);
   }
 
   public function system() {
