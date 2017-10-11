@@ -2,8 +2,11 @@
 
 @section("content")
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-xs-6">
       <h1 class="page-title">Blocked Date Times</h1>
+    </div>
+    <div class="col-xs-6 text-right">
+      <button type="button" class="btn blue" onclick="location.href='{{url('admin/blocked-date-time/save')}}'">Create</button>
     </div>
   </div>
 
@@ -21,7 +24,7 @@
           <tbody>
           @foreach($blocked_date_times as $w)
             <tr>
-              <td>{{ ViewHelper::formatDate($w->date) }}</td>
+              <td><a href="{{url('admin/blocked-date-time/save/'.$w->working_date_time_blocked_id)}}">{{ ViewHelper::formatDate($w->date) }}</a></td>
               <td>{{ ViewHelper::formatTime($w->time_start) }}</td>
               <td>{{ ViewHelper::formatTime($w->time_end) }}</td>
             </tr>

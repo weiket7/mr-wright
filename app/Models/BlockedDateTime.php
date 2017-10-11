@@ -3,10 +3,10 @@
 use Carbon\Carbon;
 use Eloquent, DB, Validator, Log;
 
-class BlockedDate extends Eloquent
+class BlockedDateTime extends Eloquent
 {
-  public $table = 'working_date_blocked';
-  protected $primaryKey = 'working_date_blocked_id';
+  public $table = 'working_date_time_blocked';
+  protected $primaryKey = 'working_date_time_blocked_id';
   protected $validation;
   public $timestamps = false;
   
@@ -18,13 +18,15 @@ class BlockedDate extends Eloquent
     'date.required'=>'Date is required',
   ];
   
-  public function saveBlockedDate($input) {
+  public function saveBlockedDateTime($input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
     }
-    
+  
     $this->date = Carbon::createFromFormat('d M Y', $input['date']);
+    $this->time_start = $input['time_start'];
+    $this->time_end = $input['time_end'];
     $this->save();
     return true;
   }

@@ -34,6 +34,14 @@ class ViewHelper {
     }
     return date('g:i a', strtotime($time));
   }
+  
+  public static function formatTimeValue($time)
+  {
+    if ($time == '') {
+      return '';
+    }
+    return date('H:i', strtotime($time));
+  }
 
   public static function formatDateDay($date) {
     return date('d M Y, l', strtotime($date));

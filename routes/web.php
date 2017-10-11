@@ -163,6 +163,10 @@ Route::group(['middleware'=>['auth']], function() {
     Route::post('admin/blocked-date/save/{id}', 'Admin\CalendarController@blockedDateSave');
     
     Route::get('admin/blocked-date-time', 'Admin\CalendarController@blockedDateTime');
+    Route::get('admin/blocked-date-time/save', 'Admin\CalendarController@blockedDateTimeSave');
+    Route::post('admin/blocked-date-time/save', 'Admin\CalendarController@blockedDateTimeSave');
+    Route::get('admin/blocked-date-time/save/{id}', 'Admin\CalendarController@blockedDateTimeSave');
+    Route::post('admin/blocked-date-time/save/{id}', 'Admin\CalendarController@blockedDateTimeSave');
   
     Route::get('admin/category-for-ticket', 'Admin\SettingController@categoryForTicket');
     Route::get('admin/category-for-ticket/save', 'Admin\SettingController@categoryForTicketSave');
