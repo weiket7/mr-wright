@@ -37,7 +37,7 @@ class Operator extends Eloquent
 
   public function saveOperator($input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
-    Log::info('so'.$this->user_id);
+    
     $create_password_required = $this->user_id == null && $input['password'] == '';
     if ( $this->validation->fails() || $create_password_required ) {
       if ($create_password_required) {
@@ -56,6 +56,8 @@ class Operator extends Eloquent
     }
     $this->email = $input['email'];
     $this->role_id = $input['role_id'];
+    $this->type = UserType::Operator;
+    
     $this->save();
     return true;
   }
