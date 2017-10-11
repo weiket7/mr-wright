@@ -30,8 +30,10 @@
     </div>
 
     <div class="text-center">
-      <input type="submit" name="submit" value="LOG IN" class="more active">
-      &nbsp;&nbsp;<a href="{{url('forgot-password')}}">Forgot password</a>
+      <input type="submit" name="submit" value="LOG IN" class="more active"> &nbsp;&nbsp;&nbsp;
+      <input type="button" onclick="location.href='{{ url('register') }}'" value="REGISTER" class="more active">
+    &nbsp;&nbsp;<br><br>
+      <a href="{{url('forgot-password')}}">Forgot password</a>
     </div>
   </form>
 @endsection
