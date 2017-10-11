@@ -154,10 +154,15 @@ Route::group(['middleware'=>['auth']], function() {
     Route::get('admin/report/ticket', 'Admin\ReportController@ticket');
     Route::post('admin/report/ticket', 'Admin\ReportController@ticket');
 
-
-    Route::get('admin/working-day-time', 'Admin\WorkingHourController@workingDaytime');
-    Route::get('admin/blocked-date', 'Admin\WorkingHourController@blockedDate');
-    Route::get('admin/blocked-date-time', 'Admin\WorkingHourController@blockedDateTime');
+    Route::get('admin/working-day-time', 'Admin\CalendarController@workingDaytime');
+    
+    Route::get('admin/blocked-date', 'Admin\CalendarController@blockedDate');
+    Route::get('admin/blocked-date/save', 'Admin\CalendarController@blockedDateSave');
+    Route::post('admin/blocked-date/save', 'Admin\CalendarController@blockedDateSave');
+    Route::get('admin/blocked-date/save/{id}', 'Admin\CalendarController@blockedDateSave');
+    Route::post('admin/blocked-date/save/{id}', 'Admin\CalendarController@blockedDateSave');
+    
+    Route::get('admin/blocked-date-time', 'Admin\CalendarController@blockedDateTime');
   
     Route::get('admin/category-for-ticket', 'Admin\SettingController@categoryForTicket');
     Route::get('admin/category-for-ticket/save', 'Admin\SettingController@categoryForTicketSave');

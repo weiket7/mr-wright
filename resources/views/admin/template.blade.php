@@ -254,6 +254,11 @@ License: You must have a valid license purchased only from themeforest(the above
       $.fn.select2.defaults.set("theme", "bootstrap");
 
       initDatepicker();
+  
+      $('[data-toggle=confirmation]').on('confirmed.bs.confirmation', function () {
+        $("#delete").val("true");
+        $("form").submit();
+      });
 
       $("#company_id").change(function() {
         var company_id = $(this).val();
