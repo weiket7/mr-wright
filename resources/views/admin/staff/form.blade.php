@@ -164,19 +164,24 @@
               </tr>
               </thead>
               <tbody>
-              @foreach($staff_assignments as $ticket_id => $assignment)
-                @foreach($assignment as $a)
-                <tr>
-                  <td><a href="{{url('admin/ticket/view/'.$a->ticket_id)}}">{{ $a->ticket_code }}</a></td>
-                  <td>{{ \App\Models\Enums\TicketStat::$values[$a->ticket_stat] }}</td>
-                  <td>{{ \App\Models\Enums\StaffAssignmentStat::$values[$a->assignment_stat] }}</td>
-                  <td>{{ ViewHelper::formatDate($a->date) }}</td>
-                  <td>{{ ViewHelper::formatTime($a->time_start) }}</td>
-                  <td>{{ ViewHelper::formatTime($a->time_end) }}</td>
-                </tr>
+              @foreach($staff_assignments as $ticket_id => $assignments)
+                <?php $count = 1; ?>
+                @foreach($assignments as $a)
+                  <tr>
+                    @if($count == 1)
+                      <?php $rowspan = count($assignments); $ticket = $tickets[$ticket_id];?>
+                      <td rowspan="{{ $rowspan }}"><a href="{{ ViewHelper::ticketLink($ticket) }}">{{ $ticket->ticket_code }}</a></td>
+                      <td rowspan="{{ $rowspan }}">{{ \App\Models\Enums\TicketStat::$values[$ticket->stat] }}</td>
+                    @endif
+                    <td>{{ \App\Models\Enums\StaffAssignmentStat::$values[$a->assignment_stat] }}</td>
+                    <td>{{ ViewHelper::formatDate($a->date) }}</td>
+                    <td>{{ ViewHelper::formatTime($a->time_start) }}</td>
+                    <td>{{ ViewHelper::formatTime($a->time_end) }}</td>
+                  </tr>
+                  <?php $count++; ?>
                 @endforeach
-              </tbody>
               @endforeach
+              </tbody>
             </table>
           </div>
         </div>

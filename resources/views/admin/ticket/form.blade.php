@@ -102,15 +102,15 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Office Address</label>
                       <div class="col-md-9 form-control-static">
-                        <div id="office_addr"></div>
+                        <div id="office_addr">{{ $ticket->office_addr }}</div>
                       </div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                       <label class="control-label col-md-3">Office Postal</label>
-                      <div class="col-md-9 form-static-control">
-                        <div id="office_postal"></div>
+                      <div class="col-md-9 form-control-static">
+                        <div id="office_postal">{{ $ticket->office_postal }}</div>
                       </div>
                     </div>
                   </div>

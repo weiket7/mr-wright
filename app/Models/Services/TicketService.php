@@ -127,6 +127,10 @@ class TicketService
     if ( $this->validation->fails() ) {
       return false;
     }
+    if ($this->validateTicketIssues($input) === false) {
+      $this->validation->errors()->add("image", "Images must be png, jpg or gif<br>Videos must be wmv, mov, mp4, flv or avi");
+      return false;
+    }
 
     $ticket = Ticket::findOrNew($ticket_id);
     $ticket->title = $input['title'];
@@ -151,12 +155,9 @@ class TicketService
       $ticket->stat = TicketStat::Drafted;
     }
     $ticket->save();
-
-    $this->saveStaffAssignments($ticket->ticket_id, $input);
-    if ($this->saveTicketIssues($ticket->ticket_id, $input) === false) {
-      $this->validation->errors()->add("image", "Images must be png, jpg or gif<br>Videos must be wmv, mov, mp4, flv or avi");
-      return false;
-    }
+  
+    $this->saveTicketIssues($ticket->ticket_id, $input);
+    $this->saveStaffAssignments($ticket->ticket_id, $ticket->ticket_code, $input);
     $this->savePreferredSlots($ticket->ticket_id, $input);
     $this->saveTicketSkills($ticket->ticket_id, $input);
 
@@ -291,6 +292,20 @@ class TicketService
     $this->saveTicketHistory($ticket_id, 'complete', $username);
     return true;
   }
+  
+  public function validateTicketIssues($input) {
+    $issues_count = $input['issues_count'];
+  
+    for($i=0; $i<$issues_count; $i++) {
+      $image = isset($input['image' . $i]) ? $input['image' . $i] : null;
+      if ($image) {
+        if (in_array(strtolower($image->getClientOriginalExtension()), ['png', 'jpg', 'gif' ,'wmv', 'avi', 'flv', 'mp4', 'mov']) === false) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
 
   public function saveTicketIssues($ticket_id, $input) {
     $issues_count = $input['issues_count'];
@@ -315,9 +330,6 @@ class TicketService
 
       $image = isset($input['image' . $i]) ? $input['image' . $i] : null;
       if ($image) {
-        if (in_array(strtolower($image->getClientOriginalExtension()), ['png', 'jpg', 'gif' ,'wmv', 'avi', 'flv', 'mp4', 'mov']) === false) {
-          return false;
-        }
         $image_name = BackendHelper::uploadFile('images/tickets', $ticket_id.'_'.$ticket_issue_id, $image);
         DB::table('ticket_issue')->where('ticket_issue_id', $ticket_issue_id)->update(['image'=>$image_name]);
       }
@@ -325,18 +337,19 @@ class TicketService
     return true;
   }
 
-  public function saveStaffAssignments($ticket_id, $input) {
+  public function saveStaffAssignments($ticket_id, $ticket_code, $input) {
     DB::table('staff_assignment')->where('ticket_id', $ticket_id)->delete();
 
     $staff_assignments = json_decode($input['staff_assignments'], true);
     foreach($staff_assignments as $staff_id => $date_assignments) {
-      $staff = Staff::findOrFail($staff_id);
+      $staff = Staff::find($staff_id);
       foreach($date_assignments as $date => $assignments) {
         $working_hour_service = new WorkingHourService();
         $periods = $working_hour_service->mergeIntervalsIntoTimeRange($assignments);
         foreach($periods as $p) {
           $staff_assignment = [
             'ticket_id'=>$ticket_id,
+            'ticket_code'=>$ticket_code,
             'date'=>$date,
             'staff_id'=>$staff_id,
             'staff_username'=>$staff->username,
@@ -538,11 +551,13 @@ class TicketService
   private function saveTicketSkills($ticket_id, $input) {
     DB::table('ticket_skill')->where('ticket_id', $ticket_id)->delete();
     
-    foreach($input['skills'] as $skill_id) {
-      DB::table('ticket_skill')->insert([
-        'ticket_id'=>$ticket_id,
-        'skill_id'=>$skill_id
-      ]);
+    if (isset($input['skills'])) {
+      foreach($input['skills'] as $skill_id) {
+        DB::table('ticket_skill')->insert([
+          'ticket_id'=>$ticket_id,
+          'skill_id'=>$skill_id
+        ]);
+      }
     }
   }
   

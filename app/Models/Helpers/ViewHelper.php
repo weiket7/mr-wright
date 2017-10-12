@@ -91,4 +91,11 @@ class ViewHelper {
     $image_extensions = ['jpg', 'jpeg', 'png', 'gif'];
     return in_array($extension, $image_extensions);
   }
+  
+  public static function ticketLink($ticket) {
+    if(in_array($ticket->stat, [TicketStat::Drafted, TicketStat::Opened]))
+      return url("admin/ticket/save/".$ticket->ticket_id);
+    else
+      return url("admin/ticket/view/".$ticket->ticket_id);
+  }
 }

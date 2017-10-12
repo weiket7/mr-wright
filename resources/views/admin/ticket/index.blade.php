@@ -76,11 +76,7 @@
             <tr>
               <td>{{  TicketStat::$values[$ticket->stat]  }}</td>
               <td>
-            @if(in_array($ticket->stat, [TicketStat::Drafted, TicketStat::Opened]))
-                <a href="{{url("admin/ticket/save/".$ticket->ticket_id)}}">{{ $ticket->ticket_code }}</a>
-            @else
-                <a href="{{url("admin/ticket/view/".$ticket->ticket_id)}}">{{ $ticket->ticket_code }}</a>
-              @endif
+                <a href="{{ ViewHelper::ticketLink($ticket) }}">{{ $ticket->ticket_code }}</a>
               </td>
               <td>{{  $ticket->title }}</td>
               <td>{{ isset($categories[$ticket->category_id]) ? $categories[$ticket->category_id] : '' }}</td>
