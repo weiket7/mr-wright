@@ -24,11 +24,14 @@
             Membership Plan *
           </label>
           <div class="col-md-9">
-            {{ Form::select('membership_id', $memberships, session()->has('membership_id') ? session()->get('membership_id') : '', ['placeholder'=>'', 'class'=>'form-control']) }}
+            <select name="membership_id" class="form-control" v-model="selected_membership_id">
+              <option value=""></option>
+              <option v-for="membership in memberships" :value="membership.membership_id">@{{ membership.name }}</option>
+            </select>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6" v-if="show_payment_methods">
         <div class="form-group">
           <label class="control-label col-md-3">
             Payment Method *
@@ -84,7 +87,19 @@
     var vm = new Vue({
       el: "#app",
       data: {
+        memberships: {!! json_encode($memberships) !!},
+        selected_membership_id: null,
         payment_method: ''
+      },
+      computed: {
+        is_free_trial: function() {
+          if (this.selected_membership_id != null) {
+            return this.memberships[this.selected_membership_id].free_trial == 1;
+          }
+        },
+        show_payment_methods: function() {
+          return this.selected_membership_id != null && this.is_free_trial == false;
+        }
       }
     });
   </script>

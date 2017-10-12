@@ -75,7 +75,7 @@ class Account extends Eloquent
   public function saveRegistrationMembership($registration_id, $input) {
     $rules = [
       'membership_id' => 'required',
-      'payment_method'=>'required',
+      'payment_method'=>'sometimes|required',
       'ref_no'=>'sometimes|required',
     ];
     $messages = [
@@ -89,12 +89,14 @@ class Account extends Eloquent
     }
 
     $registration = Registration::find($registration_id);
-    $registration->payment_method = $input['payment_method'];
-    if ($registration->payment_method == 'Q' || $registration->payment_method == 'B')  {
-      $registration->ref_no = $input['ref_no'];
-    }
-
     $membership = Membership::find($input['membership_id']);
+    if ($membership->free_trial == false) {
+      $registration->payment_method = $input['payment_method'];
+      if ($registration->payment_method == 'Q' || $registration->payment_method == 'B')  {
+        $registration->ref_no = $input['ref_no'];
+      }
+    }
+    
     $this->assignMembership($registration, $membership);
     $registration->save();
   

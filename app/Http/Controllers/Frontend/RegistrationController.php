@@ -56,8 +56,7 @@ class RegistrationController extends Controller
     return view("frontend/register", $data);
   }
   
-  public function membership(Request $request)
-  {
+  public function membership(Request $request) {
     $registration_id = $request->session()->get('registration_id');
     
     $account_service = new Account();
@@ -81,7 +80,7 @@ class RegistrationController extends Controller
       return redirect('register/success');
     }
     $membership_service = new Membership();
-    $data['memberships'] = $membership_service->getMembershipDropdown(MembershipStat::Active);
+    $data['memberships'] = $membership_service->getMembershipAll(MembershipStat::Active)->keyBy('membership_id');
     $payment_service = new PaymentService();
     $data['payment_methods'] = $payment_service->getPaymentMethods(PaymentMethodStat::Active)->prepend('');
     return view('frontend/register-membership', $data);
