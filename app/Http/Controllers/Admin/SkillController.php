@@ -20,6 +20,14 @@ class SkillController extends Controller
   
     if($request->isMethod('post')) {
       $input = $request->all();
+      
+      if ($input["delete"] == "true") {
+        $skill->delete();
+        $skill->deleteStaffSkillBySkill($skill_id);
+        //does not delete from ticket_skill
+        return redirect("admin/skill  ")->with("msg", "Skill deleted");
+      }
+  
       if (!$skill->saveSkill($input, $request->file("image"))) {
         return redirect()->back()->withErrors($skill->getValidation())->withInput($input);
       }

@@ -35,8 +35,10 @@ class Skill extends Eloquent
     $this->save();
     return true;
   }
-
-
+  
+  public function deleteStaffSkillBySkill($skill_id) {
+    DB::table('staff_skill')->where('skill_id', $skill_id)->delete();
+  }
 
   public function getValidation() {
     return $this->validation;
