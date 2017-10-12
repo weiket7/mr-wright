@@ -59,24 +59,25 @@ class Staff extends Eloquent
       return false;
     }
 
-    if($this->staff_id == null) {
+    $is_create = $this->staff_id == null;
+    
+    if($is_create) {
       $this->username = $input['username'];
     }
     $this->name = $input['name'];
     $this->stat = $input['stat'];
     $this->mobile = $input['mobile'];
     $this->email = $input['email'];
+    $this->save();
 
     $this->saveStaffSkills($input, $operator);
-    $this->saveStaffAsUser($input);
+    $this->saveStaffAsUser($input, $is_create);
     
-    $this->save();
     return true;
   }
 
-  private function saveStaffAsUser($input)
-  {
-    if ($this->staff_id == null) { //create
+  private function saveStaffAsUser($input, $is_create) {
+    if ($is_create) { //create
       $user = new User();
       $user->username = $input['username'];
       $user->type = UserType::Staff;
