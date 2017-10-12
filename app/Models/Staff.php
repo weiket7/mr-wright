@@ -52,6 +52,10 @@ class Staff extends Eloquent
     return $staffs;
   }
 
+  public function deleteStaff() {
+    User::where('username', $this->username)->delete();
+    $this->delete();
+  }
 
   public function saveStaff($input, $operator = 'admin') {
     $this->validation = Validator::make($input, $this->rules, $this->messages );

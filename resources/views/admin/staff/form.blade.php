@@ -23,6 +23,7 @@
           <div class="tab-pane fade active in" id="tab-general">
             <form action="" method="post" class="form-horizontal">
               {!! csrf_field() !!}
+              <input type="hidden" id="delete" name="delete" value="">
               <div class="form-body">
                 <div class="row">
                   <div class="col-md-6">
@@ -140,6 +141,7 @@
                     <div class="row">
                       <div class="col-md-offset-3 col-md-9">
                         <button type="submit" class="btn green">Submit</button>
+                        <button type="submit" class="btn red confirmation" data-toggle='confirmation'>Delete</button>
                         <button type="button" class="btn default">Cancel</button>
                       </div>
                     </div>

@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 
 class StaffController extends Controller
 {
-  
   public function index()
   {
     $data['staffs'] = Staff::getStaffAll();
@@ -40,6 +39,11 @@ class StaffController extends Controller
 
     if($request->isMethod('post')) {
       $input = $request->all();
+      if ($input["delete"] == "true") {
+        $staff->deleteStaff();
+        return redirect("admin/staff")->with("msg", "Staff deleted");
+      }
+  
       if (!$staff->saveStaff($input)) {
         return redirect()->back()->withErrors($staff->getValidation())->withInput($input);
       }
