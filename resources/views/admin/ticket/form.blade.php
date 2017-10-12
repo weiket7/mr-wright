@@ -311,7 +311,7 @@
                       @foreach($skills as $skill_id => $name)
                         <label class="mt-checkbox mt-checkbox-outline">
                           <?php $checked = in_array($skill_id, $ticket->skills) ? "checked" : ""; ?>
-                          <input type="checkbox" value="{{$skill_id}}" name="skills" {{$checked}}> {{ $name }}
+                          <input type="checkbox" value="{{$skill_id}}" id="skills" name="skills[]" {{$checked}}> {{ $name }}
                           <span></span>
                         </label>
                       @endforeach
@@ -406,7 +406,7 @@
       });
 
 
-      $("input[name='skills']").click(function() {
+      $("input[name='skills[]']").click(function() {
         populateStaffsAndCalendar();
       });
 
@@ -466,7 +466,7 @@
     }
 
     function populateStaffsAndCalendar() {
-      var skill_ids = getSelectedCheckboxesByName('skills');
+      var skill_ids = getSelectedCheckboxesByName('skills[]');
 
       axios.get('{{url('api/getStaffWithSkills')}}?skill_ids='+skill_ids)
       .then(function (response) {

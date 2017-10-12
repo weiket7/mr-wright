@@ -46,14 +46,14 @@ class AdminController extends Controller
       $user = Auth::user();
       $request->session()->put('accesses', $this->access_service->getAccess($user));
       if($user->type == UserType::Staff) {
-        return redirect('admin/staff/dashboard')->with('msg', 'Logged in');
+        return redirect('admin/staff/dashboard');
       }
 
       $referrer = $request->session()->has('referrer');
       if ($referrer) {
         return redirect($request->session()->pull('referrer'));
       }
-      return redirect('admin/dashboard')->with('msg', 'Logged in');
+      return redirect('admin/dashboard');
     }
     return view('admin/login');
   }

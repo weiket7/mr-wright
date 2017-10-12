@@ -257,11 +257,11 @@
       </div>
       
       <div class="text-center">
-        @if($ticket->stat == null)
-          <input type="submit" @click='draftTicket' value="DRAFT TICKET" class="more active">
-        @elseif($ticket->stat == TicketStat::Drafted)
+        @if($ticket->stat == TicketStat::Drafted || $ticket->stat == TicketStat::Opened)
           <input type="submit" @click='updateTicket' value="UPDATE TICKET" class="more active">
           <input type="submit" @click='openTicket' value="OPEN TICKET" class="more active">
+        @elseif($ticket->stat == null)
+          <input type="submit" @click='draftTicket' value="DRAFT TICKET" class="more active">
         @endif
       </div>
     </form>

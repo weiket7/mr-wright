@@ -66,7 +66,7 @@ class TicketService
     $data = DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)
       ->select('ticket_preferred_slot_id', 'date',
         DB::raw("lower(time_format(time_start, '%H:%i')) as time_start"),
-        DB::raw("lower(time_format(time_end, '%H:%i')) as time_end"))->get();
+        DB::raw("lower(time_format(time_end, '%H:%i')) as time_end"))->orderBy('date')->get();
     return $data;
   }
 
@@ -158,6 +158,7 @@ class TicketService
       return false;
     }
     $this->savePreferredSlots($ticket->ticket_id, $input);
+    $this->saveTicketSkills($ticket->ticket_id, $input);
 
     return $ticket->ticket_id;
   }
@@ -352,27 +353,20 @@ class TicketService
 
   private function savePreferredSlots($ticket_id, $input, $username = 'admin')
   {
+    DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)->delete();
+  
+    //Log::info('preferred slots ' . json_encode($input));
     $preferred_slots_count = $input['preferred_slots_count'];
     for($i=0; $i<$preferred_slots_count; $i++) {
-      if (isset($input['preferred_slot_stat'.$i]) && $input['preferred_slot_stat'.$i] == 'delete') {
-        DB::table('ticket_preferred_slot')->where('ticket_preferred_slot_id', $input['preferred_slot_id'.$i])->delete();
-        continue;
-      }
-
       $preferred_slot = [
+        'ticket_id' => $ticket_id,
         'date' => Carbon::createFromFormat('d M Y', $input['preferred_slot_date'.$i]),
         'time_start' => $input['preferred_slot_time_start'.$i],
         'time_end' => $input['preferred_slot_time_end'.$i],
         'updated_by'=>$username,
         'updated_on'=>Carbon::now()
       ];
-      if (isset($input['preferred_slot_stat'.$i]) && $input['preferred_slot_stat'.$i] == 'add') {
-        $preferred_slot['ticket_id'] = $ticket_id;
-        DB::table('ticket_preferred_slot')->insert($preferred_slot);
-      } else {
-        $preferred_slot_id = $input['preferred_slot_id'.$i];
-        DB::table('ticket_preferred_slot')->where('ticket_preferred_slot_id', $preferred_slot_id)->update($preferred_slot);
-      }
+      DB::table('ticket_preferred_slot')->insert($preferred_slot);
     }
   }
 
@@ -539,6 +533,17 @@ class TicketService
       }
     }
     return $valid_otp;
+  }
+  
+  private function saveTicketSkills($ticket_id, $input) {
+    DB::table('ticket_skill')->where('ticket_id', $ticket_id)->delete();
+    
+    foreach($input['skills'] as $skill_id) {
+      DB::table('ticket_skill')->insert([
+        'ticket_id'=>$ticket_id,
+        'skill_id'=>$skill_id
+      ]);
+    }
   }
   
   
