@@ -59,6 +59,7 @@
                       <span></span>
                     </label>
                   </div>
+                  <small>During registration using this membership, customer will not be required to select payment methods</small>
                 </div>
               </div>
             </div>
