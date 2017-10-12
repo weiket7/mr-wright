@@ -66,10 +66,11 @@ class Staff extends Eloquent
     $this->stat = $input['stat'];
     $this->mobile = $input['mobile'];
     $this->email = $input['email'];
-    $this->save();
 
     $this->saveStaffSkills($input, $operator);
     $this->saveStaffAsUser($input);
+    
+    $this->save();
     return true;
   }
 

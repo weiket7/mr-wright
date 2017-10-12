@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Status *</label>
+                <label class="control-label col-md-3">Status <span class="required">*</span></label>
                 <div class="col-md-9">
                   {{Form::select('stat', RequesterStat::$values, $requester->stat, ['class'=>'form-control'])}}
                 </div>

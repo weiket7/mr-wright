@@ -27,7 +27,10 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Username</label>
+                      <label class="control-label col-md-3">
+                        Username
+                        @if($action == 'create') <span class="required">*</span> @endif
+                      </label>
                       <div class="col-md-9">
                         @if($action == 'create')
                           {{Form::text('username', $staff->username, ['class'=>'form-control'])}}
@@ -41,7 +44,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Status</label>
+                      <label class="control-label col-md-3">Status <span class="required">*</span></label>
                       <div class="col-md-9">
                         {{Form::select('stat', StaffStat::$values, $staff->stat, ['class'=>'form-control', 'placeholder'=>''])}}
                       </div>
@@ -52,7 +55,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Name</label>
+                      <label class="control-label col-md-3">Name <span class="required">*</span></label>
                       <div class="col-md-9">
                         {{Form::text('name', $staff->name, ['class'=>'form-control'])}}
                       </div>
@@ -60,7 +63,10 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Password</label>
+                      <label class="control-label col-md-3">
+                        Password
+                        @if($action == 'create') <span class="required">*</span> @endif
+                      </label>
                       <div class="col-md-9">
                         {{Form::password('password', ['class'=>'form-control'])}}
                         <span class="help-block">Fill in password field only when you want to update the password</span>
@@ -72,7 +78,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Mobile</label>
+                      <label class="control-label col-md-3">Mobile <span class="required">*</span></label>
                       <div class="col-md-9">
                         {{Form::text('mobile', $staff->mobile, ['class'=>'form-control'])}}
                       </div>
@@ -80,7 +86,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Email</label>
+                      <label class="control-label col-md-3">Email <span class="required">*</span></label>
                       <div class="col-md-9">
                         {{Form::text('email', $staff->email, ['class'=>'form-control'])}}
                       </div>
