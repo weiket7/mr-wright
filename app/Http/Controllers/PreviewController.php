@@ -25,7 +25,8 @@ class PreviewController extends Controller
   }
 
   public function index() {
-    return "<a href='".url('preview/quotation/1')."'>Quotation</a><br>".
+    return "<a href='".url('preview/quotation/1')."'>Quotation ?email=true</a><br>".
+    "<a href='".url('preview/accept/1')."'>Accept</a><br>".
     "<a href='".url('preview/invoice/1')."'>Invoice</a><br>".
     "<a href='".url('preview/register-existing-uen/1')."'>Register Existing UEN</a><br>".
     "<a href='".url('preview/register-success/1')."'>Register Success</a><br>".
@@ -41,9 +42,12 @@ class PreviewController extends Controller
     Mail::to('wei_ket@hotmail.com')->send(new ContactMail($contact));
   }
   
-  public function previewQuotation($ticket_id) {
+  public function ticketQuotation($ticket_id) {
     $ticket = $this->ticket_service->getTicket($ticket_id);
     $data['ticket'] = $ticket;
+    if ($request->get('email') == "true") {
+      $this->ticket_service->emailQuotation($ticket);
+    }
     return view('emails/quotation', $data);
   }
   
@@ -51,13 +55,10 @@ class PreviewController extends Controller
     $ticket = $this->ticket_service->getTicket($ticket_id);
     $this->ticket_service->populateTicketForView($ticket);
     $data['ticket'] = $ticket;
-    if ($request->get('email') == "true") {
-      $this->ticket_service->emailQuotation($ticket);
-    }
     return view('emails/ticket-accept', $data);
   }
 
-  public function previewInvoice($ticket_id) {
+  public function ticketInvoice($ticket_id) {
     $ticket = $this->ticket_service->getTicket($ticket_id);
     $this->ticket_service->populateTicketForView($ticket);
     $data['ticket'] = $ticket;

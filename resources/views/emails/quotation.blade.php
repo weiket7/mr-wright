@@ -19,12 +19,12 @@
       </h3>
     </div>
     <div class="panel-body text-center">
-      <button type="button" class="btn btn-lg btn-success" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'">
+      <a href="{{url('ticket/view/'.$ticket->ticket_id)}}" class="btn btn-lg btn-success">
         Accept
-      </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button type="button" class="btn btn-lg btn-danger" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'">
+      </a>
+      <a href="{{url('ticket/view/'.$ticket->ticket_id)}}" class="btn btn-lg btn-danger">
         Decline
-      </button>
+      </a>
     </div>
     <div class="panel-footer text-center">Valid till {{ ViewHelper::formatDate($ticket->quote_valid_till) }} (inclusive)</div>
   </div>

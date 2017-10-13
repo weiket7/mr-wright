@@ -218,12 +218,12 @@ Route::get('api/transactionSuccess', 'ApiController@transactionSuccess');
 
 //TODO remove
 Route::get('preview', 'PreviewController@index');
-Route::get('preview/quotation/{id}', 'PreviewController@previewQuotation');
-Route::get('preview/invoice/{id}', 'PreviewController@previewInvoice');
 Route::get('preview/register-existing-uen/{id}', 'PreviewController@registerExistingUen');
 Route::get('preview/register-success/{id}', 'PreviewController@registerSuccess');
 Route::get('preview/register-approve/{id}', 'PreviewController@registerApprove');
-Route::get('preview/ticket-accept/{id}', 'PreviewController@ticketAccept');
+Route::get('preview/accept/{id}', 'PreviewController@ticketAccept');
+Route::get('preview/quotation/{id}', 'PreviewController@ticketQuotation');
+Route::get('preview/invoice/{id}', 'PreviewController@ticketInvoice');
 Route::get('preview/invite', 'PreviewController@invite');
 Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 Route::get('preview/email-test', 'PreviewController@emailTest');
