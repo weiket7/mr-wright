@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMail;
 use App\Models\Account;
 use App\Models\Company;
+use App\Models\Contact;
 use App\Models\Invite;
 use App\Models\Registration;
 use App\Models\Requester;
 use App\Models\Services\CompanyService;
 use App\Models\Services\TicketService;
 use Illuminate\Http\Request;
+use Mail;
 
 class PreviewController extends Controller
 {
-
   protected $company_service;
   protected $ticket_service;
-
 
   public function __construct(CompanyService $company_service, TicketService $ticket_service) {
     $this->company_service = $company_service;
@@ -31,6 +32,15 @@ class PreviewController extends Controller
     "<a href='".url('preview/register-approve/1')."'>Register Approve</a><br>";
   }
 
+  public function emailTest() {
+    $contact = new Contact();
+    $contact->name = 'wei ket';
+    $contact->email = 'weiket7@gmail.com';
+    $contact->mobile = '9123 4567';
+    $contact->message = "abc";
+    Mail::to('wei_ket@hotmail.com')->send(new ContactMail($contact));
+  }
+  
   public function previewQuotation($ticket_id) {
     $ticket = $this->ticket_service->getTicket($ticket_id);
     $data['ticket'] = $ticket;

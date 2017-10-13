@@ -226,6 +226,7 @@ Route::get('preview/register-approve/{id}', 'PreviewController@registerApprove')
 Route::get('preview/ticket-accept/{id}', 'PreviewController@ticketAccept');
 Route::get('preview/invite', 'PreviewController@invite');
 Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
+Route::get('preview/email-test', 'PreviewController@emailTest');
 
 Route::get('test', function() {
   $ticket_service = new TicketService();
