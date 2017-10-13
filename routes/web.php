@@ -215,6 +215,7 @@ Route::group(['middleware'=>['auth']], function() {
 
 //TODO secure this api
 Route::get('api/transactionSuccess', 'ApiController@transactionSuccess');
+Route::get('api/ticket-attendance', 'ApiController@ticketAttendance');
 
 //TODO remove
 Route::get('preview', 'PreviewController@index');

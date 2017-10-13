@@ -84,4 +84,9 @@ class ApiController extends Controller
     $success = $transaction->stat == TransactionStat::Success;
     return $success ? 'true' : 'false';
   }
+  
+  public function ticketAttendance(Request $request) {
+    Log::info("ticket-attendance");
+    return "ticket-attendance";
+  }
 }

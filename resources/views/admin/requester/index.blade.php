@@ -62,9 +62,9 @@
           <tr>
             <th width="70px">Status</th>
             <th width="70px">Type</th>
+            <th width="200px">Name</th>
             <th width="200px">Company</th>
-            <th width="200px">Office</th>
-            <th>Name</th>
+            <th>Office</th>
           </tr>
           </thead>
           <tbody>
@@ -72,9 +72,9 @@
             <tr>
               <td>{{RequesterStat::$values[$requester->stat]}}</td>
               <td>{{RequesterType::$values[$requester->type]}}</td>
+              <td><a href="{{url("admin/requester/save/".$requester->requester_id)}}">{{ $requester->name }}</a></td>
               <td>{{$requester->company_name}}</td>
               <td>{{$requester->office_name}}</td>
-              <td><a href="{{url("admin/requester/save/".$requester->requester_id)}}">{{ $requester->name }}</a></td>
             </tr>
           @endforeach
           </tbody>
