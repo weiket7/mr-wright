@@ -501,7 +501,7 @@ class TicketService
   }
   
   public function emailQuotation($ticket) {
-    $user = Requester::where('username', $ticket->requested_by)->first()
+    $user = Requester::where('username', $ticket->requested_by)->first();
     Mail::to($user)->send(new QuotationMail($ticket->ticket_id));
     Log::info("Ticket code ".$ticket->code." quotation emailed to ".$user->email);
     //->queue(new QuotationMail($ticket_id));
