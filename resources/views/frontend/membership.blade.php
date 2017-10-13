@@ -20,7 +20,9 @@
           <h4 class="list-group-item-heading">{{ $membership->name }}</h4>
         </div>
         <div class="list-group-item">
-          <p class="list-group-item-text"><b>{{ $membership->requester_limit }}</b> users</p>
+          <p class="list-group-item-text">
+            <b>{{ $membership->requester_limit }}</b>
+            {{ $membership->requester_limit == 1 ? "user" : "users" }}</p>
         </div>
         <div class="list-group-item">
           <p class="list-group-item-text"><b>{{ ViewHelper::formatCurrency($membership->effective_price) }}</b> per month</p>

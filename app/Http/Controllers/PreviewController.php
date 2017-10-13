@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactMail;
-use App\Models\Account;
-use App\Models\Company;
 use App\Models\Contact;
 use App\Models\Invite;
 use App\Models\Registration;

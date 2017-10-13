@@ -7,9 +7,6 @@
     <div class="col-xs-6">
       <h1 class="page-title">Roles</h1>
     </div>
-    <div class="col-xs-6 text-right">
-      <button type="button" class="btn blue" onclick="location.href='{{url('admin/role/save')}}'">Create</button>
-    </div>
   </div>
 
   <div class="portlet light bordered">

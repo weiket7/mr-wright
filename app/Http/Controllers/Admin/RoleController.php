@@ -28,6 +28,12 @@ class RoleController extends Controller
 
     if($request->isMethod('post')) {
       $input = $request->all();
+  
+      if ($input["delete"] == "true") {
+        $role->deleteRole();
+        return redirect("admin/role")->with("msg", "Role deleted");
+      }
+      
       if (!$role->saveRole($input)) {
         return redirect()->back()->withErrors($role->getValidation())->withInput($input);
       }

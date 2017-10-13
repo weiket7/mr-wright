@@ -56,6 +56,12 @@ class SettingController extends Controller
   
     if($request->isMethod('post')) {
       $input = $request->all();
+  
+      if ($input["delete"] == "true") {
+        $category->delete();
+        return redirect("admin/category-for-ticket")->with("msg", "Category for ticket deleted");
+      }
+      
       if (!$category->saveCategoryForTicket($input)) {
         return redirect()->back()->withErrors($category->getValidation())->withInput($input);
       }

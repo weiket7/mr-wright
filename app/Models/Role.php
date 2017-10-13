@@ -43,6 +43,12 @@ class Role extends Eloquent
       ]);
     }
   }
+  
+  public function deleteRole($role_id) {
+    $this->delete();
+    DB::table('role_access')->where('role_id', $role_id)->delete();
+    //does not delete role_id from user
+  }
 
   public function getValidation() {
     return $this->validation;
