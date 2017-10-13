@@ -47,11 +47,13 @@
           {{$frontend['contents']['opening_hours']}}
         </li>
       </ul>
+      @if($frontend['contents']['facebook'])
       <ul class="social-icons">
         <li>
           <a target="_blank" href="{{$frontend['contents']['facebook']}}" class="social-facebook" title="facebook"></a>
         </li>
       </ul>
+      @endif
     </div>
     <a href="#" class="header-toggle template-arrow-up"></a>
   </div>
