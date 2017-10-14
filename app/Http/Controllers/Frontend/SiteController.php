@@ -43,7 +43,7 @@ class SiteController extends Controller
   public function login(Request $request) {
     $input = $request->all();
     if ($request->isMethod("post")) {
-      $login = Auth::attempt(['username' => $input['username'], 'password' => $input['password'], 'stat'=>UserStat::Active, 'type'=>UserType::Requester]);
+      $login = Auth::attempt(['username' => trim($input['username']), 'password' => trim($input['password']), 'stat'=>UserStat::Active, 'type'=>UserType::Requester]);
       $requester_exist = Requester::where('username', $input['username'])->count() > 0;
       if ($login == false || $requester_exist == false) {
         return redirect()->back()->with('login_error', 'Wrong username/password');

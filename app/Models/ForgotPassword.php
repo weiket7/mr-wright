@@ -37,10 +37,11 @@ class ForgotPassword extends Eloquent
     } else {
       $new_password = str_random(8);
       $this->stat = ForgotPasswordStat::Valid;
+      $this->username = $user->username;
       $user->password = Hash::make($new_password);
       $user->save();
 
-      Mail::to($user)->send(new ForgotPasswordMail($user->name, $user->email, $new_password));
+      Mail::to($user)->send(new ForgotPasswordMail($user, $new_password));
     }
     $this->save();
 

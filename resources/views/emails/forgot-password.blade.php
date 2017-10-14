@@ -1,10 +1,10 @@
 @extends("emails.email-template")
 
 @section('content')
-  Hi {{ $name }},
+  Hi {{ $user->name }},
   <br><br>
 
-  We received a forgot password request for {{ $email }}.
+  We received a forgot password request for username: {{ $user->username }}.
   <br><br>
 
   Please log in with this new password and reset it at Account page:
