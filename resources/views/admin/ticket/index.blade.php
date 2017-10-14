@@ -76,7 +76,7 @@
             <tr>
               <td>{{  TicketStat::$values[$ticket->stat]  }}</td>
               <td>
-                <a href="{{ ViewHelper::ticketLink($ticket) }}">{{ $ticket->ticket_code }}</a>
+                <a href="{{ ViewHelper::ticketLinkAdmin($ticket) }}">{{ $ticket->ticket_code }}</a>
               </td>
               <td>{{  $ticket->title }}</td>
               <td>{{ isset($categories[$ticket->category_id]) ? $categories[$ticket->category_id] : '' }}</td>

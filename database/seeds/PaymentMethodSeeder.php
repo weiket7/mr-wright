@@ -8,7 +8,7 @@ class PaymentMethodSeeder extends Seeder
   public function run()
   {
     DB::table('payment_method')->insert(
-      ['stat'=>PaymentMethodStat::Active, 'name'=>'Credit Card', 'value'=>'R', 'position'=>1,
+      ['stat'=>PaymentMethodStat::Inactive, 'name'=>'Credit Card', 'value'=>'R', 'position'=>1,
       ]);
     DB::table('payment_method')->insert(
       ['stat'=>PaymentMethodStat::Inactive, 'name'=>'NETS', 'value'=>'N', 'position'=>2,

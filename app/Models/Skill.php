@@ -36,8 +36,11 @@ class Skill extends Eloquent
     return true;
   }
   
-  public function deleteStaffSkillBySkill($skill_id) {
-    DB::table('staff_skill')->where('skill_id', $skill_id)->delete();
+  public function deleteSkill($username) {
+    DB::table('skill')->where('skill_id', $this->skill_id)->delete();
+    DB::table('staff_skill')->where('skill_id', $this->skill_id)->delete();
+    //DB::table('ticket_skill')->where('skill_id', $this->skill_id)->delete();
+    (new DeleteLog())->saveDeleteLog('skill', $this->skill_id, $this->name, $username);
   }
 
   public function getValidation() {

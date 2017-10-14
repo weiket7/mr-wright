@@ -27,6 +27,7 @@
           <div class="tab-pane fade active in" id="tab-general">
             <form action="" method="post" id="form-ticket" v-on:submit.prevent="submitForm" class="form-horizontal" enctype="multipart/form-data">
               {!! csrf_field() !!}
+              <input type="hidden" name="delete" id="delete">
               <input type="hidden" v-model="submit_action" name="submit_action">
 
               <div class="form-body">
@@ -360,9 +361,11 @@
                     @elseif($ticket->stat == TicketStat::Drafted)
                       <input type="submit" @click='updateTicket' value="Update Ticket" class="btn blue">
                       <input type="submit" @click='openTicket' value="Open Ticket" class="btn blue">
+                      <input type="button" value="Delete Ticket" class="btn red">
                     @elseif($ticket->stat == TicketStat::Opened)
                       <input type="submit" @click='updateTicket' value="Update Ticket" class="btn blue">
-                      <input type="submit" @click='sendQuotation' value="Send Quotation" class="btn blue">
+                      <input type="submit" @click='sendQuotation' value="Send Quotation" class="btn green">
+                      <input type="button" value="Delete Ticket" class="btn red confirmation" data-toggle='confirmation'>
                     @endif
 
                     @if($ticket->stat == TicketStat::Quoted)

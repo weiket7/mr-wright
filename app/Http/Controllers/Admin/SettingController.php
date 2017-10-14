@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Access;
 use App\Models\CategoryForTicket;
+use App\Models\DeleteLog;
 use App\Models\PaymentMethod;
 use App\Models\Services\AccessService;
 use App\Models\Services\TicketService;
@@ -59,6 +60,7 @@ class SettingController extends Controller
   
       if ($input["delete"] == "true") {
         $category->delete();
+        (new DeleteLog())->saveDeleteLog('category_for_ticket', $category_for_ticket_id, $category->name, $this->getUsername());
         return redirect("admin/category-for-ticket")->with("msg", "Category for ticket deleted");
       }
       

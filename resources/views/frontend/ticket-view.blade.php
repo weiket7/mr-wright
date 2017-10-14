@@ -38,7 +38,7 @@
           </label>
           <div class="col-md-9">
             <div class="form-control-static">
-              {{ TicketStat::$values[$ticket->stat] }}
+              {{ ViewHelper::ticketStatFrontend($ticket) }}
             </div>
           </div>
         </div>
@@ -72,20 +72,22 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">
-            Quoted Price
-          </label>
-          <div class="col-md-9">
-            <div class="form-control-static">
-              {{ ViewHelper::formatCurrency($ticket->quoted_price) }}
+    @if(! in_array($ticket->stat, [TicketStat::Drafted, TicketStat::Opened]))
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Quoted Price
+            </label>
+            <div class="col-md-9">
+              <div class="form-control-static">
+                {{ ViewHelper::formatCurrency($ticket->quoted_price) }}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    @endif
 
     <div class="row">
       <div class="col-md-6">
@@ -200,65 +202,73 @@
     <div class="form-group">
       <label class="control-label col-md-2 ticket-md-2">Issues</label>
       <div class="col-md-10 ticket-md-10">
-        <table class="table table-bordered no-margin-btm">
-          <thead>
-          <tr>
-            <th width="255px">Image / Video</th>
-            <th>Issue</th>
-            <th>Expected Outcome</th>
-          </tr>
-          </thead>
-          <tbody>
-          @foreach($ticket->issues as $issue)
+        @if(count($ticket->issues))
+          <table class="table table-bordered no-margin-btm">
+            <thead>
             <tr>
-              <td>
-                @if($issue->image != '')
-                  @if(ViewHelper::isImage($issue->image))
-                    <img src="{{asset('assets/images/tickets/'.$issue->image)}}" class="ticket-image"/>
-                  @else
-                    <video width="320" height="240" controls>
-                      <source src="{{asset('assets/images/tickets/'.$issue->image)}}">
-                      Your browser does not support the video tag.
-                    </video>
-                  @endif
-                @endif
-              </td>
-              <td>
-                {{ $issue->issue_desc }}
-              </td>
-              <td>
-                {{ $issue->expected_desc }}
-              </td>
+              <th width="255px">Image / Video</th>
+              <th>Issue</th>
+              <th>Expected Outcome</th>
             </tr>
-          @endforeach
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              @foreach($ticket->issues as $issue)
+                <tr>
+                  <td>
+                    @if($issue->image != '')
+                      @if(ViewHelper::isImage($issue->image))
+                        <img src="{{asset('assets/images/tickets/'.$issue->image)}}" class="ticket-image"/>
+                      @else
+                        <video width="320" height="240" controls>
+                          <source src="{{asset('assets/images/tickets/'.$issue->image)}}">
+                          Your browser does not support the video tag.
+                        </video>
+                      @endif
+                    @endif
+                  </td>
+                  <td>
+                    {{ $issue->issue_desc }}
+                  </td>
+                  <td>
+                    {{ $issue->expected_desc }}
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        @else
+          <div class="form-control-static">No issues</div>
+        @endif
       </div>
     </div>
 
     <div class="form-group">
       <label class="control-label col-md-2 ticket-md-2">Preferred Slots</label>
       <div class="col-md-10 ticket-md-10">
-        <table class="table table-bordered no-margin-btm">
-          <thead>
-          <tr>
-            <th width="120px">Date</th>
-            <th>Time</th>
-          </tr>
-          </thead>
-          <tbody>
-          @foreach($ticket->preferred_slots as $slot)
+        @if(count($ticket->preferred_slots))
+          <table class="table table-bordered no-margin-btm">
+            <thead>
             <tr>
-              <td>
-                {{ ViewHelper::formatDate($slot->date)}}
-              </td>
-              <td>
-                {{ ViewHelper::formatTime($slot->time_start) }} to {{ ViewHelper::formatTime($slot->time_end) }}
-              </td>
+              <th width="120px">Date</th>
+              <th>Time</th>
             </tr>
-          @endforeach
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+            @foreach($ticket->preferred_slots as $slot)
+              <tr>
+                <td>
+                  {{ ViewHelper::formatDate($slot->date)}}
+                </td>
+                <td>
+                  {{ ViewHelper::formatTime($slot->time_start) }} to {{ ViewHelper::formatTime($slot->time_end) }}
+                </td>
+              </tr>
+            @endforeach
+            </tbody>
+          </table>
+        @else
+          <div class="form-control-static">No preferred slots</div>
+        @endif
       </div>
     </div>
 
@@ -266,26 +276,30 @@
       <div class="form-group">
         <label class="control-label col-md-2 ticket-md-2">Staff Assignments</label>
         <div class="col-md-10 ticket-md-10">
-          <table class="table table-bordered no-margin-btm">
-            <thead>
-            <tr>
-              <th width="120px">Date</th>
-              <th width="200px">Staff</th>
-              <th>Time</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($ticket->staff_assignments as $date => $assignments)
-              @foreach($assignments as $a)
-                <tr>
-                  <td>{{ ViewHelper::formatDate($date) }}</td>
-                  <td>{{ $a->staff_name }}</td>
-                  <td>{{ ViewHelper::formatTime($a->time_start) }} to {{ ViewHelper::formatTime($a->time_end) }}</td>
-                </tr>
+          @if(count($ticket->preferred_slots))
+              <table class="table table-bordered no-margin-btm">
+              <thead>
+              <tr>
+                <th width="120px">Date</th>
+                <th width="200px">Staff</th>
+                <th>Time</th>
+              </tr>
+              </thead>
+              <tbody>
+              @foreach($ticket->staff_assignments as $date => $assignments)
+                @foreach($assignments as $a)
+                  <tr>
+                    <td>{{ ViewHelper::formatDate($date) }}</td>
+                    <td>{{ $a->staff_name }}</td>
+                    <td>{{ ViewHelper::formatTime($a->time_start) }} to {{ ViewHelper::formatTime($a->time_end) }}</td>
+                  </tr>
+                @endforeach
               @endforeach
-            @endforeach
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          @else
+            <div class="form-control-static">No staff assignments</div>
+          @endif
         </div>
       </div>
     @endif
@@ -294,7 +308,6 @@
     <div class="form-group">
       <label class="control-label col-md-2 ticket-md-2">One time passwords</label>
       <div class="col-md-10 ticket-md-10">
-
         <table class="table table-bordered no-margin-btm">
           <thead>
           <tr>

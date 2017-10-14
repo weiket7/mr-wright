@@ -22,9 +22,7 @@ class SkillController extends Controller
       $input = $request->all();
       
       if ($input["delete"] == "true") {
-        $skill->delete();
-        $skill->deleteStaffSkillBySkill($skill_id);
-        //does not delete from ticket_skill
+        $skill->deleteSkill($this->getUsername());
         return redirect("admin/skill  ")->with("msg", "Skill deleted");
       }
   

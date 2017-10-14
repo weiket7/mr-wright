@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\BlockedDateTime;
+use App\Models\DeleteLog;
 use App\Models\Services\WorkingHourService;
 use App\Models\BlockedDate;
 use Illuminate\Http\Request;
@@ -36,6 +37,7 @@ class CalendarController extends Controller
   
       if ($input["delete"] == "true") {
         $blocked_date->delete();
+        (new DeleteLog())->saveDeleteLog('working_date_blocked', $blocked_date_id, $blocked_date->date, $this->getUsername());
         return redirect("admin/blocked-date")->with("msg", "Blocked date deleted");
       }
       
@@ -64,6 +66,8 @@ class CalendarController extends Controller
       
       if ($input["delete"] == "true") {
         $blocked_date_time->delete();
+        (new DeleteLog())->saveDeleteLog('working_date_time_blocked', $blocked_date_time_id,
+          $blocked_date_time->date.', '.$blocked_date_time->time_start.' to '.$blocked_date_time->time_end, $this->getUsername());
         return redirect("admin/blocked-date-time")->with("msg", "Blocked date time deleted");
       }
       

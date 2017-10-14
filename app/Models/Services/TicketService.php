@@ -7,6 +7,7 @@ use App\Mail\QuotationMail;
 use App\Mail\TicketAcceptMail;
 use App\Models\CategoryForTicket;
 use App\Models\Company;
+use App\Models\DeleteLog;
 use App\Models\Enums\StaffAssignmentStat;
 use App\Models\Enums\TicketStat;
 use App\Models\Helpers\BackendHelper;
@@ -562,5 +563,12 @@ class TicketService
     }
   }
   
-  
+  public function deleteTicket($ticket_id, $username) {
+    DB::table('ticket')->where('ticket_id', $ticket_id)->delete();
+    DB::table('ticket_history')->where('ticket_id', $ticket_id)->delete();
+    DB::table('ticket_skill')->where('ticket_id', $ticket_id)->delete();
+    DB::table('ticket_issue')->where('ticket_id', $ticket_id)->delete();
+    DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)->delete();
+    (new DeleteLog())->saveDeleteLog('ticket', $ticket_id, '', $username);
+  }
 }

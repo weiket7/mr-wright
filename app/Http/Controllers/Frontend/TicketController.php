@@ -43,6 +43,7 @@ class TicketController extends Controller
     if($request->isMethod("post")) {
       $input = $request->all();
       $submit_action = $input['submit_action'];
+  
       if (BackendHelper::stringContains($submit_action, "draft") || BackendHelper::stringContains($submit_action, "update")) {
         $ticket_id = $this->ticket_service->saveFrontendTicket($ticket_id, $input, $this->getUsername());
         if ($ticket_id === false) {

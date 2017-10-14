@@ -24,27 +24,15 @@
       @foreach($tickets as $ticket)
         <tr>
           <td>
-            @if($ticket->stat == TicketStat::Drafted)
-              Drafted
-            @elseif($ticket->stat == TicketStat::Opened)
-              Opened, pending quotation
-            @elseif($ticket->stat == TicketStat::Quoted)
-              Quoted <button type="button" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'" class="btn btn-primary">Respond</button>
-            @elseif($ticket->stat == TicketStat::Accepted)
-              Accepted, pending completion
-            @elseif($ticket->stat == TicketStat::Declined)
-              Declined
-            @elseif($ticket->stat == TicketStat::Completed)
-              Completed, pending invoice
+            {{ ViewHelper::ticketStatFrontend($ticket) }}
+            @if($ticket->stat == TicketStat::Quoted)
+              <button type="button" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'" class="btn btn-primary">Respond</button>
             @elseif($ticket->stat == TicketStat::Invoiced)
-              Invoiced <button type="button" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'" class="btn btn-primary">Payment</button>
-            @elseif($ticket->stat == TicketStat::Paid)
-              Paid
-            @elseif($ticket->stat == TicketStat::PaymentIndicated)
-              Payment Indicated
+              <button type="button" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'" class="btn btn-primary">Payment</button>
             @endif
           </td>
           <td>
+            
             @if(in_array($ticket->stat, [TicketStat::Drafted, TicketStat::Opened]))
               <a href="{{url("ticket/save/".$ticket->ticket_id)}}">{{ $ticket->ticket_code }}</a>
             @else

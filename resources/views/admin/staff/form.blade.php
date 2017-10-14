@@ -170,7 +170,7 @@
                   <tr>
                     @if($count == 1)
                       <?php $rowspan = count($assignments); $ticket = $tickets[$ticket_id];?>
-                      <td rowspan="{{ $rowspan }}"><a href="{{ ViewHelper::ticketLink($ticket) }}">{{ $ticket->ticket_code }}</a></td>
+                      <td rowspan="{{ $rowspan }}"><a href="{{ ViewHelper::ticketLinkAdmin($ticket) }}">{{ $ticket->ticket_code }}</a></td>
                       <td rowspan="{{ $rowspan }}">{{ \App\Models\Enums\TicketStat::$values[$ticket->stat] }}</td>
                     @endif
                     <td>{{ \App\Models\Enums\StaffAssignmentStat::$values[$a->assignment_stat] }}</td>

@@ -21,14 +21,12 @@ class TicketController extends Controller
   protected $company_service;
   protected $ticket_service;
   
-  public function __construct(CompanyService $company_service, TicketService $ticket_service)
-  {
+  public function __construct(CompanyService $company_service, TicketService $ticket_service) {
     $this->company_service = $company_service;
     $this->ticket_service = $ticket_service;
   }
   
-  public function index(Request $request)
-  {
+  public function index(Request $request) {
     if ($request->isMethod("post")) {
       $input = $request->all();
       $request->flash();
@@ -50,6 +48,13 @@ class TicketController extends Controller
       $input = $request->all();
       $submit_action = $input['submit_action'];
       $result = "";
+  
+      if ($input['delete'] == "true") {
+        $this->ticket_service->deleteTicket($ticket_id, $this->getUsername());
+        $result = "Ticket deleted";
+        return redirect('admin/ticket')->with('msg', $result);
+      }
+  
       if ($submit_action == "quote") {
         $ticket = $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
         $this->ticket_service->emailQuotation($ticket);
