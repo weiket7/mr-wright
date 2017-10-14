@@ -1,6 +1,5 @@
 <?php use App\Models\Enums\TicketStat; ?>
 <?php use App\Models\Enums\TicketUrgency; ?>
-<?php use Carbon\Carbon; ?>
 
 @extends('frontend.template', ['title'=>strtoupper($action). ' TICKET'])
 
@@ -9,10 +8,10 @@
     {{ csrf_field() }}
 
     <div class="form-group">
-      <label class="control-label col-md-2">
+      <label class="control-label col-md-2 ticket-md-2">
         Title
       </label>
-      <div class="col-md-10">
+      <div class="col-md-10 ticket-md-10">
         <div class="form-control-static">
           {{ $ticket->title }}
         </div>
@@ -150,7 +149,7 @@
           </label>
           <div class="col-md-9">
             <div class="form-control-static">
-            {{ $ticket->requested_by }} on {{ ViewHelper::formatDateTime(Carbon::now()) }}
+            {{ $ticket->requested_by }} on {{ ViewHelper::formatDateTime($ticket->requested_on) }}
             </div>
           </div>
         </div>
@@ -199,8 +198,8 @@
     @endif
 
     <div class="form-group">
-      <label class="control-label col-md-2">Issues</label>
-      <div class="col-md-10">
+      <label class="control-label col-md-2 ticket-md-2">Issues</label>
+      <div class="col-md-10 ticket-md-10">
         <table class="table table-bordered no-margin-btm">
           <thead>
           <tr>
@@ -238,8 +237,8 @@
     </div>
 
     <div class="form-group">
-      <label class="control-label col-md-2">Preferred Slots</label>
-      <div class="col-md-10">
+      <label class="control-label col-md-2 ticket-md-2">Preferred Slots</label>
+      <div class="col-md-10 ticket-md-10">
         <table class="table table-bordered no-margin-btm">
           <thead>
           <tr>
@@ -263,10 +262,10 @@
       </div>
     </div>
 
-    @if(ViewHelper::frontendShowStaffAssignments($ticket->stat) )
+    @if(ViewHelper::ticketShowStaffAssignments($ticket->stat) )
       <div class="form-group">
-        <label class="control-label col-md-2">Staff Assignments</label>
-        <div class="col-md-10">
+        <label class="control-label col-md-2 ticket-md-2">Staff Assignments</label>
+        <div class="col-md-10 ticket-md-10">
           <table class="table table-bordered no-margin-btm">
             <thead>
             <tr>
@@ -291,10 +290,10 @@
       </div>
     @endif
   
-    @if(ViewHelper::frontendShowOtps($ticket->stat) )
+    @if(ViewHelper::ticketShowOtps($ticket->stat) )
     <div class="form-group">
-      <label class="control-label col-md-2">One time passwords</label>
-      <div class="col-md-10">
+      <label class="control-label col-md-2 ticket-md-2">One time passwords</label>
+      <div class="col-md-10 ticket-md-10">
 
         <table class="table table-bordered no-margin-btm">
           <thead>

@@ -9,7 +9,7 @@
     </blockquote>
   </div>
 
-  @include('frontend.ticket-content')
+  @include('emails.ticket-content')
 
   <div class="panel panel-default">
     <div class="panel-heading">

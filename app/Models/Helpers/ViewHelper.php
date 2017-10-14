@@ -77,11 +77,11 @@ class ViewHelper {
     return '$'.$number;
   }
   
-  public static function frontendShowStaffAssignments($ticket_stat) {
-    return ! in_array($ticket_stat, [TicketStat::Drafted, TicketStat::Opened, TicketStat::Declined]);
+  public static function ticketShowStaffAssignments($ticket_stat) {
+    return ! in_array($ticket_stat, [TicketStat::Drafted, TicketStat::Opened]);
   }
   
-  public static function frontendShowOtps($ticket_stat) {
+  public static function ticketShowOtps($ticket_stat) {
     return ! in_array($ticket_stat, [TicketStat::Drafted, TicketStat::Opened, TicketStat::Quoted, TicketStat::Declined]);
   }
   

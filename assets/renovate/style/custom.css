@@ -73,6 +73,14 @@
 .help-block {
   font-size: 12px;
 }
+@media (min-width: 992px) {
+  .ticket-md-2 {
+    width: 12.5%;
+  }
+  .ticket-md-10 {
+    width: 87.5%
+  }
+}
 
 /*step wizard*/
 /*http://bootsnipp.com/snippets/featured/form-wizard-and-validation*/

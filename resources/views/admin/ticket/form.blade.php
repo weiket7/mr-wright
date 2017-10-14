@@ -31,8 +31,8 @@
 
               <div class="form-body">
                 <div class="form-group">
-                  <label class="control-label col-md-2">Title</label>
-                  <div class="col-md-10">
+                  <label class="control-label col-md-2 ticket-md-2">Title</label>
+                  <div class="col-md-10 ticket-md-10">
                     {{Form::text('title', $ticket->title, ['class'=>'form-control'])}}
                   </div>
                 </div>
@@ -202,8 +202,8 @@
                   </div>
                 @endif
                 <div class="form-group">
-                  <label class="control-label col-md-2">Issues</label>
-                  <div class="col-md-10">
+                  <label class="control-label col-md-2 ticket-md-2">Issues</label>
+                  <div class="col-md-10 ticket-md-10">
                     <input type="hidden" name="issues_count" v-bind:value="issues.length">
 
                     <table class="table table-bordered no-margin-btm">
@@ -260,8 +260,8 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-2">Preferred Slots</label>
-                  <div class="col-md-10">
+                  <label class="control-label col-md-2 ticket-md-2">Preferred Slots</label>
+                  <div class="col-md-10 ticket-md-10">
                     <input type="hidden" name="preferred_slots_count" v-bind:value="preferred_slots.length">
 
                     <table class="table table-bordered no-margin-btm">
@@ -305,8 +305,8 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-2">Skills</label>
-                  <div class="col-md-10">
+                  <label class="control-label col-md-2 ticket-md-2">Skills</label>
+                  <div class="col-md-10 ticket-md-10">
                     <div class="mt-checkbox-inline">
                       @foreach($skills as $skill_id => $name)
                         <label class="mt-checkbox mt-checkbox-outline">
@@ -320,16 +320,16 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-2">Staffs</label>
-                  <div class="col-md-10">
+                  <label class="control-label col-md-2 ticket-md-2">Staffs</label>
+                  <div class="col-md-10 ticket-md-10">
                     <select id="staffs" class="form-control select2-multiple" multiple="multiple">
                     </select>
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-2">Date</label>
-                  <div class="col-md-10">
+                  <label class="control-label col-md-2 ticket-md-2">Date</label>
+                  <div class="col-md-10 ticket-md-10">
                     <div class="input-group" style="max-width:300px">
                       <span class="input-group-btn">
                           <button class="btn red" type="button" @click="previousDate">Previous</button>
@@ -343,8 +343,8 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="" class="control-label col-md-2">Calendar</label>
-                  <div class="col-md-10">
+                  <label for="" class="control-label col-md-2 ticket-md-2">Calendar</label>
+                  <div class="col-md-10 ticket-md-10">
                     <input type='hidden' name="staff_assignments" id="staff_assignments" value="{{ json_encode($ticket->staff_assignments) }}"/>
                     <div id="div-calendar"></div>
                   </div>

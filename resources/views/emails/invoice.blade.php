@@ -31,7 +31,7 @@
     </blockquote>
   </div>
 
-  @include('frontend.ticket-content', ['ticket'=>$ticket])
+  @include('emails.ticket-content', ['ticket'=>$ticket])
 
   <div class="panel panel-default">
     <div class="panel-heading">

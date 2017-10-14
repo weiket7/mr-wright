@@ -105,7 +105,6 @@
 </div>
 @endif
 
-
 @if(isset($show_otp) && $show_otp)
   <div class="div-staff-assignments">
     <h4>One time passwords</h4>

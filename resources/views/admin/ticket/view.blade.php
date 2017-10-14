@@ -28,8 +28,8 @@
               {!! csrf_field() !!}
               <div class="form-body">
                 <div class="form-group">
-                  <label class="control-label col-md-2">Title</label>
-                  <div class="col-md-10 form-control-static">
+                  <label class="control-label col-md-2 ticket-md-2">Title</label>
+                  <div class="col-md-10 form-control-static ticket-md-10">
                     {{ $ticket->title }}
                   </div>
                 </div>
@@ -137,7 +137,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Requested By</label>
                       <label class="col-md-9 form-control-static">
-                        {{ $ticket->requested_by }} on {{ ViewHelper::formatDate($ticket->requested_on) }}
+                        {{ $ticket->requested_by }} on {{ ViewHelper::formatDateTime($ticket->requested_on) }}
                       </label>
                     </div>
                   </div>
@@ -194,8 +194,8 @@
                 @endif
 
                 <div class="form-group">
-                  <label class="control-label col-md-2">Issues</label>
-                  <div class="col-md-10">
+                  <label class="control-label col-md-2 ticket-md-2">Issues</label>
+                  <div class="col-md-10 ticket-md-10">
                     <table class="table table-bordered no-margin-btm table-responsive">
                       <thead>
                       <tr>
@@ -226,8 +226,8 @@
                 <!--TODO-->
                 @if(Auth::user()->type == \App\Models\Enums\UserType::Operator)
                   <div class="form-group">
-                    <label class="control-label col-md-2">Preferred Slots</label>
-                    <div class="col-md-10">
+                    <label class="control-label col-md-2 ticket-md-2">Preferred Slots</label>
+                    <div class="col-md-10 ticket-md-10">
                       <table class="table table-bordered no-margin-btm table-responsive">
                         <thead>
                         <tr>
@@ -251,58 +251,62 @@
                     </div>
                   </div>
                 @endif
-
-                <div class="form-group">
-                  <label class="control-label col-md-2">Staff Assignments</label>
-                  <div class="col-md-10">
-                    <table class="table table-bordered no-margin-btm table-responsive">
-                      <thead>
-                      <tr>
-                        <th width="120px">Date</th>
-                        <th>Staff</th>
-                        <th>Time</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      @foreach($ticket->staff_assignments as $date => $assignments)
-                        @foreach($assignments as $a)
-                          <tr>
-                            <td>{{ ViewHelper::formatDate($date) }}</td>
-                            <td>{{ $a->staff_name }}</td>
-                            <td>{{ ViewHelper::formatTime($a->time_start) }} to {{ ViewHelper::formatTime($a->time_end) }}</td>
-                          </tr>
+  
+                @if(ViewHelper::ticketShowStaffAssignments($ticket->stat) )
+                  <div class="form-group">
+                    <label class="control-label col-md-2 ticket-md-2">Staff Assignments</label>
+                    <div class="col-md-10 ticket-md-10">
+                      <table class="table table-bordered no-margin-btm table-responsive">
+                        <thead>
+                        <tr>
+                          <th width="120px">Date</th>
+                          <th>Staff</th>
+                          <th>Time</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($ticket->staff_assignments as $date => $assignments)
+                          @foreach($assignments as $a)
+                            <tr>
+                              <td>{{ ViewHelper::formatDate($date) }}</td>
+                              <td>{{ $a->staff_name }}</td>
+                              <td>{{ ViewHelper::formatTime($a->time_start) }} to {{ ViewHelper::formatTime($a->time_end) }}</td>
+                            </tr>
+                          @endforeach
                         @endforeach
-                      @endforeach
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
+                @endif
 
-                <div class="form-group">
-                  <label class="control-label col-md-2">One time passwords</label>
-                  <div class="col-md-10">
-                    <table class="table table-bordered no-margin-btm table-responsive">
-                      <thead>
-                      <tr>
-                        <th width="120px">Date</th>
-                        <th width="200px">First OTP</th>
-                        <th>Second OTP</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      @if(ViewHelper::hasAccess('ticket_view_otp'))
-                        @foreach($ticket->otps as $otp)
-                          <tr>
-                            <td>{{ ViewHelper::formatDate($otp->date) }}</td>
-                            <td>{{ $otp->first_otp }}</td>
-                            <td>{{ $otp->second_otp }}</td>
-                          </tr>
-                        @endforeach
-                      @endif
-                      </tbody>
-                    </table>
+                @if(ViewHelper::ticketShowOtps($ticket->stat))
+                  <div class="form-group">
+                    <label class="control-label col-md-2 ticket-md-2">One time passwords</label>
+                    <div class="col-md-10 ticket-md-10">
+                      <table class="table table-bordered no-margin-btm table-responsive">
+                        <thead>
+                        <tr>
+                          <th width="120px">Date</th>
+                          <th width="200px">First OTP</th>
+                          <th>Second OTP</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if(ViewHelper::hasAccess('ticket_view_otp'))
+                          @foreach($ticket->otps as $otp)
+                            <tr>
+                              <td>{{ ViewHelper::formatDate($otp->date) }}</td>
+                              <td>{{ $otp->first_otp }}</td>
+                              <td>{{ $otp->second_otp }}</td>
+                            </tr>
+                          @endforeach
+                        @endif
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
+                @endif
               </div>
 
               <div class="form-actions">

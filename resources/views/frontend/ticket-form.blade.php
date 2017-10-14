@@ -9,10 +9,10 @@
       <input type="hidden" v-model="submit_action" name="submit_action">
   
       <div class="form-group">
-        <label class="control-label col-md-2">
+        <label class="control-label col-md-2 ticket-md-2">
           Title *
         </label>
-        <div class="col-md-10">
+        <div class="col-md-10 ticket-md-10">
           {{Form::text('title', $ticket->title, ['class'=>'form-control', 'autofocus'])}}
         </div>
       </div>
@@ -24,9 +24,9 @@
               <label class="control-label col-md-3">
                 Ticket Code
               </label>
-              <label class="col-md-9 form-control-static">
+              <div class="col-md-9 form-control-static r-text">
                 {{ $ticket->ticket_code }}
-              </label>
+              </div>
             </div>
           </div>
           <div class="col-md-6">
@@ -34,9 +34,9 @@
               <label class="control-label col-md-3">
                 Status
               </label>
-              <label class="col-md-9 form-control-static">
+              <div class="col-md-9 form-control-static r-text">
                 {{ TicketStat::$values[$ticket->stat] }}
-              </label>
+              </div>
             </div>
           </div>
         </div>
@@ -150,10 +150,10 @@
       </div>
       
       <div class="form-group">
-        <label class="control-label col-md-2">
+        <label class="control-label col-md-2 ticket-md-2">
           Issues
         </label>
-        <div class="col-md-10">
+        <div class="col-md-10 ticket-md-10">
           <input type="hidden" name="issues_count" v-bind:value="issues.length">
           
           <table class="table table-bordered">
@@ -210,10 +210,10 @@
       </div>
       
       <div class="form-group">
-        <label class="control-label col-md-2">
+        <label class="control-label col-md-2 ticket-md-2">
           Preferred Slots
         </label>
-        <div class="col-md-10">
+        <div class="col-md-10 ticket-md-10">
           <input type="hidden" name="preferred_slots_count" v-bind:value="preferred_slots.length">
           
           <table class="table table-bordered">

@@ -102,6 +102,15 @@
   max-height: 50px;
 }
 
+/*bootstrap*/
+@media (min-width: 992px) {
+  .ticket-md-2 {
+    width: 12.5%;
+  }
+  .ticket-md-10 {
+    width: 87.5%
+  }
+}
 
 /*fix multiselect options alignment in form-horizontal*/
 /*still got issue, background of hover has padding-left*/

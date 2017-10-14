@@ -31,6 +31,10 @@
   <link href="{{asset('assets/metronic/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
 
   <link rel="shortcut icon" href="{{asset('favicon.png')}}">
+  
+  @section('css')
+  
+  @show
 </head>
 <body>
 <div class="site-container">
