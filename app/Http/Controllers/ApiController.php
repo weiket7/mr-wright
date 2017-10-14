@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Mail\NoShowMail;
 use App\Models\Account;
+use App\Models\Enums\StaffAssignmentStat;
 use App\Models\Enums\TransactionStat;
 use App\Models\Office;
 use App\Models\Services\CalendarService;
@@ -12,9 +14,11 @@ use App\Models\Services\PaymentService;
 use App\Models\Services\SkillService;
 use App\Models\Services\TicketService;
 use App\Models\Services\WorkingHourService;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Mail;
 
 class ApiController extends Controller
 {
@@ -86,7 +90,39 @@ class ApiController extends Controller
   }
   
   public function ticketAttendance(Request $request) {
+    $ticket_ids = DB::table('ticket_otp')
+      ->whereNull('first_entered_on')
+      ->where('date', Carbon::today())
+      ->pluck('ticket_id');
+    //var_dump($ticket_ids);
+    
+    $data = DB::table('staff_assignment')->select((DB::raw('ticket_id, min(time_start) as time')))
+      ->where('stat', StaffAssignmentStat::Pending)
+      //->where('date', Carbon::today())
+      ->whereIn('ticket_id', $ticket_ids)
+      ->groupBy('ticket_id')->pluck('time', 'ticket_id');
+    //var_dump($data);
+    
+    $now = Carbon::now();
+    $res = [];
+    foreach($data as $ticket_id => $time) {
+      $t = Carbon::createFromFormat('H:i:s', $time);
+      //var_dump($t->gt($now)); var_dump($now->diffInMinutes($t));
+      if ($t->lt($now) && $now->diffInMinutes($t) > 30) {
+        $res[] = $ticket_id;
+      }
+    }
+    
+    DB::table("ticket_otp")->whereIn('ticket_id', $res)->update([
+      'no_show'=>1
+    ]);
+    
+    $no_shows = DB::table('staff_assignment')->whereIn('ticket_id', $res)->get();
+    //var_dump($no_shows);
+    
+    Mail::to(config('mail.from.address'))->send(new NoShowMail($no_shows));
+    //var_dump($res); exit;
+    //send email
     Log::info("ticket-attendance");
-    return "ticket-attendance";
   }
 }
