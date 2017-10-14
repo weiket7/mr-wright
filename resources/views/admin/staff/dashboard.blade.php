@@ -40,7 +40,7 @@
                 <tr>
                   <td>{{ $assignment->staff_name }}</td>
                   <td>{{ $assignment->staff_mobile }}</td>
-                  <td>{{ $assignment->date }}</td>
+                  <td>{{ ViewHelper::formatDate($assignment->date) }}</td>
                   <td>{{ ViewHelper::formatTime($assignment->time_start) }}</td>
                   <td>{{ ViewHelper::formatTime($assignment->time_end) }}</td>
                 </tr>

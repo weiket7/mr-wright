@@ -58,7 +58,7 @@ class WorkingDayTimeSeeder extends Seeder
     DB::table('working_day_time')->insert([
       'day'=>6,
       'time_start'=>'10:00',
-      'time_end'=>'13:00',
+      'time_end'=>'23:00',
       'updated_by'=>'admin',
       'updated_on'=>Carbon::now()
     ]);

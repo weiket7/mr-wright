@@ -256,20 +256,20 @@ class TicketService
     
     $dates = DB::table('staff_assignment')->where('ticket_id', $ticket_id)->distinct()->pluck('date');
     foreach($dates as $d) {
-      $this->generateOtp($ticket_id, $d, 1);
+      $this->generateTicketOtp($ticket_id, $d);
     }
 
     $this->saveTicketHistory($ticket_id, 'accept', $username);
     return $ticket;
   }
   
-  private function generateOtp($ticket_id, $date, $type) {
+  private function generateTicketOtp($ticket_id, $date) {
     $ticket_otp = new TicketOtp();
     $ticket_otp->ticket_id = $ticket_id;
     $ticket_otp->date = $date;
     $ticket_otp->first_otp = rand(000000, 999999);
     $ticket_otp->second_otp = rand(000000, 999999);
-    $ticket_otp->created_on = Carbon::now();
+    $ticket_otp->date_time_start =
     $ticket_otp->save();
   }
 
@@ -284,8 +284,7 @@ class TicketService
     return true;
   }
 
-  public function completeTicket($ticket_id, $username = 'admin')
-  {
+  public function completeTicket($ticket_id, $username = 'admin') {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Completed;
     $ticket->save();
@@ -358,6 +357,7 @@ class TicketService
             'staff_mobile'=>$staff->mobile,
             'time_start'=>$p['time_start'],
             'time_end'=>$p['time_end'],
+            'date_time_start'=>$date . ' ' . $p['time_start'],
           ];
           DB::table('staff_assignment')->insert($staff_assignment);
         }
@@ -533,16 +533,18 @@ class TicketService
     }
 
     if ($valid_otp) {
+      $ticket_id = DB::table('ticket_otp')->where('ticket_otp_id', $ticket_otp_id)->value('ticket_id');
       if ($type == 'first') {
         DB::table('ticket_otp')
           ->where('ticket_otp_id', $ticket_otp_id)
-          ->update(['first_entered' => true, 'first_entered_on'=>Carbon::now()]);
+          ->update(['first_entered_on'=>Carbon::now()]);
+        $this->staffAttendTicket($ticket_id, $username);
+        
       } else if ($type == 'second') {
         DB::table('ticket_otp')
           ->where('ticket_otp_id', $ticket_otp_id)
-          ->update(['second_entered' => true, 'second_entered_on'=>Carbon::now()]);
+          ->update(['second_entered_on'=>Carbon::now()]);
 
-        $ticket_id = DB::table('ticket_otp')->where('ticket_otp_id', $ticket_otp_id)->value('ticket_id');
         $this->completeTicket($ticket_id, $username);
       }
     }
@@ -569,5 +571,11 @@ class TicketService
     DB::table('ticket_issue')->where('ticket_id', $ticket_id)->delete();
     DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)->delete();
     (new DeleteLog())->saveDeleteLog('ticket', $ticket_id, '', $username);
+  }
+  
+  private function staffAttendTicket($ticket_id, $username) {
+    DB::table('staff_assignment')->where('ticket_id', $ticket_id)->update([
+      'stat'=>StaffAssignmentStat::Attended
+    ]);
   }
 }

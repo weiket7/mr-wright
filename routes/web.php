@@ -86,7 +86,6 @@ Route::group(['middleware'=>['auth']], function() {
   });
   
   Route::group(['middleware'=>['modulemiddleware']], function() {
-
     Route::get('admin/dashboard', 'Admin\AdminController@dashboard');
     Route::get('admin/company', 'Admin\CompanyController@index');
     Route::post('admin/company', 'Admin\CompanyController@index');
@@ -215,7 +214,7 @@ Route::group(['middleware'=>['auth']], function() {
 
 //TODO secure this api
 Route::get('api/transactionSuccess', 'ApiController@transactionSuccess');
-Route::get('api/ticket-attendance', 'ApiController@ticketAttendance');
+Route::get('api/ticket-no-show', 'ApiController@ticketNoShow');
 
 //TODO remove
 Route::get('preview', 'PreviewController@index');

@@ -20,6 +20,8 @@ class StaffAssignmentTable extends Migration
       $t->date('date');
       $t->time('time_start');
       $t->time('time_end');
+      $t->dateTime('date_time_start');
+      $t->boolean('no_show', 1)->nullable();
     });
   }
 

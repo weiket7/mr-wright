@@ -12,8 +12,6 @@ class TicketOtpSeeder extends Seeder
       'date'=>Carbon::parse('next thursday'),
       'first_otp'=>123456,
       'second_otp'=>234567,
-      //'first_entered'=>false,
-      //'second_entered'=>false,
     ]);
   }
 }

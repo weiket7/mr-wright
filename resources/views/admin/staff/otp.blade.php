@@ -174,7 +174,7 @@
                     <tr>
                       <td>{{ ViewHelper::formatDate($otp->date) }}</td>
                       <td>
-                        @if($otp->first_entered)
+                        @if($otp->first_entered_on)
                           {{ $otp->first_otp }}
                           <span class="font-green-jungle"><i class="fa fa-check"></i></span>
                           <br>{{ ViewHelper::formatDateTime($otp->first_entered_on) }}
@@ -189,7 +189,7 @@
                         @endif
                       </td>
                       <td>
-                        @if($otp->second_entered)
+                        @if($otp->second_entered_on)
                           {{ $otp->second_otp }}
                           <span class="font-green-jungle"><i class="fa fa-check"></i></span>
                           <br>{{ ViewHelper::formatDateTime($otp->second_entered_on) }}
