@@ -10,7 +10,7 @@
   <br><br>
 
   Please log in to begin creating ticket(s).
+  
   <br><br>
-
-  <button type='button' class="btn btn-primary" onclick="window.open('{{url('login')}}')">Log In</button>
+  <a href="{{url('login')}}" class="btn btn-primary">Log In</a>
 @endsection

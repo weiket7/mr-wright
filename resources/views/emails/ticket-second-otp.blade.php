@@ -5,7 +5,4 @@
   
   Hi {{$ticket->name}},
   <br><br>
-  
-  
-  
 @endsection

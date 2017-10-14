@@ -87,10 +87,12 @@ class Account extends Eloquent
     if ( $this->validation->fails()) {
       return false;
     }
-
+  
     $registration = Registration::find($registration_id);
     $membership = Membership::find($input['membership_id']);
-    if ($membership->free_trial == false) {
+    if ($membership->free_trial) {
+      $registration->payment_method = "";
+    } else {
       $registration->payment_method = $input['payment_method'];
       if ($registration->payment_method == 'Q' || $registration->payment_method == 'B')  {
         $registration->ref_no = $input['ref_no'];
@@ -211,6 +213,7 @@ class Account extends Eloquent
       $company->membership_name = $registration->membership_name;
       $company->requester_limit = $registration->requester_limit;
       $company->effective_price = $registration->effective_price;
+      $company->requester_count = 1;
       $company->save();
 
       $office = new Office();
@@ -218,6 +221,7 @@ class Account extends Eloquent
       $office->name = $registration->company_name;
       $office->addr = $registration->addr;
       $office->postal = $registration->postal;
+      $office->requester_count = 1;
       $office->save();
     }
 
@@ -348,12 +352,6 @@ class Account extends Eloquent
       return true;
     }
     return false;
-  }
-  
-  public function saveRegistrationFreeTrial($registration, $membership)
-  {
-    $this->assignMembership($registration, $membership);
-    $registration->save();
   }
   
   private function assignMembership($registration, $membership)

@@ -7,6 +7,7 @@ class PaymentMethod extends Eloquent
   public $table = 'payment_method';
   protected $primaryKey = 'payment_method_id';
   const UPDATED_AT = 'updated_on';
+  const CREDIT_CARD = 'R';
 
   public function savePaymentMethod($input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );

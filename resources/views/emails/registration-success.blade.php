@@ -1,3 +1,5 @@
+<?php use App\Models\Enums\RegistrationStat; ?>
+
 @extends("emails.email-template")
 
 @section('content')
@@ -14,6 +16,13 @@
     <br><br>
 
     When the admin approves your registration, an email will be sent to you.
+  @elseif($registration->stat == RegistrationStat::Approved)
+    Please log in to begin creating tickets.
+    
+    <br><br>
+    <div>
+      <a href="{{url('login')}}" class="btn btn-primary">Log In</a>
+    </div>
   @else
     @if($registration->payment_method == 'Q')
       {!! nl2br($frontend['contents']['payment_cheque']) !!}

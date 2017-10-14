@@ -14,8 +14,9 @@
     <b>{{ $new_password }}</b>
   </div>
 
-  <div class="text-center">
-    <button type='button' class="btn btn-primary" onclick="window.open('{{url('login')}}')">Log In</button>
+  <br><br>
+  <div>
+    <a href="{{url('login')}}" class="btn btn-primary">Log In</a>
   </div>
 
 @endsection

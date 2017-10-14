@@ -8,6 +8,7 @@ use App\Models\Enums\PaymentMethodStat;
 use App\Models\Enums\TransactionStat;
 use App\Models\Enums\TransactionType;
 use App\Models\Membership;
+use App\Models\PaymentMethod;
 use App\Models\Registration;
 use App\Models\Services\PaymentService;
 use App\Models\User;
@@ -19,7 +20,7 @@ class RegistrationController extends Controller
 {
   public function index(Request $request)
   {
-    $membership_id = $request->get('membership_id');
+    $membership_id = $request->get('membership_id'); //at Membership->Register, there is ?membership_id=X
     if (!empty($membership_id) && Membership::where('membership_id', $membership_id)->count() == 0) {
       return view('frontend/error', ['error' => 'Membership does not exist']);
     }
@@ -33,17 +34,19 @@ class RegistrationController extends Controller
       }
       
       $registration = $account_service->saveRegistration($input, $request->ip());
-        if ($membership_id) {
-          $membership = Membership::find($membership_id);
-          if ($membership->free_trial) {
-          $account_service->saveRegistrationFreeTrial($registration, $membership);
+      $request->session()->put('registration_id', $registration->registration_id);
+  
+      if ($membership_id) {
+        $input['membership_id'] = $membership_id;
+        $registration = $account_service->saveRegistrationMembership($registration->registration_id, $input);
+  
+        $membership = Membership::find($membership_id);
+        if ($membership->free_trial) {
           $account_service->approveRegistration($registration->registration_id);
-          $request->session()->put('registration_id', $registration->registration_id);
+          $account_service->emailRegistration($registration);
           return redirect('register/success');
         }
       }
-  
-      $request->session()->put('registration_id', $registration->registration_id);
       
       $uen_exist = $account_service->uenExist($input['uen']);
       if ($uen_exist) {
@@ -62,21 +65,27 @@ class RegistrationController extends Controller
     $account_service = new Account();
     if ($request->isMethod("post")) {
       $input = $request->all();
+  
       $registration = $account_service->saveRegistrationMembership($registration_id, $input);
       if ($registration == false) {
         return redirect()->back()->withErrors($account_service->getValidation())->withInput($input);
       }
-      if ($registration->payment_method == 'R') { //credit card
+  
+      $membership = Membership::find($registration->membership_id);
+      if ($membership->free_trial) {
+        $account_service->approveRegistration($registration->registration_id);
+      }
+      
+      if ($registration->payment_method == PaymentMethod::CREDIT_CARD) { //credit card
         $transaction_request = new TransactionRequest();
         $transaction_request->code = $registration->registration_code;
         $transaction_request->type = TransactionType::Registration;
         $transaction_request->stat = TransactionStat::Pending;
         $transaction_request->amount = $registration->effective_price;
         return redirect('payment')->with('transaction_request', $transaction_request);
-      } else {
-        $account_service->emailRegistration($registration);
       }
-      
+
+      $account_service->emailRegistration($registration);
       return redirect('register/success');
     }
     $membership_service = new Membership();

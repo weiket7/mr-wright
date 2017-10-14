@@ -109,8 +109,7 @@
   <br><br>
 
   Please log in to approve or decline this registration.
+  
   <br><br>
-
-  <button type='button' class="btn btn-primary" onclick="window.open('{{url('login?referral=invite/registration/'.$registration->registration_id)}}')">Log In</button>
-
+  <a href="{{url('login?referral=invite/registration/'.$registration->registration_id)}}" class="btn btn-primary">Log In</a>
 @endsection
