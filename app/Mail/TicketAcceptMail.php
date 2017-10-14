@@ -25,6 +25,6 @@ class TicketAcceptMail extends Mailable
     $ticket = $ticket_service->getTicket($this->ticket_id);
     $ticket_service->populateTicketForView($ticket);
     $data['ticket'] = $ticket;
-    return $this->subject('Mr Wright - Ticket '.$ticket->ticket_code.' Accepted')->view('emails.ticket-accept', $data);
+    return $this->subject('Mr Wright - Accepted Ticket '.$ticket->ticket_code)->view('emails.ticket-accept', $data);
   }
 }

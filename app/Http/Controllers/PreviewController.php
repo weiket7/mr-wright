@@ -40,9 +40,13 @@ class PreviewController extends Controller
     Mail::to('wei_ket@hotmail.com')->send(new ContactMail($contact));
   }
   
-  public function ticketQuotation($ticket_id) {
+  public function ticketQuotation(Request $request, $ticket_id) {
     $ticket = $this->ticket_service->getTicket($ticket_id);
+    $quoted_history = $ticket->history->where('action', 'quote')->first();
+    $ticket->quoted_by = $quoted_history->action_by;
+    $ticket->quoted_on = $quoted_history->action_on;
     $data['ticket'] = $ticket;
+    
     if ($request->get('email') == "true") {
       $this->ticket_service->emailQuotation($ticket);
     }

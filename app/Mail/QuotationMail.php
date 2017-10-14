@@ -21,7 +21,10 @@ class QuotationMail extends Mailable
   public function build(TicketService $ticket_service)
   {
     $ticket = $ticket_service->getTicket($this->ticket_id);
-    $subject = "Mr Wright Quotation for ".$ticket->ticket_code;
+    $quoted_history = $ticket->history->where('action', 'quote')->first();
+    $ticket->quoted_by = $quoted_history->action_by;
+    $ticket->quoted_on = $quoted_history->action_on;
+    $subject = "Mr Wright - Quotation for Ticket ".$ticket->ticket_code;
     $data['ticket'] = $ticket;
     return $this->subject($subject)->view('emails.quotation', $data);
   }
