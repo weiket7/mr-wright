@@ -59,7 +59,7 @@ class SettingController extends Controller
       $input = $request->all();
   
       if ($input["delete"] == "true") {
-        $category->delete();
+        $category->deleteCategory();
         (new DeleteLog())->saveDeleteLog('category_for_ticket', $category_for_ticket_id, $category->name, $this->getUsername());
         return redirect("admin/category-for-ticket")->with("msg", "Category for ticket deleted");
       }

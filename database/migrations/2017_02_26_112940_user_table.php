@@ -21,6 +21,7 @@ class UserTable extends Migration
       $t->string('updated_by', 20);
       $t->dateTime('updated_on');
       $t->dateTime('created_on');
+      $t->softDeletes();
     });
   }
 

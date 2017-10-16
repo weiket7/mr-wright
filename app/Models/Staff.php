@@ -3,10 +3,10 @@
 use App\Models\Enums\StaffStat;
 use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
-use Carbon\Carbon;
 
 use Eloquent, DB, Validator, Log;
 use Hash;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Staff extends Eloquent
 {
@@ -15,6 +15,7 @@ class Staff extends Eloquent
   protected $validation;
   public $timestamps = false;
   protected $attributes = ['stat'=>StaffStat::Active];
+  use SoftDeletes;
 
   private $rules = [
     'username'=>'required|sometimes',
@@ -35,8 +36,7 @@ class Staff extends Eloquent
     'email.email'=>'Email must be valid email',
   ];
 
-  public static function getStaffAll()
-  {
+  public function getStaffAll() {
     $staffs = Staff::all();
 
     $data = DB::table('skill as sk')

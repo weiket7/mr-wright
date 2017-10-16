@@ -1,8 +1,8 @@
 <?php namespace App\Models;
 
-
 use App\Models\Helpers\BackendHelper;
 use Eloquent, DB, Validator, Log;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Skill extends Eloquent
 {
@@ -10,6 +10,7 @@ class Skill extends Eloquent
   protected $primaryKey = 'skill_id';
   protected $validation;
   public $timestamps = false;
+  use SoftDeletes;
 
   private $rules = [
     'name'=>'required',
@@ -36,11 +37,10 @@ class Skill extends Eloquent
     return true;
   }
   
-  public function deleteSkill($username) {
-    DB::table('skill')->where('skill_id', $this->skill_id)->delete();
-    DB::table('staff_skill')->where('skill_id', $this->skill_id)->delete();
+  public function deleteSkill() {
+    $this->delete();
+    //DB::table('staff_skill')->where('skill_id', $this->skill_id)->delete();
     //DB::table('ticket_skill')->where('skill_id', $this->skill_id)->delete();
-    (new DeleteLog())->saveDeleteLog('skill', $this->skill_id, $this->name, $username);
   }
 
   public function getValidation() {

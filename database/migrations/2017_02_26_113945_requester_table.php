@@ -25,6 +25,8 @@ class RequesterTable extends Migration
       $t->char('preferred_contact', 1)->nullable();
       $t->string('updated_by', 20);
       $t->dateTime('updated_on');
+      $t->dateTime('created_on');
+      $t->softDeletes();
     });
   }
   

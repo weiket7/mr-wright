@@ -17,6 +17,7 @@ class StaffTable extends Migration
       $t->char('stat', 1);
       $t->string('updated_by', 20);
       $t->dateTime('updated_on');
+      $t->softDeletes();
     });
   }
   

@@ -14,6 +14,7 @@ use App\Models\Helpers\BackendHelper;
 use App\Models\Office;
 use App\Models\Requester;
 use App\Models\Setting;
+use App\Models\Skill;
 use App\Models\Staff;
 use App\Models\Ticket;
 use App\Models\TicketHistory;
@@ -99,10 +100,6 @@ class TicketService
 
   public function getCategoryDropdown() {
     return CategoryForTicket::pluck('name', 'category_for_ticket_id');
-  }
-
-  public function getSkills() {
-    return DB::table('skill')->pluck('name', 'skill_id');
   }
 
   private $rules = [
@@ -387,7 +384,7 @@ class TicketService
   public function searchTicket($input) {
     $s = "SELECT stat, ticket_code, ticket_id, title, category_id, quoted_price, requested_by, requested_on 
     from ticket
-    where 1 ";
+    where deleted_at is null ";
     if (isset($input['stat'])) {
       if (is_array($input['stat']) && count($input['stat'])) {
         $s .= " and stat in ('".implode(',', $input['stat'])."')";
@@ -517,39 +514,6 @@ class TicketService
     Mail::to($user = Requester::where('username', $ticket->requested_by)->first())
       ->send(new InvoiceMail($ticket->ticket_id));
   }
-
-  public function enterOtp($ticket_otp_id, $type, $otp, $username = 'admin') {
-    $ticket_otp = DB::table('ticket_otp')
-      ->where('ticket_otp_id', $ticket_otp_id)
-      ->first();
-    if ($ticket_otp == null) {
-       return false;
-    }
-
-    if ($type == 'first') {
-      $valid_otp = $ticket_otp->first_otp == $otp;
-    } else {
-      $valid_otp = $ticket_otp->second_otp == $otp;
-    }
-
-    if ($valid_otp) {
-      $ticket_id = DB::table('ticket_otp')->where('ticket_otp_id', $ticket_otp_id)->value('ticket_id');
-      if ($type == 'first') {
-        DB::table('ticket_otp')
-          ->where('ticket_otp_id', $ticket_otp_id)
-          ->update(['first_entered_on'=>Carbon::now()]);
-        $this->staffAttendTicket($ticket_id, $username);
-        
-      } else if ($type == 'second') {
-        DB::table('ticket_otp')
-          ->where('ticket_otp_id', $ticket_otp_id)
-          ->update(['second_entered_on'=>Carbon::now()]);
-
-        $this->completeTicket($ticket_id, $username);
-      }
-    }
-    return $valid_otp;
-  }
   
   private function saveTicketSkills($ticket_id, $input) {
     DB::table('ticket_skill')->where('ticket_id', $ticket_id)->delete();
@@ -564,18 +528,11 @@ class TicketService
     }
   }
   
-  public function deleteTicket($ticket_id, $username) {
-    DB::table('ticket')->where('ticket_id', $ticket_id)->delete();
-    DB::table('ticket_history')->where('ticket_id', $ticket_id)->delete();
-    DB::table('ticket_skill')->where('ticket_id', $ticket_id)->delete();
-    DB::table('ticket_issue')->where('ticket_id', $ticket_id)->delete();
-    DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)->delete();
-    (new DeleteLog())->saveDeleteLog('ticket', $ticket_id, '', $username);
-  }
-  
-  private function staffAttendTicket($ticket_id, $username) {
-    DB::table('staff_assignment')->where('ticket_id', $ticket_id)->update([
-      'stat'=>StaffAssignmentStat::Attended
-    ]);
+  public function deleteTicket($ticket_id) {
+    Ticket::find($ticket_id)->delete();
+    //DB::table('ticket_history')->where('ticket_id', $ticket_id)->delete();
+    //DB::table('ticket_skill')->where('ticket_id', $ticket_id)->delete();
+    //DB::table('ticket_issue')->where('ticket_id', $ticket_id)->delete();
+    //DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)->delete();
   }
 }

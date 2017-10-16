@@ -21,6 +21,7 @@ class OfficeTable extends Migration
       $t->string('city', 50);*/
       $t->string('updated_by', 20);
       $t->dateTime('updated_on');
+      $t->softDeletes();
     });
   }
 

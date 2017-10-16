@@ -139,12 +139,21 @@ class Requester extends Eloquent
     return true;
   }
   
-  public function deleteRequester($requester_id) {
-    $requester = Requester::find($requester_id);
-    $requester->delete();
-    DB::table('user')->where('username', $requester->username)->delete();
+  public function deleteRequester() {
+    User::where('username', $this->username)->update(['deleted'=>1]);
+    DB::table('registration')->where('username', $this->username)->delete();
+    $this->deleted = 1;
+    $this->save();
     $company = new Account();
-    $company->updateCompanyOfficeRequesterCount($requester->company_id);
+    $company->updateCompanyOfficeRequesterCount($this->company_id);
+  }
+  
+  public function onlyRequesterInCompanyAndOffice($requester) {
+    $one_in_company = Company::where('company_id', $requester->company_id)->where('deleted', 0)->count() == 1;
+    //var_dump($one_in_company);
+    $one_in_office = Office::where('office_id', $requester->office_id)->where('deleted', 0)->count() == 1;
+    //var_dump($one_in_office); exit;
+    return $one_in_company && $one_in_office;
   }
   
   public function getRequesterByUsername($username)

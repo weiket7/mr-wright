@@ -22,10 +22,10 @@
             <thead>
             <tr>
               <th class="search-th-stat">Status</th>
-              <th class="search-th-stat">Type</th>
               <th class="search-th-txt">Name</th>
               <th class="search-th-dropdown">Company</th>
-              <th>Office</th>
+              <th class="search-th-dropdown">Office</th>
+              <th>Show top</th>
             </tr>
             </thead>
             <tbody>
@@ -33,12 +33,10 @@
               <td>
                 {!! Form::select('stat', RequesterStat::$values, '', ['class'=>'form-control search-stat', 'placeholder'=>'']) !!}
               </td>
-              <td>
-                {!! Form::select('type', RequesterType::$values, '', ['class'=>'form-control search-stat', 'placeholder'=>'']) !!}
-              </td>
               <td>{!! Form::text('name', '', ['class'=>'form-control', 'id'=>'name']) !!}</td>
               <td>{!! Form::select('company_id', $companies, '', ['id'=>'company_id', 'class'=>'form-control search-dropdown', 'placeholder'=>'']) !!}</td>
               <td>{!! Form::select('office_id', [], '', ['id'=>'office_id', 'class'=>'form-control search-dropdown', 'placeholder'=>'']) !!}</td>
+              <td>{!! Form::text('limit', 100, ['class'=>'form-control search-txt']) !!}</td>
             </tr>
             </tbody>
           </table>

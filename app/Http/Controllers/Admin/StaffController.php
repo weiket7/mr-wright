@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DeleteLog;
 use App\Models\Services\DashboardService;
 use App\Models\Services\TicketService;
 use App\Models\Skill;
@@ -15,7 +16,8 @@ class StaffController extends Controller
 {
   public function index()
   {
-    $data['staffs'] = Staff::getStaffAll();
+    $staff_service = new Staff();
+    $data['staffs'] = $staff_service->getStaffAll();
     return view("admin/staff/index", $data);
   }
   
@@ -41,6 +43,7 @@ class StaffController extends Controller
       $input = $request->all();
       if ($input["delete"] == "true") {
         $staff->deleteStaff();
+        (new DeleteLog())->saveDeleteLog('staff', $staff_id, $staff->name, $this->getUsername());
         return redirect("admin/staff")->with("msg", "Staff deleted");
       }
   

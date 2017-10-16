@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\QuotationMail;
+use App\Models\DeleteLog;
 use App\Models\Enums\PaymentMethodStat;
 use App\Models\PaymentMethod;
 use App\Models\Requester;
 use App\Models\Services\CompanyService;
 use App\Models\Services\PaymentService;
 use App\Models\Services\TicketService;
+use App\Models\Skill;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Models\Helpers\BackendHelper;
@@ -50,7 +52,8 @@ class TicketController extends Controller
       $result = "";
   
       if ($input['delete'] == "true") {
-        $this->ticket_service->deleteTicket($ticket_id, $this->getUsername());
+        $this->ticket_service->deleteTicket($ticket_id);
+        (new DeleteLog())->saveDeleteLog('ticket', $ticket_id, $this->ticket_code, $this->getUsername());
         $result = "Ticket deleted";
         return redirect('admin/ticket')->with('msg', $result);
       }
@@ -81,7 +84,7 @@ class TicketController extends Controller
     $data['offices'] = $this->company_service->getOfficeDropdown($ticket->company_id);
     $data['requesters'] = $this->company_service->getRequesterDropdown($ticket->office_id);
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
-    $data['skills'] = $this->ticket_service->getSkills();
+    $data['skills'] = Skill::orderBy('name')->get();
     
     return view('admin/ticket/form', $data);
   }

@@ -20,12 +20,13 @@ class RequesterController extends Controller
   public function index(Request $request) {
     if($request->isMethod("post")) {
       $input = $request->all();
-      $requesters = $this->company_service->searchRequester($input);
       $request->flash();
-      $data['search_result'] = 'Showing ' . count($requesters) . ' requester(s)';
     } else {
-      $requesters = $this->company_service->getRequesterAll();
+      $input["limit"] = 100;
     }
+    $requesters = $this->company_service->searchRequester($input);
+    $data['search_result'] = 'Showing ' . count($requesters) . ' requester(s)';
+  
     $data['requesters'] = $requesters;
     $data['companies'] = $this->company_service->getCompanyDropdown();
     $data['offices'] = $this->company_service->getOfficeDropdown();
@@ -39,7 +40,7 @@ class RequesterController extends Controller
     if($request->isMethod('post')) {
       $input = $request->all();
       if ($input["delete"] == "true") {
-        $requester->deleteRequester($requester_id);
+        $requester->deleteRequester();
         (new DeleteLog())->saveDeleteLog('requester', $requester_id, $requester->username, $this->getUsername());
         return redirect("admin/requester")->with("msg", "Requester deleted");
       }
@@ -54,6 +55,7 @@ class RequesterController extends Controller
     $data['requester'] = $requester;
     $data['companies'] = $this->company_service->getCompanyDropdown();
     $data['offices'] = $this->company_service->getOfficeDropdown($requester->company_id);
+    $data['only_requester_in_company_and_office'] = $requester>onlyRequesterInCompanyAndOffice($requester);
     $data['requester'] = $requester;
     return view('admin/requester/form', $data);
   }

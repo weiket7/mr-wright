@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Services\TicketService;
 use Eloquent, DB, Validator, Log;
 
 class TicketOtp extends Eloquent
@@ -9,28 +10,45 @@ class TicketOtp extends Eloquent
   protected $validation;
   public $timestamps = false;
 
-  private $rules = [
-    'name'=>'required',
-    'stat'=>'required',
-  ];
-  
-  private $messages = [
-    'name.required'=>'Name is required',
-    'stat.required'=>'Status is required',
-  ];
-  
-  public function saveTicketOtp($input) {
-    $this->validation = Validator::make($input, $this->rules, $this->messages );
-    if ( $this->validation->fails() ) {
+  public function enterOtp($ticket_otp_id, $type, $otp, $username = 'admin') {
+    $ticket_otp = DB::table('ticket_otp')
+      ->where('ticket_otp_id', $ticket_otp_id)
+      ->first();
+    if ($ticket_otp == null) {
       return false;
     }
     
-    $this->name = $input['name'];
-    $this->stat = $input['stat'];
-    $this->save();
-    return true;
+    if ($type == 'first') {
+      $valid_otp = $ticket_otp->first_otp == $otp;
+    } else {
+      $valid_otp = $ticket_otp->second_otp == $otp;
+    }
+    
+    if ($valid_otp) {
+      $ticket_id = DB::table('ticket_otp')->where('ticket_otp_id', $ticket_otp_id)->value('ticket_id');
+      if ($type == 'first') {
+        DB::table('ticket_otp')
+          ->where('ticket_otp_id', $ticket_otp_id)
+          ->update(['first_entered_on'=>Carbon::now()]);
+        $this->staffAttendTicket($ticket_id, $username);
+        
+      } else if ($type == 'second') {
+        DB::table('ticket_otp')
+          ->where('ticket_otp_id', $ticket_otp_id)
+          ->update(['second_entered_on'=>Carbon::now()]);
+        
+        $ticket_service = new TicketService();
+        $ticket_service->completeTicket($ticket_id, $username);
+      }
+    }
+    return $valid_otp;
   }
   
+  private function staffAttendTicket($ticket_id, $username) {
+    DB::table('staff_assignment')->where('ticket_id', $ticket_id)->update([
+      'stat'=>StaffAssignmentStat::Attended
+    ]);
+  }
   
   public function getValidation() {
     return $this->validation;

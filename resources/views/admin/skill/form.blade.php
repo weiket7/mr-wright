@@ -53,7 +53,7 @@
               <div class="row">
                 <div class="col-md-offset-3 col-md-9">
                   <button type="submit" class="btn green">Submit</button>
-                  <button type="submit" class="btn red confirmation" data-toggle='confirmation' data-title="{{$skill->name}} will be removed from all staffs. Are you sure?">Delete</button>
+                  <button type="submit" class="btn red confirmation" data-toggle='confirmation'>Delete</button>
                   <button type="button" onclick="location.href='{{url('admin/skill')}}'" class="btn default">Back to List</button>
                 </div>
               </div>

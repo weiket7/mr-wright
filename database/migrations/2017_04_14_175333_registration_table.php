@@ -39,6 +39,7 @@ class RegistrationTable extends Migration
       $t->integer('requester_id')->nullable();
       $t->dateTime('created_on');
       $t->dateTime('updated_on');
+      $t->softDeletes();
     });
   }
   

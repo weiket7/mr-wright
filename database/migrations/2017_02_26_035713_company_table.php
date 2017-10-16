@@ -30,6 +30,7 @@ class CompanyTable extends Migration
         $t->decimal('effective_price', 12, 2); //per month
         $t->string('updated_by', 20);
         $t->dateTime('updated_on');
+        $t->softDeletes();
       });
     }
 

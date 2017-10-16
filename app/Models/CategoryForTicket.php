@@ -27,6 +27,10 @@ class CategoryForTicket extends Eloquent
     $this->save();
     return true;
   }
+  
+  public function deleteCategory() {
+    $this->delete();
+  }
 
 
   public function getValidation() {

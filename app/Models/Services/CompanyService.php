@@ -10,13 +10,8 @@ use Log;
 
 class CompanyService
 {
-
   public function getCompanyDropdown() {
     return Company::orderBy('name')->pluck('name', 'company_id');
-  }
-
-  public function getCompanyAll() {
-    return Company::orderBy('name')->get();
   }
 
   public function searchCompany($input) {
@@ -31,7 +26,6 @@ class CompanyService
     }
     return DB::select($s);
   }
-
 
   public function searchOffice($input) {
     $s = "SELECT office_id, o.stat, o.name, c.name as company_name, o.requester_count
@@ -50,8 +44,7 @@ class CompanyService
     return DB::select($s);
   }
 
-  public function getOfficeAll($company_id = null)
-  {
+  public function getOfficeAll($company_id = null) {
     $offices = DB::table('office as o')
       ->join('company as c', 'o.company_id', '=', 'c.company_id')
       ->select('o.office_id', 'o.name', 'c.company_id', 'c.name as company_name', 'o.stat', 'o.addr', 'o.postal', 'o.requester_count')
@@ -67,7 +60,7 @@ class CompanyService
     from requester as r
     inner join office as o on r.office_id = o.office_id
     inner join company as c on r.company_id = c.company_id
-    where 1 ";
+    where r.deleted = 0 ";
     if (isset($input['stat']) && $input['stat'] != '') {
       $s .= " and r.stat = '$input[stat]'";
     }
@@ -80,7 +73,9 @@ class CompanyService
     if (isset($input['office_id']) && $input['office_id'] != '') {
       $s .= " and r.office_id =".$input['office_id'];
     }
-    Log::info($s);
+    if (isset($input['limit']) && $input['limit'] > 0) {
+      $s .= " limit ".$input['limit'];
+    }
     return DB::select($s);
   }
 
@@ -106,14 +101,13 @@ class CompanyService
       ->select('requester_id', 'r.name', 'r.stat', 'r.type', 'r.company_id', 'r.office_id', 'c.name as company_name', 'o.name as office_name')
       ->orderBy('o.name')->orderBy('r.name')->get();
   }
-
-  public function getRequesterAll()
-  {
-    return DB::table('requester as r')
-      ->join('office as o', 'o.office_id', '=', 'r.office_id')
-      ->join('company as c', 'c.company_id', '=', 'r.company_id')
-      ->select('requester_id', 'r.name', 'r.stat', 'r.type', 'r.company_id', 'r.office_id', 'c.name as company_name', 'o.name as office_name')
-      ->orderBy('name')->get();
+  
+  public function onlyRequesterInCompanyAndOffice($requester) {
+    $one_in_company = Company::where('company_id', $requester->company_id)->where('deleted', 0)->count() == 1;
+    //var_dump($one_in_company);
+    $one_in_office = Office::where('office_id', $requester->office_id)->where('deleted', 0)->count() == 1;
+    //var_dump($one_in_office); exit;
+    return $one_in_company && $one_in_office;
   }
 
 }

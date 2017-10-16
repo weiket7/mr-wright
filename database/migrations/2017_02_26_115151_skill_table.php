@@ -15,6 +15,7 @@ class SkillTable extends Migration
       $t->string('image', 50);
       $t->string('updated_by', 20);
       $t->dateTime('updated_on');
+      $t->softDeletes();
     });
   }
   
