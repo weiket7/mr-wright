@@ -72,10 +72,6 @@ class Requester extends Eloquent
     return true;
   }
 
-  public function getValidation() {
-    return $this->validation;
-  }
-
   private function saveRequesterAsUser($input)
   {
     if ($this->requester_id == null) { //create
@@ -143,6 +139,14 @@ class Requester extends Eloquent
     return true;
   }
   
+  public function deleteRequester($requester_id) {
+    $requester = Requester::find($requester_id);
+    $requester->delete();
+    DB::table('user')->where('username', $requester->username)->delete();
+    $company = new Account();
+    $company->updateCompanyOfficeRequesterCount($requester->company_id);
+  }
+  
   public function getRequesterByUsername($username)
   {
     return DB::table('requester as r')
@@ -154,5 +158,9 @@ class Requester extends Eloquent
         'c.membership_name', 'c.requester_limit', 'effective_price', 'c.requester_count')
       ->where('username', $username)
       ->where('r.stat', RequesterStat::Active)->first();
+  }
+  
+  public function getValidation() {
+    return $this->validation;
   }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DeleteLog;
 use App\Models\Requester;
 use App\Models\Services\CompanyService;
 use Illuminate\Http\Request;
@@ -37,6 +38,12 @@ class RequesterController extends Controller
 
     if($request->isMethod('post')) {
       $input = $request->all();
+      if ($input["delete"] == "true") {
+        $requester->deleteRequester($requester_id);
+        (new DeleteLog())->saveDeleteLog('requester', $requester_id, $requester->username, $this->getUsername());
+        return redirect("admin/requester")->with("msg", "Requester deleted");
+      }
+  
       if (!$requester->saveRequester($input)) {
         return redirect()->back()->withErrors($requester->getValidation())->withInput($input);
       }
