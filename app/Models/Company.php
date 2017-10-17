@@ -2,6 +2,7 @@
 
 use App\Models\Enums\CompanyStat;
 use Eloquent, DB, Validator;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Eloquent
 {
@@ -10,6 +11,7 @@ class Company extends Eloquent
   protected $validation;
   public $timestamps = false;
   protected $attributes = ['stat'=>CompanyStat::Active];
+  use SoftDeletes;
 
   private $rules = [
     'name'=>'required',
@@ -46,8 +48,6 @@ class Company extends Eloquent
     $this->stat = $input['stat'];
     $this->addr = $input['addr'];
     $this->country = $input['country'];
-    //$this->state = $input['state'];
-    //$this->city = $input['city'];
     $this->postal = $input['postal'];
     $this->industry = $input['industry'];
     $this->membership_id = $input['membership_id'];
@@ -56,9 +56,19 @@ class Company extends Eloquent
   }
 
   public function getOffices($company_id) {
-    return DB::table('office')
-      ->where('company_id', $company_id)
+    return Office::where('company_id', $company_id)
       ->select('office_id', 'name')->get();
+  }
+  
+  public function deleteCompany() {
+    $this->requester_count = 0;
+    $this->save();
+    $this->delete();
+  
+    Office::where('company_id', $this->company_id)->update(['requester_count'=>0]);
+    Office::where('company_id', $this->company_id)->delete();
+    
+    Requester::where('company_id', $this->company_id)->delete();
   }
   
   public function getValidation() {

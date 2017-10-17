@@ -11,6 +11,7 @@
     <div class="portlet-body form">
       <form action="" method="post" class="form-horizontal">
         {!! csrf_field() !!}
+        <input type="hidden" name="delete" id="delete">
         <div class="form-body">
           <div class="row">
             <div class="col-md-6">
@@ -69,15 +70,11 @@
         </div>
         <div class="form-actions">
           <div class="row">
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-md-offset-3 col-md-9">
-                  <button type="submit" class="btn green">Submit</button>
-                  <button type="button" class="btn default">Cancel</button>
-                </div>
-              </div>
+            <div class="col-md-offset-3 col-md-9">
+              <button type="submit" class="btn green">Submit</button>
+              <button type="submit" class="btn red confirmation" data-toggle='confirmation' data-title="All requesters under this office will be deleted also. Are you sure?">Delete</button>
+              <button type="button" onclick="location.href='{{url('admin/office')}}'" class="btn default">Back to List</button>
             </div>
-            <div class="col-md-6"> </div>
           </div>
         </div>
       </form>

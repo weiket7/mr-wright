@@ -6,11 +6,12 @@
   <h1 class="page-title">
     {{ucfirst($action)}} Company
   </h1>
-
+  
   <div class="portlet light bordered">
     <div class="portlet-body form">
       <form action="" method="post" class="form-horizontal">
         {!! csrf_field() !!}
+        <input type="hidden" name="delete" id="delete">
         <div class="form-body">
           <div class="row">
             <div class="col-md-6">
@@ -34,7 +35,6 @@
               </div>
             </div>
           </div>
-          
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -71,24 +71,6 @@
               </div>
             </div>
           </div>
-          {{--<div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">State</label>
-                <div class="col-md-9">
-                  {{Form::text('state', $company->state, ['class'=>'form-control', 'maxlength'=>50])}}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">City</label>
-                <div class="col-md-9">
-                  {{Form::text('city', $company->city, ['class'=>'form-control', 'maxlength'=>50])}}
-                </div>
-              </div>
-            </div>
-          --}}</div>
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -107,7 +89,6 @@
               </div>
             </div>
           </div>
-  
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -136,21 +117,9 @@
               </div>
             </div>
             <div class="col-md-6">
-              
+            
             </div>
           </div>
-          <!--<div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">Logo</label>
-                <div class="col-md-9">
-                  <input type="file" name="logo">
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-            </div>
-          </div>-->
           @if($action == 'update')
             <div class="row">
               <div class="col-md-6">
@@ -171,23 +140,23 @@
               </div>
             </div>
           @endif
-
+        </div>
+        
         <div class="form-actions">
           <div class="row">
             <div class="col-md-6">
               <div class="row">
                 <div class="col-md-offset-3 col-md-9">
                   <button type="submit" class="btn green">Submit</button>
-                  <button type="button" class="btn default">Cancel</button>
+                  <button type="submit" class="btn red confirmation" data-toggle='confirmation' data-title="All offices and requesters under this company will be deleted also. Are you sure?">Delete</button>
+                  <button type="button" onclick="location.href='{{url('admin/company')}}'" class="btn default">Back to List</button>
                 </div>
               </div>
             </div>
             <div class="col-md-6"> </div>
           </div>
         </div>
-        </div>
-
       </form>
-    </div>
+     </div>
   </div>
 @endsection

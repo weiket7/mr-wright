@@ -70,7 +70,7 @@ class SiteController extends Controller
     $requester = $requester_service->getRequesterByUsername($this->getUsername());
     $data['requester'] = $requester;
     if ($requester->admin) {
-      $data['offices'] = $this->company_service->getOfficeAll($requester->company_id);
+      $data['offices'] = $this->company_service->searchOffice(['company_id'=>$requester->company_id]);
     }
     return view('frontend/account', $data);
   }

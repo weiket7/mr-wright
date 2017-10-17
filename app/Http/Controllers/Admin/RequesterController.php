@@ -55,7 +55,6 @@ class RequesterController extends Controller
     $data['requester'] = $requester;
     $data['companies'] = $this->company_service->getCompanyDropdown();
     $data['offices'] = $this->company_service->getOfficeDropdown($requester->company_id);
-    $data['only_requester_in_company_and_office'] = $requester>onlyRequesterInCompanyAndOffice($requester);
     $data['requester'] = $requester;
     return view('admin/requester/form', $data);
   }

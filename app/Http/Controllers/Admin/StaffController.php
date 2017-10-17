@@ -14,8 +14,7 @@ use Illuminate\Http\Request;
 
 class StaffController extends Controller
 {
-  public function index()
-  {
+  public function index() {
     $staff_service = new Staff();
     $data['staffs'] = $staff_service->getStaffAll();
     return view("admin/staff/index", $data);

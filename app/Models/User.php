@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -12,6 +13,7 @@ class User extends Authenticatable
   const CREATED_AT = 'created_on';
   const UPDATED_AT = 'updated_on';
   protected $primaryKey = 'user_id';
+  use SoftDeletes;
 
   /**
    * The attributes that are mass assignable.

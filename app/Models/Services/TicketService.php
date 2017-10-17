@@ -7,21 +7,18 @@ use App\Mail\QuotationMail;
 use App\Mail\TicketAcceptMail;
 use App\Models\CategoryForTicket;
 use App\Models\Company;
-use App\Models\DeleteLog;
 use App\Models\Enums\StaffAssignmentStat;
 use App\Models\Enums\TicketStat;
 use App\Models\Helpers\BackendHelper;
 use App\Models\Office;
 use App\Models\Requester;
 use App\Models\Setting;
-use App\Models\Skill;
 use App\Models\Staff;
 use App\Models\Ticket;
 use App\Models\TicketHistory;
 use App\Models\TicketOtp;
 use Carbon\Carbon;
 use DB;
-use Log;
 use Mail;
 use Validator;
 
@@ -362,8 +359,7 @@ class TicketService
     }
   }
 
-  private function savePreferredSlots($ticket_id, $input, $username = 'admin')
-  {
+  private function savePreferredSlots($ticket_id, $input, $username = 'admin') {
     DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)->delete();
   
     //Log::info('preferred slots ' . json_encode($input));
@@ -466,7 +462,10 @@ class TicketService
   public function getTicketAllByUsername($username)
   {
     $requester = Requester::where('username', $username)->first();
-    $tickets = DB::table('ticket')->where('company_id', $requester->company_id)->orderBy('requested_on', 'desc');
+    $tickets = DB::table('ticket')
+      ->whereNull('deleted_at')
+      ->where('company_id', $requester->company_id)
+      ->orderBy('requested_on', 'desc');
     if ($requester->admin) {
       return $tickets->get();
     }
@@ -526,13 +525,5 @@ class TicketService
         ]);
       }
     }
-  }
-  
-  public function deleteTicket($ticket_id) {
-    Ticket::find($ticket_id)->delete();
-    //DB::table('ticket_history')->where('ticket_id', $ticket_id)->delete();
-    //DB::table('ticket_skill')->where('ticket_id', $ticket_id)->delete();
-    //DB::table('ticket_issue')->where('ticket_id', $ticket_id)->delete();
-    //DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)->delete();
   }
 }

@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Eloquent, DB, Validator, Log;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Registration extends Eloquent
 {
@@ -10,17 +11,7 @@ class Registration extends Eloquent
   protected $validation;
   const CREATED_AT = 'created_on';
   const UPDATED_AT = 'updated_on';
-
-  private $rules = [
-    'name'=>'required',
-    'stat'=>'required',
-  ];
-
-  private $messages = [
-    'name.required'=>'Name is required',
-    'stat.required'=>'Status is required',
-  ];
-
+  use SoftDeletes;
 
   public function getValidation() {
     return $this->validation;

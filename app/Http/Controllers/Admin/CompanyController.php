@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\DeleteLog;
 use App\Models\Enums\MembershipStat;
 use App\Models\Membership;
 use App\Models\Services\CompanyService;
@@ -18,14 +19,14 @@ class CompanyController extends Controller
   }
   
   public function index(Request $request) {
+    $input = [];
     if($request->isMethod("post")) {
       $input = $request->all();
-      $companies = $this->company_service->searchCompany($input);
       $request->flash();
-      $data['search_result'] = 'Showing ' . count($companies) . ' company(s)';
-    } else {
-      $companies = $this->company_service->getCompanyAll();
     }
+    $companies = $this->company_service->searchCompany($input);
+    $data['search_result'] = 'Showing ' . count($companies) . ' company(s)';
+    
     $data['companies'] = $companies;
     return view("admin/company/index", $data);
   }
@@ -36,7 +37,13 @@ class CompanyController extends Controller
 
     if($request->isMethod('post')) {
       $input = $request->all();
-      if (!$company->saveCompany($input)) {
+      if ($input["delete"] == "true") {
+        $company->deleteCompany();
+        (new DeleteLog())->saveDeleteLog('company', $company_id, $company->name, $this->getUsername());
+        return redirect("admin/company")->with("msg", "Company deleted");
+      }
+      
+      if (! $company->saveCompany($input)) {
         return redirect()->back()->withErrors($company->getValidation())->withInput($input);
       }
       return redirect('admin/company/save/' . $company->company_id)->with('msg', 'Company ' . $action . "d");

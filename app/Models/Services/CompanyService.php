@@ -17,7 +17,7 @@ class CompanyService
   public function searchCompany($input) {
     $s = "SELECT company_id, code, stat, name, requester_count
     from company
-    where 1 ";
+    where deleted_at is null ";
     if (isset($input['stat']) && $input['stat'] != '') {
       $s .= " and stat = '$input[stat]'";
     }
@@ -28,10 +28,10 @@ class CompanyService
   }
 
   public function searchOffice($input) {
-    $s = "SELECT office_id, o.stat, o.name, c.name as company_name, o.requester_count
+    $s = "SELECT office_id, o.stat, o.name, c.name as company_name, o.addr, o.postal, o.requester_count
     from office as o
     inner join company as c on o.company_id = c.company_id
-    where 1 ";
+    where o.deleted_at is null ";
     if (isset($input['stat']) && $input['stat'] != '') {
       $s .= " and o.stat = '$input[stat]'";
     }
@@ -44,23 +44,12 @@ class CompanyService
     return DB::select($s);
   }
 
-  public function getOfficeAll($company_id = null) {
-    $offices = DB::table('office as o')
-      ->join('company as c', 'o.company_id', '=', 'c.company_id')
-      ->select('o.office_id', 'o.name', 'c.company_id', 'c.name as company_name', 'o.stat', 'o.addr', 'o.postal', 'o.requester_count')
-      ->orderBy('name');
-    if ($company_id == null) {
-      return $offices->get();
-    }
-    return $offices->where('o.company_id', $company_id)->get();
-  }
-
   public function searchRequester($input) {
     $s = "SELECT requester_id, r.stat, r.name, r.type, o.name as office_name, c.name as company_name
     from requester as r
     inner join office as o on r.office_id = o.office_id
     inner join company as c on r.company_id = c.company_id
-    where r.deleted = 0 ";
+    where r.deleted_at is null";
     if (isset($input['stat']) && $input['stat'] != '') {
       $s .= " and r.stat = '$input[stat]'";
     }
@@ -100,14 +89,6 @@ class CompanyService
       ->where('r.company_id', $company_id)
       ->select('requester_id', 'r.name', 'r.stat', 'r.type', 'r.company_id', 'r.office_id', 'c.name as company_name', 'o.name as office_name')
       ->orderBy('o.name')->orderBy('r.name')->get();
-  }
-  
-  public function onlyRequesterInCompanyAndOffice($requester) {
-    $one_in_company = Company::where('company_id', $requester->company_id)->where('deleted', 0)->count() == 1;
-    //var_dump($one_in_company);
-    $one_in_office = Office::where('office_id', $requester->office_id)->where('deleted', 0)->count() == 1;
-    //var_dump($one_in_office); exit;
-    return $one_in_company && $one_in_office;
   }
 
 }

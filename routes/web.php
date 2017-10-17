@@ -11,6 +11,8 @@
 |
 */
 
+use App\Models\Account;
+
 Route::get('/', 'Frontend\SiteController@index');
 Route::get('home', 'Frontend\SiteController@index');
 
@@ -229,12 +231,8 @@ Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 Route::get('preview/email-test', 'PreviewController@emailTest');
 
 Route::get('test', function() {
-  $ticket_service = new TicketService();
-  $res = $ticket_service->getNextTicketCode(3);
-  echo $res;
-  //$user = User::where('username', 'weiket')->first();
-  //Auth::login($user);
-  
+  $company = new Account();
+  $company->updateCompanyOfficeRequesterCount(1);
 });
 
 

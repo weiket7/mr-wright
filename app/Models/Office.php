@@ -3,17 +3,16 @@
 
 use App\Models\Enums\OfficeStat;
 use Eloquent, DB, Validator, Log;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Office extends Eloquent
 {
   public $table = 'office';
   protected $primaryKey = 'office_id';
-  const CREATED_AT = 'created_on';
-  const UPDATED_AT = 'updated_on';
   protected $validation;
   public $timestamps = false;
   protected $attributes = ['stat'=>OfficeStat::Active];
-
+  use SoftDeletes;
 
   private $rules = [
     'name'=>'required',
@@ -76,7 +75,15 @@ class Office extends Eloquent
     $this->save();
     return true;
   }
-
+  
+  public function deleteOffice() {
+    $this->delete();
+    
+    Requester::where('office_id', $this->office_id)->delete();
+  
+    $company = new Account();
+    $company->updateCompanyOfficeRequesterCount($this->company_id);
+  }
 
   public function getValidation() {
     return $this->validation;

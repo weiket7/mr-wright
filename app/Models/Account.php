@@ -14,10 +14,8 @@ use Eloquent, DB, Validator, Log;
 use Hash;
 use Mail;
 
-class Account extends Eloquent
-{
+class Account extends Eloquent {
   protected $validation;
-
 
   public function saveAccount($input, $username) {
     $rules = [
@@ -262,13 +260,13 @@ class Account extends Eloquent
   }
   
   public function updateCompanyOfficeRequesterCount($company_id) {
-    $company = Company::findOrFail($company_id);
-    $company->requester_count = Requester::where('company_id', $company_id)->where('deleted', 0)->count();
+    $company = Company::find($company_id);
+    $company->requester_count = Requester::where('company_id', $company_id)->count();
     $company->save();
     
     $offices = Office::where('company_id', $company_id)->get();
     foreach($offices as $office) {
-      $office->requester_count = Requester::where('office_id', $office->office_id)->where('deleted', 0)->count();
+      $office->requester_count = Requester::where('office_id', $office->office_id)->count();
       $office->save();
     }
     return true;

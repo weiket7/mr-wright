@@ -43,8 +43,7 @@ class TicketController extends Controller
     return view("admin/ticket/index", $data);
   }
   
-  public function save(Request $request, $ticket_id = null)
-  {
+  public function save(Request $request, $ticket_id = null) {
     $data['action'] = $ticket_id == null ? 'create' : 'update';
     if ($request->isMethod("post")) {
       $input = $request->all();
@@ -52,8 +51,9 @@ class TicketController extends Controller
       $result = "";
   
       if ($input['delete'] == "true") {
-        $this->ticket_service->deleteTicket($ticket_id);
-        (new DeleteLog())->saveDeleteLog('ticket', $ticket_id, $this->ticket_code, $this->getUsername());
+        $ticket = Ticket::find($ticket_id);
+        $ticket->deleteTicket();
+        (new DeleteLog())->saveDeleteLog('ticket', $ticket_id, '', $this->getUsername());
         $result = "Ticket deleted";
         return redirect('admin/ticket')->with('msg', $result);
       }

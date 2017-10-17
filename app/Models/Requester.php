@@ -7,6 +7,7 @@ use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
 use Eloquent, DB, Validator, Log;
 use Hash;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 
 class Requester extends Eloquent
@@ -16,8 +17,8 @@ class Requester extends Eloquent
   const CREATED_AT = 'created_on';
   const UPDATED_AT = 'updated_on';
   protected $validation;
-  public $timestamps = false;
   protected $attributes = ['stat'=>UserStat::Active];
+  use SoftDeletes;
 
   private $rules = [
     'username'=>"sometimes|required|unique:user,username",
@@ -140,20 +141,12 @@ class Requester extends Eloquent
   }
   
   public function deleteRequester() {
-    User::where('username', $this->username)->update(['deleted'=>1]);
-    DB::table('registration')->where('username', $this->username)->delete();
-    $this->deleted = 1;
-    $this->save();
+    $this->delete();
+    User::where('username', $this->username)->delete();
+    Registration::where('username', $this->username)->delete();
+  
     $company = new Account();
     $company->updateCompanyOfficeRequesterCount($this->company_id);
-  }
-  
-  public function onlyRequesterInCompanyAndOffice($requester) {
-    $one_in_company = Company::where('company_id', $requester->company_id)->where('deleted', 0)->count() == 1;
-    //var_dump($one_in_company);
-    $one_in_office = Office::where('office_id', $requester->office_id)->where('deleted', 0)->count() == 1;
-    //var_dump($one_in_office); exit;
-    return $one_in_company && $one_in_office;
   }
   
   public function getRequesterByUsername($username)
