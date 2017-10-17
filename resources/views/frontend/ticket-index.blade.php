@@ -25,19 +25,14 @@
         <tr>
           <td>
             {{ ViewHelper::ticketStatFrontend($ticket) }}
-            @if($ticket->stat == TicketStat::Quoted)
-              <button type="button" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'" class="btn btn-primary">Respond</button>
-            @elseif($ticket->stat == TicketStat::Invoiced)
-              <button type="button" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'" class="btn btn-primary">Payment</button>
+            @if($ticket->stat == TicketStat::Quoted || $ticket->stat == TicketStat::Invoiced)
+              <button type="button" onclick="location.href='{{url('ticket/view/'.$ticket->ticket_id)}}'" class="btn btn-primary">
+                {{ $ticket->stat == TicketStat::Quoted ? "Respond" : "Payment" }}
+              </button>
             @endif
           </td>
           <td>
-            
-            @if(in_array($ticket->stat, [TicketStat::Drafted, TicketStat::Opened]))
-              <a href="{{url("ticket/save/".$ticket->ticket_id)}}">{{ $ticket->ticket_code }}</a>
-            @else
-              <a href="{{url("ticket/view/".$ticket->ticket_id)}}">{{ $ticket->ticket_code }}</a>
-            @endif
+            <a href="{{url("ticket/".(ViewHelper::ticketCanUpdate($ticket) ? "save":"view")."/".$ticket->ticket_id)}}">{{ $ticket->ticket_code }}</a>
           </td>
           <td>{{  $ticket->title }}</td>
           <td>{{ isset($categories[$ticket->category_id]) ? $categories[$ticket->category_id] : '' }}</td>

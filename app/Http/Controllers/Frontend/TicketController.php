@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;
+use ViewHelper;
 
 class TicketController extends Controller
 {
@@ -57,6 +58,9 @@ class TicketController extends Controller
       }
     }
     $ticket = $this->ticket_service->getTicket($ticket_id);
+    if(! ViewHelper::ticketCanUpdate($ticket)) {
+      return redirect('error')->with('error', "Ticket cannot be updated");
+    }
     $data['ticket'] = $ticket;
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
     $data['action'] = $action;

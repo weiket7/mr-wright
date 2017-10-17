@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Models\Helpers\BackendHelper;
 use Log;
 use Mail;
+use ViewHelper;
 
 class TicketController extends Controller
 {
@@ -79,6 +80,9 @@ class TicketController extends Controller
       
     }
     $ticket = $this->ticket_service->getTicket($ticket_id);
+    if(! ViewHelper::ticketCanUpdate($ticket)) {
+      return redirect('admin/error')->with('error', "Ticket cannot be updated");
+    }
     $data['ticket'] = $ticket;
     $data['companies'] = $this->company_service->getCompanyDropdown();
     $data['offices'] = $this->company_service->getOfficeDropdown($ticket->company_id);

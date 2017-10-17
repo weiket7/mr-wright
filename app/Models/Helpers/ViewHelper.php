@@ -92,8 +92,12 @@ class ViewHelper {
     return in_array($extension, $image_extensions);
   }
   
+  public static function ticketCanUpdate($ticket) {
+    return in_array($ticket->stat, [TicketStat::Drafted, TicketStat::Opened]);
+  }
+  
   public static function ticketLinkAdmin($ticket) {
-    if(in_array($ticket->stat, [TicketStat::Drafted, TicketStat::Opened]))
+    if(self::ticketCanUpdate($ticket))
       return url("admin/ticket/save/".$ticket->ticket_id);
     else
       return url("admin/ticket/view/".$ticket->ticket_id);
