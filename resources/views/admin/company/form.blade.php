@@ -24,12 +24,26 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Code <span class="required">*</span></label>
+                <label class="control-label col-md-3">Code @if($action=='create')<span class="required">*</span>@endif</label>
                 <div class="col-md-9">
                   @if($action == 'update')
                     <div class="form-control-static">{{ $company->code }}</div>
                   @else
                     {{Form::text('code', $company->code, ['class'=>'form-control', 'maxlength'=>5])}}
+                  @endif
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">UEN @if($action=='create')<span class="required">*</span>@endif</label>
+                <div class="col-md-9">
+                  @if($action == 'update')
+                    <div class="form-control-static">{{ $company->uen }}</div>
+                  @else
+                    {{Form::text('uen', $company->uen, ['class'=>'form-control', 'maxlength'=>5])}}
                   @endif
                 </div>
               </div>

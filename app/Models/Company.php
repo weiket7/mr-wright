@@ -43,6 +43,7 @@ class Company extends Eloquent
     $this->name = $input['name'];
     if(isset($input['code'])) {
       $this->code = $input['code'];
+      $this->uen = $input['uen'];
     }
     $this->registered_name = $input['registered_name'];
     $this->stat = $input['stat'];

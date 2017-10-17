@@ -46,6 +46,11 @@ class TicketController extends Controller
   
   public function save(Request $request, $ticket_id = null) {
     $data['action'] = $ticket_id == null ? 'create' : 'update';
+    $ticket = $this->ticket_service->getTicket($ticket_id);
+    if(! ViewHelper::ticketCanUpdate($ticket)) {
+      return redirect('admin/error')->with('error', "Ticket cannot be updated");
+    }
+    
     if ($request->isMethod("post")) {
       $input = $request->all();
       $submit_action = $input['submit_action'];
@@ -78,10 +83,6 @@ class TicketController extends Controller
       }
       return redirect('admin/ticket/save/' . $ticket_id)->with('msg', $result);
       
-    }
-    $ticket = $this->ticket_service->getTicket($ticket_id);
-    if(! ViewHelper::ticketCanUpdate($ticket)) {
-      return redirect('admin/error')->with('error', "Ticket cannot be updated");
     }
     $data['ticket'] = $ticket;
     $data['companies'] = $this->company_service->getCompanyDropdown();
