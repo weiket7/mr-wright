@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Company;
+use App\Models\DeleteLog;
 use App\Models\Helpers\BackendHelper;
 use App\Models\Office;
 use App\Models\Requester;
@@ -36,10 +37,15 @@ class RegistrationController extends Controller
     $registration = Registration::findOrFail($registration_id);
     $account_service = new Account();
     $will_be_admin = $account_service->willBeAdmin($registration->company_id);
-    //TODO when there are 5 registrations and approve one, need to void the rest?
 
     if($request->isMethod('post')) {
       $input = $request->all();
+      if ($input["delete"] == "true") {
+        $registration->deleteRegistration();
+        (new DeleteLog())->saveDeleteLog('registration', $registration_id, $registration->username, $this->getUsername());
+        return redirect("admin/registration")->with("msg", "Registration deleted");
+      }
+  
       $submit = $input['submit'];
       if(BackendHelper::stringContains($input['submit'], 'approve')){
         $registration = $account_service->approveRegistration($registration_id, $input);

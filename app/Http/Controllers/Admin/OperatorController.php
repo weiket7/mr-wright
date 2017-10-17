@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DeleteLog;
 use App\Models\Operator;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -30,6 +31,12 @@ class OperatorController extends Controller
 
     if($request->isMethod('post')) {
       $input = $request->all();
+      if ($input["delete"] == "true") {
+        $operator->deleteOperator();
+        (new DeleteLog())->saveDeleteLog('operator', $operator_id, $operator->username, $this->getUsername());
+        return redirect("admin/operator")->with("msg", "Operator deleted");
+      }
+  
       if (!$operator->saveOperator($input)) {
         return redirect()->back()->withErrors($operator->getValidation())->withInput($input);
       }

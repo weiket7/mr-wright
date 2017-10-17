@@ -19,7 +19,7 @@ class Registration extends Eloquent
 
   public function searchRegistration($input) {
     $s = "SELECT * from registration
-    where 1 ";
+    where deleted_at is null ";
     if (isset($input['stat'])) {
       if (is_array($input['stat']) && count($input['stat'])) {
         $s .= " and stat in ('".implode(',', $input['stat'])."')";
@@ -47,6 +47,10 @@ class Registration extends Eloquent
       $s .= " limit ".$input['limit'];
     }
     return DB::select($s);
+  }
+  
+  public function deleteRegistration() {
+    $this->delete();
   }
 
 }

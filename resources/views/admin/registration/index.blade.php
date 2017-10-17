@@ -72,9 +72,7 @@
           <tbody>
           @foreach($registrations as $registration)
             <tr>
-              <td>
-                <span class="label label-primary"> {{ RegistrationStat::$values[$registration->stat] }} </span>
-              </td>
+              <td>{{ RegistrationStat::$values[$registration->stat] }}</td>
               <td><a href="{{url("admin/registration/save/".$registration->registration_id)}}">{{ $registration->name }}</a></td>
               <td>{{ $registration->username }}</td>
               <td>{{ $registration->designation }}</td>

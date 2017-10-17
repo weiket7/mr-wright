@@ -4,6 +4,7 @@ use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
 use Eloquent, DB, Validator, Log;
 use Hash;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Operator extends Eloquent
 {
@@ -12,6 +13,7 @@ class Operator extends Eloquent
   protected $validation;
   public $timestamps = false;
   protected $attributes = ['stat'=>UserStat::Active];
+  use SoftDeletes;
 
   private $rules = [
     'username'=>"sometimes|required|unique:user,username",
@@ -61,7 +63,10 @@ class Operator extends Eloquent
     $this->save();
     return true;
   }
-
+  
+  public function deleteOperator() {
+    $this->delete();
+  }
 
   public function getValidation() {
     return $this->validation;

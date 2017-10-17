@@ -11,6 +11,8 @@
     <div class="portlet-body form">
       <form action="" method="post" class="form-horizontal">
         {!! csrf_field() !!}
+        <input type="hidden" name="delete" id="delete">
+  
         <div class="form-body">
           <div class="row">
             <div class="col-md-6">
@@ -25,7 +27,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Status</label>
                 <label class="col-md-9 form-control-static">
-                  <span class="label label-primary"> {{ RegistrationStat::$values[$registration->stat] }} </span>
+                  {{ RegistrationStat::$values[$registration->stat] }}
                 </label>
               </div>
             </div>
@@ -186,7 +188,8 @@
                 <div class="row">
                   <div class="col-md-offset-3 col-md-9">
                     <button name="submit" type="submit" class="btn green" value="Approve">Approve</button>
-                    <button name="submit" type="submit" class="btn red" value="Reject">Reject</button>
+                    <button name="submit" type="submit" class="btn yellow-lemon" value="Reject">Reject</button>
+                    <button name="submit" type="submit" class="btn red confirmation" data-toggle='confirmation' value="Delete">Delete</button>
                   </div>
                 </div>
               </div>
