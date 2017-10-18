@@ -3,29 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Mail\QuotationMail;
+use App\Models\Company;
 use App\Models\DeleteLog;
 use App\Models\Enums\PaymentMethodStat;
-use App\Models\PaymentMethod;
+use App\Models\Office;
 use App\Models\Requester;
-use App\Models\Services\CompanyService;
 use App\Models\Services\PaymentService;
 use App\Models\Services\TicketService;
 use App\Models\Skill;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Models\Helpers\BackendHelper;
-use Log;
-use Mail;
 use ViewHelper;
 
 class TicketController extends Controller
 {
-  protected $company_service;
   protected $ticket_service;
   
-  public function __construct(CompanyService $company_service, TicketService $ticket_service) {
-    $this->company_service = $company_service;
+  public function __construct(TicketService $ticket_service) {
     $this->ticket_service = $ticket_service;
   }
   
@@ -60,36 +55,33 @@ class TicketController extends Controller
         $ticket = Ticket::find($ticket_id);
         $ticket->deleteTicket();
         (new DeleteLog())->saveDeleteLog('ticket', $ticket_id, '', $this->getUsername());
-        $result = "Ticket deleted";
-        return redirect('admin/ticket')->with('msg', $result);
+        return redirect('admin/ticket')->with('msg', "Ticket deleted");
       }
   
+      $ticket_id = $this->ticket_service->saveTicket($ticket_id, $input, $this->getUsername());
+      if ($ticket_id === false) {
+        return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
+      }
       if ($submit_action == "quote") {
         $ticket = $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
         $this->ticket_service->emailQuotation($ticket);
         $result = "Quotation sent";
         return redirect('admin/ticket/view/' . $ticket_id)->with('msg', $result);
-      }
-      
-      if ($submit_action == "open") {
+      } else if ($submit_action == "open") {
         $ticket_id = $this->ticket_service->openTicket($ticket_id, $this->getUsername());
         $result = "Ticket opened";
       } elseif ($submit_action == "draft" || $submit_action == "update") {
-        $ticket_id = $this->ticket_service->saveTicket($ticket_id, $input, $this->getUsername());
-        if ($ticket_id === false) {
-          return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
-        }
         $result = "Ticket " . $data['action'] . "d";
       }
       return redirect('admin/ticket/save/' . $ticket_id)->with('msg', $result);
       
     }
     $data['ticket'] = $ticket;
-    $data['companies'] = $this->company_service->getCompanyDropdown();
-    $data['offices'] = $this->company_service->getOfficeDropdown($ticket->company_id);
-    $data['requesters'] = $this->company_service->getRequesterDropdown($ticket->office_id);
+    $data['companies'] = Company::getCompanyDropdown();
+    $data['offices'] = Office::getOfficeDropdown($ticket->company_id);
+    $data['requesters'] = Requester::getRequesterDropdown($ticket->office_id);
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
-    $data['skills'] = Skill::orderBy('name')->get();
+    $data['skills'] = Skill::orderBy('name')->pluck('name');
     
     return view('admin/ticket/form', $data);
   }

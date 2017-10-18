@@ -59,7 +59,6 @@
           <thead>
           <tr>
             <th width="70px">Status</th>
-            <th width="70px">Type</th>
             <th width="200px">Name</th>
             <th width="200px">Company</th>
             <th>Office</th>
@@ -69,7 +68,6 @@
           @foreach($requesters as $requester)
             <tr>
               <td>{{RequesterStat::$values[$requester->stat]}}</td>
-              <td>{{RequesterType::$values[$requester->type]}}</td>
               <td><a href="{{url("admin/requester/save/".$requester->requester_id)}}">{{ $requester->name }}</a></td>
               <td>{{$requester->company_name}}</td>
               <td>{{$requester->office_name}}</td>

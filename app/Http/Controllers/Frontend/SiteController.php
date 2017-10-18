@@ -15,7 +15,6 @@ use App\Models\Invite;
 use App\Models\Membership;
 use App\Models\Office;
 use App\Models\Requester;
-use App\Models\Services\CompanyService;
 use Auth;
 use Illuminate\Http\Request;
 use Log;
@@ -23,13 +22,11 @@ use Mail;
 
 class SiteController extends Controller
 {
-  protected $company_service;
   protected $account_service;
   
-  public function __construct(Registration $account_service, CompanyService $company_service)
+  public function __construct(Registration $account_service)
   {
     $this->account_service = $account_service;
-    $this->company_service = $company_service;
   }
 
   public function index() {
@@ -51,7 +48,7 @@ class SiteController extends Controller
       if (! empty($referral)) {
         return redirect($referral)->with('msg', 'Logged in');
       }
-      return redirect('account')->with('msg', 'Logged in');
+      return redirect('ticket')->with('msg', 'Logged in');
     }
 
     return view("frontend/login");
@@ -65,12 +62,13 @@ class SiteController extends Controller
       }
       return redirect('account')->with('msg', 'Account saved');
     }
-    $requester_service = new Requester();
-    $requester = $requester_service->getRequesterByUsername($this->getUsername());
-    $data['requester'] = $requester;
+
+    $requester = Requester::where('username', $this->getUsername())->first();
     if ($requester->admin) {
-      $data['offices'] = $this->company_service->searchOffice(['company_id'=>$requester->company_id]);
+      $data['offices'] = Office::where('company_id', $requester->company_id)->get();
     }
+    $data['requester'] = $requester;
+    $data['company'] = Company::find($requester->company_id);
     return view('frontend/account', $data);
   }
 
@@ -103,12 +101,13 @@ class SiteController extends Controller
       Mail::to($invite->email)->send(new InviteMail($invite->token));
       return redirect('members')->with('invited_email', $invite->email);
     }
-    $logged_in_requester = Requester::where('username', $this->getUsername())->first();
-    $data['requesters'] = $this->company_service->getRequesterByCompany($logged_in_requester->company_id);
-    $data['registrations'] = $this->account_service->getPendingRegistrations($logged_in_requester->company_id);
-    $data['offices'] = $this->company_service->getOfficeDropdown($logged_in_requester->company_id);
-    $data['hit_requester_limit'] = $this->account_service->hitRequesterLimit($logged_in_requester->company_id);
-    $data['company'] = Company::find($logged_in_requester->company_id);
+    $requester = Requester::where('username', $this->getUsername())->first();
+    $company_service = new Company();
+    $data['requesters'] = $company_service->getRequesterByCompany($requester->company_id);
+    $data['registrations'] = $this->account_service->getPendingRegistrations($requester->company_id);
+    $data['offices'] = Office::getOfficeDropdown($requester->company_id);
+    $data['hit_requester_limit'] = $this->account_service->hitRequesterLimit($requester->company_id);
+    $data['company'] = Company::find($requester->company_id);
     return view('frontend/members', $data);
   }
 
@@ -128,7 +127,7 @@ class SiteController extends Controller
 
     $data['action'] = $action;
     $data['requester'] = $requester;
-    $data['offices'] = $this->company_service->getOfficeDropdown($requester->company_id);
+    $data['offices'] = Office::getOfficeDropdown($requester->company_id);
     return view('frontend/members-form', $data);
   }
 
@@ -142,7 +141,7 @@ class SiteController extends Controller
     }
     $logged_in_requester = $this->getLoggedInRequester();
     $data['registration'] = $registration;
-    $data['offices'] = $this->company_service->getOfficeDropdown($logged_in_requester->company_id);
+    $data['offices'] = Office::getOfficeDropdown($logged_in_requester->company_id);
     return view('frontend/members-registration', $data);
   }
 

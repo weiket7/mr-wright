@@ -16,7 +16,7 @@
         Username
       </label>
       <div class="col-md-10">
-        {{Form::text('username', App::environment('local') ? "Sally" : '', ['class'=>'form-control', 'autofocus'])}}
+        <input type="text" name="username" class="form-control" autofocus>
       </div>
     </div>
 
@@ -25,7 +25,7 @@
         Password
       </label>
       <div class="col-md-10">
-        {{Form::password('password', ['class'=>'form-control', 'value'=>App::environment('local') ? "123456" : ''])}}
+        <input type="password" name="password" value="123456" class="form-control">
       </div>
     </div>
 

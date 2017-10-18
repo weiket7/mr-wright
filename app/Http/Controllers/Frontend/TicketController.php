@@ -3,35 +3,31 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\Entities\TransactionRequest;
 use App\Models\Enums\PaymentMethodStat;
 use App\Models\Enums\TicketStat;
 use App\Models\Enums\TransactionStat;
 use App\Models\Enums\TransactionType;
-use App\Models\FrontendService;
 use App\Models\Helpers\BackendHelper;
+use App\Models\Office;
 use App\Models\Requester;
-use App\Models\Services\CompanyService;
 use App\Models\Services\PaymentService;
 use App\Models\Services\TicketService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Log;
 use ViewHelper;
 
 class TicketController extends Controller
 {
-  protected $company_service;
   protected $ticket_service;
 
-  public function __construct(CompanyService $company_service, TicketService $ticket_service) {
-    $this->company_service = $company_service;
+  public function __construct(TicketService $ticket_service) {
     $this->ticket_service = $ticket_service;
   }
 
   public function index() {
-    $data['tickets'] = $this->ticket_service->getTicketAllByUsername(Auth::user()->username);
+    $data['tickets'] = $this->ticket_service->getTicketAllByUsername($this->getUsername());
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
     $payment_service = new PaymentService();
     $data['payment_methods'] = $payment_service->getPaymentMethods(PaymentMethodStat::Active);
@@ -50,11 +46,11 @@ class TicketController extends Controller
       $input = $request->all();
       $submit_action = $input['submit_action'];
   
+      $ticket_id = $this->ticket_service->saveFrontendTicket($ticket_id, $input, $this->getUsername());
+      if ($ticket_id === false) {
+        return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
+      }
       if (BackendHelper::stringContains($submit_action, "draft") || BackendHelper::stringContains($submit_action, "update")) {
-        $ticket_id = $this->ticket_service->saveFrontendTicket($ticket_id, $input, $this->getUsername());
-        if ($ticket_id === false) {
-          return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
-        }
         $result = BackendHelper::stringContains($submit_action, "draft") ? "Ticket drafted" : "Ticket updated";
         return redirect('ticket/save/'.$ticket_id)->with('msg', $result);
       } elseif (BackendHelper::stringContains($submit_action, "open")) {
@@ -65,13 +61,11 @@ class TicketController extends Controller
     $data['ticket'] = $ticket;
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
     $data['action'] = $action;
-    $requester = new Requester();
 
-    $requester = $requester->getRequesterByUsername($this->getUsername());
+    $requester = Requester::where('username', $this->getUsername())->first();
     $data['requester'] = $requester;
-    if ($data['requester']->admin) {
-      $data['offices'] = $this->company_service->getOfficeDropdown($requester->company_id);
-    }
+    $data['office'] = Office::find($requester->office_id);
+    $data['company'] = Company::find($requester->company_id);
     return view('frontend/ticket-form', $data);
   }
 

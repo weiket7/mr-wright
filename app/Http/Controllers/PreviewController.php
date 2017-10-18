@@ -7,18 +7,15 @@ use App\Models\Registration;
 use App\Models\Contact;
 use App\Models\Invite;
 use App\Models\Requester;
-use App\Models\Services\CompanyService;
 use App\Models\Services\TicketService;
 use Illuminate\Http\Request;
 use Mail;
 
 class PreviewController extends Controller
 {
-  protected $company_service;
   protected $ticket_service;
 
-  public function __construct(CompanyService $company_service, TicketService $ticket_service) {
-    $this->company_service = $company_service;
+  public function __construct(TicketService $ticket_service) {
     $this->ticket_service = $ticket_service;
   }
 

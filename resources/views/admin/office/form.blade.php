@@ -60,9 +60,15 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3"></label>
+                <label class="control-label col-md-3">Requesters</label>
                 <div class="col-md-9">
-
+                  <table class="table table-bordered no-margin-btm">
+                    @foreach($requesters as $r)
+                      <tr>
+                        <td><a href="{{url('admin/requester/save/'.$r->requester_id)}}">{{ $r->name }}</a></td>
+                      </tr>
+                    @endforeach
+                  </table>
                 </div>
               </div>
             </div>

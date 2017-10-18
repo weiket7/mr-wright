@@ -361,7 +361,7 @@
                     @elseif($ticket->stat == TicketStat::Drafted)
                       <input type="submit" @click='updateTicket' value="Update Ticket" class="btn blue">
                       <input type="submit" @click='openTicket' value="Open Ticket" class="btn blue">
-                      <input type="button" value="Delete Ticket" class="btn red">
+                      <input type="button" value="Delete Ticket" class="btn red confirmation" data-toggle='confirmation'>
                     @elseif($ticket->stat == TicketStat::Opened)
                       <input type="submit" @click='updateTicket' value="Update Ticket" class="btn blue">
                       <input type="submit" @click='sendQuotation' value="Send Quotation" class="btn green">

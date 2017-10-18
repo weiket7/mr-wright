@@ -3,20 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\DeleteLog;
+use App\Models\Office;
 use App\Models\Requester;
-use App\Models\Services\CompanyService;
 use Illuminate\Http\Request;
 
 class RequesterController extends Controller
 {
-  protected $company_service;
-
-  public function __construct(CompanyService $company_service)
-  {
-    $this->company_service = $company_service;
-  }
-
   public function index(Request $request) {
     if($request->isMethod("post")) {
       $input = $request->all();
@@ -24,12 +18,13 @@ class RequesterController extends Controller
     } else {
       $input["limit"] = 100;
     }
-    $requesters = $this->company_service->searchRequester($input);
+    $requester_service = new Requester();
+    $requesters = $requester_service->searchRequester($input);
     $data['search_result'] = 'Showing ' . count($requesters) . ' requester(s)';
   
     $data['requesters'] = $requesters;
-    $data['companies'] = $this->company_service->getCompanyDropdown();
-    $data['offices'] = $this->company_service->getOfficeDropdown();
+    $data['companies'] = Company::getCompanyDropdown();
+    $data['offices'] = Office::getOfficeDropdown();
     return view("admin/requester/index", $data);
   }
 
@@ -53,8 +48,8 @@ class RequesterController extends Controller
 
     $data['action'] = $action;
     $data['requester'] = $requester;
-    $data['companies'] = $this->company_service->getCompanyDropdown();
-    $data['offices'] = $this->company_service->getOfficeDropdown($requester->company_id);
+    $data['companies'] = Company::getCompanyDropdown();
+    $data['offices'] = Office::getOfficeDropdown($requester->company_id);
     $data['requester'] = $requester;
     return view('admin/requester/form', $data);
   }

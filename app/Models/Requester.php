@@ -83,7 +83,7 @@ class Requester extends Eloquent
     }
 
     $user->name = $input['name'];
-    if (in_array($input['stat'], [RequesterStat::PendingPayment, RequesterStat::Inactive])) {
+    if ($input['stat'] == RequesterStat::Inactive) {
       $user->stat = UserStat::Inactive;
     } else if ($input['stat'] == RequesterStat::Active) {
       $user->stat = UserStat::Active;
@@ -160,6 +160,37 @@ class Requester extends Eloquent
         'c.membership_name', 'c.requester_limit', 'effective_price', 'c.requester_count')
       ->where('username', $username)
       ->where('r.stat', RequesterStat::Active)->first();
+  }
+  
+  public function searchRequester($input) {
+    $s = "SELECT requester_id, r.stat, r.name, r.type, o.name as office_name, c.name as company_name
+    from requester as r
+    inner join office as o on r.office_id = o.office_id
+    inner join company as c on r.company_id = c.company_id
+    where r.deleted_at is null";
+    if (isset($input['stat']) && $input['stat'] != '') {
+      $s .= " and r.stat = '$input[stat]'";
+    }
+    if (isset($input['name']) && $input['name'] != '') {
+      $s .= " and r.name like '%".$input['name']."%'";
+    }
+    if (isset($input['company_id']) && $input['company_id'] != '') {
+      $s .= " and r.company_id =".$input['company_id'];
+    }
+    if (isset($input['office_id']) && $input['office_id'] != '') {
+      $s .= " and r.office_id =".$input['office_id'];
+    }
+    if (isset($input['limit']) && $input['limit'] > 0) {
+      $s .= " limit ".$input['limit'];
+    }
+    return DB::select($s);
+  }
+  
+  public static function getRequesterDropdown($office_id = null) {
+    if($office_id == null) {
+      return Requester::pluck('name', 'username');
+    }
+    return Requester::where('office_id', $office_id)->pluck('name', 'username');
   }
   
   public function getValidation() {

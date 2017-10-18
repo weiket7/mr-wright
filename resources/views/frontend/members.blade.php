@@ -4,17 +4,17 @@
   <table class="table table-bordered">
     <thead>
     <tr>
-      <td width="200px">Office</td>
       <td width="70px">Status</td>
-      <td>Name</td>
+      <td width="200px">Name</td>
+      <td>Office</td>
     </tr>
     </thead>
     <tbody>
     @foreach($requesters as $r)
       <tr>
-        <td>{{$r->office_name}}</td>
         <td>{{\App\Models\Enums\RequesterStat::$values[$r->stat]}}</td>
         <td><a href="{{url('members/save/'.$r->requester_id)}}">{{$r->name}}</a></td>
+        <td>{{$r->office_name}}</td>
       </tr>
     @endforeach
     </tbody>
@@ -49,8 +49,7 @@
   @if($hit_requester_limit)
     <div class="alert alert-info">
       The current number of requesters has hit the limit from the membership plan {{ $company->membership_name }}.
-      <br>
-      Would you like to <a href="{{url('membership/upgrade')}}">upgrade the membership plan</a>?
+      {{--<br>Would you like to <a href="{{url('membership/upgrade')}}">upgrade the membership plan</a>?--}}
     </div>
   @else
     <div class="r-text" style="margin-top: 10px; margin-bottom: 10px;">
@@ -93,6 +92,5 @@
       </div>
     </form>
   @endif
-  
 
 @endsection

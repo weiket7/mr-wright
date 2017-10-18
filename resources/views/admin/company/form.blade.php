@@ -126,7 +126,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Current Number of Requesters</label>
                 <label class="col-md-9 form-control-static">
-                  {{ $company->requester_count }}
+                  {{ $company->requester_count }} / {{ $company->requester_limit }}
                 </label>
               </div>
             </div>
@@ -143,7 +143,7 @@
                     <table class="table table-bordered no-margin-btm">
                       @foreach($offices as $o)
                         <tr>
-                          <td>{{ $o->name }}</td>
+                          <td><a href="{{url('admin/office/save/'.$o->office_id)}}">{{ $o->name }}</a></td>
                         </tr>
                       @endforeach
                     </table>

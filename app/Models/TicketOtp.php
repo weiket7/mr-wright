@@ -1,6 +1,8 @@
 <?php namespace App\Models;
 
+use App\Models\Enums\StaffAssignmentStat;
 use App\Models\Services\TicketService;
+use Carbon\Carbon;
 use Eloquent, DB, Validator, Log;
 
 class TicketOtp extends Eloquent
@@ -30,7 +32,7 @@ class TicketOtp extends Eloquent
         DB::table('ticket_otp')
           ->where('ticket_otp_id', $ticket_otp_id)
           ->update(['first_entered_on'=>Carbon::now()]);
-        $this->staffAttendTicket($ticket_id, $username);
+        $this->staffAttendTicket($ticket_id );
         
       } else if ($type == 'second') {
         DB::table('ticket_otp')
@@ -44,7 +46,7 @@ class TicketOtp extends Eloquent
     return $valid_otp;
   }
   
-  private function staffAttendTicket($ticket_id, $username) {
+  private function staffAttendTicket($ticket_id) {
     DB::table('staff_assignment')->where('ticket_id', $ticket_id)->update([
       'stat'=>StaffAssignmentStat::Attended
     ]);

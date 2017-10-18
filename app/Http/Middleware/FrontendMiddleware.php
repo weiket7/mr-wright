@@ -28,12 +28,10 @@ class FrontendMiddleware
       return redirect('login?referral='.$this->getReferral($request));
     }
 
-    $requester_service = new Requester();
-    $requester = $requester_service->getRequesterByUsername($username);
+    $requester = Requester::where('username', $username)->first();
     if ($requester->company_stat == CompanyStat::Inactive
       || $requester->office_stat == OfficeStat::Inactive
-      || $requester->stat == RequesterStat::Inactive
-      || $requester->stat == RequesterStat::Delete) {
+      || $requester->stat == RequesterStat::Inactive) {
       Log::error('FrontendMiddleware account deactivated, username=' . $requester->username);
       return redirect("error")->with('error', "The account has been deactivated");
     }

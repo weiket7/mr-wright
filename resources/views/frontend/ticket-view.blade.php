@@ -276,7 +276,7 @@
       <div class="form-group">
         <label class="control-label col-md-2 ticket-md-2">Staff Assignments</label>
         <div class="col-md-10 ticket-md-10">
-          @if(count($ticket->preferred_slots))
+          @if(count($ticket->staff_assignments))
               <table class="table table-bordered no-margin-btm">
               <thead>
               <tr>

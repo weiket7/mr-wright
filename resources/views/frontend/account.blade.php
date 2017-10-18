@@ -87,8 +87,7 @@
             Company Name
           </label>
           <div class="col-md-9 form-control-static r-text">
-              {{ $requester->company_name }}
-            </label>
+            {{ $company->name }}
           </div>
         </div>
       </div>
@@ -99,7 +98,7 @@
               UEN *
             </label>
             <div class="col-md-9 form-control-static r-text">
-              {{ $requester->uen }}
+              {{ $company->uen }}
             </div>
           </div>
         </div>
@@ -110,7 +109,7 @@
               Office Name
             </label>
             <div class="col-md-9">
-              {{ Form::text('office_name', $requester->office_name, ['class'=>'form-control', 'maxlength'=>200]) }}
+              {{ Form::text('office_name', $office->office_name, ['class'=>'form-control', 'maxlength'=>200]) }}
             </div>
           </div>
         </div>
@@ -125,7 +124,7 @@
               Company Address *
             </label>
             <div class="col-md-9">
-              {{ Form::textarea('company_addr', $requester->company_addr, ['rows'=>2, 'class'=>'form-control', 'maxlength'=>200]) }}
+              {{ Form::textarea('company_addr', $company->addr, ['rows'=>2, 'class'=>'form-control', 'maxlength'=>200]) }}
             </div>
           </div>
         </div>
@@ -135,7 +134,7 @@
               Company Postal Code *
             </label>
             <div class="col-md-9">
-              {{ Form::text('company_postal', $requester->company_postal, ['class'=>'form-control', 'maxlength'=>20]) }}
+              {{ Form::text('company_postal', $company->postal, ['class'=>'form-control', 'maxlength'=>20]) }}
             </div>
           </div>
         </div>
@@ -148,7 +147,7 @@
               Membership Plan
             </label>
             <div class="col-md-9 form-control-static r-text">
-              {{ $requester->membership_name }}
+              {{ $company->membership_name }}
             </div>
           </div>
         </div>
@@ -158,7 +157,7 @@
               Number of Requesters
             </label>
             <div class="col-md-9 form-control-static r-text">
-              {{ $requester->requester_count }} / {{ $requester->requester_limit }}
+              {{ $company->requester_count }} / {{ $company->requester_limit }}
             </div>
           </div>
         </div>
@@ -196,8 +195,10 @@
       <h3>Offices</h3>
       <br>
 
-      <a href="{{url('office/save')}}">Create Office <i class="fa fa-plus"></i></a>
-      <br><br>
+      @if($company->free_trial == false)
+        <a href="{{url('office/save')}}">Create Office <i class="fa fa-plus"></i></a>
+        <br><br>
+      @endif
 
       <table class="table table-bordered">
         <thead>

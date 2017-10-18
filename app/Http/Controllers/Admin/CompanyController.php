@@ -7,24 +7,18 @@ use App\Models\Company;
 use App\Models\DeleteLog;
 use App\Models\Enums\MembershipStat;
 use App\Models\Membership;
-use App\Models\Services\CompanyService;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
-  protected $company_service;
-
-  public function __construct(CompanyService $company_service) {
-    $this->company_service = $company_service;
-  }
-  
   public function index(Request $request) {
     $input = [];
     if($request->isMethod("post")) {
       $input = $request->all();
       $request->flash();
     }
-    $companies = $this->company_service->searchCompany($input);
+    $company_service = new Company();
+    $companies = $company_service->searchCompany($input);
     $data['search_result'] = 'Showing ' . count($companies) . ' company(s)';
     
     $data['companies'] = $companies;

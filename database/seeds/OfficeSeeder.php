@@ -36,16 +36,7 @@ class OfficeSeeder extends Seeder
       'company_id'=>2,
       'addr'=>'Jurong Address',
       'postal'=>'123456',
-      'updated_by'=>'admin',
-      'updated_on'=>date('Y-m-d H:i:s')
-    ]);
-    DB::table('office')->insert([
-      'office_id'=>4,
-      'stat'=>OfficeStat::Active,
-      'name'=>'Ang Mo Kio Outlet',
-      'company_id'=>2,
-      'addr'=>'AMK Address',
-      'postal'=>'123456',
+      'requester_count'=>1,
       'updated_by'=>'admin',
       'updated_on'=>date('Y-m-d H:i:s')
     ]);

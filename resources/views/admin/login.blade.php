@@ -59,18 +59,13 @@
   </div>
   <div class="form-actions">
     <button type="submit" class="btn btn-success uppercase">Login</button>
-    <!--<label class="rememberme check">
-      <div class="checker"><span><input type="checkbox" name="remember" value="1"></span></div>Remember </label>-->
-    @if($role !== 'admin')
-      <a href="{!! URL::to($role . '/account/reset-password') !!}" id="forget-password" class="forget-password">Forgot Password</a>
-    @endif
   </div>
 
   </form>
 </div>
 
 <div class="copyright">
-  Mr Wright
+  <a href="{{url('login')}}">Frontend</a>
 </div>
 
 </body></html>

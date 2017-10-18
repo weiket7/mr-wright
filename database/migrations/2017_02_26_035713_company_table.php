@@ -28,6 +28,7 @@ class CompanyTable extends Migration
         $t->integer('requester_count');
         $t->integer('requester_limit');
         $t->decimal('effective_price', 12, 2); //per month
+        $t->boolean('free_trial');
         $t->string('updated_by', 20);
         $t->dateTime('updated_on');
         $t->softDeletes();

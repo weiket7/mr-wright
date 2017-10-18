@@ -3,30 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\DeleteLog;
 use App\Models\Office;
-use App\Models\Services\CompanyService;
 use Illuminate\Http\Request;
 
 class OfficeController extends Controller
 {
-  protected $company_service;
-
-  public function __construct(CompanyService $company_service) {
-    $this->company_service = $company_service;
-  }
-
   public function index(Request $request) {
     $input = [];
     if($request->isMethod("post")) {
       $input = $request->all();
       $request->flash();
     }
-    $offices = $this->company_service->searchOffice($input);
+    $office_service = new Office();
+    $offices = $office_service->searchOffice($input);
     $data['search_result'] = 'Showing ' . count($offices) . ' office(s)';
   
     $data['offices'] = $offices;
-    $data['companies'] = $this->company_service->getCompanyDropdown();
+    $data['companies'] = Company::getCompanyDropdown();
     return view("admin/office/index", $data);
   }
 
@@ -50,7 +45,8 @@ class OfficeController extends Controller
 
     $data['action'] = $action;
     $data['office'] = $office;
-    $data['companies'] = $this->company_service->getCompanyDropdown();
+    $data['companies'] = Company::getCompanyDropdown();
+    $data['requesters'] = $office->getRequesterByOffice($office_id);
     return view('admin/office/form', $data);
   }
 

@@ -105,7 +105,7 @@
                     ACCOUNT ({{Auth::user()->username}})
                   </a>
                 </li>
-                @if($frontend['logged_in_requester']->admin)
+                @if($frontend['logged_in_requester']->admin && $frontend['logged_in_requester']->free_trial == false)
                   <li>
                     <a href="{{ url('members') }}" title="Invite">
                       MEMBERS

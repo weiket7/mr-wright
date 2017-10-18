@@ -26,7 +26,7 @@
             <tr>
               <th class="search-th-stat">Status</th>
               <th class="search-th-txt">Code</th>
-              <th>Title</th>
+              <th class="search-th-txt">Title</th>
               <th>Show top</th>
             </tr>
             </thead>

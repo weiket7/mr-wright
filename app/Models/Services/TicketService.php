@@ -46,6 +46,7 @@ class TicketService
       ->where('ticket_id', $ticket->ticket_id)
       ->select('staff_name', 'date', 'staff_mobile', 'time_start', 'time_end')
       ->get();
+    
     $res = [];
     foreach($data as $d) {
       $res[$d->date][] = $d;
@@ -159,7 +160,7 @@ class TicketService
     return $ticket->ticket_id;
   }
 
-  public function saveFrontendTicket($ticket_id, $input, $username = 'admin') {
+  public function saveFrontendTicket($ticket_id, $input, $username) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
@@ -172,16 +173,19 @@ class TicketService
     $ticket->urgency = $input['urgency'];
     $ticket->requester_desc = $input['requester_desc'];
 
-    $requester_service = new Requester();
-    $requester = $requester_service->getRequesterByUsername($username);
-    $ticket->office_id = $requester->office_id;
+    $requester = Requester::where('username', $username)->first();
     $ticket->company_id = $requester->company_id;
-    $ticket->company_name = $requester->company_name;
+    $ticket->office_id = $requester->office_id;
+    
+    $company = Company::find($requester->company_id);
+    $ticket->company_name = $company->name;
     $office = Office::find($ticket->office_id);
+    $ticket->office_name = $office->name;
     $ticket->office_addr = $office->addr;
     $ticket->office_postal = $office->postal;
 
     $ticket->requested_by = $username;
+    $ticket->requester_mobile = $requester->mobile;
     $ticket->requested_on = Carbon::now();
 
     if ($ticket_id == null) {

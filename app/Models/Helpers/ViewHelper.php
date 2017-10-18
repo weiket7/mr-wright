@@ -93,7 +93,7 @@ class ViewHelper {
   }
   
   public static function ticketCanUpdate($ticket) {
-    return in_array($ticket->stat, [TicketStat::Drafted, TicketStat::Opened]);
+    return in_array($ticket->stat, [null, TicketStat::Drafted, TicketStat::Opened]);
   }
   
   public static function ticketLinkAdmin($ticket) {

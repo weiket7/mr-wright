@@ -30,7 +30,7 @@
               <td>
                 {!! Form::select('stat', CompanyStat::$values, '', ['class'=>'form-control search-stat', 'placeholder'=>'']) !!}
               </td>
-              <th>{!! Form::text('code', '', ['class'=>'form-control search-txt']) !!}</th>
+              <td>{!! Form::text('code', '', ['class'=>'form-control search-txt']) !!}</td>
               <td>{!! Form::text('name', '', ['class'=>'form-control search-txt']) !!}</td>
             </tr>
             </tbody>

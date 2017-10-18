@@ -73,7 +73,7 @@
             </label>
             <div class="col-md-9 form-control-static r-text">
               @if($ticket->stat == null)
-                {{ $requester->company_name }}
+                {{ $company->name }}
               @else
                 {{ $ticket->company_name }}
               @endif
@@ -86,7 +86,7 @@
               Office Name
             </label>
             <div class="col-md-9 form-control-static r-text">
-              {{ $requester->office_name }}
+              {{ $office->name }}
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
             </label>
             <div class="col-md-9 form-control-static r-text" id="office_addr">
                 @if($ticket->stat == null)
-                  {{ $requester->office_addr }}
+                  {{ $office->addr }}
                 @else
                   {{ $ticket->office_addr }}
                 @endif
@@ -113,7 +113,7 @@
             </label>
             <div class="col-md-9 form-control-static r-text" id="office_postal">
                 @if($ticket->stat == null)
-                  {{ $requester->office_postal }}
+                  {{ $office->postal }}
                 @else
                   {{ $ticket->office_postal }}
                 @endif

@@ -52,6 +52,8 @@ class Company extends Eloquent
     $this->postal = $input['postal'];
     $this->industry = $input['industry'];
     $this->membership_id = $input['membership_id'];
+    $membership = Membership::find($this->membership_id);
+    $this->requester_limit = $membership->requester_limit;
     $this->save();
     return true;
   }
@@ -70,6 +72,35 @@ class Company extends Eloquent
     Office::where('company_id', $this->company_id)->delete();
     
     Requester::where('company_id', $this->company_id)->delete();
+  }
+  
+  public function searchCompany($input) {
+    $s = "SELECT company_id, code, stat, name, requester_count
+    from company
+    where deleted_at is null ";
+    if (isset($input['stat']) && $input['stat'] != '') {
+      $s .= " and stat = '$input[stat]'";
+    }
+    if (isset($input['code']) && $input['code'] != '') {
+      $s .= " and code like '%".$input['code']."%'";
+    }
+    if (isset($input['name']) && $input['name'] != '') {
+      $s .= " and name like '%".$input['name']."%'";
+    }
+    return DB::select($s);
+  }
+  
+  public function getRequesterByCompany($company_id) {
+    return DB::table('requester as r')
+      ->join('office as o', 'o.office_id', '=', 'r.office_id')
+      ->join('company as c', 'c.company_id', '=', 'r.company_id')
+      ->where('r.company_id', $company_id)
+      ->select('requester_id', 'r.name', 'r.stat', 'r.type', 'r.company_id', 'r.office_id', 'c.name as company_name', 'o.name as office_name')
+      ->orderBy('o.name')->orderBy('r.name')->get();
+  }
+  
+  public static function getCompanyDropdown() {
+    return Company::orderBy('name')->pluck('name', 'company_id');
   }
   
   public function getValidation() {

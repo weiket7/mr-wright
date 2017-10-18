@@ -76,6 +76,23 @@ class Office extends Eloquent
     return true;
   }
   
+  public function searchOffice($input) {
+    $s = "SELECT office_id, o.stat, o.name, c.name as company_name, o.addr, o.postal, o.requester_count
+    from office as o
+    inner join company as c on o.company_id = c.company_id
+    where o.deleted_at is null ";
+    if (isset($input['stat']) && $input['stat'] != '') {
+      $s .= " and o.stat = '$input[stat]'";
+    }
+    if (isset($input['name']) && $input['name'] != '') {
+      $s .= " and o.name like '%".$input['name']."%'";
+    }
+    if (isset($input['company_id']) && $input['company_id'] != '') {
+      $s .= " and o.company_id =".$input['company_id'];
+    }
+    return DB::select($s);
+  }
+  
   public function deleteOffice() {
     $this->delete();
     
@@ -85,6 +102,17 @@ class Office extends Eloquent
     $company->updateCompanyOfficeRequesterCount($this->company_id);
   }
 
+  public function getRequesterByOffice($office_id) {
+    return Requester::where('office_id', $office_id)->get();
+  }
+  
+  public static function getOfficeDropdown($company_id = null) {
+    if($company_id == null) {
+      return Office::pluck('name', 'company_id');
+    }
+    return Office::where('company_id', $company_id)->pluck('name', 'office_id');
+  }
+  
   public function getValidation() {
     return $this->validation;
   }

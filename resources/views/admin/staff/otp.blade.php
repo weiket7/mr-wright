@@ -13,7 +13,13 @@
     <div class="portlet-body form-horizontal">
       <form method="post" action="">
         {{ csrf_field() }}
-        
+          <div class="form-group">
+            <label class="control-label col-md-2 ticket-md-2">Title</label>
+            <div class="col-md-10 form-control-static ticket-md-10">
+              {{ $ticket->title }}
+            </div>
+          </div>
+          
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -21,17 +27,17 @@
                   Ticket Code
                 </div>
                 <div class="form-control-static col-xs-9">
-                  <a href="{{url('admin/ticket/view/'.$ticket->ticket_id)}}">{{ $ticket->ticket_code }}</a>
+                  {{ $ticket->ticket_code }}
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <div class="control-label col-xs-3">
-                  Title
+                  Status
                 </div>
                 <div class="form-control-static col-xs-9">
-                  {{ $ticket->title }}
+                  {{ TicketStat::$values[$ticket->stat] }}
                 </div>
               </div>
             </div>

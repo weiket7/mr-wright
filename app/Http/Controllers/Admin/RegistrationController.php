@@ -8,7 +8,6 @@ use App\Models\Company;
 use App\Models\DeleteLog;
 use App\Models\Helpers\BackendHelper;
 use App\Models\Office;
-use App\Models\Services\CompanyService;
 use App\Models\Services\PaymentService;
 use Illuminate\Http\Request;
 
@@ -32,8 +31,8 @@ class RegistrationController extends Controller
 
   public function save(Request $request, $registration_id) {
     $registration = Registration::findOrFail($registration_id);
-    $account_service = new Registration();
-    $will_be_admin = $account_service->willBeAdmin($registration->company_id);
+    $registration_service = new Registration();
+    $will_be_admin = $registration_service->willBeAdmin($registration->company_id);
 
     if($request->isMethod('post')) {
       $input = $request->all();
@@ -45,23 +44,22 @@ class RegistrationController extends Controller
   
       $submit = $input['submit'];
       if(BackendHelper::stringContains($input['submit'], 'approve')){
-        $registration = $account_service->approveRegistration($registration_id, $input);
+        $registration = $registration_service->approveRegistration($registration_id, $input);
         if ($registration == false) {
-          return redirect()->back()->withErrors($account_service->getValidation())->withInput($input);
+          return redirect()->back()->withErrors($registration_service->getValidation())->withInput($input);
         }
-        $account_service->updateCompanyOfficeRequesterCount($registration->company_id);
-        $account_service->emailApproveRegistration($registration);
+        $registration_service->updateCompanyOfficeRequesterCount($registration->company_id);
+        $registration_service->emailApproveRegistration($registration);
         return redirect('admin/registration/save/' . $registration->registration_id)->with('msg', "Registration approved");
       } else if(BackendHelper::stringContains($submit, 'reject')) {
-        $registration = $account_service->rejectRegistration($registration_id);
+        $registration = $registration_service->rejectRegistration($registration_id);
         return redirect('admin/registration/save/' . $registration->registration_id)->with('msg', "Registration rejected");
       }
     }
   
     $data['will_be_admin'] = $will_be_admin;
     $data['registration'] = $registration;
-    $company_service = new CompanyService();
-    $data['offices'] = $company_service->getOfficeDropdown($registration->company_id);
+    $data['offices'] = Office::getOfficeDropdown($registration->company_id);
     $data['company'] = Company::find($registration->company_id);
     $data['office'] = Office::find($registration->office_id);
     $payment_service = new PaymentService();

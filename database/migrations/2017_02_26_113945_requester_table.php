@@ -17,7 +17,7 @@ class RequesterTable extends Migration
       $t->char('stat', 1);
       $t->char('type', 1);
       $t->boolean('admin');
-      $t->boolean('approved');
+      $t->tinyInteger('membership_id');
       $t->string('designation', 30);
       $t->string('email', 100);
       $t->string('work', 30)->nullable();

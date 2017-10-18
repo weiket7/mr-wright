@@ -6,11 +6,12 @@ use App\Mail\NoShowMail;
 use App\Models\Enums\StaffAssignmentStat;
 use App\Models\Enums\TransactionStat;
 use App\Models\Office;
+use App\Models\Requester;
 use App\Models\Services\CalendarService;
-use App\Models\Services\CompanyService;
 use App\Models\Services\PaymentService;
 use App\Models\Services\TicketService;
 use App\Models\Services\WorkingHourService;
+use App\Models\TicketOtp;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -21,13 +22,11 @@ class ApiController extends Controller
 {
   protected $calendar_service;
   protected $working_hour_service;
-  protected $company_service;
 
-  public function __construct(CalendarService $calendar_service, WorkingHourService $working_hour_service, CompanyService $company_service)
+  public function __construct(CalendarService $calendar_service, WorkingHourService $working_hour_service)
   {
     $this->calendar_service = $calendar_service;
     $this->working_hour_service = $working_hour_service;
-    $this->company_service = $company_service;
   }
 
   public function getStaffWithSkills(Request $request) {
@@ -58,7 +57,7 @@ class ApiController extends Controller
     $ticket_otp_id = $request->get('ticket_otp_id');
     $otp = $request->get('otp');
     $type = $request->get('type');
-    $ticket_service = new TicketService();
+    $ticket_service = new TicketOtp();
     $res = $ticket_service->enterOtp($ticket_otp_id, $type, $otp, $this->getUsername());
     return $res ? 'true' : 'false';
   }
@@ -66,12 +65,12 @@ class ApiController extends Controller
   //TODO secure these 3 api, if operator can access all, if requester only those under his company and/or office
   public function getOfficeByCompany(Request $request) {
     $company_id = $request->get('company_id');
-    return $this->company_service->getOfficeDropdown($company_id);
+    return Office::getOfficeDropdown($company_id);
   }
 
   public function getRequesterByOffice(Request $request) {
     $office_id = $request->get('office_id');
-    return $this->company_service->getRequesterDropdown($office_id);
+    return Requester::getRequesterDropdown($office_id);
   }
 
   public function getOffice(Request $request) {

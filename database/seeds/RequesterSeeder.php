@@ -3,6 +3,7 @@
 use App\Models\Enums\PreferredContact;
 use App\Models\Enums\RequesterStat;
 use App\Models\Enums\RequesterType;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class RequesterSeeder extends Seeder
@@ -23,7 +24,8 @@ class RequesterSeeder extends Seeder
       'work'=>'6123456',
       'preferred_contact'=>PreferredContact::Mobile,
       'updated_by'=>'admin',
-      'updated_on'=>date('Y-m-d H:i:s')
+      'updated_on'=>Carbon::now(),
+      'created_on'=>Carbon::now()
     ]);
 
     DB::table('requester')->insert([
@@ -40,22 +42,26 @@ class RequesterSeeder extends Seeder
       'work'=>'6123456',
       'preferred_contact'=>PreferredContact::Mobile,
       'updated_by'=>'admin',
-      'updated_on'=>date('Y-m-d H:i:s')
+      'updated_on'=>Carbon::now(),
+      'created_on'=>Carbon::now()
     ]);
 
     DB::table('requester')->insert([
       'stat'=>RequesterStat::Active,
+      'company_id'=>2,
+      'office_id'=>3,
       'name'=>'Olivia',
       'username'=>'olivia',
       'admin'=>true,
-      'type'=> RequesterType::Individual,
+      'type'=> RequesterType::Corporate,
       'designation'=>'Secretary',
       'mobile'=>'91234567',
       'work'=>'6123456',
       'email'=>'olivia@hotmail.com',
       'preferred_contact'=>PreferredContact::Mobile,
       'updated_by'=>'admin',
-      'updated_on'=>date('Y-m-d H:i:s')
+      'updated_on'=>Carbon::now(),
+      'created_on'=>Carbon::now()
     ]);
   }
 }
