@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Account;
+use App\Models\Registration;
 use App\Models\Entities\TransactionRequest;
 use App\Models\Enums\MembershipStat;
 use App\Models\Enums\PaymentMethodStat;
@@ -9,10 +9,7 @@ use App\Models\Enums\TransactionStat;
 use App\Models\Enums\TransactionType;
 use App\Models\Membership;
 use App\Models\PaymentMethod;
-use App\Models\Registration;
 use App\Models\Services\PaymentService;
-use App\Models\User;
-use Auth;
 use Illuminate\Http\Request;
 use Log;
 
@@ -25,11 +22,10 @@ class RegistrationController extends Controller
       return view('frontend/error', ['error' => 'Membership does not exist']);
     }
     
-    $account_service = new Account();
+    $account_service = new Registration();
     if ($request->isMethod("post")) {
       $input = $request->all();
-      $validate = $account_service->validateRegistration($input) == false;
-      if ($validate) {
+      if ($account_service->validateRegistration($input) == false) {
         return redirect()->back()->withErrors($account_service->getValidation())->withInput($input);
       }
       
@@ -37,12 +33,10 @@ class RegistrationController extends Controller
       $request->session()->put('registration_id', $registration->registration_id);
   
       if ($membership_id) {
-        $input['membership_id'] = $membership_id;
-        $registration = $account_service->saveRegistrationMembership($registration->registration_id, $input);
-  
         $membership = Membership::find($membership_id);
         if ($membership->free_trial) {
-          $account_service->approveRegistration($registration->registration_id);
+          $registration = $account_service->saveMembershipFreeTrial($registration, $membership);
+          $account_service->approveRegistration($registration);
           $account_service->emailRegistration($registration);
           return redirect('register/success');
         }
@@ -62,20 +56,24 @@ class RegistrationController extends Controller
   public function membership(Request $request) {
     $registration_id = $request->session()->get('registration_id');
     
-    $account_service = new Account();
+    $account_service = new Registration();
     if ($request->isMethod("post")) {
       $input = $request->all();
   
-      $registration = $account_service->saveRegistrationMembership($registration_id, $input);
-      if ($registration == false) {
+      if ($account_service->validateSaveRegistrationMembership($input) == false) {
         return redirect()->back()->withErrors($account_service->getValidation())->withInput($input);
       }
-  
-      $membership = Membership::find($registration->membership_id);
-      if ($membership->free_trial) {
-        $account_service->approveRegistration($registration->registration_id);
-      }
       
+      $registration = Registration::find($registration_id);
+      $membership = Membership::find($input["membership_id"]);
+      if ($membership->free_trial) {
+        $registration = $account_service->saveMembershipFreeTrial($registration, $membership);
+        $account_service->approveRegistration($registration);
+        $account_service->emailRegistration($registration);
+      } else {
+        $account_service->saveRegistrationMembership($registration, $membership, $input);
+      }
+    
       if ($registration->payment_method == PaymentMethod::CREDIT_CARD) { //credit card
         $transaction_request = new TransactionRequest();
         $transaction_request->code = $registration->registration_code;
@@ -91,7 +89,7 @@ class RegistrationController extends Controller
     $membership_service = new Membership();
     $data['memberships'] = $membership_service->getMembershipAll(MembershipStat::Active)->keyBy('membership_id');
     $payment_service = new PaymentService();
-    $data['payment_methods'] = $payment_service->getPaymentMethods(PaymentMethodStat::Active)->prepend('');
+    $data['payment_methods'] = $payment_service->getPaymentMethods(PaymentMethodStat::Active)->toArray();
     return view('frontend/register-membership', $data);
   }
   
@@ -99,7 +97,7 @@ class RegistrationController extends Controller
   {
     $registration_id = $request->session()->get('registration_id');
     if ($request->isMethod("post")) {
-      $account_service = new Account();
+      $account_service = new Registration();
       $registration = $account_service->registerExistingUen($registration_id);
       $account_service->emailRegisterExistingUen($registration);
       $account_service->emailRegistration($registration);

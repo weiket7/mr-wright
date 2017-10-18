@@ -10,11 +10,10 @@ use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
 use App\Models\ForgotPassword;
 use App\Models\FrontendService;
-use App\Models\Account;
+use App\Models\Registration;
 use App\Models\Invite;
 use App\Models\Membership;
 use App\Models\Office;
-use App\Models\Registration;
 use App\Models\Requester;
 use App\Models\Services\CompanyService;
 use Auth;
@@ -27,7 +26,7 @@ class SiteController extends Controller
   protected $company_service;
   protected $account_service;
   
-  public function __construct(Account $account_service, CompanyService $company_service)
+  public function __construct(Registration $account_service, CompanyService $company_service)
   {
     $this->account_service = $account_service;
     $this->company_service = $company_service;
@@ -136,7 +135,7 @@ class SiteController extends Controller
   public function membersRegistration(Request $request, $registration_id) {
     $registration = Registration::findOrFail($registration_id);
     if ($request->isMethod("post")) {
-      $account_service = new Account();
+      $account_service = new Registration();
       $registration = $account_service->approveRegistration($registration_id, $request->all());
       $account_service->emailApproveRegistration($registration);
       return redirect('members/registration/'.$registration_id)->with('msg', 'Registration approved');
@@ -155,7 +154,7 @@ class SiteController extends Controller
       $input = $request->all();
       $invite_service = new Invite();
       $user = $invite_service->acceptInvite($input, $token);
-      $account_service = new Account();
+      $account_service = new Registration();
       $company_id = Requester::where('username', $user->username)->value('company_id');
       $account_service->updateCompanyOfficeRequesterCount($company_id);
       Auth::login($user);

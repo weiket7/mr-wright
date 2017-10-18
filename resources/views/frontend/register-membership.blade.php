@@ -16,7 +16,7 @@
   
   <form method="post" action="" class="form-horizontal" autocomplete="off" id="app">
     {{ csrf_field() }}
-
+    
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
@@ -25,7 +25,7 @@
           </label>
           <div class="col-md-9">
             <select name="membership_id" class="form-control" v-model="selected_membership_id">
-              <option value=""></option>
+              <option selected></option>
               <option v-for="membership in memberships" :value="membership.membership_id">@{{ membership.name }}</option>
             </select>
           </div>
@@ -37,7 +37,7 @@
             Payment Method *
           </label>
           <div class="col-md-9">
-            {{ Form::select('payment_method', $payment_methods, '', ['class'=>'form-control', "v-model"=>'payment_method']) }}
+            {{ Form::select('payment_method', [''=>'']+$payment_methods, '', ['class'=>'form-control', "v-model"=>'payment_method']) }}
           </div>
         </div>
       </div>
@@ -64,7 +64,7 @@
         <br>
         <div class="col-md-2">
           <label class="control-label">
-            Ref No
+            Ref No *
           </label>
         </div>
         <div class="col-md-10">

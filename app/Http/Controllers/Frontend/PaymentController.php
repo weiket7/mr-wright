@@ -4,17 +4,13 @@ namespace App\Http\Controllers\Frontend;
 
 use App;
 use App\Http\Controllers\Controller;
-use App\Models\Account;
+use App\Models\Registration;
 use App\Models\Enums\TransactionStat;
 use App\Models\Enums\TransactionType;
-use App\Models\Registration;
-use App\Models\Services\AccessService;
 use App\Models\Services\PaymentService;
 use App\Models\Services\TicketService;
 use App\Models\Setting;
 use App\Models\Ticket;
-use App\Models\User;
-use Auth;
 use Illuminate\Http\Request;
 use Log;
 
@@ -55,7 +51,7 @@ class PaymentController extends Controller
     $transaction = $this->payment_service->saveTransaction($code, $response_code);
     if ($transaction->stat == TransactionStat::Success) {
       if ($transaction->type == TransactionType::Registration) {
-        $account_service = new Account();
+        $account_service = new Registration();
         $registration = Registration::where('registration_code', $code)->first();
         $registration = $account_service->approveRegistration($registration->registration_id);
         $account_service->updateCompanyOfficeRequesterCount($registration->company_id);

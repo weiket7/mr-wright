@@ -11,7 +11,7 @@
 |
 */
 
-use App\Models\Account;
+use App\Models\Registration;
 
 Route::get('/', 'Frontend\SiteController@index');
 Route::get('home', 'Frontend\SiteController@index');
@@ -231,7 +231,7 @@ Route::get('preview/forgot-password', 'PreviewController@forgotPassword');
 Route::get('preview/email-test', 'PreviewController@emailTest');
 
 Route::get('test', function() {
-  $company = new Account();
+  $company = new Registration();
   $company->updateCompanyOfficeRequesterCount(1);
 });
 

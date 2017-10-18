@@ -145,7 +145,7 @@ class Requester extends Eloquent
     User::where('username', $this->username)->delete();
     Registration::where('username', $this->username)->delete();
   
-    $company = new Account();
+    $company = new Registration();
     $company->updateCompanyOfficeRequesterCount($this->company_id);
   }
   

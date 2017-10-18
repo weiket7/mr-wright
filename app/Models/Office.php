@@ -81,7 +81,7 @@ class Office extends Eloquent
     
     Requester::where('office_id', $this->office_id)->delete();
   
-    $company = new Account();
+    $company = new Registration();
     $company->updateCompanyOfficeRequesterCount($this->company_id);
   }
 

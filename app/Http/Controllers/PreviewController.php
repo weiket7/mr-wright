@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactMail;
+use App\Models\Registration;
 use App\Models\Contact;
 use App\Models\Invite;
-use App\Models\Registration;
 use App\Models\Requester;
 use App\Models\Services\CompanyService;
 use App\Models\Services\TicketService;

@@ -3,18 +3,15 @@
 namespace App\Http\Middleware;
 
 use App;
-use App\Models\Company;
 use App\Models\Enums\CompanyStat;
 use App\Models\Enums\OfficeStat;
 use App\Models\Enums\RequesterStat;
 use App\Models\Enums\UserType;
-use App\Models\Registration;
 use App\Models\Requester;
 use App\Models\Services\AccessService;
 use App\Models\Ticket;
 use Auth;
 use Closure;
-use Codeception\Module\REST;
 use Illuminate\Http\Request;
 use Log;
 

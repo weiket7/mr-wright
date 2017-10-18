@@ -3,17 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Account;
+use App\Models\Registration;
 use App\Models\Company;
 use App\Models\DeleteLog;
 use App\Models\Helpers\BackendHelper;
 use App\Models\Office;
-use App\Models\Requester;
 use App\Models\Services\CompanyService;
 use App\Models\Services\PaymentService;
-use Foo\Bar\A;
 use Illuminate\Http\Request;
-use App\Models\Registration;
 
 class RegistrationController extends Controller
 {
@@ -35,7 +32,7 @@ class RegistrationController extends Controller
 
   public function save(Request $request, $registration_id) {
     $registration = Registration::findOrFail($registration_id);
-    $account_service = new Account();
+    $account_service = new Registration();
     $will_be_admin = $account_service->willBeAdmin($registration->company_id);
 
     if($request->isMethod('post')) {
