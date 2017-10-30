@@ -153,7 +153,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="http://rewards.united-points.com/rewards/13/E4NChpnp3nLvctXzRjVp/detail" title="Rewards">
+                  <a href="{{$frontend['contents']['rewards']}}" title="Rewards">
                     REWARDS
                   </a>
                 </li>

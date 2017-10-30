@@ -27,7 +27,8 @@ class FrontendContentTable extends Migration
       ['key'=>'twitter', 'value'=>'http://twitter.com'],
       ['key'=>'pinterest', 'value'=>'http://pinterest.com'],
       ['key'=>'linkedin', 'value'=>'http://linkedin.com'],
-      ['key'=>'address', 'value'=>'272 Linden Avenue <br>Winter Park, FL 32789']
+      ['key'=>'address', 'value'=>'272 Linden Avenue <br>Winter Park, FL 32789'],
+      ['key'=>'rewards', 'value'=>'http://corporate.united-points.com/rewards/15/OWT3gK8wOKhZxRlHIszd/detail']
     ];
     foreach($data as $d) {
       DB::table('frontend_content')->insert([
