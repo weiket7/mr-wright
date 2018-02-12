@@ -53,7 +53,7 @@ class PaymentController extends Controller
       if ($transaction->type == TransactionType::Registration) {
         $account_service = new Registration();
         $registration = Registration::where('registration_code', $code)->first();
-        $registration = $account_service->approveRegistration($registration->registration_id);
+        $registration = $account_service->approveRegistration($registration);
         $account_service->updateCompanyOfficeRequesterCount($registration->company_id);
         Log::info("payment/callback - Registration approve " . ($registration == false ? "failed" : "success") . " ref=".$code);
       } elseif ($transaction->type == TransactionType::Ticket) {

@@ -44,7 +44,7 @@ class RegistrationController extends Controller
   
       $submit = $input['submit'];
       if(BackendHelper::stringContains($input['submit'], 'approve')){
-        $registration = $registration_service->approveRegistration($registration_id, $input);
+        $registration = $registration_service->approveRegistration($registration, $input);
         if ($registration == false) {
           return redirect()->back()->withErrors($registration_service->getValidation())->withInput($input);
         }

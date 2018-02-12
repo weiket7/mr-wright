@@ -135,7 +135,7 @@ class SiteController extends Controller
     $registration = Registration::findOrFail($registration_id);
     if ($request->isMethod("post")) {
       $account_service = new Registration();
-      $registration = $account_service->approveRegistration($registration_id, $request->all());
+      $registration = $account_service->approveRegistration($registration, $request->all());
       $account_service->emailApproveRegistration($registration);
       return redirect('members/registration/'.$registration_id)->with('msg', 'Registration approved');
     }

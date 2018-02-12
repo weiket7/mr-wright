@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>{{ isset($meta_title) ? $meta_title : config('app.name') }}</title>
-  <!--meta-->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.2" />
   <meta name="format-detection" content="telephone=no" />

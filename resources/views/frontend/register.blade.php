@@ -146,7 +146,7 @@
             Postal Code *
           </label>
           <div class="col-md-9">
-            {{ Form::text('postal', '', ['class'=>'form-control', 'maxlength'=>20]) }}
+            {{ Form::number('postal', '', ['class'=>'form-control', 'maxlength'=>20]) }}
           </div>
         </div>
       </div>
