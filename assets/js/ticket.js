@@ -1,3 +1,10 @@
+Vue.component('date-picker', {
+  props: ['name', 'value'],
+  mounted: function(){
+    initDatepicker();
+  },
+  template: "<input type='text' :name='name' v-model='value' class='form-control datepicker'>"
+});
 
 Vue.component('dropdown-time', {
   props: ['name', 'value'],

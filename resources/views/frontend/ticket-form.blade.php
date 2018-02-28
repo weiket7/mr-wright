@@ -235,7 +235,8 @@
                 <input type="hidden" v-bind:name="'preferred_slot_id'+index" v-bind:value="slot.ticket_preferred_slot_id">
               </td>
               <td>
-                <input type="text" v-bind:name="'preferred_slot_date'+index" v-bind:value="slot.date | formatDate" class="form-control datepicker">
+                <span :text="slot.date"></span>
+                <date-picker :name="'preferred_slot_date'+index" :value="slot.date"></date-picker>
               </td>
               <td>
                 <dropdown-time :name="'preferred_slot_time_start'+index" :value="slot.time_start" class="select-time"></dropdown-time>
@@ -302,16 +303,12 @@
       data: {
         issues: {!! $ticket->issues !!},
         preferred_slots: {!! $ticket->preferred_slots !!},
-        currentDate: moment(),
         submit_action: '',
       },
       methods: {
         addPreferredSlot: function() {
-          var slot = {date: this.currentDate.format('YYYY-MM-DD'), time_start: '', time_end: '', stat:'add'};
+          var slot = {date: moment().format('DD MMM YYYY'), time_start: '', time_end: '', stat:'add'};
           this.preferred_slots.push(slot);
-          Vue.nextTick(function() {
-            initDatepicker();
-          });
         },
         deletePreferredSlot: function(index) {
           var slot = this.preferred_slots[index];
