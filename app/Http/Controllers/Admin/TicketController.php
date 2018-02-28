@@ -12,6 +12,7 @@ use App\Models\Services\PaymentService;
 use App\Models\Services\TicketService;
 use App\Models\Skill;
 use App\Models\Ticket;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Helpers\BackendHelper;
 use ViewHelper;
@@ -74,7 +75,11 @@ class TicketController extends Controller
         $result = "Ticket " . $data['action'] . "d";
       }
       return redirect('admin/ticket/save/' . $ticket_id)->with('msg', $result);
-      
+    }
+  
+    if($data['action'] == "create") {
+      $ticket->issues = '[{"image":"", "issue_desc":"", "expected_desc":"", "stat":"add"}]';
+      $ticket->preferred_slots = '[{"date": "'.Carbon::now()->format('d M Y').'", "time_start":"", "time_end":"", "stat":"add"}]';
     }
     $data['ticket'] = $ticket;
     $data['companies'] = Company::getCompanyDropdown();
