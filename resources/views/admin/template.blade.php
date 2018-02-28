@@ -299,7 +299,8 @@ License: You must have a valid license purchased only from themeforest(the above
       $(".datepicker").datepicker({
         format: "dd M yyyy",
         orientation: "bottom",
-        autoclose: true
+        autoclose: true,
+        startDate: new Date()
       });
     }
   </script>

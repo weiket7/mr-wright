@@ -235,7 +235,6 @@
                 <input type="hidden" v-bind:name="'preferred_slot_id'+index" v-bind:value="slot.ticket_preferred_slot_id">
               </td>
               <td>
-                <span :text="slot.date"></span>
                 <date-picker :name="'preferred_slot_date'+index" :value="slot.date"></date-picker>
               </td>
               <td>
