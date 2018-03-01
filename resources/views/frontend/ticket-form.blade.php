@@ -172,8 +172,7 @@
             <tr v-for="(issue, index) in issues" v-bind:class="'row-'+issue.stat">
               <td>
                 <button type="button" class="btn btn-primary" @click="deleteIssue(index)">
-                <i v-if="issue.stat" class="fa fa-undo"></i>
-                <i v-else="" class="fa fa-times"></i>
+                  <i class="fa fa-times"></i>
                 </button>
                 <input type="hidden" v-bind:name="'issue_stat'+index" v-bind:value="issue.stat" v-if="issue.stat">
                 <input type="hidden" v-bind:name="'issue_id'+index" v-bind:value="issue.ticket_issue_id">
@@ -228,11 +227,8 @@
             <tr v-for="(slot, index) in preferred_slots" v-bind:class="'row-'+slot.stat">
               <td>
                 <button type="button" class="btn btn-primary" @click="deletePreferredSlot(index)">
-                <i v-if="slot.stat" class="fa fa-undo"></i>
-                <i v-else="" class="fa fa-times"></i>
+                  <i class="fa fa-times"></i>
                 </button>
-                <input type="hidden" v-bind:name="'preferred_slot_stat'+index" v-bind:value="slot.stat" v-if="slot.stat">
-                <input type="hidden" v-bind:name="'preferred_slot_id'+index" v-bind:value="slot.ticket_preferred_slot_id">
               </td>
               <td>
                 <date-picker :name="'preferred_slot_date'+index" :value="slot.date"></date-picker>
@@ -306,21 +302,11 @@
       },
       methods: {
         addPreferredSlot: function() {
-          var slot = {date: moment().format('DD MMM YYYY'), time_start: '', time_end: '', stat:'add'};
+          var slot = {date: moment().format('YYYY-MM-DD'), time_start: '', time_end: '', stat:'add'};
           this.preferred_slots.push(slot);
         },
         deletePreferredSlot: function(index) {
-          var slot = this.preferred_slots[index];
-          if (slot.stat === 'add') {
-            this.preferred_slots.splice(index, 1);
-          }
-          
-          if (slot.stat == 'delete') {
-            slot.stat = '';
-          } else {
-            Vue.set(slot, 'stat', 'delete');
-            this.preferred_slots_delete.push(slot.ticket_issue_id);
-          }
+          this.preferred_slots.splice(index, 1);
         },
         addIssue: function() {
           this.issues.push({image:'', issue_desc:'', expected_desc:'', stat:'add'});

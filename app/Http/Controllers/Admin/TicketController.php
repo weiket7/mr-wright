@@ -79,7 +79,7 @@ class TicketController extends Controller
   
     if($data['action'] == "create") {
       $ticket->issues = '[{"image":"", "issue_desc":"", "expected_desc":"", "stat":"add"}]';
-      $ticket->preferred_slots = '[{"date": "'.Carbon::now()->format('d M Y').'", "time_start":"", "time_end":"", "stat":"add"}]';
+      $ticket->preferred_slots = '[{"date": "'.Carbon::now()->format('Y-m-d').'", "time_start":"", "time_end":"", "stat":"add"}]';
     }
     $data['ticket'] = $ticket;
     $data['companies'] = Company::getCompanyDropdown();

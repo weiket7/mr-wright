@@ -19,6 +19,7 @@ use App\Models\TicketHistory;
 use App\Models\TicketOtp;
 use Carbon\Carbon;
 use DB;
+use Log;
 use Mail;
 use Validator;
 
@@ -366,7 +367,7 @@ class TicketService
   private function savePreferredSlots($ticket_id, $input, $username = 'admin') {
     DB::table('ticket_preferred_slot')->where('ticket_id', $ticket_id)->delete();
   
-    //Log::info('preferred slots ' . json_encode($input));
+    //Log::info('savePreferredSlots - input = ' . json_encode($input));
     $preferred_slots_count = $input['preferred_slots_count'];
     for($i=0; $i<$preferred_slots_count; $i++) {
       $preferred_slot = [

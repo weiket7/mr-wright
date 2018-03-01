@@ -3,7 +3,7 @@ Vue.component('date-picker', {
   mounted: function(){
     initDatepicker();
   },
-  template: "<input type='text' :name='name' v-model='value' class='form-control datepicker'>"
+  template: "<input type='text' :name='name' v-bind:value='value | formatDate' class='form-control datepicker'>"
 });
 
 Vue.component('dropdown-time', {

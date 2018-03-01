@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Enums\TicketStat;
+use App\Models\Enums\UserType;
 use App\Models\Helpers\BackendHelper;
 use Carbon\Carbon;
 
@@ -17,7 +18,7 @@ class ViewHelper {
   }
   
   public static function hasAccess($access) {
-    return in_array($access, session()->get('accesses')['accesses']);
+    return Auth::user()->type == UserType::Operator && in_array($access, session()->get('accesses')['accesses']);
   }
   
   public static function formatDate($date) {

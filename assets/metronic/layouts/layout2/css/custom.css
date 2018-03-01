@@ -44,7 +44,7 @@
   border-color: #e73d4a;
 }
 .row-delete {
-  background-color: #95A5A6!important;
+  display:none;
 }
 .no-margin-btm {
   margin-bottom: 0;

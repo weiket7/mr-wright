@@ -1,20 +1,12 @@
 <style>
-  .title {
-    margin-bottom: 40px;
-  }
   .company-header {
     margin-top: 20px;
     font-size: 16px;
   }
-  .div-preferred-slots {
+  .div-break {
     margin-bottom: 40px;
   }
-  .div-staff-assignments {
-    margin-bottom: 40px;
-  }
-  .div-issues {
-    margin-bottom: 40px;
-  }
+  
   .quoted-price {
     font-size: 20px;
   }
@@ -35,7 +27,7 @@
 </div>
 <br>
 
-<div class="div-issues">
+<div class="div-break">
   <h4>Issues</h4>
   <table class="table table-bordered">
     <thead>
@@ -56,7 +48,7 @@
   </table>
 </div>
 
-<div class="div-preferred-slots">
+<div class="div-break">
   <h4>Preferred Slots</h4>
   <table class="table table-bordered">
     <thead>
@@ -77,7 +69,7 @@
 </div>
 
 @if(isset($show_staff_assignments) && $show_staff_assignments)
-<div class="div-staff-assignments">
+<div class="div-break">
   <h4>Staff Assignments</h4>
   
   <table class="table table-bordered no-margin-btm">
@@ -106,50 +98,35 @@
 @endif
 
 @if(isset($show_otp) && $show_otp)
-  <div class="div-staff-assignments">
+  <div class="div-break">
     <h4>One time passwords</h4>
 
     <p>Please provide the OTP to the service staff on the day itself so that he can indicate his attendance in the system.</p>
 
     <table class="table table-bordered no-margin-btm">
       <thead>
-      <tr>
-        <th width="120px">Date</th>
-        <th>OTP</th>
-      </tr>
+        <tr>
+          <th width="110px">Date</th>
+          <th width="100px">First OTP</th>
+          <th>Second OTP</th>
+        </tr>
       </thead>
       <tbody>
-      <div class="form-group">
-        <label class="control-label col-md-2">One time passwords</label>
-        <div class="col-md-10">
-          <table class="table table-bordered no-margin-btm table-responsive">
-            <thead>
+        @if(ViewHelper::hasAccess('ticket_view_otp'))
+          @foreach($ticket->otps as $otp)
             <tr>
-              <th width="110px">Date</th>
-              <th width="100px">First OTP</th>
-              <th>Second OTP</th>
+              <td>{{ ViewHelper::formatDate($otp->date) }}</td>
+              <td>{{ $otp->first_otp }}</td>
+              <td>{{ $otp->second_otp }}</td>
             </tr>
-            </thead>
-            <tbody>
-            @if(ViewHelper::hasAccess('ticket_view_otp'))
-              @foreach($ticket->otps as $otp)
-                <tr>
-                  <td>{{ ViewHelper::formatDate($otp->date) }}</td>
-                  <td>{{ $otp->first_otp }}</td>
-                  <td>{{ $otp->second_otp }}</td>
-                </tr>
-              @endforeach
-            @endif
-            </tbody>
-          </table>
-        </div>
-      </div>
+          @endforeach
+        @endif
       </tbody>
     </table>
   </div>
 @endif
 
-<div class="div-requester-desc">
+<div class="div-break">
   <h4>Description</h4>
   <div>{{ $ticket->requester_desc }}</div>
 </div>
