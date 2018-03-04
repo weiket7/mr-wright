@@ -6,6 +6,7 @@
   <div id="app">
     <form method="post" action="" id="form-ticket" v-on:submit.prevent="submitForm" class="form-horizontal" enctype="multipart/form-data" >
       {{ csrf_field() }}
+      <input type="hidden" name="delete" id="delete">
       <input type="hidden" v-model="submit_action" name="submit_action">
   
       <div class="form-group">
@@ -256,6 +257,7 @@
         @if($ticket->stat == TicketStat::Drafted || $ticket->stat == TicketStat::Opened)
           <input type="submit" @click='updateTicket' value="UPDATE TICKET" class="more active">
           <input type="submit" @click='openTicket' value="OPEN TICKET" class="more active">
+          <input type="button" onclick='deleteTicket()' value="DELETE TICKET" class="more active">
         @elseif($ticket->stat == null)
           <input type="submit" @click='draftTicket' value="DRAFT TICKET" class="more active">
         @endif
@@ -366,5 +368,13 @@
         }
       }
     });
+    
+    function deleteTicket() {
+      var result = confirm("Are you sure you want to delete the ticket?");
+      if (result == true) {
+        $("#delete").val('true');
+        $("form").submit();
+      }
+    }
   </script>
 @endsection

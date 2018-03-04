@@ -26,16 +26,15 @@ class TicketController extends Controller
   }
   
   public function index(Request $request) {
+    $input = $request->all();
     if ($request->isMethod("post")) {
-      $input = $request->all();
       $request->flash();
     } else {
       $input["limit"] = 100;
     }
-    $tickets = $this->ticket_service->searchTicket($input);
-    $data['search_result'] = 'Showing ' . count($tickets) . ' ticket(s)';
-  
-    $data['tickets'] = $tickets;
+    
+    $data['tickets'] = $this->ticket_service->searchTicket($input);
+    $data['search_result'] = 'Showing ' . count($data['tickets']) . ' ticket(s)';
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
     return view("admin/ticket/index", $data);
   }

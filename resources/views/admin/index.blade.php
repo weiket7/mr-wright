@@ -9,7 +9,7 @@
 
   <div class="row">
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-      <a class="dashboard-stat dashboard-stat-v2 blue" href="#">
+      <a class="dashboard-stat dashboard-stat-v2 blue" href="{{ url('admin/ticket?stat='.TicketStat::Opened) }}">
         <div class="visual">
           <i class="fa fa-comments"></i>
         </div>
@@ -22,7 +22,7 @@
       </a>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-      <a class="dashboard-stat dashboard-stat-v2 red" href="#">
+      <a class="dashboard-stat dashboard-stat-v2 red" href="{{ url('admin/ticket?stat='.TicketStat::Opened) }}">
         <div class="visual">
           <i class="fa fa-bar-chart-o"></i>
         </div>
@@ -35,7 +35,7 @@
       </a>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-      <a class="dashboard-stat dashboard-stat-v2 green" href="#">
+      <a class="dashboard-stat dashboard-stat-v2 green" href="{{ url('admin/ticket?stat='.TicketStat::Completed) }}">
         <div class="visual">
           <i class="fa fa-shopping-cart"></i>
         </div>

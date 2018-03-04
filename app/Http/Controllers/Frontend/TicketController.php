@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\DeleteLog;
 use App\Models\Entities\TransactionRequest;
 use App\Models\Enums\PaymentMethodStat;
 use App\Models\Enums\TicketStat;
@@ -14,6 +15,7 @@ use App\Models\Office;
 use App\Models\Requester;
 use App\Models\Services\PaymentService;
 use App\Models\Services\TicketService;
+use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use ViewHelper;
@@ -46,6 +48,13 @@ class TicketController extends Controller
       $input = $request->all();
       $submit_action = $input['submit_action'];
   
+      if ($input['delete'] == "true") {
+        $ticket = Ticket::find($ticket_id);
+        $ticket->deleteTicket();
+        (new DeleteLog())->saveDeleteLog('ticket', $ticket_id, '', $this->getUsername());
+        return redirect('ticket')->with('msg', "Ticket deleted");
+      }
+      
       $ticket_id = $this->ticket_service->saveFrontendTicket($ticket_id, $input, $this->getUsername());
       if ($ticket_id === false) {
         return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);

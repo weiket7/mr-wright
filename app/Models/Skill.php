@@ -48,7 +48,7 @@ class Skill extends Eloquent
   }
   
   public function getSkillDropdown() {
-    return Skill::pluck('name', 'skill_id');
+    return Skill::orderBy('name')->pluck('name', 'skill_id');
   }
 
 }

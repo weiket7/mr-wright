@@ -98,7 +98,7 @@ class TicketService
   }
 
   public function getCategoryDropdown() {
-    return CategoryForTicket::pluck('name', 'category_for_ticket_id');
+    return CategoryForTicket::orderBy('name')->pluck('name', 'category_for_ticket_id');
   }
 
   private $rules = [
