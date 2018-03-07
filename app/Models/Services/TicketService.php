@@ -119,7 +119,7 @@ class TicketService
     'requested_on.required'=>'Requested On is required',
   ];
 
-  public function saveTicket($ticket_id, $input, $username = 'admin') {
+  public function saveTicket($ticket_id, $input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
@@ -145,8 +145,17 @@ class TicketService
     $ticket->quoted_price = $input['quoted_price'];
     $ticket->quotation_desc = $input['quotation_desc'];
     $ticket->requested_by = $input['requested_by'];
-    $ticket->requested_on = Carbon::createFromFormat('d M Y', $input['requested_on']);
-
+    
+    $input_requested_on = Carbon::createFromFormat('d M Y', $input['requested_on']);
+    $update_requested_on = false;
+    if ($ticket_id != null) {
+      $current_requested_on = Carbon::createFromFormat('Y-m-d H:i:s', $ticket->requested_on);
+      $update_requested_on = $current_requested_on->diffInDays($input_requested_on);
+    }
+    if ($ticket_id == null || $update_requested_on) {
+      $ticket->requested_on = $input_requested_on;
+    }
+    
     if ($ticket_id == null) {
       $ticket->ticket_code = $this->getNextTicketCode($ticket->company_id);
       $ticket->stat = TicketStat::Drafted;
@@ -187,11 +196,11 @@ class TicketService
 
     $ticket->requested_by = $username;
     $ticket->requester_mobile = $requester->mobile;
-    $ticket->requested_on = Carbon::now();
-
+    
     if ($ticket_id == null) {
       $ticket->ticket_code = $this->getNextTicketCode($ticket->company_id);
       $ticket->stat = TicketStat::Drafted;
+      $ticket->requested_on = Carbon::now();
     }
     $ticket->save();
 
@@ -427,9 +436,11 @@ class TicketService
     if (isset($input['requested_by']) && $input['requested_by'] != '') {
       $s .= " and requested_by = '".$input['requested_by']."'";
     }
+    $s .= " order by requested_on desc";
     if (isset($input['limit']) && $input['limit'] > 0) {
       $s .= " limit ".$input['limit'];
     }
+    Log::info($s);
     return DB::select($s);
   }
 

@@ -32,7 +32,7 @@
 
               <div class="form-body">
                 <div class="form-group">
-                  <label class="control-label col-md-2 ticket-md-2">Title</label>
+                  <label class="control-label col-md-2 ticket-md-2">Title <span class="required">*</span></label>
                   <div class="col-md-10 ticket-md-10">
                     {{Form::text('title', $ticket->title, ['class'=>'form-control'])}}
                   </div>
@@ -65,7 +65,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Category</label>
+                      <label class="control-label col-md-3">Category <span class="required">*</span></label>
                       <div class="col-md-9">
                         {{Form::select('category_id', $categories, $ticket->category_id, ['class'=>'form-control', 'placeholder'=>''])}}
                       </div>
@@ -73,7 +73,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Urgency</label>
+                      <label class="control-label col-md-3">Urgency <span class="required">*</span></label>
                       <div class="col-md-9">
                         {{Form::select('urgency', TicketUrgency::$values, $ticket->urgency, ['id'=>'requester_id', 'class'=>'form-control', 'placeholder'=>''])}}
                       </div>
@@ -83,7 +83,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Company</label>
+                      <label class="control-label col-md-3">Company <span class="required">*</span></label>
                       <div class="col-md-9">
                         {{Form::select('company_id', $companies, $ticket->company_id, ['id'=>'company_id', 'class'=>'form-control', 'placeholder'=>''])}}
                       </div>
@@ -91,7 +91,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Office</label>
+                      <label class="control-label col-md-3">Office <span class="required">*</span></label>
                       <div class="col-md-9">
                         {{Form::select('office_id', $offices, $ticket->office_id, ['id'=>'office_id', 'class'=>'form-control', 'placeholder'=>''])}}
                       </div>
@@ -119,7 +119,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Requested By</label>
+                      <label class="control-label col-md-3">Requested By <span class="required">*</span></label>
                       <div class="col-md-9">
                         {{Form::select('requested_by', $requesters, $ticket->requested_by, ['id'=>'requested_by', 'class'=>'form-control', 'placeholder'=>''])}}
                       </div>
@@ -127,7 +127,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="control-label col-md-3">Requested On</label>
+                      <label class="control-label col-md-3">Requested On <span class="required">*</span></label>
                       <div class="col-md-9">
                         {{Form::text('requested_on', ViewHelper::formatDate($ticket->requested_on), ['class'=>'form-control datepicker', 'placeholder'=>''])}}
                       </div>
@@ -534,7 +534,7 @@
               }
 
               if (current_ticket_id !== ticket_id && text !== "") {
-                text = "<a href='{{url('ticket/save/')}}/"+ticket_id+"'>"+text+"</a>";
+                text = "<a href='{{url('admin/ticket/save/')}}/"+ticket_id+"'>"+text+"</a>";
               } else if (text == "") {
                 text = staffs[staff_id].name
               }

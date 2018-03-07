@@ -68,7 +68,7 @@ class TicketController extends Controller
         $result = "Quotation sent";
         return redirect('admin/ticket/view/' . $ticket_id)->with('msg', $result);
       } else if ($submit_action == "open") {
-        $ticket_id = $this->ticket_service->openTicket($ticket_id, $this->getUsername());
+        $this->ticket_service->openTicket($ticket_id, $this->getUsername());
         $result = "Ticket opened";
       } elseif ($submit_action == "draft" || $submit_action == "update") {
         $result = "Ticket " . $data['action'] . "d";
