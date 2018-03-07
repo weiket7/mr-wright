@@ -41,7 +41,7 @@
     <div class="header-top-bar">
       <ul class="contact-details clearfix">
         <li class="template-phone">
-          <a href="tel:+{{$frontend['contents']['contact']}}">{{$frontend['contents']['contact']}}</a>
+          <a href="tel:{{$frontend['contents']['contact']}}">{{$frontend['contents']['contact']}}</a>
         </li>
         <li class="template-mail">
           <a href="mailto:{{$frontend['contents']['email']}}">{{$frontend['contents']['email']}}</a>
