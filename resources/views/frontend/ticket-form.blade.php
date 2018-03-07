@@ -350,12 +350,12 @@
           return fileExtensionIsVideo(file_name);
         },
         submitForm: function() {
-          var validate = validateTicketForm();
-          ///console.log('val'+validate);
-          if (validate) {
-            //console.log(document.getElementById("form-ticket"));
-            document.getElementById("form-ticket").submit();
-          }
+          Vue.nextTick(function() {
+            var validate = validateTicketForm();
+            if (validate) {
+              document.getElementById("form-ticket").submit();
+            }
+          });
         },
         draftTicket: function() {
           this.submit_action = "draft";
@@ -371,7 +371,7 @@
     
     function deleteTicket() {
       var result = confirm("Are you sure you want to delete the ticket?");
-      if (result == true) {
+      if (result === true) {
         $("#delete").val('true');
         $("form").submit();
       }

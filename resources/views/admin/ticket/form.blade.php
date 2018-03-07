@@ -416,24 +416,6 @@
       populateStaffsAndCalendar();
     });
 
-    function validateTicketForm() {
-      var validate = true;
-      $(".select-time").each(function() {
-        var time = $(this).val();
-        //console.log('time='+time);
-        if (time == '') {
-          $(this).addClass("txt-error");
-          validate = false;
-        } else {
-          $(this).removeClass("txt-error");
-        }
-      });
-      if (validate == false) {
-        toastr.error("Select time");
-      }
-      return validate;
-    }
-
     var selected_cells = {!! json_encode($ticket->staff_assignments) !!};
 
     function selectSlot(cell) {
@@ -658,12 +640,12 @@
           this.submit_action = "open";
         },
         submitForm: function() {
-          var validate = validateTicketForm();
-          ///console.log('val'+validate);
-          if (validate) {
-            //console.log(document.getElementById("form-ticket"));
-            document.getElementById("form-ticket").submit();
-          }
+          Vue.nextTick(function() {
+            var validate = validateTicketForm();
+            if (validate) {
+              document.getElementById("form-ticket").submit();
+            }
+          });
         }
       },
     });

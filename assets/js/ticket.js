@@ -66,7 +66,6 @@ function validateTicketForm() {
   var validate = true;
   $(".select-time").each(function() {
     var time = $(this).val();
-    //console.log('time='+time);
     if (time == '') {
       $(this).addClass("txt-error");
       validate = false;
@@ -74,7 +73,6 @@ function validateTicketForm() {
       $(this).removeClass("txt-error");
     }
   });
-  console.log('validateTicketForm = ' + validate);
   if (validate == false) {
     toastr.error("Select time");
   }
