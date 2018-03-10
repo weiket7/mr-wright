@@ -15,6 +15,7 @@ use App\Models\Registration;
 
 Route::get('/', 'Frontend\SiteController@index');
 Route::get('home', 'Frontend\SiteController@index');
+Route::get('d/{url}', 'Frontend\SiteController@dynamic');
 
 Route::get('register', 'Frontend\RegistrationController@index');
 Route::post('register', 'Frontend\RegistrationController@index');
@@ -198,6 +199,10 @@ Route::group(['middleware'=>['auth']], function() {
     Route::get('admin/frontend/project', 'Admin\FrontendController@project');
     Route::get('admin/frontend/project/save/{id}', 'Admin\FrontendController@projectSave');
     Route::post('admin/frontend/project/save/{id}', 'Admin\FrontendController@projectSave');
+    Route::get('admin/frontend/dynamic', 'Admin\FrontendController@dynamic');
+    Route::get('admin/frontend/dynamic/save/{id}', 'Admin\FrontendController@dynamicSave');
+    Route::post('admin/frontend/dynamic/save/{id}', 'Admin\FrontendController@dynamicSave');
+  
   });
   
   Route::get('admin/staff/dashboard', 'Admin\StaffController@dashboard');

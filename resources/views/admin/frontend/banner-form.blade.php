@@ -11,26 +11,26 @@
         {!! csrf_field() !!}
   
         <div class="form-group">
-          <label class="control-label col-md-2">Title</label>
+          <label class="control-label col-md-2">Title <span class="required">*</span></label>
           <div class="col-md-10">
             {{Form::text('title', $banner->title, ['rows'=>'5', 'class'=>'form-control'])}}
           </div>
         </div>
   
         <div class="form-group">
-          <label class="control-label col-md-2">Content</label>
+          <label class="control-label col-md-2">Content <span class="required">*</span></label>
           <div class="col-md-10">
             {{Form::textarea('content', $banner->content, ['rows'=>'5', 'class'=>'form-control'])}}
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-md-2">Button Text</label>
+          <label class="control-label col-md-2">Button Text <span class="required">*</span></label>
           <div class="col-md-10">
             {{Form::text('button_text', $banner->button_text, ['rows'=>'5', 'class'=>'form-control'])}}
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-md-2">Button Link</label>
+          <label class="control-label col-md-2">Button Link <span class="required">*</span></label>
           <div class="col-md-10">
             {{Form::text('link', $banner->link, ['rows'=>'5', 'class'=>'form-control'])}}
           </div>

@@ -1,13 +1,15 @@
+<?php use App\Models\Enums\CompanyStat; ?>
+
 @extends("admin.template")
 
 @section("content")
   <div class="row">
     <div class="col-md-6">
-      <h1 class="page-title">Banners</h1>
+      <h1 class="page-title">Dynamics</h1>
     </div>
   </div>
-
-
+  
+  
   <div class="portlet light bordered">
     <div class="portlet-body">
       <div>
@@ -23,19 +25,15 @@
           </tr>
           </thead>
           <tbody>
-          @foreach($banners as $banner)
+          @foreach($dynamics as $dynamic)
             <tr>
-              <td><input type="text" class="form-control txt-num-short" value="{{$banner->position}}"></td>
-              <td><a href="{{url("admin/frontend/banner/save/".$banner->frontend_banner_id)}}">{{ $banner->title }}</a></td>
-              <td>{{ $banner->content }}</td>
-              <td>{{ $banner->button_text }}</td>
-              <td>{{ $banner->link }}</td>
-              <td><img src="{{ asset('assets/images/frontend/banners/'.$banner->image) }}" style="max-height: 200px; max-width: 300px;">
+              <td><a href="{{url("admin/frontend/dynamic/save/".$dynamic->frontend_dynamic_id)}}">{{ $dynamic->title }}</a></td>
+              <td>{{ $dynamic->content }}</td>
             </tr>
           @endforeach
           </tbody>
         </table>
-
+        
         <div class="row">
           <div class="col-md-12 text-center">
             <button type="submit" class="btn btn-success">Save</button>

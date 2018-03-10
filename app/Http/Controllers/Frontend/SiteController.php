@@ -9,6 +9,7 @@ use App\Models\Enums\MembershipStat;
 use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
 use App\Models\ForgotPassword;
+use App\Models\FrontendDynamic;
 use App\Models\FrontendService;
 use App\Models\Registration;
 use App\Models\Invite;
@@ -219,12 +220,17 @@ class SiteController extends Controller
       $input = $request->all();
       $contact = new Contact();
       if (! $contact->saveContact($input)) {
-        return redirect('contact')->withErrors($contact->getValidation())->withInput($input);
+        return redirect()->back()->withErrors($contact->getValidation())->withInput($input);
       }
       Mail::to(config('mail.from.address'))->send(new ContactMail($contact));
-      return redirect('contact')->with('sent', true);
+      return redirect()->back()->with('sent', true);
     }
     return view("frontend/contact");
+  }
+  
+  public function dynamic(Request $request, $url) {
+    $data['dynamic'] = FrontendDynamic::where(['url'=>$url])->first();
+    return view("frontend/dynamic", $data);
   }
 
   public function error(Request $request) {

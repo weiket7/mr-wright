@@ -30,6 +30,7 @@ class Menu {
         ["link"=>"admin/frontend/content", "name"=>"Content"],
         ["link"=>"admin/frontend/banner", "name"=>"Banners"],
         ["link"=>"admin/frontend/service", "name"=>"Services"],
+        ["link"=>"admin/frontend/dynamic", "name"=>"Dynamic"],
         /*["link"=>"admin/project", "name"=>"Projects"],
         ["link"=>"admin/project", "name"=>"Blog"],*/
       ]],

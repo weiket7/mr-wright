@@ -30,11 +30,15 @@ class Contact extends Eloquent
     if ( $this->validation->fails() ) {
       return false;
     }
-    
+  
+    $this->company_name = $input['company_name'];
     $this->name = $input['name'];
     $this->email = $input['email'];
     $this->mobile = $input['mobile'];
     $this->message = $input['message'];
+    if (isset($input['promo_code'])) {
+      $this->promo_code = $input['promo_code'];
+    }
     $this->save();
     return true;
   }

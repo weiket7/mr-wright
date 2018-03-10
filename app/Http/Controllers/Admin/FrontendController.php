@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\FrontendBanner;
 use App\Models\FrontendContent;
+use App\Models\FrontendDynamic;
 use App\Models\FrontendService;
 use Cache;
 use Illuminate\Http\Request;
@@ -17,7 +18,21 @@ class FrontendController extends Controller
     $data['contents'] = $frontend_content->getContentAll();
     return view('admin/frontend/content-index', $data);
   }
-
+  
+  public function contentSave(Request $request, $key) {
+    $frontend_content = new FrontendContent();
+    $content = $frontend_content->getContent($key);
+    if ($request->isMethod('post')) {
+      $frontend_content->saveContent($key, $request->all(), $content->is_image);
+      Cache::flush();
+      return redirect("admin/frontend/content/save/".$key)->with("msg", "Content updated");
+    }
+    
+    $data['key'] = $key;
+    $data['content'] = $frontend_content->getContent($key);
+    return view('admin/frontend/content-form', $data);
+  }
+  
   public function banner()   {
     $frontend_content = new FrontendBanner();
     $data['banners'] = $frontend_content->getBannerAll();
@@ -46,20 +61,6 @@ class FrontendController extends Controller
     return view('admin/frontend/service-index', $data);
   }
 
-  public function contentSave(Request $request, $key) {
-    $frontend_content = new FrontendContent();
-    $content = $frontend_content->getContent($key);
-    if ($request->isMethod('post')) {
-      $frontend_content->saveContent($key, $request->all(), $content->is_image);
-      Cache::flush();
-      return redirect("admin/frontend/content/save/".$key)->with("msg", "Content updated");
-    }
-  
-    $data['key'] = $key;
-    $data['content'] = $frontend_content->getContent($key);
-    return view('admin/frontend/content-form', $data);
-  }
-  
   public function serviceSave(Request $request, $service_id) {
     $service = $service_id == null ? new FrontendService() : FrontendService::find($service_id);
     $action = $service_id == null ? 'create' : 'update';
@@ -75,6 +76,28 @@ class FrontendController extends Controller
     $data['service'] = $service;
     return view('admin/frontend/service-form', $data);
   }
-
-
+  
+  
+  public function dynamic()   {
+    $frontend_content = new FrontendDynamic();
+    $data['dynamics'] = $frontend_content->getBannerAll();
+    return view('admin/frontend/dynamic-index', $data);
+  }
+  
+  public function dynamicSave(Request $request, $dynamic_id) {
+    $dynamic = $dynamic_id == null ? new FrontendDynamic() : FrontendDynamic::find($dynamic_id);
+    $action = $dynamic_id == null ? 'create' : 'update';
+    if ($request->isMethod('post')) {
+      $input = $request->all();
+      if (! $dynamic->saveDynamic($input)) {
+        return redirect()->back()->withErrors($dynamic->getValidation())->withInput($input);
+      }
+      Cache::flush();
+      return redirect("admin/frontend/dynamic/save/".$dynamic_id)->with("msg", "Dynamic " . $action . "d");
+    }
+    $data['action'] = $action;
+    $data['dynamic'] = $dynamic;
+    return view('admin/frontend/dynamic-form', $data);
+  }
+  
 }

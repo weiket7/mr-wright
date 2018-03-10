@@ -23,7 +23,7 @@ class FrontendBanner extends Eloquent
     'title.required'=>'Title is required',
     'content.required'=>'Content is required',
     'button_text.required'=>'Button text is required',
-    'link.required'=>'Link is required',
+    'link.required'=>'Button link is required',
   ];
 
   public function saveBanner($input) {

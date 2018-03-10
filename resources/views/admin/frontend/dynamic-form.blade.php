@@ -1,0 +1,147 @@
+@extends("admin.template")
+
+@section('content')
+  <h1 class="page-title">
+    {{ucfirst($action)}} Dynamic
+  </h1>
+  
+  <div class="portlet light bordered" id="app">
+    <div class="portlet-body form">
+      <form action="" method="post" class="form-horizontal">
+        {!! csrf_field() !!}
+        <div class="form-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Title <span class="required">*</span></label>
+                <div class="col-md-9">
+                  {{Form::text('title', $dynamic->title, ['class'=>'form-control', 'autofocus'])}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Status <span class="required">*</span></label>
+                <div class="col-md-9">
+                  <div class="mt-radio-inline">
+                    <label class="mt-radio mt-radio-outline">
+                      {{Form::radio('stat', 1, $dynamic->stat == 1)}} Enabled
+                      <span></span>
+                    </label>
+                    <label class="mt-radio mt-radio-outline">
+                      {{Form::radio('stat', 0, $dynamic->stat == 0)}} Disabled
+                      <span></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Meta Title</label>
+                <div class="col-md-9">
+                  {{Form::text('meta_title', $dynamic->meta_title, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Meta Keyword</label>
+                <div class="col-md-9">
+                  {{Form::text('meta_keyword', $dynamic->meta_keyword, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Meta Description</label>
+                <div class="col-md-9">
+                  {{Form::text('meta_desc', $dynamic->meta_desc, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Google Analytics</label>
+                <div class="col-md-9">
+                  {{Form::text('google_analytics', $dynamic->google_analytics, ['class'=>'form-control'])}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">URL</label>
+                <div class="col-md-9">
+                  <input type="text" name="url" v-model="url" class="form-control">
+                  <span class="help-block">http://mrwright.sg/d/<b>@{{ url }}</b> </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Has Contact Form</label>
+                <div class="col-md-9">
+                  <div class="mt-radio-inline">
+                    <label class="mt-radio mt-radio-outline">
+                      {{Form::radio('has_contact', 1, $dynamic->has_contact == 1)}} Yes
+                      <span></span>
+                    </label>
+                    <label class="mt-radio mt-radio-outline">
+                      {{Form::radio('has_contact', 0, $dynamic->has_contact == 0)}} No
+                      <span></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <textarea name="content" id="editor">
+            {{ $dynamic->content }}
+        </textarea>
+        
+        <div class="form-actions">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-offset-3 col-md-9">
+                  <button type="submit" class="btn green">Submit</button>
+                  <button type="button" class="btn default">Cancel</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6"> </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+@endsection
+
+@section('script')
+  <script src="{{asset('assets/js/ckeditor.js')}}"></script>
+  <script>
+    var vm = new Vue({
+      el: "#app",
+      data: {
+        url: '{{$dynamic->url}}'
+      },
+    });
+    
+    ClassicEditor
+      .create( document.querySelector( '#editor' ) )
+      .then( editor => {
+      console.log( editor );
+    }).catch( error => {
+      console.error( error );
+    });
+  </script>
+@endsection
