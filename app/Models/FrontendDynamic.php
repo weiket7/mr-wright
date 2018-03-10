@@ -34,7 +34,6 @@ class FrontendDynamic extends Eloquent
     $this->meta_title = $input['meta_title'];
     $this->meta_keyword = $input['meta_keyword'];
     $this->meta_desc = $input['meta_desc'];
-    $this->google_analytics = $input['google_analytics'];
     $this->content = $input['content'];
     $this->url = $input['url'];
     $this->has_contact = $input['has_contact'];

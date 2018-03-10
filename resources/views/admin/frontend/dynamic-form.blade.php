@@ -67,25 +67,6 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Google Analytics</label>
-                <div class="col-md-9">
-                  {{Form::text('google_analytics', $dynamic->google_analytics, ['class'=>'form-control'])}}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">URL <span class="required">*</span></label>
-                <div class="col-md-9">
-                  <input type="text" name="url" v-model="url" class="form-control">
-                  <span class="help-block">http://mrwright.sg/d/<b>@{{ url }}</b> </span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
                 <label class="control-label col-md-3">Has Contact Form</label>
                 <div class="col-md-9">
                   <div class="mt-radio-inline">
@@ -98,6 +79,17 @@
                       <span></span>
                     </label>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">URL <span class="required">*</span></label>
+                <div class="col-md-9">
+                  <input type="text" name="url" v-model="url" class="form-control">
+                  <span class="help-block">http://mrwright.sg/d/<b>@{{ url }}</b> </span>
                 </div>
               </div>
             </div>

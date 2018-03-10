@@ -35,8 +35,8 @@
   
   @show
   
-  @if(isset($google_analytics))
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{$google_analytics}}"></script>
+  @if(App::environment('production'))
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115392397-1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
