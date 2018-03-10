@@ -34,6 +34,17 @@
   @section('css')
   
   @show
+  
+  @if(isset($google_analytics))
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{$google_analytics}}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'GA_TRACKING_ID');
+    </script>
+  @endif
 </head>
 <body>
 <div class="site-container">

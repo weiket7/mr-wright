@@ -7,7 +7,6 @@
     </div>
   </div>
 
-
   <div class="portlet light bordered">
     <div class="portlet-body">
       <div>

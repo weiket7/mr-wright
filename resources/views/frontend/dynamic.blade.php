@@ -2,7 +2,8 @@
   'title'=>$dynamic->title,
   'meta_title'=>$dynamic->meta_title,
   'meta_keyword'=>$dynamic->meta_keyword,
-  'meta_desc'=>$dynamic->meta_desc
+  'meta_desc'=>$dynamic->meta_desc,
+  'google_analytics'=>$dynamic->google_analytics
 ])
 
 @section('content')

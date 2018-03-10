@@ -200,6 +200,8 @@ Route::group(['middleware'=>['auth']], function() {
     Route::get('admin/frontend/project/save/{id}', 'Admin\FrontendController@projectSave');
     Route::post('admin/frontend/project/save/{id}', 'Admin\FrontendController@projectSave');
     Route::get('admin/frontend/dynamic', 'Admin\FrontendController@dynamic');
+    Route::get('admin/frontend/dynamic/save', 'Admin\FrontendController@dynamicSave');
+    Route::post('admin/frontend/dynamic/save', 'Admin\FrontendController@dynamicSave');
     Route::get('admin/frontend/dynamic/save/{id}', 'Admin\FrontendController@dynamicSave');
     Route::post('admin/frontend/dynamic/save/{id}', 'Admin\FrontendController@dynamicSave');
   

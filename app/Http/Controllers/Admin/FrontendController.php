@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DeleteLog;
 use App\Models\FrontendBanner;
 use App\Models\FrontendContent;
 use App\Models\FrontendDynamic;
@@ -84,15 +85,21 @@ class FrontendController extends Controller
     return view('admin/frontend/dynamic-index', $data);
   }
   
-  public function dynamicSave(Request $request, $dynamic_id) {
+  public function dynamicSave(Request $request, $dynamic_id = null) {
     $dynamic = $dynamic_id == null ? new FrontendDynamic() : FrontendDynamic::find($dynamic_id);
     $action = $dynamic_id == null ? 'create' : 'update';
     if ($request->isMethod('post')) {
       $input = $request->all();
-      if (! $dynamic->saveDynamic($input)) {
+      if ($input["delete"] == "true") {
+        (new DeleteLog())->saveDeleteLog('dynamic', $dynamic_id, $dynamic->title, $this->getUsername());
+        $dynamic->delete();
+        return redirect("admin/frontend/dynamic")->with("msg", "Dynamic deleted");
+      }
+      
+      $dynamic_id = $dynamic->saveDynamic($input);
+      if (! $dynamic_id) {
         return redirect()->back()->withErrors($dynamic->getValidation())->withInput($input);
       }
-      Cache::flush();
       return redirect("admin/frontend/dynamic/save/".$dynamic_id)->with("msg", "Dynamic " . $action . "d");
     }
     $data['action'] = $action;

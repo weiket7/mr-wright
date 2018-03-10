@@ -7,8 +7,10 @@
     <div class="col-md-6">
       <h1 class="page-title">Dynamics</h1>
     </div>
+    <div class="col-xs-6 text-right">
+      <button type="button" class="btn blue" onclick="location.href='{{url('admin/frontend/dynamic/save')}}'">Create</button>
+    </div>
   </div>
-  
   
   <div class="portlet light bordered">
     <div class="portlet-body">
@@ -16,19 +18,21 @@
         <table class="table table-bordered table-hover">
           <thead>
           <tr>
-            <th>Position</th>
             <th>Title</th>
             <th>Content</th>
-            <th>Button Text</th>
-            <th>Button Link</th>
-            <th>Image</th>
+            <th>URL</th>
+            <th>Status</th>
+            <th>Has Contact</th>
           </tr>
           </thead>
           <tbody>
           @foreach($dynamics as $dynamic)
             <tr>
               <td><a href="{{url("admin/frontend/dynamic/save/".$dynamic->frontend_dynamic_id)}}">{{ $dynamic->title }}</a></td>
-              <td>{{ $dynamic->content }}</td>
+              <td>{!! str_limit($dynamic->content, 200) !!}</td>
+              <td>{{ $dynamic->url }}</td>
+              <td>{{ $dynamic->stat ? 'Enabled' : 'Disabled'}}</td>
+              <td>{{ $dynamic->has_contact ? 'Yes' : 'No' }}</td>
             </tr>
           @endforeach
           </tbody>

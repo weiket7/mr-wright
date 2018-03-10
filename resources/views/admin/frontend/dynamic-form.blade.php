@@ -9,6 +9,7 @@
     <div class="portlet-body form">
       <form action="" method="post" class="form-horizontal">
         {!! csrf_field() !!}
+        <input type="hidden" name="delete" id="delete">
         <div class="form-body">
           <div class="row">
             <div class="col-md-6">
@@ -21,7 +22,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Status <span class="required">*</span></label>
+                <label class="control-label col-md-3">Status</label>
                 <div class="col-md-9">
                   <div class="mt-radio-inline">
                     <label class="mt-radio mt-radio-outline">
@@ -76,7 +77,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">URL</label>
+                <label class="control-label col-md-3">URL <span class="required">*</span></label>
                 <div class="col-md-9">
                   <input type="text" name="url" v-model="url" class="form-control">
                   <span class="help-block">http://mrwright.sg/d/<b>@{{ url }}</b> </span>
@@ -113,6 +114,7 @@
               <div class="row">
                 <div class="col-md-offset-3 col-md-9">
                   <button type="submit" class="btn green">Submit</button>
+                  <button type="submit" class="btn red confirmation" data-toggle='confirmation'>Delete</button>
                   <button type="button" class="btn default">Cancel</button>
                 </div>
               </div>

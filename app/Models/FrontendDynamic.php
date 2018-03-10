@@ -10,14 +10,17 @@ class FrontendDynamic extends Eloquent
   const CREATED_AT = 'created_on';
   const UPDATED_AT = 'updated_on';
   protected $validation;
+  protected $attributes = ['stat'=>1, 'has_contact'=>1];
   public $timestamps = false;
   
   private $rules = [
     'title'=>'required',
+    'url'=>'required',
   ];
   
   private $messages = [
     'title.required'=>'Title is required',
+    'url.required'=>'URL is required',
   ];
   
   public function saveDynamic($input) {
