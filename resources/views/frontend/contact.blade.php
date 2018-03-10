@@ -21,7 +21,7 @@
           <input class="text-input hint" name="name" type="text" placeholder="Name *" maxlength="50" required="required">
           <input class="text-input hint" name="email" type="email" placeholder="Email *" maxlength="100" required="required">
           <input class="text-input hint" name="mobile" type="text" placeholder="Mobile *" maxlength="30" required="required">
-          <input class="text-input hint" name="promo_code" type="text" placeholder="Promo Code" maxlength="30" required="required">
+          <input class="text-input hint" name="promo_code" type="text" placeholder="Promo Code" maxlength="30">
         </fieldset>
         <fieldset class="column column-1-2">
           <textarea name="message" placeholder="Message *" class="hint" style="height:330px" maxlength="250" required="required"></textarea>
