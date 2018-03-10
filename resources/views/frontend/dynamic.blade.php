@@ -13,7 +13,9 @@
     }
   </style>
 
-  {!! $dynamic->content !!}
+  <div class="description about-content">
+    {!! $dynamic->content !!}
+  </div>
   
   @if($dynamic->has_contact)
     @if(session()->has('sent'))

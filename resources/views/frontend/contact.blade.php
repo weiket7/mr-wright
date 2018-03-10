@@ -12,22 +12,26 @@
     </div>
   @endif
   
-  <form method="post" action="" class="margin-top-40 contact-form">
-    {{ csrf_field() }}
-    <div class="r-row">
-      <fieldset class="column column-1-2">
-        <input class="text-input hint" name="name" type="text" placeholder="Name *">
-        <input class="text-input hint" name="email" type="email" placeholder="Email *">
-        <input class="text-input hint" name="mobile" type="text" placeholder="Mobile *">
-      </fieldset>
-      <fieldset class="column column-1-2">
-        <textarea name="message" placeholder="Message *" class="hint"></textarea>
-      </fieldset>
-    </div>
-    <div class="r-row margin-top-30">
-      <div class="align-center">
-        <input type="submit" name="submit" value="SEND" class="more active">
+  <div id="app">
+    <form method="post" action="{{url('contact')}}" class="margin-top-40 contact-form">
+      {{ csrf_field() }}
+      <div class="r-row">
+        <fieldset class="column column-1-2">
+          <input class="text-input hint" name="company_name" type="text" placeholder="Company Name *" maxlength="50" autofocus>
+          <input class="text-input hint" name="name" type="text" placeholder="Name *" maxlength="50" required="required">
+          <input class="text-input hint" name="email" type="email" placeholder="Email *" maxlength="100" required="required">
+          <input class="text-input hint" name="mobile" type="text" placeholder="Mobile *" maxlength="30" required="required">
+          <input class="text-input hint" name="promo_code" type="text" placeholder="Promo Code" maxlength="30" required="required">
+        </fieldset>
+        <fieldset class="column column-1-2">
+          <textarea name="message" placeholder="Message *" class="hint" style="height:330px" maxlength="250" required="required"></textarea>
+        </fieldset>
       </div>
-    </div>
-  </form>
+      <div class="r-row margin-top-30">
+        <div class="align-center">
+          <input type="submit" name="submit" value="SEND" class="more active">
+        </div>
+      </div>
+    </form>
+  </div>
 @endsection
