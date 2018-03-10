@@ -25,7 +25,7 @@ class FrontendContentTable extends Migration
       ['key'=>'opening_hours', 'value'=>'Mon - Fri: 08.00 - 17.00'],
       ['key'=>'facebook', 'value'=>'http://facebook.com'],
       ['key'=>'twitter', 'value'=>'http://twitter.com'],
-      ['key'=>'pinterest', 'value'=>'http://pinterest.com'],
+      ['key'=>'pinterest', 'value'=>'http://pinterest.com']       ,
       ['key'=>'linkedin', 'value'=>'http://linkedin.com'],
       ['key'=>'address', 'value'=>'272 Linden Avenue <br>Winter Park, FL 32789'],
       ['key'=>'rewards', 'value'=>'http://corporate.united-points.com/rewards/15/OWT3gK8wOKhZxRlHIszd/detail']

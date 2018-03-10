@@ -245,7 +245,7 @@ class TicketService
     return $ticket;
   }
 
-  public function openTicket($ticket_id, $username = 'admin') {
+  public function openTicket($ticket_id, $username) {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->stat = TicketStat::Opened;
     $ticket->save();

@@ -26,11 +26,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Code @if($action=='create')<span class="required">*</span>@endif</label>
                 <div class="col-md-9">
-                  @if($action == 'update')
-                    <div class="form-control-static">{{ $company->code }}</div>
-                  @else
-                    {{Form::text('code', $company->code, ['class'=>'form-control', 'maxlength'=>5])}}
-                  @endif
+                  {{Form::text('code', $company->code, ['class'=>'form-control', 'maxlength'=>5])}}
                 </div>
               </div>
             </div>
@@ -70,24 +66,6 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Country</label>
-                <div class="col-md-9">
-                  {{Form::text('country', $company->country, ['class'=>'form-control', 'maxlength'=>50])}}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">Industry</label>
-                <div class="col-md-9">
-                  {{Form::text('industry', $company->industry, ['class'=>'form-control'])}}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
                 <label class="control-label col-md-3">Address <span class="required">*</span></label>
                 <div class="col-md-9">
                   {{Form::textarea('addr', $company->addr, ['class'=>'form-control', 'rows'=>3, 'maxlength'=>200])}}
@@ -99,6 +77,24 @@
                 <label class="control-label col-md-3">Postal <span class="required">*</span></label>
                 <div class="col-md-9">
                   {{Form::text('postal', $company->postal, ['class'=>'form-control', 'maxlength'=>20])}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Country</label>
+                <div class="col-md-9">
+                  {{Form::text('country', $company->country, ['class'=>'form-control', 'maxlength'=>50])}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label col-md-3">Industry</label>
+                <div class="col-md-9">
+                  {{Form::text('industry', $company->industry, ['class'=>'form-control'])}}
                 </div>
               </div>
             </div>

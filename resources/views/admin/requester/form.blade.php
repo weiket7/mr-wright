@@ -18,7 +18,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Username <span class="required">*</span></label>
+                <label class="control-label col-md-3">Username @if($action=='create')<span class="required">*</span>@endif</label>
                 <div class="col-md-9">
                   @if($action == 'update')
                     <div class="form-control-static">{{ $requester->username }}</div>
@@ -30,7 +30,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Status <span class="required">*</span></label>
+                <label class="control-label col-md-3">Status </label>
                 <div class="col-md-9">
                   {{Form::select('stat', RequesterStat::$values, $requester->stat, ['class'=>'form-control'])}}
                 </div>
@@ -56,7 +56,9 @@
                 </label>
                 <div class="col-md-9">
                   {{Form::password('password', ['class'=>'form-control'])}}
-                  <span class="help-block">Fill in password field only when you want to update the password</span>
+                  @if($action=='update')
+                    <span class="help-block">Fill in password field only when you want to update the password</span>
+                  @endif
                 </div>
               </div>
             </div>

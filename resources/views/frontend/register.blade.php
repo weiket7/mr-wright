@@ -96,16 +96,6 @@
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
-            Unique Entity Number (UEN) *
-          </label>
-          <div class="col-md-9">
-            {{ Form::text('uen', '', ['class'=>'form-control', 'maxlength'=>50]) }}
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-md-3">
             Company Name *
           </label>
           <div class="col-md-9">
@@ -113,20 +103,19 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="row">
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
-            Company Code *
+            Unique Entity Number (UEN) *
           </label>
           <div class="col-md-9">
-            {{ Form::text('company_code', '', ['class'=>'form-control txt-code', 'maxlength'=>5]) }}
-            <div class="help-block">2 to 5 letters, this will be prefixed in ticket codes, e.g. <em>MR</em>_1704_00001</div>
+            {{ Form::text('uen', '', ['class'=>'form-control', 'maxlength'=>50]) }}
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="row">
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">
@@ -137,9 +126,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="row">
       <div class="col-md-6">
         <div class="form-group">
           <label class="control-label col-md-3">

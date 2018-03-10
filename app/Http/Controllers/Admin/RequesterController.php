@@ -29,9 +29,14 @@ class RequesterController extends Controller
   }
 
   public function save(Request $request, $requester_id = null) {
-    $action = $requester_id == null ? 'create' : 'update';
-    $requester = $requester_id == null ? new Requester() : Requester::find($requester_id);
-
+    if ($requester_id == null) {
+      $action = 'create';
+      $requester = new Requester();
+    } else {
+      $action = 'update';
+      $requester = is_numeric ($requester_id) ? Requester::find($requester_id) : Requester::where('username', $requester_id)->first();
+    }
+    
     if($request->isMethod('post')) {
       $input = $request->all();
       if ($input["delete"] == "true") {

@@ -19,7 +19,7 @@
       @elseif ($h->action == 'draft')
         Drafted
       @endif
-      by {{ $h->action_by }} on {{ ViewHelper::formatDateTime($h->action_on) }}
+      by <a href="{{url('admin/requester/save/'.$h->action_by)}}">{{ $h->action_by }}</a> on {{ ViewHelper::formatDateTime($h->action_on) }}
     </li>
   @endforeach
 </ul>

@@ -153,7 +153,7 @@ class Registration extends Eloquent {
       'mobile' => 'required',
       'company_name' => 'required',
       'uen' => 'required',
-      'company_code' => 'min:2|max:5|alpha|required',
+      //'company_code' => 'min:2|max:5|alpha|required',
       'addr' => 'required',
       'postal' => 'required',
     ];
@@ -172,9 +172,9 @@ class Registration extends Eloquent {
       'mobile.required' => 'Mobile is required',
       'company_name.required'=>'Company registered name is required',
       'uen.required'=>'Unique Entity Number (UEN) is required',
-      'company_code.required'=>'Company code is required',
-      'company_code.min'=>'Company code must be between 2 and 5 letters',
-      'company_code.max'=>'Company code must be between 2 and 5 letters',
+      //'company_code.required'=>'Company code is required',
+      //'company_code.min'=>'Company code must be between 2 and 5 letters',
+      //'company_code.max'=>'Company code must be between 2 and 5 letters',
       'company_code.alpha'=>'Company code must be alphabets',
       'addr.required' => 'Address is required',
       'postal.required' => 'Postal code is required',
@@ -211,10 +211,12 @@ class Registration extends Eloquent {
     } else {
       $company = new Company();
       $company->name = $registration->company_name;
+      $company->registered_name = $registration->company_name;
       $company->code = $registration->company_code;
       $company->uen = $registration->uen;
       $company->addr = $registration->addr;
       $company->postal = $registration->postal;
+      $company->membership_id = $registration->membership_id;
       $company->membership_name = $registration->membership_name;
       $company->requester_limit = $registration->requester_limit;
       $company->effective_price = $registration->effective_price;
@@ -292,7 +294,7 @@ class Registration extends Eloquent {
     $registration->email = $input['email'];
     $registration->uen = $input['uen'];
     $registration->company_name = $input['company_name'];
-    $registration->company_code = strtoupper($input['company_code']);
+    $registration->company_code = "MR";
     $registration->addr = $input['addr'];
     $registration->postal = $input['postal'];
     $registration->ip = $ip;

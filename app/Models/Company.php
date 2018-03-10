@@ -3,6 +3,7 @@
 use App\Models\Enums\CompanyStat;
 use Eloquent, DB, Validator;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Validation\Rule;
 
 class Company extends Eloquent
 {
@@ -13,16 +14,6 @@ class Company extends Eloquent
   protected $attributes = ['stat'=>CompanyStat::Active];
   use SoftDeletes;
 
-  private $rules = [
-    'name'=>'required',
-    'code'=>'required|sometimes|unique:company,code',
-    'registered_name'=>'required',
-    'stat'=>'required',
-    'addr'=>'required',
-    'postal'=>'required',
-    'membership_id'=>'required',
-  ];
-  
   private $messages = [
     'name.required'=>'Name is required',
     'code.required'=>'Code is required',
@@ -35,16 +26,28 @@ class Company extends Eloquent
   ];
   
   public function saveCompany($input) {
-    $this->validation = Validator::make($input, $this->rules, $this->messages );
+    $rules = [
+      'name' => 'required',
+      'code' => ['required',
+        Rule::unique('company')->ignore($this->code, 'code')->ignore('MR', 'code')
+      ],
+      'registered_name' => 'required',
+      'stat' => 'required',
+      'addr' => 'required',
+      'postal' => 'required',
+      'membership_id' => 'required',
+    ];
+    $this->validation = Validator::make($input, $rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
     }
   
     $this->name = $input['name'];
-    if(isset($input['code'])) {
-      $this->code = $input['code'];
+    $this->code = $input['code'];
+    if(isset($input['uen'])) {
       $this->uen = $input['uen'];
     }
+    
     $this->registered_name = $input['registered_name'];
     $this->stat = $input['stat'];
     $this->addr = $input['addr'];

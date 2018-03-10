@@ -1,14 +1,11 @@
 <?php namespace App\Models;
 
-
 use App\Models\Enums\RequesterStat;
-use App\Models\Enums\RequesterType;
 use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
 use Eloquent, DB, Validator, Log;
 use Hash;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\Request;
 
 class Requester extends Eloquent
 {
@@ -56,10 +53,12 @@ class Requester extends Eloquent
 
 
     $this->name = $input['name'];
-    if (isset($input['stat'])) {
-      $this->stat = $input['stat'];
-    }
+    $this->stat = $input['stat'];
     $this->saveRequesterAsUser($input);
+    
+    if($this->requester_id == null) {
+      $this->username = $input['username'];
+    }
     $this->company_id = $input['company_id'];
     $this->office_id = $input['office_id'];
     $this->designation = $input['designation'];
@@ -69,12 +68,14 @@ class Requester extends Eloquent
     $this->work = $input['work'];
     $this->preferred_contact = $input['preferred_contact'];
     $this->save();
+    
+    $company = new Registration();
+    $company->updateCompanyOfficeRequesterCount($this->company_id);
 
     return true;
   }
 
-  private function saveRequesterAsUser($input)
-  {
+  private function saveRequesterAsUser($input) {
     if ($this->requester_id == null) { //create
       $user = new User();
       $user->username = $input['username'];

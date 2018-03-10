@@ -63,7 +63,7 @@ class TicketController extends Controller
         $result = BackendHelper::stringContains($submit_action, "draft") ? "Ticket drafted" : "Ticket updated";
         return redirect('ticket/save/'.$ticket_id)->with('msg', $result);
       } elseif (BackendHelper::stringContains($submit_action, "open")) {
-        $this->ticket_service->openTicket($ticket_id);
+        $this->ticket_service->openTicket($ticket_id, $this->getUsername());
         return redirect('ticket/view/'.$ticket_id)->with('msg', 'Ticket opened');
       }
     }
