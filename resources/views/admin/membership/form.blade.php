@@ -1,4 +1,5 @@
 <?php use App\Models\Enums\MembershipStat; ?>
+<?php use App\Models\Enums\MembershipType; ?>
 
 @extends("admin.template")
 
@@ -53,16 +54,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Type</label>
                 <div class="col-md-9">
-                  <div class="mt-radio-inline">
-                    <label class="mt-radio mt-radio-outline">
-                      {{Form::radio('type', 'Y', $membership->type == 'Y')}} Yearly
-                      <span></span>
-                    </label>
-                    <label class="mt-radio mt-radio-outline">
-                      {{Form::radio('type', 'M', $membership->type == 'M')}} Monthly
-                      <span></span>
-                    </label>
-                  </div>
+                  {{Form::select('type', MembershipType::$values, $membership->type, ['class'=>'form-control', 'placeholder'=>''])}}
                 </div>
               </div>
             </div>
