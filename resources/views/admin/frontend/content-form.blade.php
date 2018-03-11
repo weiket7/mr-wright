@@ -26,11 +26,7 @@
           <div class="col-md-9">
             @if($content->is_image)
               <input type="file" name="value">
-              @if($key == 'favicon')
-                <img src="{{ url('/'.$content->value) }}">
-              @else
-                <img src="{{ url('assets/images/frontend/'.$content->value) }}" style="max-height: 200px">
-              @endif
+              <img src="{{ url('assets/images/frontend/'.$content->value) }}" style="max-height: 200px">
             @else
               {{Form::textarea('value', $content->value, ['id'=>"txt-content", 'rows'=>'20', 'class'=>'form-control'])}}
             @endif

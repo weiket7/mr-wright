@@ -16,11 +16,10 @@ class FrontendContentTable extends Migration
       $t->boolean('is_image');
       $t->string('dimension');
     });
-
+    
     /*GENERAL*/
     $data = [
       ['key'=>'contact', 'value'=>'+65 3222 3512'],
-      ['key'=>'favicon', 'value'=>'favicon.png', 'is_image'=>1, 'dimension'=>'png, 16 x 16px'],
       ['key'=>'email', 'value'=>'sales@mrwright.sg'],
       ['key'=>'opening_hours', 'value'=>'Mon - Fri: 08.00 - 17.00'],
       ['key'=>'facebook', 'value'=>'http://facebook.com'],
@@ -37,7 +36,7 @@ class FrontendContentTable extends Migration
         'dimension'=>isset($d['dimension']) ? $d['dimension'] : 0,
       ]);
     }
-
+    
     $data = [
       ['key'=>'about_title', 'value'=>'WHY CHOOSE RENOVATE'],
       ['key'=>'about_content', 'value'=>'Founded by Kevin Smith back in 2000, Renovate has established itself as one of the greatest and prestigious
@@ -60,7 +59,7 @@ providers of construction focused interior renovation services and building.'],
         'page'=>'home', 'key'=>$d['key'], 'value'=>$d['value']
       ]);
     }
-
+    
     /*HOME SERVICE*/
     $data = [
       ['key'=>'service_title', 'value'=>'OUR SERVICES'],
@@ -75,7 +74,7 @@ driveway sett or home repair. We provide a professional service for private and 
         'page'=>'home', 'key'=>$d['key'], 'value'=>$d['value']
       ]);
     }
-
+    
     /*PAYMENT*/
     $data = [
       ['key'=>'payment_cheque', 'value'=>'For cheque payment, please make it payable: <br>Mr Wright Pte Ltd'],
@@ -87,7 +86,7 @@ driveway sett or home repair. We provide a professional service for private and 
     foreach($data as $d) {
       DB::table('frontend_content')->insert(['page'=>'payment', 'key'=>$d['key'], 'value'=>$d['value']]);
     }
-
+    
     /*MEMBERSHIP*/
     DB::table('frontend_content')->insert([
       'page'=>'membership',
@@ -96,6 +95,11 @@ driveway sett or home repair. We provide a professional service for private and 
 Step 1: Login to Account<br>
 Step 2: Report Fault Online<br>
 Step 3: Accept Quotation by Email',
+    ]);
+    DB::table('frontend_content')->insert([
+      'page'=>'membership',
+      'key'=>'membership_detail',
+      'value'=>'For full list of details, please check out the details here.',
     ]);
     
     /*MEMBERS*/
@@ -143,7 +147,7 @@ Step 3: Accept Quotation by Email',
       'key'=>'about_line5',
       'value'=>'15 Years Experience and a Real Focus on Customer Satisfaction',
     ]);
-  
+    
     /*FOOTER*/
     DB::table('frontend_content')->insert([
       'page'=>'general',
@@ -161,7 +165,7 @@ Step 3: Accept Quotation by Email',
       'page'=>'terms_and_conditions',
       'key'=>'terms_and_conditions',
       'value'=>
-    '<b>Terms of this Agreement</b>
+        '<b>Terms of this Agreement</b>
     
 <p>III. 	The term of this Agreement (Henceforth referred to as the “Term”) will begin on the date of this Agreement and will remain in full force and effect until the completion of the Services, subject to earlier termination as provided in this Agreement.</p>
 
@@ -207,7 +211,7 @@ Step 3: Accept Quotation by Email',
       ]);
     }
   }
-
+  
   public function down()
   {
     Schema::dropIfExists('frontend_content');

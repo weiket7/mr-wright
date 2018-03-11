@@ -7,6 +7,7 @@ use App\Models\DeleteLog;
 use App\Models\FrontendBanner;
 use App\Models\FrontendContent;
 use App\Models\FrontendDynamic;
+use App\Models\FrontendFile;
 use App\Models\FrontendService;
 use Cache;
 use Illuminate\Http\Request;
@@ -32,6 +33,19 @@ class FrontendController extends Controller
     $data['key'] = $key;
     $data['content'] = $frontend_content->getContent($key);
     return view('admin/frontend/content-form', $data);
+  }
+  
+  public function fileSave(Request $request, $key) {
+    $frontend_file = FrontendFile::where('key', $key)->first();
+    if ($request->isMethod('post')) {
+      $frontend_file->saveFrontendFile($request->all());
+      Cache::flush();
+      return redirect("admin/frontend/file/save/".$frontend_file->key)->with("msg", "File uploaded");
+    }
+    
+    $data['key'] = $key;
+    $data['frontend_file'] = $frontend_file;
+    return view('admin/frontend/file', $data);
   }
   
   public function banner()   {

@@ -190,6 +190,8 @@ Route::group(['middleware'=>['auth']], function() {
     Route::get('admin/frontend/content', 'Admin\FrontendController@content');
     Route::get('admin/frontend/content/save/{id}', 'Admin\FrontendController@contentSave');
     Route::post('admin/frontend/content/save/{id}', 'Admin\FrontendController@contentSave');
+    Route::get('admin/frontend/file/save/{id}', 'Admin\FrontendController@fileSave');
+    Route::post('admin/frontend/file/save/{id}', 'Admin\FrontendController@fileSave');
     Route::get('admin/frontend/banner', 'Admin\FrontendController@banner');
     Route::get('admin/frontend/banner/save/{id}', 'Admin\FrontendController@bannerSave');
     Route::post('admin/frontend/banner/save/{id}', 'Admin\FrontendController@bannerSave');

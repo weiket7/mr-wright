@@ -59,7 +59,7 @@ class FrontendContent extends Eloquent
   public function saveContent($key, $input, $is_image) {
     if ($is_image) {
       if (isset($input['value'])) {
-        $dir = $key == "favicon" ? "" : "images/frontend";
+        $dir = "images/frontend";
         $image_name = BackendHelper::uploadFile($dir, $key, $input['value']);
         DB::table('frontend_content')->where('key', $key)->update(['value'=>$image_name]);
       }

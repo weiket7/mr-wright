@@ -44,11 +44,6 @@
             <td>Facebook</td>
             <td><a href="{{ url('admin/frontend/content/save/facebook') }}">{{ $contents['facebook'] }}</a></td>
           </tr>
-          <tr>
-            <td>Favicon</td>
-            <td><a href="{{ url('admin/frontend/content/save/favicon') }}">{{ $contents['favicon'] }}</a></td>
-          </tr>
-          
         </table>
 
         <h4>Home - About section</h4>
@@ -120,6 +115,14 @@
           <tr>
             <td>Content</td>
             <td><a href="{{ url('admin/frontend/content/save/membership_content') }}">{{$contents['membership_content']}}</a></td>
+          </tr>
+          <tr>
+            <td>Detail</td>
+            <td><a href="{{ url('admin/frontend/content/save/membership_detail') }}">{{$contents['membership_detail']}}</a></td>
+          </tr>
+          <tr>
+            <td>PDF</td>
+            <td><a href="{{ url('admin/frontend/file/save/membership_details') }}">PDF</a></td>
           </tr>
         </table>
   
