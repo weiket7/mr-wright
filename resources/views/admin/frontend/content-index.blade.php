@@ -121,8 +121,8 @@
             <td><a href="{{ url('admin/frontend/content/save/membership_detail') }}">{{$contents['membership_detail']}}</a></td>
           </tr>
           <tr>
-            <td>PDF</td>
-            <td><a href="{{ url('admin/frontend/file/save/membership_details') }}">PDF</a></td>
+            <td>Details PDF</td>
+            <td><a href="{{ url('admin/frontend/file/save/membership_details') }}">Details PDF</a></td>
           </tr>
         </table>
   
