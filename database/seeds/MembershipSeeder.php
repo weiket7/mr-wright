@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Enums\MembershipStat;
+use App\Models\Enums\MembershipType;
 use Illuminate\Database\Seeder;
 
 class MembershipSeeder extends Seeder
@@ -21,30 +22,33 @@ class MembershipSeeder extends Seeder
     DB::table('membership')->insert([
       'membership_id'=>1,
       'stat'=>MembershipStat::Active,
+      'type'=>MembershipType::Yearly,
       'name'=>'Light',
       'requester_limit'=>3,
       'effective_price'=>2.2,
-      //'full_name'=>'Tier 2 - 3 users at $40.00 / month',
+      'full_name'=>'Light - 3 users at $40.00 / month',
       'position'=>1,
     ]);
 
     DB::table('membership')->insert([
       'membership_id'=>2,
       'stat'=>MembershipStat::Active,
-      'name'=>'Moderate',
+      'type'=>MembershipType::Yearly,
+      'name'=>'Medium',
       'requester_limit'=>5,
       'effective_price'=>3.3,
-      //'full_name'=>'Tier 3 - 5 users at $50.00 / month',
+      'full_name'=>'Medium - 5 users at $50.00 / month',
       'position'=>2,
     ]);
     
     DB::table('membership')->insert([
       'membership_id'=>3,
       'stat'=>MembershipStat::Active,
+      'type'=>MembershipType::Yearly,
       'name'=>'Heavy',
       'requester_limit'=>10,
       'effective_price'=>5.5,
-      //'full_name'=>'Tier 3 - 5 users at $50.00 / month',
+      'full_name'=>'Heavy - 5 users at $50.00 / month',
       'position'=>3,
     ]);
     

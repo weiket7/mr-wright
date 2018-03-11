@@ -27,6 +27,7 @@ class RegistrationTable extends Migration
       $t->boolean('existing_uen');
       $t->integer('membership_id');
       $t->string('membership_name', 50);
+      $t->char('membership_type', 1);
       $t->string('membership_full_name', 100);
       $t->boolean('free_trial');
       $t->integer('requester_limit');

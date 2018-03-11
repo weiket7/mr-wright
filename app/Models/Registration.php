@@ -4,6 +4,7 @@ use App;
 use App\Mail\RegisterExistingUenMail;
 use App\Mail\RegistrationApproveMail;
 use App\Mail\RegistrationSuccessMail;
+use App\Models\Enums\MembershipType;
 use App\Models\Enums\RegistrationStat;
 use App\Models\Enums\RequesterStat;
 use App\Models\Enums\RequesterType;
@@ -219,6 +220,12 @@ class Registration extends Eloquent {
       $company->addr = $registration->addr;
       $company->postal = $registration->postal;
       $company->membership_id = $registration->membership_id;
+      $company->membership_type = $registration->membership_type;
+      if ($registration->membership_type == MembershipType::Yearly) {
+        $company->membership_valid_till = Carbon::now()->addYear(1);
+      } else if ($registration->membership_type == MembershipType::Monthly) {
+        $company->membership_valid_till = Carbon::now()->addMonth(1);
+      }
       $company->membership_name = $registration->membership_name;
       $company->requester_limit = $registration->requester_limit;
       $company->effective_price = $registration->effective_price;
@@ -364,6 +371,7 @@ class Registration extends Eloquent {
     $registration->membership_id = $membership->membership_id;
     $registration->membership_full_name = $membership->full_name;
     $registration->membership_name = $membership->name;
+    $registration->membership_type = $membership->type;
     $registration->requester_limit = $membership->requester_limit;
     $registration->effective_price = $membership->effective_price;
     $registration->free_trial = $membership->free_trial;

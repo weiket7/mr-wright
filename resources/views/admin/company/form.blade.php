@@ -110,9 +110,9 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Max Number of Requesters</label>
+                <label class="control-label col-md-3">Number of Requesters</label>
                 <label class="col-md-9 form-control-static">
-                  {{ $company->requester_limit }}
+                  {{ $company->requester_count }} / {{ $company->requester_limit }}
                 </label>
               </div>
             </div>
@@ -120,14 +120,19 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Current Number of Requesters</label>
+                <label class="control-label col-md-3">Membership Type</label>
                 <label class="col-md-9 form-control-static">
-                  {{ $company->requester_count }} / {{ $company->requester_limit }}
+                  {{ \App\Models\Enums\MembershipType::$values[$company->membership_type] }}
                 </label>
               </div>
             </div>
             <div class="col-md-6">
-            
+              <div class="form-group">
+                <label class="control-label col-md-3">Valid Till</label>
+                <label class="col-md-9 form-control-static">
+                  {{ ViewHelper::formatDate($company->membership_valid_till) }}
+                </label>
+              </div>
             </div>
           </div>
           @if($action == 'update')

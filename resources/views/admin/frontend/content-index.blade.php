@@ -171,7 +171,11 @@
         <table class="table table-bordered table-hover">
         <tr>
           <td>Terms and conditions</td>
-          <td><a href="{{ url('admin/frontend/content/save/terms_and_conditions') }}">{{$contents['terms_and_conditions']}}</a></td>
+          <td>
+            <a href="{{ url('admin/frontend/content/save/terms_and_conditions') }}">
+              {!! str_limit($contents['terms_and_conditions'], 200) !!}
+            </a>
+          </td>
         </tr>
         </table>
         

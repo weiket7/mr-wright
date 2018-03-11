@@ -1,3 +1,5 @@
+<?php use App\Models\Enums\MembershipType; ?>
+
 @extends('frontend.template', ['title'=>'account'])
 
 @section('content')
@@ -158,6 +160,28 @@
             </label>
             <div class="col-md-9 form-control-static r-text">
               {{ $company->requester_count }} / {{ $company->requester_limit }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Membership Type
+            </label>
+            <div class="col-md-9 form-control-static r-text">
+              {{ MembershipType::$values[$company->membership_type] }}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-md-3">
+              Valid Till
+            </label>
+            <div class="col-md-9 form-control-static r-text">
+              {{ ViewHelper::formatDate($company->membership_valid_till) }}
             </div>
           </div>
         </div>

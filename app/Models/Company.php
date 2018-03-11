@@ -29,7 +29,7 @@ class Company extends Eloquent
     $rules = [
       'name' => 'required',
       'code' => ['required',
-        Rule::unique('company')->ignore($this->code, 'code')->ignore('MR', 'code')
+        Rule::unique('company')->ignore($this->code, 'code')
       ],
       'registered_name' => 'required',
       'stat' => 'required',

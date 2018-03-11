@@ -94,7 +94,6 @@ class ApiController extends Controller
       ->whereNull('no_show');
 
     $no_shows = $q->get();
-    //var_dump($no_shows);
     
     if (count($no_shows)) {
       $q->update([
@@ -103,7 +102,6 @@ class ApiController extends Controller
       
       Mail::to(config('mail.from.address'))->send(new NoShowMail($no_shows));
     }
-    //var_dump($res); exit;
     //send email
     Log::info("ticket-no-show");
   }

@@ -23,11 +23,15 @@ class CompanyTable extends Migration
         $t->string('city', 50);
         $t->string('postal', 20);
         $t->string('industry', 30);
+        
         $t->integer('membership_id');
         $t->string('membership_name', 50);
-        $t->integer('requester_count');
+        $t->char('membership_type', 1);
+        $t->date('membership_valid_till')->nullable();
         $t->integer('requester_limit');
         $t->decimal('effective_price', 12, 2); //per month
+        
+        $t->integer('requester_count');
         $t->boolean('free_trial');
         $t->string('updated_by', 20);
         $t->dateTime('updated_on');

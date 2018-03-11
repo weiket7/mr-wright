@@ -51,6 +51,23 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
+                <label class="control-label col-md-3">Type</label>
+                <div class="col-md-9">
+                  <div class="mt-radio-inline">
+                    <label class="mt-radio mt-radio-outline">
+                      {{Form::radio('type', 'Y', $membership->type == 'Y')}} Yearly
+                      <span></span>
+                    </label>
+                    <label class="mt-radio mt-radio-outline">
+                      {{Form::radio('type', 'M', $membership->type == 'M')}} Monthly
+                      <span></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
                 <label class="control-label col-md-3">Free Trial</label>
                 <div class="col-md-9">
                   <div class="mt-checkbox-inline">

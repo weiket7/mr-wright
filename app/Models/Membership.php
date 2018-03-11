@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use App\Models\Enums\MembershipStat;
+use App\Models\Enums\MembershipType;
 use Eloquent, DB, Validator, Log;
 use ViewHelper;
 
@@ -14,7 +15,7 @@ class Membership extends Eloquent
   public $timestamps = false;
   
   public function getMembershipAll($stat = null, $with_details = false) {
-    $memberships = Membership::orderBy('stat')->orderBy('position');
+    $memberships = Membership::orderBy('position');
     if ($stat) {
       $memberships = $memberships->where('stat', $stat);
     }
@@ -66,11 +67,15 @@ class Membership extends Eloquent
     
     $this->name = $input['name'];
     $this->stat = $input['stat'];
+    $this->type = $input['type'];
     $this->requester_limit = $input['requester_limit'];
     $this->free_trial = $free_trial;
     $this->effective_price = $input['effective_price'];
-    $this->full_name = $this->name . ' - ' . $this->requester_limit . ' user'. ($this->requester_limit == 1 ? '' : 's') . ' at ' . ViewHelper::formatCurrency($this->effective_price) . ' / month';
-
+    $this->full_name = $this->name . ' - ' . $this->requester_limit .
+      ' user'. ($this->requester_limit == 1 ? '' : 's') .
+      ' at ' . ViewHelper::formatCurrency($this->effective_price) .
+      ' / ' . ($this->type == MembershipType::Yearly ? 'year' : 'month');
+    Log::info('full_name' . $this->full_name);
     $this->save();
     
     $this->saveMembershipDetails($input);
