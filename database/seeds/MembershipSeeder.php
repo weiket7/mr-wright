@@ -47,5 +47,26 @@ class MembershipSeeder extends Seeder
       'full_name'=>'Tier 4 - 10 users at $60.00 / month',
       'position'=>4,
     ]);
+  
+    DB::table('membership_detail')->insert([
+      'membership_id'=>1,
+      'position'=>1,
+      'content'=>'$200 credits for repairs',
+    ]);
+    DB::table('membership_detail')->insert([
+      'membership_id'=>2,
+      'position'=>1,
+      'content'=>'$500 credits for repairs',
+    ]);
+    DB::table('membership_detail')->insert([
+      'membership_id'=>2,
+      'position'=>2,
+      'content'=>'Free Twice Yearly Electrical and Plumbing Check-ups',
+    ]);
+    DB::table('membership_detail')->insert([
+      'membership_id'=>2,
+      'position'=>3,
+      'content'=>'Maintenance Reporting',
+    ]);
   }
 }

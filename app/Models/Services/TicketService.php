@@ -27,7 +27,7 @@ class TicketService
 {
   protected $validation;
 
-  public function getTicket($ticket_id) {
+  public function  getTicket($ticket_id) {
     $ticket = Ticket::findOrNew($ticket_id);
     $ticket->issues = $this->getTicketIssues($ticket_id);
     $ticket->staff_assignments = $this->getStaffAssignments($ticket_id);

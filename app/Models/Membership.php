@@ -69,6 +69,8 @@ class Membership extends Eloquent
     $this->full_name = $this->name . ' - ' . $this->requester_limit . ' user'. ($this->requester_limit == 1 ? '' : 's') . ' at ' . ViewHelper::formatCurrency($this->effective_price) . ' / month';
 
     $this->save();
+    
+    $this->saveMembershipDetails($input);
     return $this->membership_id;
   }
   
@@ -88,5 +90,20 @@ class Membership extends Eloquent
   private function existingMembershipFreeTrial()
   {
     return DB::table("membership")->where('free_trial', 1)->count() > 1;
+  }
+  
+  public function getDetails() {
+    return DB::table('membership_detail')->where('membership_id', $this->membership_id)->orderBy('position')->get();
+  }
+  
+  private function saveMembershipDetails($input) {
+    DB::table('membership_detail')->where('membership_id', $this->membership_id)->delete();
+    for($i=0; $i<$input['detail_count']; $i++) {
+      DB::table('membership_detail')->insert([
+        'membership_id'=>$this->membership_id,
+        'position'=>$input['position'.$i],
+        'content'=>$input['content'.$i]
+      ]);
+    }
   }
 }
