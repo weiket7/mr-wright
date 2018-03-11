@@ -130,7 +130,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Valid Till</label>
                 <label class="col-md-9 form-control-static">
-                  {{ ViewHelper::formatDate($company->membership_valid_till) }}
+                  {{Form::text('membership_valid_till', ViewHelper::formatDate($company->membership_valid_till), ['class'=>'form-control datepicker', 'placeholder'=>''])}}
                 </label>
               </div>
             </div>

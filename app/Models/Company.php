@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use App\Models\Enums\CompanyStat;
+use Carbon\Carbon;
 use Eloquent, DB, Validator;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Validation\Rule;
@@ -55,6 +56,7 @@ class Company extends Eloquent
     $this->postal = $input['postal'];
     $this->industry = $input['industry'];
     $this->membership_id = $input['membership_id'];
+    $this->membership_valid_till = Carbon::createFromFormat('d M Y', $input['membership_valid_till']);
     $membership = Membership::find($this->membership_id);
     $this->requester_limit = $membership->requester_limit;
     $this->save();

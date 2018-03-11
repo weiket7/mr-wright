@@ -387,7 +387,6 @@
     initDatepicker();
   });
 
-
   function initDatepicker() {
     $(".datepicker").datepicker({
       dateFormat: "dd M yy",
