@@ -47,7 +47,7 @@ class CompanyController extends Controller
     $data['company'] = $company;
     $data['offices'] = $company->getOffices($company_id);
     $membership_service = new Membership();
-    $data['memberships'] = $membership_service->getMembershipDropdown(MembershipStat::Active);
+    $data['memberships'] = $membership_service->getMembershipDropdown();
     return view('admin/company/form', $data);
   }
   
