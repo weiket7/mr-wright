@@ -6,12 +6,21 @@
 ])
 
 @section('content')
-
+  <style>
+    .list-group-item {
+      padding: 5px 10px;
+    }
+    .list-group-item-text {
+      padding: 10px;
+    }
+  </style>
+  
   <div class="description align-center">
     {!! $frontend['contents']['membership_content'] !!}
   </div>
   
   <?php $cols = 12 / count($memberships); ?>
+  
   <div class="row page-margin-top">
     @foreach($memberships as $membership)
     <div class="col-sm-{{$cols}} col-xs-12">
@@ -24,12 +33,11 @@
             <b>{{ $membership->requester_limit }}</b>
             {{ $membership->requester_limit == 1 ? "user" : "users" }}</p>
         </div>
-        <div class="list-group-item">
-          <p class="list-group-item-text"><b>{{ ViewHelper::formatCurrency($membership->effective_price) }}</b> per month</p>
-        </div>
-        <div class="list-group-item">
-          <p class="list-group-item-text">Unlimited tickets</p>
-        </div>
+        @foreach($membership->details as $detail)
+          <div class="list-group-item">
+            <p class="list-group-item-text"><b>{{ $detail->content }}</b></p>
+          </div>
+        @endforeach
         <div class="list-group-item">
           <p class="list-group-item-text">
             <button class="btn btn-primary" onclick="location.href='{{url('register?membership_id='.$membership->membership_id)}}'">Register</button>
@@ -38,5 +46,9 @@
       </div>
     </div>
     @endforeach
+  </div>
+
+  <div class="description align-center">
+    For full list of details, please check out the details <a href="{{url('membership/detail')}}">here</a>.
   </div>
 @endsection

@@ -161,7 +161,6 @@
     
     function updatePosition() {
       var i = 1;
-      console.log('update');
       $('tbody > tr').each(function() {
         $(this).find("input.txt-num[type='text']").val(i);
         i++;

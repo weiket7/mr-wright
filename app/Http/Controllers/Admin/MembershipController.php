@@ -35,7 +35,7 @@ class MembershipController extends Controller
     
     $data['action'] = $action;
     $data['membership'] = $membership;
-    $data['details'] = $membership->getDetails();
+    $data['details'] = $membership->getDetails($membership->membership_id);
     return view('admin/membership/form', $data);
   }
   

@@ -38,6 +38,7 @@ Route::get('contact', 'Frontend\SiteController@contact');
 Route::post('contact', 'Frontend\SiteController@contact');
 Route::get('about', 'Frontend\SiteController@about');
 Route::get('membership', 'Frontend\SiteController@membership');
+Route::get('membership/detail', 'Frontend\SiteController@membershipDetail');
 Route::get('services', 'Frontend\SiteController@service');
 Route::get('services/{slug}', 'Frontend\SiteController@service');
 Route::get('projects', 'Frontend\SiteController@project');
@@ -61,8 +62,6 @@ Route::group(['middleware'=>['auth']], function() {
   Route::post('account', 'Frontend\SiteController@account');
   
   Route::group(['middleware'=>['frontendmiddleware']], function() {
-    Route::get('membership/upgrade', 'Frontend\SiteController@membershipUpgrade');
-    
     Route::get('members', 'Frontend\SiteController@members');
     Route::post('members', 'Frontend\SiteController@members');
     Route::get('members/save', 'Frontend\SiteController@membersSave');

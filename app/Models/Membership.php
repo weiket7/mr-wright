@@ -13,14 +13,17 @@ class Membership extends Eloquent
   protected $validation;
   public $timestamps = false;
   
-  public function getMembershipAll($stat = null) {
+  public function getMembershipAll($stat = null, $with_details = false) {
+    $memberships = Membership::orderBy('stat')->orderBy('position');
     if ($stat) {
-      $memberships = Membership::orderBy('stat')->orderBy('position')->where('stat', $stat)->get();
-    } else {
-      $memberships = Membership::orderBy('stat')->orderBy('position')->get();
+      $memberships = $memberships->where('stat', $stat);
     }
+    $memberships = $memberships->get();
     foreach($memberships as $m) {
       $m->full_name = $m->title . ' - ' . $m->requester_limit . ' at ' . $m->effective_price . ' / month';
+      if ($with_details) {
+        $m->details = $this->getDetails($m->membership_id);
+      }
     }
     return $memberships;
   }
@@ -92,8 +95,8 @@ class Membership extends Eloquent
     return DB::table("membership")->where('free_trial', 1)->count() > 1;
   }
   
-  public function getDetails() {
-    return DB::table('membership_detail')->where('membership_id', $this->membership_id)->orderBy('position')->get();
+  public function getDetails($membership_id) {
+    return DB::table('membership_detail')->where('membership_id', $membership_id)->orderBy('position')->get();
   }
   
   private function saveMembershipDetails($input) {
@@ -106,4 +109,5 @@ class Membership extends Eloquent
       ]);
     }
   }
+  
 }

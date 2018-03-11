@@ -191,10 +191,6 @@ class SiteController extends Controller
     }
     return view('frontend/forgot-password');
   }
-
-  public function membershipUpgrade(Request $request) {
-    
-  }
   
   public function logout(Request $request) {
     Auth::logout();
@@ -211,10 +207,14 @@ class SiteController extends Controller
 
   public function membership(Request $request) {
     $membership_service = new Membership();
-    $data['memberships'] = $membership_service->getMembershipAll(MembershipStat::Active);
+    $data['memberships'] = $membership_service->getMembershipAll(MembershipStat::Active, true);
     return view("frontend/membership", $data);
   }
-
+  
+  public function membershipDetail(Request $request) {
+    return response()->file('assets/mr-wright-membership-details.pdf');
+  }
+  
   public function contact(Request $request) {
     if($request->isMethod('post')) {
       $input = $request->all();
