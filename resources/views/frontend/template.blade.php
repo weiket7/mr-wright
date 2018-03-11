@@ -348,6 +348,7 @@
   </div>
   <div class="r-row align-center padding-top-bottom-30">
     <span class="copyright">© Copyright {{ date('Y') }} <a href="{{ url('/') }}">{{ config('app.name') }}</a></span>
+    | <a href="{{ url('terms-and-conditions') }}">Terms and Conditions</a>
   </div>
 </div>
 <a href="#top" class="scroll-top animated-element template-arrow-up" title="Scroll to top"></a>

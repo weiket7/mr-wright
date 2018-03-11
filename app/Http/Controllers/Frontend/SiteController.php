@@ -232,6 +232,10 @@ class SiteController extends Controller
     $data['dynamic'] = FrontendDynamic::where(['url'=>$url])->first();
     return view("frontend/dynamic", $data);
   }
+  
+  public function termsAndConditions() {
+    return view('frontend/terms-and-conditions');
+  }
 
   public function error(Request $request) {
     return view("frontend/error");

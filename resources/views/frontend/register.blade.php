@@ -137,6 +137,23 @@
         </div>
       </div>
     </div>
+    
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-md-3">
+          </label>
+          <div class="col-md-9">
+  
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="terms_and_conditions"> I agree to the <a href="{{ url('terms-and-conditions') }}">Terms and Conditions</a>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="margin-top-30">
       <div class="align-center">

@@ -16,6 +16,7 @@ use App\Models\Registration;
 Route::get('/', 'Frontend\SiteController@index');
 Route::get('home', 'Frontend\SiteController@index');
 Route::get('d/{url}', 'Frontend\SiteController@dynamic');
+Route::get('terms-and-conditions', 'Frontend\SiteController@termsAndConditions');
 
 Route::get('register', 'Frontend\RegistrationController@index');
 Route::post('register', 'Frontend\RegistrationController@index');

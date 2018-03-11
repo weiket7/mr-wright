@@ -156,6 +156,7 @@ class Registration extends Eloquent {
       //'company_code' => 'min:2|max:5|alpha|required',
       'addr' => 'required',
       'postal' => 'required',
+      'terms_and_conditions' => 'required'
     ];
 
     $messages = [
@@ -178,6 +179,7 @@ class Registration extends Eloquent {
       'company_code.alpha'=>'Company code must be alphabets',
       'addr.required' => 'Address is required',
       'postal.required' => 'Postal code is required',
+      'terms_and_conditions.required' => 'You must accept the terms and conditions'
     ];
 
     $this->validation = Validator::make($input, $rules, $messages);

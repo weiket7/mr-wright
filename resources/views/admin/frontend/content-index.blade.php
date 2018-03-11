@@ -118,7 +118,7 @@
         <h4>Membership page</h4>
         <table class="table table-bordered table-hover">
           <tr>
-            <td>Membership content</td>
+            <td>Content</td>
             <td><a href="{{ url('admin/frontend/content/save/membership_content') }}">{{$contents['membership_content']}}</a></td>
           </tr>
         </table>
@@ -166,7 +166,15 @@
             <td><a href="{{ url('admin/frontend/content/save/about_line5') }}">{{$contents['about_line5']}}</a></td>
           </tr>
         </table>
-  
+        
+        <h4>Terms and conditions</h4>
+        <table class="table table-bordered table-hover">
+        <tr>
+          <td>Terms and conditions</td>
+          <td><a href="{{ url('admin/frontend/content/save/terms_and_conditions') }}">{{$contents['terms_and_conditions']}}</a></td>
+        </tr>
+        </table>
+        
         <h4>Meta</h4>
         <table class="table table-bordered table-hover">
           <tr>

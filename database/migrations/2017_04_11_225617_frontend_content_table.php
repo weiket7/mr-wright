@@ -12,7 +12,7 @@ class FrontendContentTable extends Migration
       $t->increments('frontend_content_id');
       $t->string('page', 50);
       $t->string('key', 50);
-      $t->string('value', 1000);
+      $t->text('value');
       $t->boolean('is_image');
       $t->string('dimension');
     });
@@ -97,7 +97,7 @@ Step 1: Login to Account<br>
 Step 2: Report Fault Online<br>
 Step 3: Accept Quotation by Email',
     ]);
-  
+    
     /*MEMBERS*/
     DB::table('frontend_content')->insert([
       'page'=>'members',
@@ -154,6 +154,33 @@ Step 3: Accept Quotation by Email',
       'page'=>'about',
       'key'=>'about_page_title',
       'value'=>'WE ARE RENOVATE',
+    ]);
+    
+    /*TERMS AND CONDITIONS*/
+    DB::table('frontend_content')->insert([
+      'page'=>'terms_and_conditions',
+      'key'=>'terms_and_conditions',
+      'value'=>
+    '<b>Terms of this Agreement</b>
+    
+<p>III. 	The term of this Agreement (Henceforth referred to as the “Term”) will begin on the date of this Agreement and will remain in full force and effect until the completion of the Services, subject to earlier termination as provided in this Agreement.</p>
+
+<p>IV.  	The Contractor shall make all reasonable efforts to repair the Client’s premises subject to the availability of any parts required and/or the terms of any relevant guarantee or warranty.</p>
+
+<p>IV. 	In the event that either Party wishes to terminate this Agreement prior to the completion of the Services, the Party will be required to provide 10 days written notice to the other Party.</p>
+
+<p>V. 	The Client will be invoiced when the Services are completed.
+
+<p>VI. 	Invoices submitted by the Contractor to the Client are due within 30 days of receipt.
+
+<p>VII. 	In the event that this Agreement is terminated by the Client prior to completion of the Services, but where the Services have been partially performed, the Contractor will charge 100 % of the fee to the Client.</p>
+
+<b>Currency</b>
+<p>VII. 	All monetary amounts referred to in this Agreement are in SGD (Singapore Dollars).</p>
+
+<b>Indemnification</b>
+<p>IX. 	The Client agrees to indemnify and hold harmless the Contractor against all losses, damages, liabilities, penalties or expenses of any kind, which may arise of any act of the Contractor.</p>
+'
     ]);
     
     /*SEO*/
