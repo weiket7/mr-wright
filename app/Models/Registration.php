@@ -226,10 +226,12 @@ class Registration extends Eloquent {
       } else if ($registration->membership_type == MembershipType::Monthly) {
         $company->membership_valid_till = Carbon::now()->addMonth(1);
       }
+      $company->free_trial = $registration->free_trial;
       $company->membership_name = $registration->membership_name;
       $company->requester_limit = $registration->requester_limit;
       $company->effective_price = $registration->effective_price;
       $company->requester_count = 1;
+      $company->office_count = 1;
       $company->save();
 
       $office = new Office();

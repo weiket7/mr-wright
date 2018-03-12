@@ -8,16 +8,17 @@ class MembershipSeeder extends Seeder
 {
   public function run()
   {
-    /*DB::table('membership')->insert([
-      'membership_id'=>1,
+    DB::table('membership')->insert([
+      'membership_id'=>4,
       'stat'=>MembershipStat::Active,
+      'type'=>MembershipType::Unlimited,
       'name'=>'Free Trial',
       'requester_limit'=>1,
       'effective_price'=>0,
       'full_name'=>'Free Trial',
       'position'=>1,
       'free_trial'=>1,
-    ]);*/
+    ]);
 
     DB::table('membership')->insert([
       'membership_id'=>1,
