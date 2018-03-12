@@ -1,5 +1,6 @@
 <?php use App\Models\Enums\TicketStat; ?>
 <?php use App\Models\Enums\TicketUrgency; ?>
+<?php use App\Models\Enums\PaymentMethod; ?>
 
 @extends('frontend.template', ['title'=>strtoupper($action). ' TICKET'])
 
@@ -358,15 +359,15 @@
               <label class="control-label">Payment Method</label>
             </div>
             <div class="col-md-10">
-              @foreach($payment_methods as $value => $name)
+              <div v-for="payment_method in payment_methods">
                 <label class="lbl-radio">
-                  <input v-model="payment_method" type="radio" name="payment_method" value="{{$value}}"> {{ $name }}
+                  <input v-model="selected_payment_method" type="radio" name="payment_method" v-bind:value="payment_method.value"> @{{ payment_method.name }}
                   <span></span>
                 </label><br>
-              @endforeach
+              </div>
             </div>
           </div>
-          <div class="row" v-if="payment_method == 'Q' || payment_method == 'B'" >
+          <div class="row" v-if="selected_payment_method == cheque || selected_payment_method == bank_transfer" >
             <div class="col-md-2">
               <label class="control-label">Ref No</label>
             </div>
@@ -374,22 +375,22 @@
               <input type="text" name="ref_no" class="form-control">
             </div>
           </div>
-          <div class="row" v-if="payment_method">
+          <div class="row" v-if="selected_payment_method">
             <div class="col-md-12">
               <div class="alert alert-info" style="margin-top: 10px;">
-                <div v-if="payment_method == 'C'">
+                <div v-if="selected_payment_method == cash">
                   {!! nl2br($frontend['contents']['payment_cash']) !!}
                 </div>
-                <div v-if="payment_method == 'N'">
+                <div v-if="selected_payment_method == nets">
                   {!! nl2br($frontend['contents']['payment_nets']) !!}
                 </div>
-                <div v-if="payment_method == 'Q'">
+                <div v-if="selected_payment_method == cheque">
                   {!! nl2br($frontend['contents']['payment_cheque']) !!}
                 </div>
-                <div v-if="payment_method == 'B'">
+                <div v-if="selected_payment_method == bank_transfer">
                   {!! nl2br($frontend['contents']['payment_banktransfer']) !!}
                 </div>
-                <div v-if="payment_method == 'R'">
+                <div v-if="selected_payment_method == credit_card">
                   {!! nl2br($frontend['contents']['payment_creditcard']) !!}
                 </div>
               </div>
@@ -416,7 +417,13 @@
     var vm = new Vue({
       el: "#app",
       data: {
-        payment_method: ''
+        payment_methods: {!! json_encode($payment_methods) !!},
+        selected_payment_method: null,
+        nets: '{{ PaymentMethod::NETS }}',
+        cheque: '{{ PaymentMethod::Cheque }}',
+        bank_transfer: '{{ PaymentMethod::BankTransfer }}',
+        credit_card: '{{ PaymentMethod::CreditCard }}',
+        cash: '{{ PaymentMethod::Cash }}',
       }
     });
   </script>

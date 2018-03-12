@@ -70,6 +70,9 @@
 .txt-num {
   max-width: 50px;
 }
+.txt-medium {
+  max-width: 200px;
+}
 .txt-otp {
   max-width: 100px;
 }

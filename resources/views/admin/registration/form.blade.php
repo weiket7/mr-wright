@@ -145,7 +145,7 @@
               <div class="form-group">
                 <label class="control-label col-md-3">Membership Plan</label>
                 <label class="col-md-9 form-control-static">
-                  {{ $registration->membership_full_name }}
+                  <a href="{{ url('admin/membership/save/'.$registration->membership_id) }}">{{ $registration->membership_name }}</a>
                 </label>
               </div>
             </div>
@@ -166,6 +166,7 @@
                   <label class="control-label col-md-3">Ref No</label>
                   <label class="col-md-9 form-control-static">
                     {{ $registration->ref_no }}
+                    {{--<input type="text" name="ref_no" value="{{ $registration->ref_no }}" class="form-control txt-medium">--}}
                   </label>
                 </div>
               </div>
@@ -187,6 +188,9 @@
               <div class="col-md-6">
                 <div class="row">
                   <div class="col-md-offset-3 col-md-9">
+                    {{--@if($registration->payment_method == 'Q' || $registration->payment_method == 'B')
+                      <button name="submit" type="submit" class="btn blue" value="Update">Update</button>
+                    @endif--}}
                     <button name="submit" type="submit" class="btn green" value="Approve">Approve</button>
                     <button name="submit" type="submit" class="btn yellow-lemon" value="Reject">Reject</button>
                     <button name="submit" type="submit" class="btn red confirmation" data-toggle='confirmation' value="Delete">Delete</button>

@@ -33,7 +33,7 @@ class PaymentService
     if ($stat) {
       $payment_methods->where('stat', $stat);
     }
-    return $payment_methods->pluck('name', 'value');
+    return $payment_methods->select(['name', 'value'])->get();
   }
 
   private function responseCodetoStat($response_code) {

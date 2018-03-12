@@ -1,3 +1,5 @@
+<?php use App\Models\Enums\PaymentMethod; ?>
+
 @extends('frontend.template', ['title'=>'register'])
 
 @section('content')
@@ -25,7 +27,7 @@
           </label>
           <div class="col-md-9">
             <select name="membership_id" class="form-control" v-model="selected_membership_id">
-              <option selected></option>
+              <option></option>
               <option v-for="membership in memberships" :value="membership.membership_id">@{{ membership.name }}</option>
             </select>
           </div>
@@ -37,30 +39,33 @@
             Payment Method *
           </label>
           <div class="col-md-9">
-            {{ Form::select('payment_method', [''=>'']+$payment_methods, '', ['class'=>'form-control', "v-model"=>'payment_method']) }}
+            <select name="payment_method" class="form-control" v-model="selected_payment_method">
+              <option></option>
+              <option v-for="payment_method in payment_methods" :value="payment_method.value">@{{ payment_method.name }}</option>
+            </select>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="alert alert-info" v-if="payment_method">
-      <div v-if="payment_method == 'C'">
+    
+    <div class="alert alert-info" v-if="selected_payment_method">
+      <div v-if="selected_payment_method == cash">
         {!! nl2br($frontend['contents']['payment_cash']) !!}
       </div>
-      <div v-if="payment_method == 'N'">
+      <div v-if="selected_payment_method == nets">
         {!! nl2br($frontend['contents']['payment_nets']) !!}
       </div>
-      <div v-if="payment_method == 'Q'">
+      <div v-if="selected_payment_method == cheque">
         {!! nl2br($frontend['contents']['payment_cheque']) !!}
       </div>
-      <div v-if="payment_method == 'B'">
+      <div v-if="selected_payment_method == bank_transfer">
         {!! nl2br($frontend['contents']['payment_banktransfer']) !!}
       </div>
-      <div v-if="payment_method == 'R'">
+      <div v-if="selected_payment_method == credit_card">
         {!! nl2br($frontend['contents']['payment_creditcard']) !!}
       </div>
-
-      <div class="row" v-if="payment_method == 'Q' || payment_method == 'B'">
+      
+      <div class="row" v-if="selected_payment_method == cheque || selected_payment_method == bank_transfer">
         <br>
         <div class="col-md-2">
           <label class="control-label">
@@ -72,8 +77,8 @@
         </div>
       </div>
     </div>
-
-
+    
+    
     <div class="margin-top-30">
       <div class="align-center">
         <input type="submit" name="submit" value="SUBMIT" class="more active">
@@ -89,11 +94,17 @@
       data: {
         memberships: {!! json_encode($memberships) !!},
         selected_membership_id: null,
-        payment_method: ''
+        payment_methods: {!! json_encode($payment_methods) !!},
+        selected_payment_method: null,
+        nets: '{{ PaymentMethod::NETS }}',
+        cheque: '{{ PaymentMethod::Cheque }}',
+        bank_transfer: '{{ PaymentMethod::BankTransfer }}',
+        credit_card: '{{ PaymentMethod::CreditCard }}',
+        cash: '{{ PaymentMethod::Cash }}',
       },
       computed: {
         is_free_trial: function() {
-          if (this.selected_membership_id != null) {
+          if (this.selected_membership_id > 0) {
             return this.memberships[this.selected_membership_id].free_trial == 1;
           }
         },
