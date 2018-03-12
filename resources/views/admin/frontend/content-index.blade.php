@@ -124,6 +124,26 @@
             <td>Details PDF</td>
             <td><a href="{{ url('admin/frontend/file/save/membership_details') }}">Details PDF</a></td>
           </tr>
+          <tr>
+            <td>Cheque</td>
+            <td><a href="{{ url('admin/frontend/content/save/payment_cheque') }}">{!! $contents['payment_cheque'] !!}</a></td>
+          </tr>
+          <tr>
+            <td>Bank Transfer</td>
+            <td><a href="{{ url('admin/frontend/content/save/payment_banktransfer') }}">{!! $contents['payment_banktransfer'] !!}</a></td>
+          </tr>
+          <tr>
+            <td>NETS</td>
+            <td><a href="{{ url('admin/frontend/content/save/payment_nets') }}">{!! $contents['payment_nets'] !!}</a></td>
+          </tr>
+          <tr>
+            <td>Credit Card</td>
+            <td><a href="{{ url('admin/frontend/content/save/payment_creditcard') }}">{!! $contents['payment_creditcard'] !!}</a></td>
+          </tr>
+          <tr>
+            <td>Cash</td>
+            <td><a href="{{ url('admin/frontend/content/save/payment_cash') }}">{!! $contents['payment_cash'] !!}</a></td>
+          </tr>
         </table>
   
         <h4>Members page</h4>
