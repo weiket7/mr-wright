@@ -14,7 +14,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title text-center">
-        <b class="quoted-price">{{ ViewHelper::formatCurrency($ticket->quoted_price) }}</b><br>
+        <b style="font-size: 20px;">{{ ViewHelper::formatCurrency($ticket->quoted_price) }}</b><br>
         Quoted by {{ $ticket->quoted_by }} on {{ ViewHelper::formatDateTime($ticket->quoted_on)}}
       </h3>
     </div>
