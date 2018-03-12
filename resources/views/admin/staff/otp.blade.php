@@ -100,7 +100,6 @@
             </div>
           </div>
           
-          <!--TODO-->
           @if(Auth::user()->type == \App\Models\Enums\UserType::Operator)
             <div class="form-group">
               <label class="control-label col-md-2">Preferred Slots</label>
@@ -159,58 +158,43 @@
             <label class="control-label col-md-2">One time passwords</label>
             <div class="col-md-10">
               <table class="table table-bordered no-margin-btm table-responsive">
-                <thead>
-                <tr>
-                  <th width="120px">Date</th>
-                  <th width="200px">First OTP</th>
-                  <th>Second OTP</th>
-                </tr>
-                </thead>
-                <tbody>
-                @if(ViewHelper::hasAccess('ticket_view_otp'))
-                  @foreach($ticket->otps as $otp)
-                    <tr>
-                      <td>{{ ViewHelper::formatDate($otp->date) }}</td>
-                      <td>{{ $otp->otp }}</td>
-                    </tr>
-                  @endforeach
-                @endif
                 @if(ViewHelper::hasAccess('ticket_view_enter_otp'))
-                  @foreach($ticket->otps as $otp)
-                    <tr>
-                      <td>{{ ViewHelper::formatDate($otp->date) }}</td>
-                      <td>
-                        @if($otp->first_entered_on)
-                          {{ $otp->first_otp }}
-                          <span class="font-green-jungle"><i class="fa fa-check"></i></span>
-                          <br>{{ ViewHelper::formatDateTime($otp->first_entered_on) }}
-                        @else
-                          <div id="div-first-otp{{$otp->ticket_otp_id}}">
-                            <div class="input-icon right">
-                              <i class="fa fa-remove" id="cross-first-otp{{$otp->ticket_otp_id}}" style="display:none"></i>
-                              <input type="text" name='first_otp{{$otp->ticket_otp_id}}' class="form-control" maxlength="6" style="width:100px">
-                            </div>
-                            <button type="button" onclick="enterOtp({{$otp->ticket_otp_id}}, 'first')" class="btn blue">Submit</button>
+                  <tr>
+                    <td width="120px">First OTP</td>
+                    <td>
+                      @if($ticket->otps->first_entered_on)
+                        {{ $ticket->otps->first_otp }}
+                        <span class="font-green-jungle"><i class="fa fa-check"></i></span>
+                        <br>{{ ViewHelper::formatDateTime($ticket->otps->first_entered_on) }}
+                      @else
+                        <div id="div-first-otp{{$ticket->otps->ticket_otp_id}}">
+                          <div class="input-icon right">
+                            <i class="fa fa-remove" id="cross-first-otp{{$ticket->otps->ticket_otp_id}}" style="display:none"></i>
+                            <input type="text" name='first_otp{{$ticket->otps->ticket_otp_id}}' class="form-control" maxlength="6" style="width:100px">
                           </div>
-                        @endif
-                      </td>
-                      <td>
-                        @if($otp->second_entered_on)
-                          {{ $otp->second_otp }}
-                          <span class="font-green-jungle"><i class="fa fa-check"></i></span>
-                          <br>{{ ViewHelper::formatDateTime($otp->second_entered_on) }}
-                        @else
-                          <div id="div-second-otp{{$otp->ticket_otp_id}}">
-                            <div class="input-icon right">
-                              <i class="fa fa-remove" id="cross-second-otp{{$otp->ticket_otp_id}}" style="display:none"></i>
-                              <input type="text" name='second_otp{{$otp->ticket_otp_id}}' class="form-control" maxlength="6" style="width:100px">
-                            </div>
-                            <button type="button" onclick="enterOtp({{$otp->ticket_otp_id}}, 'second')" class="btn blue">Submit</button>
+                          <button type="button" onclick="enterOtp({{$ticket->otps->ticket_otp_id}}, 'first')" class="btn blue">Submit</button>
+                        </div>
+                      @endif
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Second OTP</td>
+                    <td>
+                      @if($ticket->otps->second_entered_on)
+                        {{ $ticket->otps->second_otp }}
+                        <span class="font-green-jungle"><i class="fa fa-check"></i></span>
+                        <br>{{ ViewHelper::formatDateTime($ticket->otps->second_entered_on) }}
+                      @else
+                        <div id="div-second-otp{{$ticket->otps->ticket_otp_id}}">
+                          <div class="input-icon right">
+                            <i class="fa fa-remove" id="cross-second-otp{{$ticket->otps->ticket_otp_id}}" style="display:none"></i>
+                            <input type="text" name='second_otp{{$ticket->otps->ticket_otp_id}}' class="form-control" maxlength="6" style="width:100px">
                           </div>
-                        @endif
-                      </td>
-                    </tr>
-                  @endforeach
+                          <button type="button" onclick="enterOtp({{$ticket->otps->ticket_otp_id}}, 'second')" class="btn blue">Submit</button>
+                        </div>
+                      @endif
+                    </td>
+                  </tr>
                 @endif
                 </tbody>
               </table>

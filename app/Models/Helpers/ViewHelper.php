@@ -18,7 +18,7 @@ class ViewHelper {
   }
   
   public static function hasAccess($access) {
-    return Auth::user()->type == UserType::Operator && in_array($access, session()->get('accesses')['accesses']);
+    return in_array($access, session()->get('accesses')['accesses']);
   }
   
   public static function formatDate($date) {
@@ -83,7 +83,9 @@ class ViewHelper {
   }
   
   public static function ticketShowOtps($ticket_stat) {
-    return ! in_array($ticket_stat, [TicketStat::Drafted, TicketStat::Opened, TicketStat::Quoted, TicketStat::Declined]);
+    $user_type = Auth::user()->type;
+    $ticket_stat = ! in_array($ticket_stat, [TicketStat::Drafted, TicketStat::Opened, TicketStat::Quoted, TicketStat::Declined]);
+    return $user_type != UserType::Staff && $ticket_stat;
   }
   
   public static function isImage($file_name) {

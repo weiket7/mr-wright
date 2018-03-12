@@ -285,23 +285,17 @@
                     <label class="control-label col-md-2 ticket-md-2">One time passwords</label>
                     <div class="col-md-10 ticket-md-10">
                       <table class="table table-bordered no-margin-btm table-responsive">
-                        <thead>
-                        <tr>
-                          <th width="120px">Date</th>
-                          <th width="200px">First OTP</th>
-                          <th>Second OTP</th>
-                        </tr>
-                        </thead>
                         <tbody>
-                        @if(ViewHelper::hasAccess('ticket_view_otp'))
-                          @foreach($ticket->otps as $otp)
-                            <tr>
-                              <td>{{ ViewHelper::formatDate($otp->date) }}</td>
-                              <td>{{ $otp->first_otp }}</td>
-                              <td>{{ $otp->second_otp }}</td>
-                            </tr>
-                          @endforeach
-                        @endif
+                        <tr>
+                          <th>First OTP</th>
+                          <td>{{ $ticket->otps->first_otp }}</td>
+                          <td>Provide First OTP to repairman <b><u>upon arrival</u></b>. This helps us keep track of attendance and punctuality of our repairman</td>
+                        </tr>
+                        <tr>
+                          <th>Second OTP</th>
+                          <td>{{ $ticket->otps->second_otp }}</td>
+                          <td>Provide Second OTP upon the <b><u>completion</u></b> of the job. DO NOT give OTP to repairman if job is incomplete</td>
+                        </tr>
                         </tbody>
                       </table>
                     </div>

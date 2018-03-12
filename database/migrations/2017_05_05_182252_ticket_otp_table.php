@@ -11,9 +11,10 @@ class TicketOtpTable extends Migration
     Schema::create('ticket_otp', function(Blueprint $t) {
       $t->increments('ticket_otp_id');
       $t->integer('ticket_id');
-      $t->date('date');
       $t->string('first_otp', 6);
       $t->string('second_otp', 6);
+      $t->string('first_entered_by', 30);
+      $t->string('second_entered_by', 30);
       $t->dateTime('first_entered_on')->nullable();
       $t->dateTime('second_entered_on')->nullable();
     });

@@ -2,12 +2,16 @@
 <ul class="list-group">
   @foreach($ticket->history as $h)
     <li class="list-group-item">
-      @if ($h->action == 'pay')
+      <b>@if ($h->action == 'pay')
         Paid
       @elseif ($h->action == 'invoice')
         Invoiced
       @elseif ($h->action == 'complete')
         Completed
+      @elseif ($h->action == 'firstOtp')
+        First OTP entered
+      @elseif ($h->action == 'secondOtp')
+        Second OTP entered
       @elseif ($h->action == 'decline')
         Declined
       @elseif ($h->action == 'accept')
@@ -18,8 +22,8 @@
         Opened
       @elseif ($h->action == 'draft')
         Drafted
-      @endif
-      by <a href="{{url('admin/requester/save/'.$h->action_by)}}">{{ $h->action_by }}</a> on {{ ViewHelper::formatDateTime($h->action_on) }}
+      @endif</b>
+      by {{ $h->action_by }} on {{ ViewHelper::formatDateTime($h->action_on) }}
     </li>
   @endforeach
 </ul>

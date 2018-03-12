@@ -282,7 +282,7 @@
               <thead>
               <tr>
                 <th width="120px">Date</th>
-                <th width="200px">Staff</th>
+                <th width="150px">Staff</th>
                 <th>Time</th>
               </tr>
               </thead>
@@ -310,21 +310,29 @@
       <label class="control-label col-md-2 ticket-md-2">One time passwords</label>
       <div class="col-md-10 ticket-md-10">
         <table class="table table-bordered no-margin-btm">
-          <thead>
-          <tr>
-            <th width="110px">Date</th>
-            <th width="100px">First OTP</th>
-            <th>Second OTP</th>
-          </tr>
-          </thead>
           <tbody>
-            @foreach($ticket->otps as $otp)
-              <tr>
-                <td>{{ ViewHelper::formatDate($otp->date) }}</td>
-                <td>{{ $otp->first_otp }}</td>
-                <td>{{ $otp->second_otp }}</td>
-              </tr>
-            @endforeach
+            <tr>
+              <th width="120px">First OTP</th>
+              <td width="150px">{{ $ticket->otps->first_otp }}</td>
+              <td>
+                @if($ticket->otps->first_entered_on)
+                  Entered by {{ $ticket->otps->first_entered_by }} on {{ ViewHelper::formatDateTime($ticket->otps->first_entered_on) }}
+                @else
+                  Provide First OTP to repairman <b><u>upon arrival</u></b>. This helps us keep track of attendance and punctuality of our repairman
+                @endif
+              </td>
+            </tr>
+            <tr>
+              <th>Second OTP</th>
+              <td>{{ $ticket->otps->second_otp }}</td>
+              <td>
+                @if($ticket->otps->second_entered_on)
+                  Entered by {{ $ticket->otps->second_entered_by }} on {{ ViewHelper::formatDateTime($ticket->otps->second_entered_on) }}
+                @else
+                  Provide Second OTP upon the <b><u>completion</u></b> of the job. DO NOT give OTP to repairman if job is incomplete
+                @endif
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

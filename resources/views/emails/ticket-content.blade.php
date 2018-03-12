@@ -53,8 +53,8 @@
   <table class="table table-bordered">
     <thead>
     <tr>
-      <td>Date</td>
-      <td>Time</td>
+      <th>Date</th>
+      <th>Time</th>
     </tr>
     </thead>
     @foreach($ticket->preferred_slots as $slot)
@@ -99,28 +99,20 @@
 
 @if(isset($show_otp) && $show_otp)
   <div class="div-break">
-    <h4>One time passwords</h4>
-
-    <p>Please provide the OTP to the service staff on the day itself so that he can indicate his attendance in the system.</p>
+    <h4>One Time Passwords (OTPs)</h4>
 
     <table class="table table-bordered no-margin-btm">
-      <thead>
-        <tr>
-          <th width="110px">Date</th>
-          <th width="100px">First OTP</th>
-          <th>Second OTP</th>
-        </tr>
-      </thead>
       <tbody>
-        @if(ViewHelper::hasAccess('ticket_view_otp'))
-          @foreach($ticket->otps as $otp)
-            <tr>
-              <td>{{ ViewHelper::formatDate($otp->date) }}</td>
-              <td>{{ $otp->first_otp }}</td>
-              <td>{{ $otp->second_otp }}</td>
-            </tr>
-          @endforeach
-        @endif
+        <tr>
+          <th>First OTP</th>
+          <td>{{ $ticket->otps->first_otp }}</td>
+          <td>Provide First OTP to repairman <b><u>upon arrival</u></b>. This helps us keep track of attendance and punctuality of our repairman</td>
+        </tr>
+        <tr>
+          <th>Second OTP</th>
+          <td>{{ $ticket->otps->second_otp }}</td>
+          <td>Provide Second OTP upon the <b><u>completion</u></b> of the job. DO NOT give OTP to repairman if job is incomplete</td>
+        </tr>
       </tbody>
     </table>
   </div>

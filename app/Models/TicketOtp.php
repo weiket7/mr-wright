@@ -12,7 +12,7 @@ class TicketOtp extends Eloquent
   protected $validation;
   public $timestamps = false;
 
-  public function enterOtp($ticket_otp_id, $type, $otp, $username = 'admin') {
+  public function enterOtp($ticket_otp_id, $type, $otp, $username) {
     $ticket_otp = DB::table('ticket_otp')
       ->where('ticket_otp_id', $ticket_otp_id)
       ->first();
@@ -28,18 +28,26 @@ class TicketOtp extends Eloquent
     
     if ($valid_otp) {
       $ticket_id = DB::table('ticket_otp')->where('ticket_otp_id', $ticket_otp_id)->value('ticket_id');
+      $ticket_service = new TicketService();
       if ($type == 'first') {
         DB::table('ticket_otp')
           ->where('ticket_otp_id', $ticket_otp_id)
-          ->update(['first_entered_on'=>Carbon::now()]);
+          ->update([
+            'first_entered_by'=>$username,
+            'first_entered_on'=>Carbon::now()
+          ]);
         $this->staffAttendTicket($ticket_id );
-        
+  
+        $ticket_service->saveTicketHistory($ticket_id, 'firstOtp', $username);
       } else if ($type == 'second') {
         DB::table('ticket_otp')
           ->where('ticket_otp_id', $ticket_otp_id)
-          ->update(['second_entered_on'=>Carbon::now()]);
+          ->update([
+            'second_entered_by'=>$username,
+            'second_entered_on'=>Carbon::now()
+          ]);
         
-        $ticket_service = new TicketService();
+        $ticket_service->saveTicketHistory($ticket_id, 'secondOtp', $username);
         $ticket_service->completeTicket($ticket_id, $username);
       }
     }

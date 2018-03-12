@@ -60,7 +60,7 @@ class TicketService
   }
 
   public function getOtps($ticket_id) {
-    return DB::table('ticket_otp')->where('ticket_id', $ticket_id)->get();
+    return DB::table('ticket_otp')->where('ticket_id', $ticket_id)->first();
   }
 
   public function getPreferredSlots($ticket_id) {
@@ -262,22 +262,17 @@ class TicketService
 
     DB::table('staff_assignment')->where('ticket_id', $ticket_id)->update(['stat'=>StaffAssignmentStat::Pending]);
     
-    $dates = DB::table('staff_assignment')->where('ticket_id', $ticket_id)->distinct()->pluck('date');
-    foreach($dates as $d) {
-      $this->generateTicketOtp($ticket_id, $d);
-    }
+    $this->generateTicketOtp($ticket_id);
 
     $this->saveTicketHistory($ticket_id, 'accept', $username);
     return $ticket;
   }
   
-  private function generateTicketOtp($ticket_id, $date) {
+  private function generateTicketOtp($ticket_id) {
     $ticket_otp = new TicketOtp();
     $ticket_otp->ticket_id = $ticket_id;
-    $ticket_otp->date = $date;
     $ticket_otp->first_otp = rand(000000, 999999);
     $ticket_otp->second_otp = rand(000000, 999999);
-    $ticket_otp->date_time_start =
     $ticket_otp->save();
   }
 
@@ -496,7 +491,7 @@ class TicketService
     $ticket->save();
   }
 
-  private function saveTicketHistory($ticket_id, $action, $username) {
+  public function saveTicketHistory($ticket_id, $action, $username) {
     $ticket_history = new TicketHistory();
     $ticket_history->ticket_id = $ticket_id;
     $ticket_history->action = $action;
@@ -510,7 +505,7 @@ class TicketService
   }
 
   private function getTicketHistory($ticket_id) {
-    return TicketHistory::where('ticket_id', $ticket_id)->orderBy('action_on', 'desc')->get();
+    return TicketHistory::where('ticket_id', $ticket_id)->orderBy('ticket_history_id', 'desc')->get();
   }
   
   public function emailQuotation($ticket) {
