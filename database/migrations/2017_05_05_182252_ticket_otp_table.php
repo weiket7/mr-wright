@@ -11,6 +11,7 @@ class TicketOtpTable extends Migration
     Schema::create('ticket_otp', function(Blueprint $t) {
       $t->increments('ticket_otp_id');
       $t->integer('ticket_id');
+      $t->boolean('manual_complete')->nullable();
       $t->string('first_otp', 6);
       $t->string('second_otp', 6);
       $t->string('first_entered_by', 30);

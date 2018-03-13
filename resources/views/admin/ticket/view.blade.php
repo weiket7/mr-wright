@@ -1,6 +1,7 @@
 <?php use App\Models\Enums\TicketStat; ?>
 <?php use App\Models\Enums\TicketUrgency; ?>
 <?php use App\Models\Enums\TicketPriority; ?>
+<?php use App\Models\Enums\PaymentMethod; ?>
 
 @extends("admin.template")
 
@@ -62,7 +63,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3">Payment Method</label>
                         <label class="col-md-9 form-control-static">
-                          {{ $payment_methods[$ticket->payment_method]}}
+                          {{ PaymentMethod::$values[$ticket->payment_method]}}
                         </label>
                       </div>
                     </div>
@@ -287,14 +288,29 @@
                       <table class="table table-bordered no-margin-btm table-responsive">
                         <tbody>
                         <tr>
-                          <th>First OTP</th>
-                          <td>{{ $ticket->otps->first_otp }}</td>
-                          <td>Provide First OTP to repairman <b><u>upon arrival</u></b>. This helps us keep track of attendance and punctuality of our repairman</td>
+                          <th width="120px">First OTP</th>
+                          <td width="150px">{{ $ticket->otps->first_otp }}</td>
+                          <td>
+                            @if ($ticket->otps->manual_complete)
+                              Manual complete
+                            @elseif($ticket->otps->first_entered_on)
+                              Entered by {{ $ticket->otps->first_entered_by }} on {{ ViewHelper::formatDateTime($ticket->otps->first_entered_on) }}
+                            @else
+                              Provide First OTP to repairman <b><u>upon arrival</u></b>. This helps us keep track of attendance and punctuality of our repairman
+                            @endif
                         </tr>
                         <tr>
                           <th>Second OTP</th>
                           <td>{{ $ticket->otps->second_otp }}</td>
-                          <td>Provide Second OTP upon the <b><u>completion</u></b> of the job. DO NOT give OTP to repairman if job is incomplete</td>
+                          <td>
+                            @if ($ticket->otps->manual_complete)
+                              Manual complete
+                            @elseif ($ticket->otps->second_entered_on)
+                              Entered by {{ $ticket->otps->second_entered_by }} on {{ ViewHelper::formatDateTime($ticket->otps->second_entered_on) }}
+                            @else
+                              Provide Second OTP upon the <b><u>completion</u></b> of the job. DO NOT give OTP to repairman if job is incomplete
+                            @endif
+                          </td>
                         </tr>
                         </tbody>
                       </table>
@@ -332,38 +348,13 @@
                                 Send Invoice
                               </button></div>
                           @elseif($ticket->stat == TicketStat::Invoiced && ViewHelper::hasAccess('ticket_pay'))
-                            <?php $payment_method_values = array_keys($payment_methods->toArray()); ?>
                             <div class="mt-radio-list">
-                              @if(in_array('R', $payment_method_values))
+                              @foreach($payment_methods as $payment_method)
                                 <label class="mt-radio mt-radio-outline">
-                                  <input type="radio" name="payment_method" value="R" @click="selectPaymentMethod('R')"> Credit Card
+                                  <input type="radio" name="payment_method" value="{{$payment_method->value}}" @click="selectPaymentMethod('{{$payment_method->value}}')"> {{$payment_method->name}}
                                   <span></span>
                                 </label>
-                              @endif
-                              @if(in_array('C', $payment_method_values))
-                                <label class="mt-radio mt-radio-outline">
-                                  <input type="radio" name="payment_method" value="C" @click="selectPaymentMethod('C')"> Cash
-                                  <span></span>
-                                </label>
-                              @endif
-                              @if(in_array('N', $payment_method_values))
-                                <label class="mt-radio mt-radio-outline">
-                                  <input type="radio" name="payment_method" value="N" @click="selectPaymentMethod('N')"> NETS
-                                  <span></span>
-                                </label>
-                              @endif
-                              @if(in_array('B', $payment_method_values))
-                                <label class="mt-radio mt-radio-outline">
-                                  <input type="radio" name="payment_method" value="B" @click="selectPaymentMethod('B')"> Bank Transfer
-                                  <span></span>
-                                </label>
-                              @endif
-                              @if(in_array('Q', $payment_method_values))
-                                <label class="mt-radio mt-radio-outline">
-                                  <input type="radio" name="payment_method" value="Q" @click="selectPaymentMethod('Q')"> Cheque
-                                  <span></span>
-                                </label>
-                              @endif
+                              @endforeach
                               <input type="text" name="ref_no" v-show="showRefNo" class="form-control" placeholder="Ref No">
                             </div>
                             <br>

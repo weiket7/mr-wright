@@ -105,6 +105,7 @@ class TicketController extends Controller
         $result = "Ticket declined";
       } elseif (BackendHelper::stringContains($submit, "complete")) {
         $this->ticket_service->completeTicket($ticket_id, $this->getUsername());
+        $this->ticket_service->ticketOtpManualComplete($ticket_id);
         $result = "Ticket completed";
       } elseif (BackendHelper::stringContains($submit, "invoice")) {
         $ticket = $this->ticket_service->invoiceTicket($ticket_id, $input, $this->getUsername());

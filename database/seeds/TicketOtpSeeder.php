@@ -7,10 +7,13 @@ class TicketOtpSeeder extends Seeder
 {
   public function run()
   {
-    DB::table('ticket_otp')->insert([
-      'ticket_id'=>3,
-      'first_otp'=>123456,
-      'second_otp'=>234567,
-    ]);
+    for($i = 3; $i <= 8; $i++) {
+      DB::table('ticket_otp')->insert([
+        'ticket_id'=>$i,
+        'manual_complete'=>1,
+        'first_otp'=>123456,
+        'second_otp'=>234567,
+      ]);
+    }
   }
 }

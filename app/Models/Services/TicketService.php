@@ -537,4 +537,10 @@ class TicketService
       }
     }
   }
+  
+  public function ticketOtpManualComplete($ticket_id) {
+    DB::table('ticket_otp')->where('ticket_id', $ticket_id)->update([
+      'manual_complete'=>1
+    ]);
+  }
 }

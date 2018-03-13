@@ -108,7 +108,7 @@ class TicketController extends Controller
           return redirect('payment')->with('transaction_request', $transaction_request);
         } else if($payment_method == 'B' || $payment_method == 'Q') {
           $this->ticket_service->saveFrontendTicketPayment($ticket_id, $input);
-          $result = "";
+          $result = "Payment has been indicated";
         }
       }
       return redirect('ticket/view/'.$ticket_id)->with('msg', $result);
