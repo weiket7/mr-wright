@@ -147,7 +147,7 @@ class  TicketSeeder extends Seeder
 
     DB::table('ticket')->insert([
       'ticket_code'=>'UP_'.$month_year.'_007',
-      'stat'=>TicketStat::Paid,
+      'stat'=>TicketStat::PaymentIndicated,
       'title'=>'Fix tap in pantry',
       'company_id'=>1,
       'company_name'=>'Unity Pharmacy',
@@ -168,7 +168,7 @@ class  TicketSeeder extends Seeder
 
     DB::table('ticket')->insert([
       'ticket_code'=>'UP_'.$month_year.'_008',
-      'stat'=>TicketStat::Declined,
+      'stat'=>TicketStat::Paid,
       'accept_decline_reason'=>'Too expensive',
       'title'=>'Fix tap in pantry',
       'company_id'=>1,

@@ -12,7 +12,7 @@
   }
 </style>
 
-<div class="row">
+<div class="row company-header">
   <div><b>{{ $ticket->company_name }}</b></div>
   <div>{{ $ticket->office_name }}</div>
   <div>{{ $ticket->office_addr }}</div>

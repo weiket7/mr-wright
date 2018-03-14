@@ -1,6 +1,33 @@
 @extends("emails.email-template")
 
 @section('content')
+  <style>
+    .panel-heading {
+      color: #333;
+      background-color: #f5f5f5; border-color: #ddd; text-align: center; padding: 10px 15px;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .panel-title {
+      text-align: center;
+      font-size: 16px;
+    }
+    
+    .panel-body {
+      text-align:center;
+      padding: 15px;
+    }
+    
+    .panel-footer {
+      text-align: center;
+      padding: 10px 15px;
+      background-color: #f5f5f5;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
+  
   <h3>Quotation for <b>{{ $ticket->ticket_code }}</b></h3>
 
   <div class="title">
@@ -12,17 +39,13 @@
   @include('emails.ticket-content')
 
   <div class="panel panel-default">
-    <div class="panel-heading" style="color: #333;
-      background-color: #f5f5f5; border-color: #ddd; text-align: center; padding: 10px 15px;
-      border-top: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
-    ">
-      <span class="panel-title text-center" style="font-size: 16px;">
+    <div class="panel-heading">
+      <span class="panel-title">
         <b class="quoted-price">{{ ViewHelper::formatCurrency($ticket->quoted_price) }}</b><br>
         Quoted by {{ $ticket->quoted_by }} on {{ ViewHelper::formatDateTime($ticket->quoted_on)}}
       </span>
     </div>
-    <div class="panel-body text-center" style="padding: 15px; text-align:center;">
+    <div class="panel-body">
       <a href="{{url('ticket/view/'.$ticket->ticket_id)}}" class="btn btn-lg btn-success" style="padding: 10px 16px;
         color: #fff;
         background-color: #5cb85c;
@@ -48,11 +71,7 @@
         Decline
       </a>
     </div>
-    <div class="panel-footer text-center" style="padding: 10px 15px;
-      text-align: center;
-      background-color: #f5f5f5;
-      border-top: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;">
+    <div class="panel-footer">
       Valid till {{ ViewHelper::formatDate($ticket->quote_valid_till) }} (inclusive)
     </div>
   </div>

@@ -483,11 +483,14 @@ class TicketService
     return $tickets->where('requested_by', $username)->get();
   }
 
-  public function saveFrontendTicketPayment($ticket_id, $input) {
+  public function saveFrontendTicketPayment($ticket_id, $input, $username) {
     $ticket = Ticket::findOrFail($ticket_id);
     $ticket->ref_no = $input['ref_no'];
     $ticket->payment_method = $input['payment_method'];
     $ticket->stat = TicketStat::PaymentIndicated;
+  
+    $this->saveTicketHistory($ticket_id, 'indicate_payment', $username);
+  
     $ticket->save();
   }
 
