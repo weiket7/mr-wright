@@ -1,18 +1,4 @@
-<style>
-  .company-header {
-    margin-top: 20px;
-    font-size: 16px;
-  }
-  .div-break {
-    margin-bottom: 40px;
-  }
-  
-  .quoted-price {
-    font-size: 20px;
-  }
-</style>
-
-<div class="row company-header">
+<div class="row company-header" style="margin-top: 20px; font-size: 16px;">
   <div><b>{{ $ticket->company_name }}</b></div>
   <div>{{ $ticket->office_name }}</div>
   <div>{{ $ticket->office_addr }}</div>
@@ -24,7 +10,7 @@
 </div>
 <br>
 
-<div class="div-break">
+<div style="margin-bottom: 40px">
   <h4>Issues</h4>
   <table style="border-collapse: collapse;">
     <thead>
@@ -45,7 +31,7 @@
   </table>
 </div>
 
-<div class="div-break">
+<div style="margin-bottom: 40px">
   <h4>Preferred Slots</h4>
   <table style="border-collapse: collapse;">
     <thead>
@@ -66,7 +52,7 @@
 </div>
 
 @if(isset($show_staff_assignments) && $show_staff_assignments)
-  <div class="div-break">
+  <div style="margin-bottom: 40px">
     <h4>Staff Assignments</h4>
     
     <table style="border-collapse: collapse;">
@@ -95,7 +81,7 @@
 @endif
 
 @if(isset($show_otp) && $show_otp)
-  <div class="div-break">
+  <div style="margin-bottom: 40px">
     <h4>One Time Passwords (OTPs)</h4>
     
     <table style="border-collapse: collapse;">
@@ -115,7 +101,7 @@
   </div>
 @endif
 
-<div class="div-break">
+<div style="margin-bottom: 40px">
   <h4>Description</h4>
   <div>{{ $ticket->requester_desc }}</div>
 </div>
