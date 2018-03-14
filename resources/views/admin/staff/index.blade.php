@@ -6,7 +6,7 @@
   <div class="row">
     <div class="col-xs-6">
       <h1 class="page-title">
-        Staffs
+        Staff
       </h1>
     </div>
     <div class="col-xs-6 text-right">

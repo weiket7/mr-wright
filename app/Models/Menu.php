@@ -18,7 +18,7 @@ class Menu {
       ["link"=>"admin/company", "name"=>"Companies", "icon"=>"icon-plane"],
       ["link"=>"admin/office", "name"=>"Offices", "icon"=>"icon-direction"],
       ["link"=>"admin/requester", "name"=>"Requesters", "icon"=>"icon-users"],
-      ["link"=>"admin/staff", "name"=>"Staffs", "icon"=>"icon-wrench"],
+      ["link"=>"admin/staff", "name"=>"Staff", "icon"=>"icon-wrench"],
       ["link"=>"admin/ticket", "name"=>"Tickets", "icon"=>"icon-note"],
       /*["link"=>"admin/quotation", "name"=>"Quotations", "icon"=>""],*/
       //["link"=>"admin/invoice", "name"=>"Invoices", "icon"=>"icon-calculator"],
