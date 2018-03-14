@@ -27,6 +27,8 @@
     <div id="app">
       <form method="post" action="{{url('contact')}}" class="margin-top-40 contact-form">
         {{ csrf_field() }}
+        <input type="hidden" name="source" value="{{$dynamic->title}}">
+        
         <div class="r-row">
           <fieldset class="column column-1-2">
             <input class="text-input hint" name="company_name" type="text" placeholder="Company Name *" maxlength="50" autofocus>

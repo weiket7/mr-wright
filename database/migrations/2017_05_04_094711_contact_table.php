@@ -16,6 +16,7 @@ class ContactTable extends Migration
       $t->string('message', 250);
       $t->string('company_name', 50);
       $t->string('promo_code', 30);
+      $t->string('source', 50);
       $t->dateTime('created_on');
     });
   }

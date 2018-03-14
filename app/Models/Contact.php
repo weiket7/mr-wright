@@ -36,6 +36,7 @@ class Contact extends Eloquent
     $this->email = $input['email'];
     $this->mobile = $input['mobile'];
     $this->message = $input['message'];
+    $this->source = $input['source'];
     if (isset($input['promo_code'])) {
       $this->promo_code = $input['promo_code'];
     }

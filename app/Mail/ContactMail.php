@@ -18,9 +18,10 @@ class ContactMail extends Mailable
     $this->contact = $contact;
   }
   
-  public function build()
-  {
-    return $this->subject('Enquiry from '.$this->contact->name)
+  public function build() {
+    $subject = $this->contact->source == "Contact Us" ? 'Enquiry from '.$this->contact->name : $this->contact->source;
+    
+    return $this->subject($subject)
       ->view('emails/contact');
   }
 }

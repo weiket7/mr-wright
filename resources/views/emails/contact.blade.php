@@ -6,6 +6,7 @@
   @if($contact->promo_code)
     Promo Code: {{$contact->promo_code}}<br>
   @endif
+  Source: {{$contact->source}}<br>
   
   <br>
   {{$contact->message}}
