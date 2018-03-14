@@ -53,6 +53,7 @@ class Staff extends Eloquent
   }
 
   public function deleteStaff() {
+    DB::table('staff_skill')->where('staff_id', $this->staff_id)->delete();
     User::where('username', $this->username)->delete();
     $this->delete();
   }
