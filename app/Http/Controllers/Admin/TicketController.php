@@ -85,7 +85,7 @@ class TicketController extends Controller
     $data['offices'] = Office::getOfficeDropdown($ticket->company_id);
     $data['requesters'] = Requester::getRequesterDropdown($ticket->office_id);
     $data['categories'] = $this->ticket_service->getCategoryDropdown();
-    $data['skills'] = Skill::orderBy('name')->pluck('name');
+    $data['skills'] = Skill::orderBy('name')->pluck('name', 'skill_id');
     
     return view('admin/ticket/form', $data);
   }
