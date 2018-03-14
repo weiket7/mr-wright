@@ -6,10 +6,30 @@
 ])
 
 @section('content')
+  <style>
+    .videoWrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      padding-top: 25px;
+      height: 0;
+    }
+    .videoWrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  
   <div class="r-row">
     <div class="column column-1-2 align-center re-preload">
-      <div class="image-wrapper">
+      {{--<div class="image-wrapper">
         <img src="{{asset('assets/images/frontend/'.$frontend['contents']['about_page_image'])}}" alt="" class="radius">
+      </div>
+  --}}
+      <div class="videoWrapper">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/5epbXWqVyv0?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
     </div>
     <div class="column column-1-2">
