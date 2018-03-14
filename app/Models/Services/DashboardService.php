@@ -64,7 +64,7 @@ class DashboardService {
       ->join('staff as s', 'sa.staff_id', '=', 's.staff_id')
       ->join('ticket as t', 'sa.ticket_id', '=', 't.ticket_id')
       ->where('sa.date', Carbon::today())
-      ->select('s.name', 't.ticket_code', 'date', 'time_start', 'time_end')
+      ->select('s.name', 't.ticket_id', 't.ticket_code', 'date', 'time_start', 'time_end')
       ->get();
     $res = [];
     foreach($data as $d) {

@@ -119,7 +119,8 @@
                                 $action = "Pay"; break;
                             } ?>
                             @if($action)
-                              <button class="btn green btn-xs" onclick="location.href='{{url('admin/ticket/save/'.$ticket->ticket_id)}}'">
+                              <?php $link = ViewHelper::ticketCanUpdate($ticket) ? 'save' : 'view'; ?>
+                              <button class="btn green btn-xs" onclick="location.href='{{url('admin/ticket/'.$link.'/'.$ticket->ticket_id)}}'">
                                 {{ $action }}
                               </button>
                             @endif
@@ -161,7 +162,7 @@
               <tbody>
               @foreach($staff_assignments as $assignment)
               <tr>
-                <td>{{ $assignment->ticket_code }}</td>
+                <td><a href="{{url("admin/ticket/view/".$assignment->ticket_id)}}">{{ $assignment->ticket_code }}</a></td>
                 <td>{{ $assignment->name }}</td>
                 <td>{{ ViewHelper::formatTime($assignment->time_start) }} to {{ ViewHelper::formatTime($assignment->time_end) }}</td>
               </tr>
