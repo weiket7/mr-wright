@@ -15,13 +15,12 @@ class Membership extends Eloquent
   public $timestamps = false;
   
   public function getMembershipAll($stat = null, $with_details = false) {
-    $memberships = Membership::orderBy('position');
     if ($stat) {
-      $memberships = $memberships->where('stat', $stat);
+      $memberships = Membership::where('stat', $stat)->orderBy('position')->get();
+    } else {
+      $memberships = Membership::orderBy('position')->get();
     }
-    $memberships = $memberships->get();
     foreach($memberships as $m) {
-      $m->full_name = $m->title . ' - ' . $m->requester_limit . ' at ' . $m->effective_price . ' / month';
       if ($with_details) {
         $m->details = $this->getDetails($m->membership_id);
       }
