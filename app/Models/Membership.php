@@ -16,9 +16,9 @@ class Membership extends Eloquent
   
   public function getMembershipAll($stat = null, $with_details = false) {
     if ($stat) {
-      $memberships = Membership::where('stat', $stat)->orderBy('position')->get();
+      $memberships = Membership::where('stat', $stat)->orderBy('position')->get()->keyBy('position');
     } else {
-      $memberships = Membership::orderBy('position')->get();
+      $memberships = Membership::orderBy('position')->get()->keyBy('position');
     }
     foreach($memberships as $m) {
       if ($with_details) {
