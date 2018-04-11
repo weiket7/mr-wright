@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\DeleteLog;
 use App\Models\FrontendBanner;
+use App\Models\FrontendBlog;
 use App\Models\FrontendContent;
 use App\Models\FrontendDynamic;
 use App\Models\FrontendFile;
@@ -92,10 +93,8 @@ class FrontendController extends Controller
     return view('admin/frontend/service-form', $data);
   }
   
-  
   public function dynamic()   {
-    $frontend_content = new FrontendDynamic();
-    $data['dynamics'] = $frontend_content->getBannerAll();
+    $data['dynamics'] = FrontendDynamic::all();
     return view('admin/frontend/dynamic-index', $data);
   }
   
@@ -119,6 +118,33 @@ class FrontendController extends Controller
     $data['action'] = $action;
     $data['dynamic'] = $dynamic;
     return view('admin/frontend/dynamic-form', $data);
+  }
+  
+  public function blog()   {
+    $data['blogs'] = FrontendBlog::all();
+    return view('admin/frontend/blog-index', $data);
+  }
+  
+  public function blogSave(Request $request, $blog_id = null) {
+    $blog = $blog_id == null ? new FrontendBlog() : FrontendBlog::find($blog_id);
+    $action = $blog_id == null ? 'create' : 'update';
+    if ($request->isMethod('post')) {
+      $input = $request->all();
+      if ($input["delete"] == "true") {
+        (new DeleteLog())->saveDeleteLog('blog', $blog_id, $blog->title, $this->getUsername());
+        $blog->delete();
+        return redirect("admin/frontend/blog")->with("msg", "Blog deleted");
+      }
+      
+      $blog_id = $blog->saveBlog($input);
+      if (! $blog_id) {
+        return redirect()->back()->withErrors($blog->getValidation())->withInput($input);
+      }
+      return redirect("admin/frontend/blog/save/".$blog_id)->with("msg", "Blog " . $action . "d");
+    }
+    $data['action'] = $action;
+    $data['blog'] = $blog;
+    return view('admin/frontend/blog-form', $data);
   }
   
 }

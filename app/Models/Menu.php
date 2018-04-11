@@ -20,19 +20,13 @@ class Menu {
       ["link"=>"admin/requester", "name"=>"Requesters", "icon"=>"icon-users"],
       ["link"=>"admin/staff", "name"=>"Staff", "icon"=>"icon-wrench"],
       ["link"=>"admin/ticket", "name"=>"Tickets", "icon"=>"icon-note"],
-      /*["link"=>"admin/quotation", "name"=>"Quotations", "icon"=>""],*/
-      //["link"=>"admin/invoice", "name"=>"Invoices", "icon"=>"icon-calculator"],
       ["link"=>"admin/operator", "name"=>"Operators", "icon"=>"icon-eyeglasses"],
-      /*["name"=>"Reports", "icon"=>"icon-bar-chart", "sub"=>[
-        ["link"=>"admin/report/ticket", "name"=>"Tickets", "icon"=>""],
-      ]],*/
       ["name"=>"Frontend", "icon"=>"icon-settings", "sub"=>[
         ["link"=>"admin/frontend/content", "name"=>"Content"],
         ["link"=>"admin/frontend/banner", "name"=>"Banners"],
         ["link"=>"admin/frontend/service", "name"=>"Services"],
         ["link"=>"admin/frontend/dynamic", "name"=>"Dynamic"],
-        /*["link"=>"admin/project", "name"=>"Projects"],
-        ["link"=>"admin/project", "name"=>"Blog"],*/
+        ["link"=>"admin/frontend/blog", "name"=>"Blog"]
       ]],
       ["name"=>"Settings", "icon"=>"icon-settings", "sub"=>[
         ["link"=>"admin/membership", "name"=>"Memberships"],

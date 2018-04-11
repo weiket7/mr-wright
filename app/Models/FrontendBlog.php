@@ -3,10 +3,10 @@
 use App\Models\Helpers\BackendHelper;
 use Eloquent, DB, Validator, Log;
 
-class FrontendDynamic extends Eloquent
+class FrontendBlog extends Eloquent
 {
-  public $table = 'frontend_dynamic';
-  protected $primaryKey = 'frontend_dynamic_id';
+  public $table = 'frontend_blog';
+  protected $primaryKey = 'frontend_blog_id';
   const CREATED_AT = 'created_on';
   const UPDATED_AT = 'updated_on';
   protected $validation;
@@ -23,7 +23,7 @@ class FrontendDynamic extends Eloquent
     'url.required'=>'URL is required',
   ];
   
-  public function saveDynamic($input) {
+  public function saveBlog($input) {
     $this->validation = Validator::make($input, $this->rules, $this->messages );
     if ( $this->validation->fails() ) {
       return false;
@@ -36,17 +36,15 @@ class FrontendDynamic extends Eloquent
     $this->meta_desc = $input['meta_desc'];
     $this->content = $input['content'];
     $this->url = $input['url'];
-    $this->has_contact = $input['has_contact'];
     $this->save();
     
     if (isset($input['image'])) {
-      $image_name = BackendHelper::uploadFile('images/frontend/dynamics/', 'dynamic_'.$this->frontend_dynamic_id, $input['image']);
-      DB::table('frontend_dynamic')->where('frontend_dynamic_id', $this->frontend_dynamic_id)->update(['image'=>$image_name]);
+      $image_name = BackendHelper::uploadFile('images/frontend/blogs/', 'blog_'.$this->frontend_blog_id, $input['image']);
+      DB::table('frontend_blog')->where('frontend_blog_id', $this->frontend_blog_id)->update(['image'=>$image_name]);
     }
     
-    return $this->frontend_dynamic_id;
+    return $this->frontend_blog_id;
   }
-  
   
   public function getValidation() {
     return $this->validation;
