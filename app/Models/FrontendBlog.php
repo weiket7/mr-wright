@@ -10,7 +10,7 @@ class FrontendBlog extends Eloquent
   const CREATED_AT = 'created_on';
   const UPDATED_AT = 'updated_on';
   protected $validation;
-  protected $attributes = ['stat'=>1, 'has_contact'=>1];
+  protected $attributes = ['stat'=>1];
   public $timestamps = false;
   
   private $rules = [
@@ -35,7 +35,8 @@ class FrontendBlog extends Eloquent
     $this->meta_keyword = $input['meta_keyword'];
     $this->meta_desc = $input['meta_desc'];
     $this->content = $input['content'];
-    $this->url = $input['url'];
+    $this->desc = $input['desc'];
+    $this->slug = str_slug($input['title']);
     $this->save();
     
     if (isset($input['image'])) {

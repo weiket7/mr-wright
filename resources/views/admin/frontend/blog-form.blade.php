@@ -7,7 +7,7 @@
 
 <div class="portlet light bordered" id="app">
   <div class="portlet-body form">
-    <form action="" method="post" class="form-horizontal">
+    <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
       {!! csrf_field() !!}
       <input type="hidden" name="delete" id="delete">
       <div class="form-body">
@@ -71,6 +71,30 @@
               <div class="col-md-9">
                 <input type="text" name="url" v-model="url" class="form-control">
                 <span class="help-block">http://mrwright.sg/blog/<b>@{{ url }}</b> </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label col-md-3">
+                Image
+                <span class="help-block">450px width x 300px height</span>
+              </label>
+              <div class="col-md-9">
+                <input type="file" name="image">
+                @if($blog->image)
+                  <img src="{{asset("assets/images/frontend/blogs/".$blog->image)}}" style="max-height: 200px;">
+                @endif
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label col-md-3">Description</label>
+              <div class="col-md-9">
+                {{Form::textarea('desc', $blog->desc, ['class'=>'form-control', 'rows'=>'5'])}}
               </div>
             </div>
           </div>

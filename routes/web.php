@@ -38,6 +38,8 @@ Route::get('payment/fail', 'Frontend\PaymentController@fail');
 Route::get('contact', 'Frontend\SiteController@contact');
 Route::post('contact', 'Frontend\SiteController@contact');
 Route::get('about', 'Frontend\SiteController@about');
+Route::get('blog', 'Frontend\SiteController@blog');
+Route::get('blog/{url}', 'Frontend\SiteController@blogPost');
 Route::get('membership', 'Frontend\SiteController@membership');
 Route::get('membership/detail', 'Frontend\SiteController@membershipDetail');
 Route::get('services', 'Frontend\SiteController@service');

@@ -39,11 +39,6 @@ class FrontendDynamic extends Eloquent
     $this->has_contact = $input['has_contact'];
     $this->save();
     
-    if (isset($input['image'])) {
-      $image_name = BackendHelper::uploadFile('images/frontend/dynamics/', 'dynamic_'.$this->frontend_dynamic_id, $input['image']);
-      DB::table('frontend_dynamic')->where('frontend_dynamic_id', $this->frontend_dynamic_id)->update(['image'=>$image_name]);
-    }
-    
     return $this->frontend_dynamic_id;
   }
   

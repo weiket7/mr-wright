@@ -36,6 +36,10 @@
 .checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
   margin-top: 1px;
 }
+.blog.two-columns
+{
+  margin-top: 0px;
+}
 
 /*BOOTSTRAP*/
 .form-control-static {

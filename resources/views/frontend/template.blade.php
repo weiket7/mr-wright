@@ -158,7 +158,12 @@
                   </ul>
                 </li>
                 <li>
-                  <a href="{{url('membership')}}" title="About">
+                  <a href="{{url('blog')}}" title="Blog">
+                    BLOG
+                  </a>
+                </li>
+                <li>
+                  <a href="{{url('membership')}}" title="Membership">
                     MEMBERSHIP
                   </a>
                 </li>

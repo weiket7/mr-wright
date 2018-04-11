@@ -9,6 +9,7 @@ use App\Models\Enums\MembershipStat;
 use App\Models\Enums\UserStat;
 use App\Models\Enums\UserType;
 use App\Models\ForgotPassword;
+use App\Models\FrontendBlog;
 use App\Models\FrontendDynamic;
 use App\Models\FrontendService;
 use App\Models\Registration;
@@ -146,6 +147,16 @@ class SiteController extends Controller
     return view('frontend/members-registration', $data);
   }
 
+  public function blog(Request $request) {
+    $data['blogs'] = FrontendBlog::orderBy('posted_on', 'desc')->get();
+    return view('frontend/blog', $data);
+  }
+  
+  public function blogPost(Request $request, $slug) {
+    $data['blog'] = FrontendBlog::where('slug', $slug)->first();
+    return view('frontend/blog-post', $data);
+  }
+  
   public function membersInvite(Request $request, $token) {
     $invite = Invite::where('token', $token)->first();
     if($invite == null) { return redirect('error')->with('error', 'Invitation does not exist'); }
@@ -192,18 +203,6 @@ class SiteController extends Controller
     return view('frontend/forgot-password');
   }
   
-  public function logout(Request $request) {
-    Auth::logout();
-    return redirect("login")->with('msg', 'Logged out');
-  }
-
-  public function about(Request $request) {
-    return view("frontend/about");
-  }
-
-  public function project(Request $request) {
-    return view("frontend/project");
-  }
 
   public function membership(Request $request) {
     $membership_service = new Membership();
@@ -240,7 +239,20 @@ class SiteController extends Controller
   public function error(Request $request) {
     return view("frontend/error");
   }
-
+  
+  public function about(Request $request) {
+    return view("frontend/about");
+  }
+  
+  public function project(Request $request) {
+    return view("frontend/project");
+  }
+  
+  public function logout(Request $request) {
+    Auth::logout();
+    return redirect("login")->with('msg', 'Logged out');
+  }
+  
   private function getLoggedInRequester() {
     return Requester::where('username', $this->getUsername())->first();
   }
