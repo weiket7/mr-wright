@@ -15,12 +15,10 @@ class FrontendBlog extends Eloquent
   
   private $rules = [
     'title'=>'required',
-    'url'=>'required',
   ];
   
   private $messages = [
     'title.required'=>'Title is required',
-    'url.required'=>'URL is required',
   ];
   
   public function saveBlog($input) {
@@ -30,13 +28,13 @@ class FrontendBlog extends Eloquent
     }
     
     $this->title = $input['title'];
+    $this->slug = str_slug($input['title']);
     $this->stat = $input['stat'];
     $this->meta_title = $input['meta_title'];
     $this->meta_keyword = $input['meta_keyword'];
     $this->meta_desc = $input['meta_desc'];
-    $this->content = $input['content'];
     $this->desc = $input['desc'];
-    $this->slug = str_slug($input['title']);
+    $this->content = $input['content'];
     $this->save();
     
     if (isset($input['image'])) {

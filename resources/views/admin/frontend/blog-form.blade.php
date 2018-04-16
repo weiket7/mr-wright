@@ -65,15 +65,6 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label col-md-3">URL <span class="required">*</span></label>
-              <div class="col-md-9">
-                <input type="text" name="url" v-model="url" class="form-control">
-                <span class="help-block">http://mrwright.sg/blog/<b>@{{ url }}</b> </span>
-              </div>
-            </div>
-          </div>
         </div>
         <div class="row">
           <div class="col-md-6">
@@ -101,7 +92,7 @@
         </div>
       </div>
       
-      <textarea name="content" id="editor">
+      <textarea name="content" id="editor1" rows="15">
             {{ $blog->content }}
         </textarea>
       
@@ -126,21 +117,28 @@
 @endsection
 
 @section('script')
-<script src="{{asset('assets/js/ckeditor.js')}}"></script>
-<script>
+  <script src="http://cdn.ckeditor.com/4.5.10/standard-all/ckeditor.js"></script>
+  <script src="{{ url('assets/ckfinder/ckfinder.js')}}"></script>
+
+  <script>
   var vm = new Vue({
     el: "#app",
     data: {
       url: '{{$blog->url}}'
     },
   });
-  
-  ClassicEditor
-    .create( document.querySelector( '#editor' ) )
-    .then( editor => {
-      console.log( editor );
-    }).catch( error => {
-    console.error( error );
-  });
+
+  if ( typeof CKEDITOR !== 'undefined' ) {
+    CKEDITOR.addCss( 'img {max-width:100%; height: auto;}' );
+    var editor = CKEDITOR.replace( 'editor1', {
+      extraPlugins: 'uploadimage,image2',
+      removePlugins: 'image',
+      height:350
+    } );
+    CKFinder.setupCKEditor( editor );
+  } else {
+    document.getElementById( 'editor1' ).innerHTML = '<div class="tip-a tip-a-alert">This sample requires working Internet connection to load CKEditor from CDN.</div>'
+  }
+
 </script>
 @endsection
