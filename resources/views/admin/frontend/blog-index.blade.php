@@ -16,19 +16,17 @@
         <table class="table table-bordered table-hover">
           <thead>
           <tr>
-            <th>Title</th>
-            <th>Content</th>
-            <th>URL</th>
-            <th>Status</th>
+            <th width="50%">Title</th>
+            <th width="120px">Status</th>
+            <th>Posted On</th>
           </tr>
           </thead>
           <tbody>
           @foreach($blogs as $blog)
             <tr>
               <td><a href="{{url("admin/frontend/blog/save/".$blog->frontend_blog_id)}}">{{ $blog->title }}</a></td>
-              <td>{!! str_limit($blog->content, 200) !!}</td>
-              <td>{{ $blog->url }}</td>
               <td>{{ $blog->stat ? 'Enabled' : 'Disabled'}}</td>
+              <td>{{ $blog->posted_by }} on {{ ViewHelper::formatDate($blog->posted_on) }}</td>
             </tr>
           @endforeach
           </tbody>

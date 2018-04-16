@@ -148,7 +148,9 @@ class SiteController extends Controller
   }
 
   public function blog(Request $request) {
-    $data['blogs'] = FrontendBlog::orderBy('posted_on', 'desc')->get();
+    $blogs = FrontendBlog::orderBy('posted_on', 'desc')->get();
+    $chunks = $blogs->chunk(2);
+    $data['blog_chunks'] = $chunks;
     return view('frontend/blog', $data);
   }
   

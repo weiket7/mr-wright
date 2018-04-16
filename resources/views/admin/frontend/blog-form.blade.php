@@ -71,7 +71,7 @@
             <div class="form-group">
               <label class="control-label col-md-3">
                 Image
-                <span class="help-block">450px width x 300px height</span>
+                <span class="help-block">(450px width by 300px height)</span>
               </label>
               <div class="col-md-9">
                 <input type="file" name="image">
