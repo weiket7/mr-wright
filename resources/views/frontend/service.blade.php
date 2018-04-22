@@ -18,7 +18,7 @@
       @endforeach
     </ul>
   </div>
-  <div class="column column-3-4">
+  <div class="column column-3-4 service">
     <div class="r-row">
       <div class="column column-1-2">
         <a href="{{url('assets/images/frontend/services/'.$current_service->image1)}}" class="prettyPhoto re-preload" title="{{$current_service->title}}">
@@ -33,9 +33,6 @@
     </div>
     <div class="r-row page-margin-top">
       <div class="column-1-1">
-        <h1 class="box-header">
-          {{$current_service->title}}
-        </h1>
         <div class="description t1">
           {!! $current_service->content !!}
         </div>
