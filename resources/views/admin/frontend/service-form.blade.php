@@ -17,6 +17,12 @@
           </div>
         </div>
         <div class="form-group">
+          <label class="control-label col-md-2">Url</label>
+          <div class="col-md-10">
+            {{Form::text('url', $service->url, ['class'=>'form-control', 'maxlength'=>100])}}
+          </div>
+        </div>
+        <div class="form-group">
           <label class="control-label col-md-2">Meta Title</label>
           <div class="col-md-10">
             {{Form::textarea('meta_title', $service->meta_title, ['rows'=>'2', 'class'=>'form-control', 'maxlength'=>250])}}

@@ -177,18 +177,18 @@ class SiteController extends Controller
     return view('frontend/members-invite', $data);
   }
 
-  public function service(Request $request, $slug = null) {
-    if (! empty($slug) && FrontendService::where('slug', $slug)->count() == 0) {
+  public function service(Request $request, $url = null) {
+    if (! empty($url) && FrontendService::where('url', $url)->count() == 0) {
       return view('frontend/error', ['error'=>'Service does not exist']);
     }
     
     $frontend_service = new FrontendService();
     $services = $frontend_service->getServiceAll();
-    $data['services'] = $services->keyBy("slug");
-    if ($slug == null) {
+    $data['services'] = $services->keyBy("url");
+    if ($url == null) {
       $data['current_service'] = array_first($data['services']);
     } else {
-      $data['current_service'] = $data['services'][$slug];
+      $data['current_service'] = $data['services'][$url];
     }
     return view("frontend/service", $data);
   }

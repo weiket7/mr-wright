@@ -86,10 +86,10 @@
           <ul class="services-list clearfix page-margin-top">
             @for($i=0; $i<=2; $i++)
             <li>
-              <a href="{{ url("services/".$services[$i]->slug) }}">
+              <a href="{{ url("services/".$services[$i]->url) }}">
                 <img src="{{url('assets/images/frontend/services/'.$services[$i]->image1)}}" alt="">
               </a>
-              <h4 class="box-header"><a href="{{"services/".$services[$i]->slug}}">{{ $services[$i]->title }}</a></h4>
+              <h4 class="box-header"><a href="{{"services/".$services[$i]->url}}">{{ $services[$i]->title }}</a></h4>
               <p>{!! $frontend['contents']['service_column'.($i+1).'_content'] !!}</p>
             </li>
             @endfor

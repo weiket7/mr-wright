@@ -150,7 +150,7 @@
                   <ul>
                     @foreach($frontend['services'] as $service)
                       <li>
-                        <a href="{{ url('services/'.$service->slug) }}" title="{{$service->title}}">
+                        <a href="{{ url('services/'.$service->url) }}" title="{{$service->title}}">
                           {{$service->title}}
                         </a>
                       </li>
@@ -250,7 +250,7 @@
                     <ul>
                       @foreach($frontend['services'] as $service)
                         <li>
-                          <a href="{{ url('services/'.$service->slug) }}" title="{{$service->title}}">
+                          <a href="{{ url('services/'.$service->url) }}" title="{{$service->title}}">
                             {{$service->title}}
                           </a>
                         </li>

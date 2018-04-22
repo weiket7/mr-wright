@@ -43,7 +43,7 @@ Route::get('blog/{url}', 'Frontend\SiteController@blogPost');
 Route::get('membership', 'Frontend\SiteController@membership');
 Route::get('membership/detail', 'Frontend\SiteController@membershipDetail');
 Route::get('services', 'Frontend\SiteController@service');
-Route::get('services/{slug}', 'Frontend\SiteController@service');
+Route::get('services/{url}', 'Frontend\SiteController@service');
 Route::get('projects', 'Frontend\SiteController@project');
 
 Route::get('login', 'Frontend\SiteController@login');

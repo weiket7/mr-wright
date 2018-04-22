@@ -9,8 +9,8 @@
   <div class="column column-1-4">
     <ul class="vertical-menu">
       @foreach($services as $service)
-        <li {{ $current_service->slug == $service->slug ? "class=selected" : "" }}>
-          <a href="{{url('services/'.$service->slug)}}" title="Interior Renovation">
+        <li {{ $current_service->url == $service->url ? "class=selected" : "" }}>
+          <a href="{{url('services/'.$service->url)}}">
             {{ $service->title }}
             <span class="template-arrow-menu"></span>
           </a>
@@ -33,7 +33,9 @@
     </div>
     <div class="r-row page-margin-top">
       <div class="column-1-1">
-        <h3 class="box-header">{{$current_service->title}}</h3>
+        <h1 class="box-header">
+          {{$current_service->title}}
+        </h1>
         <div class="description t1">
           {!! $current_service->content !!}
         </div>
