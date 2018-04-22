@@ -28,7 +28,11 @@
               <input type="file" name="value">
               <img src="{{ url('assets/images/frontend/'.$content->value) }}" style="max-height: 200px">
             @else
-              {{Form::textarea('value', $content->value, ['id'=>"txt-content", 'rows'=>'20', 'class'=>'form-control'])}}
+              @if($content->plain)
+                {{Form::textarea('value', $content->value, ['rows'=>20, 'class'=>'form-control'])}}
+              @else
+                {{Form::textarea('value', $content->value, ['id'=>"txt-content", 'rows'=>'20', 'class'=>'form-control'])}}
+              @endif
             @endif
           </div>
         </div>
@@ -43,7 +47,6 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6"> </div>
           </div>
         </div>
       </form>

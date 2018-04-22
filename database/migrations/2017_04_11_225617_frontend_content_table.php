@@ -14,6 +14,7 @@ class FrontendContentTable extends Migration
       $t->string('key', 50);
       $t->text('value');
       $t->boolean('is_image');
+      $t->boolean('plain');
       $t->string('dimension');
     });
     
@@ -189,25 +190,25 @@ Step 3: Accept Quotation by Email',
     
     /*SEO*/
     $data = [
-      ['page'=>'home', 'key'=>'home_meta_title', 'value'=>'Home Mr Wright'],
-      ['page'=>'home', 'key'=>'home_keyword', 'value'=>'Home plumbing, repair, painting'],
-      ['page'=>'home', 'key'=>'home_desc', 'value'=>'Home Renovate has established itself as one of the greatest and prestigious providers of construction focused interior renovation services and building.'],
-      ['page'=>'about', 'key'=>'about_meta_title', 'value'=>'About Mr Wright'],
-      ['page'=>'about', 'key'=>'about_keyword', 'value'=>'About plumbing, repair, painting'],
-      ['page'=>'about', 'key'=>'about_desc', 'value'=>'About Renovate has established itself as one of the greatest and prestigious providers of construction focused interior renovation services and building.'],
-      ['page'=>'service', 'key'=>'service_meta_title', 'value'=>'Service Mr Wright'],
-      ['page'=>'service', 'key'=>'service_keyword', 'value'=>'Service plumbing, repair, painting'],
-      ['page'=>'service', 'key'=>'service_desc', 'value'=>'Service Renovate has established itself as one of the greatest and prestigious providers of construction focused interior renovation services and building.'],
-      ['page'=>'membership', 'key'=>'membership_meta_title', 'value'=>'Membership Mr Wright'],
-      ['page'=>'membership', 'key'=>'membership_keyword', 'value'=>'Membership plumbing, repair, painting'],
-      ['page'=>'membership', 'key'=>'membership_desc', 'value'=>'Membership Renovate has established itself as one of the greatest and prestigious providers of construction focused interior renovation services and building.'],
-      ['page'=>'contact', 'key'=>'contact_meta_title', 'value'=>'Contact Mr Wright'],
-      ['page'=>'contact', 'key'=>'contact_keyword', 'value'=>'Contact plumbing, repair, painting'],
-      ['page'=>'contact', 'key'=>'contact_desc', 'value'=>'Contact Renovate has established itself as one of the greatest and prestigious providers of construction focused interior renovation services and building.'],
+      ['page'=>'home', 'plain'=>1, 'key'=>'home_meta_title', 'value'=>'Singapore Business Office Repair Handyman Services & Handyman Repairs'],
+      ['page'=>'home', 'plain'=>1, 'key'=>'home_keyword', 'value'=>'Handyman Services Singapore | Business Office Repairs Singapore | Handyman Repair Singapore'],
+      ['page'=>'home', 'plain'=>1, 'key'=>'home_desc', 'value'=>'Handyman services in Singapore including business & office repair, plumbing & electrical repair. Call +65 6467 0396 for convenient and responsive handyman repairs.'],
+      ['page'=>'about', 'plain'=>1, 'key'=>'about_meta_title', 'value'=>'Singapore Business Office Repair Handyman Services & Handyman Repairs'],
+      ['page'=>'about', 'plain'=>1, 'key'=>'about_keyword', 'value'=>'Handyman Services Singapore | Business Office Repairs Singapore | Handyman Repair Singapore'],
+      ['page'=>'about', 'plain'=>1, 'key'=>'about_desc', 'value'=>'Handyman services in Singapore including business & office repair, plumbing & electrical repair. Call +65 6467 0396 for convenient and responsive handyman repairs.'],
+      ['page'=>'service', 'plain'=>1, 'key'=>'service_meta_title', 'value'=>'Singapore Business Office Repair Handyman Services & Handyman Repairs'],
+      ['page'=>'service', 'plain'=>1, 'key'=>'service_keyword', 'value'=>'Handyman Services Singapore | Business Office Repairs Singapore | Handyman Repair Singapore'],
+      ['page'=>'service', 'plain'=>1, 'key'=>'service_desc', 'value'=>'Handyman services in Singapore including business & office repair, plumbing & electrical repair. Call +65 6467 0396 for convenient and responsive handyman repairs.'],
+      ['page'=>'membership', 'plain'=>1, 'key'=>'membership_meta_title', 'value'=>'Singapore Business Office Repair Handyman Services & Handyman Repairs'],
+      ['page'=>'membership', 'plain'=>1, 'key'=>'membership_keyword', 'value'=>'Handyman Services Singapore | Business Office Repairs Singapore | Handyman Repair Singapore'],
+      ['page'=>'membership', 'plain'=>1, 'key'=>'membership_desc', 'value'=>'Handyman services in Singapore including business & office repair, plumbing & electrical repair. Call +65 6467 0396 for convenient and responsive handyman repairs.'],
+      ['page'=>'contact', 'plain'=>1, 'key'=>'contact_meta_title', 'value'=>'Singapore Business Office Repair Handyman Services & Handyman Repairs'],
+      ['page'=>'contact', 'plain'=>1, 'key'=>'contact_keyword', 'value'=>'Handyman Services Singapore | Business Office Repairs Singapore | Handyman Repair Singapore'],
+      ['page'=>'contact', 'plain'=>1, 'key'=>'contact_desc', 'value'=>'Handyman services in Singapore including business & office repair, plumbing & electrical repair. Call +65 6467 0396 for convenient and responsive handyman repairs.'],
     ];
     foreach($data as $d) {
       DB::table('frontend_content')->insert([
-        'page' => 'general', 'key' => $d['key'], 'value' => $d['value'],
+        'page' => 'general', 'key' => $d['key'], 'value' => $d['value'], 'plain' => $d['plain']
       ]);
     }
   }

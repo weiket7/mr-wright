@@ -17,9 +17,9 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-md-2">Content</label>
+          <label class="control-label col-md-2">Meta Title</label>
           <div class="col-md-10">
-            {{Form::textarea('content', $service->content, ['id'=>'txt-content', 'rows'=>'15', 'class'=>'form-control', 'maxlength'=>1000])}}
+            {{Form::textarea('meta_title', $service->meta_title, ['rows'=>'2', 'class'=>'form-control', 'maxlength'=>250])}}
           </div>
         </div>
         <div class="form-group">
@@ -32,6 +32,12 @@
           <label class="control-label col-md-2">Meta Desc</label>
           <div class="col-md-10">
             {{Form::textarea('meta_desc', $service->meta_desc, ['rows'=>'3', 'class'=>'form-control', 'maxlength'=>1000])}}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-2">Content</label>
+          <div class="col-md-10">
+            {{Form::textarea('content', $service->content, ['id'=>'txt-content', 'rows'=>'15', 'class'=>'form-control', 'maxlength'=>1000])}}
           </div>
         </div>
         <div class="form-group">

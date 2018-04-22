@@ -1,8 +1,8 @@
 @extends('frontend.template', [
   'title'=>'services / '.$current_service->title,
-  'meta_title'=>$frontend['contents']['service_meta_title'] . ' - ' . $current_service->title,
-  'meta_keyword'=>$frontend['contents']['service_keyword'],
-  'meta_desc'=>$frontend['contents']['service_desc']
+  'meta_title'=>$current_service->meta_title,
+  'meta_keyword'=>$current_service->meta_keyword,
+  'meta_desc'=>$current_service->meta_desc
 ])
 
 @section('content')
