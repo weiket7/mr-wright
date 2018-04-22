@@ -53,9 +53,11 @@
   margin-top: 10px;
   margin-bottom: 5px;
 }
-.service h2 {
-  font-size: 20px;
-}
+.service h2 { font-size: 20px; }
+.service h3 { font-size: 18px; }
+.service h4 { font-size: 16px; }
+.service h5 { font-size: 15px; }
+.service h6 { font-size: 14px; }
 
 /*BOOTSTRAP*/
 .form-control-static {

@@ -9,7 +9,6 @@
     </div>
   </div>
 
-
   <div class="portlet light bordered">
     <div class="portlet-body">
       <div class="table-responsive">
@@ -28,7 +27,7 @@
             <tr>
               <td>{{ $service->position }}</td>
               <td><a href="{{url("admin/frontend/service/save/".$service->frontend_service_id)}}">{{ $service->title }}</a></td>
-              <td>{{ $service->content }}</td>
+              <td>{!! str_limit($service->content, 200) !!}</td>
               <td><img src="{{ asset('assets/images/frontend/services/'.$service->image1) }}" style="max-height: 200px; max-width: 300px;">
               <td><img src="{{ asset('assets/images/frontend/services/'.$service->image2) }}" style="max-height: 200px; max-width: 300px;">
             </tr>
