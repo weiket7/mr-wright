@@ -25,7 +25,7 @@
   <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/fonts/template/styles.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/fonts/social/styles.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('assets/css/jquery-ui.min.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/style/custom.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('assets/renovate/style/custom.css?v=20180422')}}">
 
   <link href="{{asset('assets/metronic/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
 
