@@ -31,6 +31,7 @@ class FrontendService extends Eloquent
     $this->title = $input['title'];
     $this->content = $input['content'];
     $this->url = $input['url'];
+    $this->alias_url = $input['alias_url'];
     $this->meta_title = $input['meta_title'];
     $this->meta_keyword = $input['meta_keyword'];
     $this->meta_desc = $input['meta_desc'];

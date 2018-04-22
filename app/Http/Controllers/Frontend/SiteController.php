@@ -178,17 +178,16 @@ class SiteController extends Controller
   }
 
   public function service(Request $request, $url = null) {
-    if (! empty($url) && FrontendService::where('url', $url)->count() == 0) {
-      return view('frontend/error', ['error'=>'Service does not exist']);
-    }
-    
     $frontend_service = new FrontendService();
     $services = $frontend_service->getServiceAll();
     $data['services'] = $services->keyBy("url");
     if ($url == null) {
       $data['current_service'] = array_first($data['services']);
     } else {
-      $data['current_service'] = $data['services'][$url];
+      $data['current_service'] = FrontendService::where('url', $url)->orWhere('alias_url', $url)->first();
+      if ($data['current_service'] == null) {
+        return view('frontend/error', ['error'=>'Service does not exist']);
+      }
     }
     return view("frontend/service", $data);
   }
