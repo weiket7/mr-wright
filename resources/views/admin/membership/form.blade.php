@@ -16,7 +16,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Name</label>
+                <label class="control-label col-md-3">Name <span class="required">*</span></label>
                 <div class="col-md-9">
                   {{Form::text('name', $membership->name, ['class'=>'form-control'])}}
                 </div>
@@ -24,7 +24,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Status</label>
+                <label class="control-label col-md-3">Status <span class="required">*</span></label>
                 <div class="col-md-9">
                   {{Form::select('stat', MembershipStat::$values, $membership->stat, ['class'=>'form-control', 'placeholder'=>''])}}
                 </div>
@@ -34,7 +34,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Number of Requesters</label>
+                <label class="control-label col-md-3">Number of Requesters <span class="required">*</span></label>
                 <div class="col-md-9">
                   {{Form::number('requester_limit', $membership->requester_limit, ['class'=>'form-control'])}}
                 </div>
@@ -42,7 +42,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Price</label>
+                <label class="control-label col-md-3">Price <span class="required">*</span></label>
                 <div class="col-md-9">
                   {{Form::number('effective_price', $membership->effective_price, ['class'=>'form-control', 'step'=>0.01])}}
                 </div>
@@ -52,7 +52,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="control-label col-md-3">Type</label>
+                <label class="control-label col-md-3">Type <span class="required">*</span></label>
                 <div class="col-md-9">
                   {{Form::select('type', MembershipType::$values, $membership->type, ['class'=>'form-control', 'placeholder'=>''])}}
                 </div>

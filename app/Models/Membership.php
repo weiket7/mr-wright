@@ -40,6 +40,7 @@ class Membership extends Eloquent
   private $rules = [
     'name'=>'required',
     'stat'=>'required',
+    'type'=>'required',
     'requester_limit'=>'required|numeric',
     'effective_price'=>'required|numeric',
   ];
@@ -47,8 +48,9 @@ class Membership extends Eloquent
   private $messages = [
     'name.required'=>'Name is required',
     'stat.required'=>'Status is required',
-    'requester_limit.required'=>'Number of requesters is required',
-    'requester_limit.numeric'=>'Number of requesters must be numeric',
+    'type.required'=>'Type is required',
+    'requester_limit.required'=>'Number of Requesters is required',
+    'requester_limit.numeric'=>'Number of Requesters must be numeric',
     'effective_price.required'=>'Price is required',
     'effective_price.numeric'=>'Price must be numeric',
   ];
