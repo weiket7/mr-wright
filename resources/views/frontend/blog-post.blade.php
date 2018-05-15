@@ -17,7 +17,7 @@
       </ul>
       <div class="post-content">
         <div title="{{ $blog->title }}" class="post-image">
-          <img src="{{ asset('assets/images/blog/'.$blog->image) }}" alt="">
+          <img src="{{ asset('assets/images/frontend/blogs/'.$blog->image) }}" alt="">
         </div>
         <h2 class="box-header align-left">WHAT A DIFFERENCE A FEW MONTHS MAKE</h2>
         <div class="description">

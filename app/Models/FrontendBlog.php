@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use App\Models\Helpers\BackendHelper;
+use Carbon\Carbon;
 use Eloquent, DB, Validator, Log;
 
 class FrontendBlog extends Eloquent
@@ -35,6 +36,7 @@ class FrontendBlog extends Eloquent
     $this->meta_desc = $input['meta_desc'];
     $this->desc = $input['desc'];
     $this->content = $input['content'];
+    $this->posted_on = Carbon::now();
     $this->save();
     
     if (isset($input['image'])) {
