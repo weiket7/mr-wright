@@ -19,7 +19,7 @@
         <div title="{{ $blog->title }}" class="post-image">
           <img src="{{ asset('assets/images/frontend/blogs/'.$blog->image) }}" alt="">
         </div>
-        <h2 class="box-header align-left">WHAT A DIFFERENCE A FEW MONTHS MAKE</h2>
+        <h2 class="box-header align-left">{{ $blog->title }}</h2>
         <div class="description">
           {!! $blog->content !!}
         </div>
