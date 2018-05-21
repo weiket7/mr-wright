@@ -76,7 +76,6 @@ class Membership extends Eloquent
       ' user'. ($this->requester_limit == 1 ? '' : 's') .
       ' at ' . ViewHelper::formatCurrency($this->effective_price) .
       ' / ' . ($this->type == MembershipType::Yearly ? 'year' : 'month');
-    Log::info('full_name' . $this->full_name);
     $this->save();
     
     $this->saveMembershipDetails($input);

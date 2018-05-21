@@ -120,20 +120,12 @@
           </div>
           <div class="row">
             <div class="col-md-6">
-              <div class="form-group">
-                <label class="control-label col-md-3">Membership Type</label>
-                <label class="col-md-9 form-control-static">
-                  {{ MembershipType::$values[$company->membership_type] }}
-                </label>
-              </div>
-            </div>
-            <div class="col-md-6">
               @if($company->membership_type != MembershipType::Unlimited)
               <div class="form-group">
                 <label class="control-label col-md-3">Valid Till</label>
-                <label class="col-md-9 form-control-static">
+                <div class="col-md-9">
                   {{Form::text('membership_valid_till', ViewHelper::formatDate($company->membership_valid_till), ['class'=>'form-control datepicker', 'placeholder'=>''])}}
-                </label>
+                </div>
               </div>
               @endif
             </div>
