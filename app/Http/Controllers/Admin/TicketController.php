@@ -42,7 +42,7 @@ class TicketController extends Controller
   public function save(Request $request, $ticket_id = null) {
     $data['action'] = $ticket_id == null ? 'create' : 'update';
     $ticket = $this->ticket_service->getTicket($ticket_id);
-    if(! ViewHelper::ticketCanUpdate($ticket)) {
+    if(! ViewHelper::ticketCanUpdateAdmin($ticket)) {
       return redirect('admin/error')->with('error', "Ticket cannot be updated");
     }
     

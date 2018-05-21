@@ -120,8 +120,7 @@
                               $action = "Pay"; break;
                           } ?>
                           @if($action)
-                            <?php $link = ViewHelper::ticketCanUpdate($ticket) ? 'save' : 'view'; ?>
-                            <button class="btn green btn-xs" onclick="location.href='{{url('admin/ticket/'.$link.'/'.$ticket->ticket_id)}}'">
+                            <button class="btn green btn-xs" onclick="location.href='{{ ViewHelper::ticketLinkAdmin($ticket) }}'">
                               {{ $action }}
                             </button>
                           @endif

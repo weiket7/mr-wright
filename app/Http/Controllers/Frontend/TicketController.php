@@ -40,7 +40,7 @@ class TicketController extends Controller
   public function save(Request $request, $ticket_id = null) {
     $action = $ticket_id == null ? 'draft' : 'update';
     $ticket = $this->ticket_service->getTicket($ticket_id);
-    if(! ViewHelper::ticketCanUpdate($ticket)) {
+    if(! ViewHelper::ticketCanUpdateFrontend($ticket)) {
       return redirect('error')->with('error', "Ticket cannot be updated");
     }
     

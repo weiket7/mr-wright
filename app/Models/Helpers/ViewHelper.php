@@ -95,15 +95,22 @@ class ViewHelper {
     return in_array($extension, $image_extensions);
   }
   
-  public static function ticketCanUpdate($ticket) {
+  public static function ticketCanUpdateAdmin($ticket) {
+    return in_array($ticket->stat, [null, TicketStat::Drafted, TicketStat::Opened]);
+  }
+  
+  public static function ticketCanUpdateFrontend($ticket) {
     return in_array($ticket->stat, [null, TicketStat::Drafted]);
   }
   
   public static function ticketLinkAdmin($ticket) {
-    if(self::ticketCanUpdate($ticket))
-      return url("admin/ticket/save/".$ticket->ticket_id);
-    else
-      return url("admin/ticket/view/".$ticket->ticket_id);
+    $can_update = self::ticketCanUpdateAdmin($ticket) ? "save" : "view";
+    return url("admin/ticket/".$can_update."/".$ticket->ticket_id);
+  }
+  
+  public static function ticketLinkFrontend($ticket) {
+    $can_update = self::ticketCanUpdateFrontend($ticket) ? "save" : "view";
+    return url("ticket/".$can_update."/".$ticket->ticket_id);
   }
   
   public static function ticketStatFrontend($ticket) {

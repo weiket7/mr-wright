@@ -32,7 +32,7 @@
             @endif
           </td>
           <td>
-            <a href="{{url("ticket/".(ViewHelper::ticketCanUpdate($ticket) ? "save":"view")."/".$ticket->ticket_id)}}">{{ $ticket->ticket_code }}</a>
+            <a href="{{ ViewHelper::ticketLinkFrontend($ticket) }}">{{ $ticket->ticket_code }}</a>
           </td>
           <td>{{  $ticket->title }}</td>
           <td>{{ isset($categories[$ticket->category_id]) ? $categories[$ticket->category_id] : '' }}</td>
