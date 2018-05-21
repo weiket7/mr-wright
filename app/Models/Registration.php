@@ -59,12 +59,6 @@ class Registration extends Eloquent {
       $company->addr = $input['company_addr'];
       $company->postal = $input['company_postal'];
       $company->save();
-    } else {
-      $office = Office::find($requester->office_id);
-      $office->name = $input['office_name'];
-      $office->addr = $input['office_addr'];
-      $office->postal = $input['office_postal'];
-      $office->save();
     }
 
     $user = User::where('username', $username)->first();

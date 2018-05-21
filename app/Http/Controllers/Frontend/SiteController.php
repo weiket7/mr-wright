@@ -68,6 +68,8 @@ class SiteController extends Controller
     $requester = Requester::where('username', $this->getUsername())->first();
     if ($requester->admin) {
       $data['offices'] = Office::where('company_id', $requester->company_id)->get();
+    } else {
+      $data['office'] = Office::where('office_id', $requester->office_id)->first();
     }
     $data['requester'] = $requester;
     $data['company'] = Company::find($requester->company_id);

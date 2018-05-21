@@ -110,8 +110,8 @@
             <label class="control-label col-md-3">
               Office Name
             </label>
-            <div class="col-md-9">
-              {{ Form::text('office_name', $office->office_name, ['class'=>'form-control', 'maxlength'=>200]) }}
+            <div class="form-control-static col-md-9 r-text">
+              {{ $office->name }}
             </div>
           </div>
         </div>
@@ -193,8 +193,8 @@
             <label class="control-label col-md-3">
               Office Address *
             </label>
-            <div class="col-md-9">
-              {{ Form::text('office_addr', $requester->office_addr, ['class'=>'form-control', 'maxlength'=>200]) }}
+            <div class="form-control-static col-md-9 r-text">
+              {{ $office->addr }}
             </div>
           </div>
         </div>
@@ -203,8 +203,8 @@
             <label class="control-label col-md-3">
               Office Postal Code *
             </label>
-            <div class="col-md-9">
-              {{ Form::text('office_postal', $requester->office_postal, ['class'=>'form-control', 'maxlength'=>20]) }}
+            <div class="form-control-static col-md-9 r-text">
+              {{ $office->postal }}
             </div>
           </div>
         </div>
