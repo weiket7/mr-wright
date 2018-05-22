@@ -78,5 +78,9 @@ class SettingController extends Controller
   public function system() {
     return view('admin/setting/system');
   }
+  
+  public function phpini() {
+    return view('admin/setting/phpini');
+  }
 
 }

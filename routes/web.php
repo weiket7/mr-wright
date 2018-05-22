@@ -214,7 +214,6 @@ Route::group(['middleware'=>['auth']], function() {
     Route::post('admin/frontend/blog/save', 'Admin\FrontendController@blogSave');
     Route::get('admin/frontend/blog/save/{id}', 'Admin\FrontendController@blogSave');
     Route::post('admin/frontend/blog/save/{id}', 'Admin\FrontendController@blogSave');
-  
   });
   
   Route::get('admin/staff/dashboard', 'Admin\StaffController@dashboard');
@@ -222,6 +221,7 @@ Route::group(['middleware'=>['auth']], function() {
   Route::get('admin/staff/otp/{id}', 'Admin\StaffController@otp');
   
   Route::get('admin/system', 'Admin\SettingController@system');
+  Route::get('admin/phpini', 'Admin\SettingController@phpini');
 
   Route::get('api/enterOtp', 'ApiController@enterOtp');
   Route::get('api/getStaffCalendar', 'ApiController@getStaffCalendar');

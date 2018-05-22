@@ -38,7 +38,6 @@ class Menu {
         ["link"=>"admin/blocked-date", "name"=>"Blocked Dates"],
         ["link"=>"admin/blocked-date-time", "name"=>"Blocked Date Times"],
         ["link"=>"admin/setting", "name"=>"Settings"],
-        ["link"=>"admin/system", "name"=>"System"],
       ]],
     ];
     return $menu;
