@@ -56,8 +56,13 @@
           <td>{{date_default_timezone_get()}}</td>
         </tr>
         <tr>
-          <td>Upload Directory</td>
-          <td>{{BackendHelper::getBasePath('')}}</td>
+          <td>Upload</td>
+          <td>
+            Directory: {{ BackendHelper::getBasePath('') }}<br>
+            upload_max_filesize: {{ ini_get("upload_max_filesize ") }}<br>
+            post_max_size: {{ ini_get("post_max_size ") }}<br>
+            max_execution_time: {{ ini_get("max_execution_time") }}
+          </td>
         </tr>
         <tr>
           <td>Accesses</td>
