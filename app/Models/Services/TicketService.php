@@ -232,9 +232,15 @@ class TicketService
     return $arr[0].'_'.$arr[1].'_'.str_pad($number+1, 3, '0', STR_PAD_LEFT);
   }
 
-  public function sendQuotation($ticket_id, $username = 'admin')
-  {
+  public function quoteTicket($ticket_id, $input, $username = 'admin') {
+    $this->validation = Validator::make($input, [], []);
+    if ($input['quoted_price'] == '' || $input['quoted_price'] <= 0) {
+      $this->validation->errors()->add("quoted_price", "Quoted Price must be more than 0");
+      return false;
+    }
+    
     $ticket = Ticket::findOrFail($ticket_id);
+    $ticket->quoted_price = $input['quoted_price'];
     $ticket->stat = TicketStat::Quoted;
     $quote_valid_days = Setting::getSetting('quote_valid_days');
     $ticket->quote_valid_till = Carbon::now()->addWeekday($quote_valid_days);

@@ -58,12 +58,15 @@ class TicketController extends Controller
         return redirect('admin/ticket')->with('msg', "Ticket deleted");
       }
   
-      $ticket_id = $this->ticket_service->saveTicket($ticket_id, $input, $this->getUsername());
+      $ticket_id = $this->ticket_service->saveTicket($ticket_id, $input);
       if ($ticket_id === false) {
         return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
       }
       if ($submit_action == "quote") {
-        $ticket = $this->ticket_service->sendQuotation($ticket_id, $this->getUsername());
+        $ticket = $this->ticket_service->quoteTicket($ticket_id, $input, $this->getUsername());
+        if ($ticket == false) {
+          return redirect()->back()->withErrors($this->ticket_service->getValidation())->withInput($input);
+        }
         $this->ticket_service->emailQuotation($ticket);
         $result = "Quotation sent";
         return redirect('admin/ticket/view/' . $ticket_id)->with('msg', $result);
