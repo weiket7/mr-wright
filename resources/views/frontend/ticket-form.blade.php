@@ -163,7 +163,9 @@
               <th width="60px"></th>
               <th>
                 Image / Video<br>
-                Supported image formats: png, jpg, gif, video formats: wmv, avi, flv, mp4, mov
+                <span style="font-size:13px">(Supported image formats: png, jpg, gif)<br>
+                (Supported video formats: wmv, avi, flv, mp4, mov)<br>
+                  (max size 50mb)</span>
               </th>
               <th>Issue</th>
               <th>Expected Outcome</th>
@@ -179,14 +181,16 @@
                 <input type="hidden" v-bind:name="'issue_id'+index" v-bind:value="issue.ticket_issue_id">
               </td>
               <td>
-                <div v-bind:id="'preview-image' + index">
+                <div v-if="issue.image" v-bind:id="'preview-image' + index">
                   <img v-if="isImage(issue.image)" :src="'{{asset('assets/images/tickets')}}/'+ issue.image" v-if="issue.image" class="ticket-image"/>
                   <video v-else-if="isVideo(issue.image)" width="320" height="240" controls>
                     <source :src="'{{asset('assets/images/tickets')}}/'+ issue.image">
                     Your browser does not support the video tag.
                   </video>
                 </div>
-                <input type="file" v-bind:name="'image' + index" v-on:change="previewImage(index,$event)">
+                <div v-else>
+                  <input type="file" v-bind:name="'image' + index" v-on:change="previewImage(index,$event)">
+                </div>
               </td>
               <td>
                 <textarea v-bind:name="'issue' + index" class="form-control" placeholder="Issue">@{{ issue.issue_desc }}</textarea>
