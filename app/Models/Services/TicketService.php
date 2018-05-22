@@ -289,7 +289,7 @@ class TicketService
     $ticket->save();
 
     $this->saveTicketHistory($ticket_id, 'decline', $username);
-    DB::table('staff_assignments')->where('ticket_id', $ticket_id)->delete();
+    DB::table('staff_assignment')->where('ticket_id', $ticket_id)->delete();
     return true;
   }
 

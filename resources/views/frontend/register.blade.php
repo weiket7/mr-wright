@@ -147,8 +147,8 @@
   
             <div class="checkbox">
               <label>
-                <input type="checkbox" name="terms_and_conditions"> I agree to the <a href="{{ url('terms-and-conditions') }}">Terms and Conditions</a>
-              </label>
+                <input type="checkbox" name="terms_and_conditions">
+                I agree to the <a href="{{ url('terms-and-conditions') }}" target="_blank">Terms and Conditions </label>
             </div>
           </div>
         </div>
