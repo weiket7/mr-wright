@@ -165,7 +165,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Quotation Description</label>
                       <div class="col-md-9">
-                        {{Form::textarea('quotation_desc', $ticket->quotation_desc, ['class'=>'form-control', 'rows'=>3])}}
+                        {{Form::textarea('quotation_desc', $ticket->quotation_desc, ['class'=>'form-control', 'rows'=>5])}}
                       </div>
                     </div>
                   </div>

@@ -36,7 +36,7 @@ class TicketTable extends Migration
       $t->string('ref_no', 50);
       $t->string('requester_desc', 250);
       $t->string('operator_desc', 250);
-      $t->string('quotation_desc', 250);
+      $t->string('quotation_desc', 500);
       $t->string('accept_decline_reason', 250);
       $t->softDeletes();
     });
