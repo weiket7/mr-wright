@@ -121,7 +121,9 @@
 @endsection
 
 @section('script')
-  <script src="{{asset('assets/js/ckeditor.js')}}"></script>
+  <script src="http://cdn.ckeditor.com/4.5.10/standard-all/ckeditor.js"></script>
+  <script src="{{ url('assets/ckfinder/ckfinder.js')}}"></script>
+  
   <script>
     var vm = new Vue({
       el: "#app",
@@ -129,13 +131,17 @@
         url: '{{$dynamic->url}}'
       },
     });
-    
-    ClassicEditor
-      .create( document.querySelector( '#editor' ) )
-      .then( editor => {
-      console.log( editor );
-    }).catch( error => {
-      console.error( error );
-    });
+
+    if ( typeof CKEDITOR !== 'undefined' ) {
+      CKEDITOR.addCss( 'img {max-width:100%; height: auto;}' );
+      var editor = CKEDITOR.replace( 'editor', {
+        extraPlugins: 'uploadimage,image2',
+        removePlugins: 'image',
+        height:350
+      } );
+      CKFinder.setupCKEditor( editor );
+    } else {
+      document.getElementById( 'editor' ).innerHTML = '<div class="tip-a tip-a-alert">This sample requires working Internet connection to load CKEditor from CDN.</div>'
+    }
   </script>
 @endsection
