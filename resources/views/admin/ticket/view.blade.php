@@ -156,7 +156,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Requester Description</label>
                       <label class="col-md-9 form-control-static">
-                        {{ $ticket->requester_desc }}
+                        {{ nl2br($ticket->requester_desc) }}
                       </label>
                     </div>
                   </div>
@@ -164,7 +164,7 @@
                     <div class="form-group">
                       <label class="control-label col-md-3">Operator Description</label>
                       <label class="col-md-9 form-control-static">
-                        {{ $ticket->operator_desc }}
+                        {{ nl2br($ticket->operator_desc) }}
                       </label>
                     </div>
                   </div>
@@ -187,7 +187,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3">Quotation Description</label>
                         <label class="col-md-9 form-control-static">
-                          {{ $ticket->quotation_desc }}
+                          {{ nl2br($ticket->quotation_desc) }}
                         </label>
                       </div>
                     </div>
