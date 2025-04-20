@@ -1,30 +1,17 @@
-## Laravel 5.3.30
+### Laravel 5.3.30
 
-## Metronic v4.7.1
+`composer install`
 
-## Codecept 2.2.9
+Create database `mrwright`
 
-https://github.com/abbodi1406/vcredist/releases
-Install VisualCppRedist_AIO_x86_x64.exe
+`php artisan migrate`
 
-https://www.wampserver.com/en/
+`php artisan serve`
 
-Wampserver change to PHP 7
+### Metronic v4.7.1
 
-composer install
+### Codecept 2.2.9
 
-php artisan migrate
+<br>
 
-Create `mrwright` database
-
-.env
-```
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=mrwright
-DB_USERNAME=root
-DB_PASSWORD=
-```
-
-http://localhost/mrwright/
+![alt text](mr-wright.png)
